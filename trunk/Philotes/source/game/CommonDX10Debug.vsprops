@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Common DX10 Debug"
+	InheritedPropertySheets=".\Engine\nvapi.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="ENGINE_TARGET_DX10;DX10_DEBUG_DEVICE"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		AdditionalDependencies="d3d10.lib d3dx10d.lib dxgi.lib wbemuuid.lib dinput8.lib dxguid.lib dxerr.lib"
+		AdditionalLibraryDirectories=""
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories=""
+	/>
+</VisualStudioPropertySheet>

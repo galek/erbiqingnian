@@ -1,0 +1,49 @@
+#include "_common.fx"
+
+sampler DiffuseMap1Sampler : register(SAMPLER(SAMPLER_DIFFUSE)) = sampler_state
+{
+	Texture = (tDiffuseMap);
+	MipFilter = LINEAR;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	SRGBTexture = FALSE;
+	AddressU = CLAMP;
+	AddressV = CLAMP;
+};
+
+struct PS_COMBINE_LAYERS_INPUT
+{
+    float4 Position  : POSITION;
+    float2 TexCoord0  : TEXCOORD0;
+};
+
+PS_COMBINE_LAYERS_INPUT VS_COMBINE_LAYERS ( VS_POSITION_TEX In )
+{
+	PS_COMBINE_LAYERS_INPUT Out;
+
+	Out.Position = float4( In.Position, 1.0f );
+
+	Out.TexCoord0 = In.TexCoord;
+
+	// this fixes the full-screen blur resulting from the bloom/glow pass
+	Out.TexCoord0 += gvPixelAccurateOffset;
+
+    return Out;
+}
+
+float4 PS_COMBINE_LAYERS( PS_COMBINE_LAYERS_INPUT In ) : COLOR
+{
+	half4 Blurr = tex2D( DiffuseMap1Sampler, In.TexCoord0 );
+	Blurr.rgb = 2 * Blurr.rgb * Blurr.a;
+	Blurr.a = 0;
+    return Blurr;
+}
+
+DECLARE_TECH TVertexAndPixelShader < SHADER_VERSION_11 >
+{
+    pass P0
+    {
+        COMPILE_SET_VERTEX_SHADER( vs_1_1, VS_COMBINE_LAYERS() );
+        COMPILE_SET_PIXEL_SHADER( ps_1_1, PS_COMBINE_LAYERS() );
+    }  
+}

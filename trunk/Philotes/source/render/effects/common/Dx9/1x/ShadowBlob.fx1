@@ -1,0 +1,2 @@
+#define USE_DEPTH 0
+#include "../ShadowBlob.fx"

@@ -1,0 +1,61 @@
+//*****************************************************************************
+//
+// 1.1 shader
+//	* Animated
+//	* Vertex lit
+//	* Fogged
+//
+//*****************************************************************************
+
+#include "_common.fx"
+#include "Dx9/_Common11.fxh"
+
+//-----------------------------------------------------------------------------
+
+#define TECH11(nPointLights, bSkinned, bSphericalHarmonics) \
+DECLARE_TECH TVertexAndPixelShader11_Points##nPointLights##_Skinned##bSkinned##_SH##bSphericalHarmonics \
+	< \
+		SHADER_VERSION_11\
+		int PointLights = nPointLights; \
+		bool Skinned = bSkinned; \
+		bool SphericalHarmonics = bSphericalHarmonics; \
+		int WorldSpaceLight			= 1; \
+	> \
+{ \
+	pass P0 \
+	{ \
+		COMPILE_SET_VERTEX_SHADER( vs_1_1, VS11_COMMON_ANIMATED(\
+			nPointLights,					/* nPointLights */			\
+			COMMON11_DEFAULT_DIR_LIGHTS,	/* nDirectionalLights */	\
+			bSphericalHarmonics ? 4 : 0,	/* nSHLevel */				\
+			false,							/* bSelfIllum */			\
+			bSkinned,						/* bSkinned */				\
+			_OFF							/* bSpotlight */			\
+		)); \
+		COMPILE_SET_PIXEL_SHADER ( _PS_1_1, PS11_COMMON(\
+			false,							/* bLightMap */				\
+			false,							/* bParticleLightMap */		\
+			false,							/* bSelfIllum */			\
+			false,							/* bAmbientOcclusion */		\
+			_OFF							/* bSpotlight */			\
+		)); \
+	} \
+}
+
+//-----------------------------------------------------------------------------
+
+TECH11(/*nPointLights*/ 0, /*bSkinned*/ 0, /*bSphericalHarmonics*/ 0);
+TECH11(/*nPointLights*/ 1, /*bSkinned*/ 0, /*bSphericalHarmonics*/ 0);
+
+#if 0
+TECH11(/*nPointLights*/ 0, /*bSkinned*/ 0, /*bSphericalHarmonics*/ 1);
+TECH11(/*nPointLights*/ 1, /*bSkinned*/ 0, /*bSphericalHarmonics*/ 1);
+#endif
+
+TECH11(/*nPointLights*/ 0, /*bSkinned*/ 1, /*bSphericalHarmonics*/ 0);
+TECH11(/*nPointLights*/ 1, /*bSkinned*/ 1, /*bSphericalHarmonics*/ 0);
+
+#if 0
+TECH11(/*nPointLights*/ 0, /*bSkinned*/ 1, /*bSphericalHarmonics*/ 1);
+TECH11(/*nPointLights*/ 1, /*bSkinned*/ 1, /*bSphericalHarmonics*/ 1);
+#endif

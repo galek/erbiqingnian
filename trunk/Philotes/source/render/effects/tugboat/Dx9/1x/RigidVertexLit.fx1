@@ -1,0 +1,71 @@
+//*****************************************************************************
+//
+// 1.1 shader
+//	* Rigid
+//	* Vertex lit
+//	* Fogged
+//
+//*****************************************************************************
+
+#include "_common.fx"
+
+#define COMMON11_USE_LIGHTMAP 1
+#define COMMON11_USE_PARTICLE_LIGHTMAP 1
+#include "dx9/_Common11.fxh"
+
+#include "../../source/Dx9/dx9_shadowtypeconstants.h"
+
+//-----------------------------------------------------------------------------
+
+float4 PS11_LOCAL(PS11_COMMON_INPUT In, uniform float fAlpha) : COLOR
+{
+	float4 Diffuse = tex2D(DiffuseMapSampler, In.DiffuseMapUV);
+
+	half3 cFinalLight = In.Ambient;
+	half3 cParticleLightMap = tex2D(ParticleLightMapSampler, In.ParticleLightMapUV);
+	cParticleLightMap -= 0.5;
+#pragma warning(push)
+#pragma warning(disable:4701)	// warning X4701: _bias opportunity missed because source was not clamped 0 to 1
+	cFinalLight += cParticleLightMap;
+#pragma warning(pop)
+
+	half3 cLightMap = tex2D(LightMapSampler, In.LightMapUV);
+	cFinalLight *= cLightMap;
+
+	Diffuse.rgb *= cFinalLight;
+	Diffuse.rgb *= 2;
+
+	Diffuse.a *= fAlpha * GLOW_MIN;
+	
+	return Diffuse;
+}
+
+//-----------------------------------------------------------------------------
+#define TECH11(nPointLights) \
+DECLARE_TECH TVertexAndPixelShader11_Points##nPointLights## \
+	< \
+		SHADER_VERSION_11\
+		int ShadowType = SHADOW_TYPE_NONE; \
+		int PointLights = nPointLights; \
+	> \
+{ \
+	pass P0 \
+	{ \
+		COMPILE_SET_VERTEX_SHADER( vs_1_1, VS11_COMMON_RIGID(\
+			nPointLights,					/* nPointLights */			\
+			0,								/* nDirectionalLights */	\
+			0,								/* nSHLevel */				\
+			true,							/* bLightMap */				\
+			true,							/* bParticleLightMap */		\
+			false,							/* bSelfIllum */			\
+			false,							/* bAmbientOcclusion */		\
+			_OFF							/* bSpotlight */			\
+		)); \
+		COMPILE_SET_PIXEL_SHADER ( _PS_1_1, PS11_LOCAL(\
+			gfAlphaForLighting				/* fAlpha */				\
+		)); \
+	} \
+}
+
+TECH11(0);
+TECH11(1);

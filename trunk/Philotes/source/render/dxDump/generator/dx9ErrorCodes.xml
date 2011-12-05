@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dx9ErrorCodes>
+	<ErrorCode name="D3D_OK" explanation="OK" />
+	<ErrorCode name="D3DERR_WRONGTEXTUREFORMAT" explanation="The pixel format of the texture surface is not valid." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDCOLOROPERATION" explanation="The device does not support a specified texture-blending operation for color values." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDCOLORARG" explanation="The device does not support a specified texture-blending argument for color values." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDALPHAOPERATION" explanation="The device does not support a specified texture-blending operation for the alpha channel." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDALPHAARG" explanation="The device does not support a specified texture-blending argument for the alpha channel." />
+	<ErrorCode name="D3DERR_TOOMANYOPERATIONS" explanation="The application is requesting more texture-filtering operations than the device supports." />
+	<ErrorCode name="D3DERR_CONFLICTINGTEXTUREFILTER" explanation="The current texture filters cannot be used together." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDFACTORVALUE" explanation="The device does not support the specified texture factor value. Not used; provided only to support older drivers." />
+	<ErrorCode name="D3DERR_CONFLICTINGRENDERSTATE" explanation="The currently set render states cannot be used together." />
+	<ErrorCode name="D3DERR_UNSUPPORTEDTEXTUREFILTER" explanation="The device does not support the specified texture filter." />
+	<ErrorCode name="D3DERR_CONFLICTINGTEXTUREPALETTE" explanation="The current textures cannot be used simultaneously." />
+	<ErrorCode name="D3DERR_DRIVERINTERNALERROR" explanation="Internal driver error." />
+	<ErrorCode name="D3DERR_NOTFOUND" explanation="The requested item was not found." />
+	<ErrorCode name="D3DERR_MOREDATA" explanation="There is more data available than the specified buffer size can hold." />
+	<ErrorCode name="D3DERR_DEVICELOST" explanation="The device has been lost but cannot be reset at this time. Therefore, rendering is not possible." />
+	<ErrorCode name="D3DERR_DEVICENOTRESET" explanation="The device has been lost but can be reset at this time." />
+	<ErrorCode name="D3DERR_NOTAVAILABLE" explanation="This device does not support the queried technique." />
+	<ErrorCode name="D3DERR_OUTOFVIDEOMEMORY" explanation="Microsoft Direct3D does not have enough display memory to perform the operation." />
+	<ErrorCode name="D3DERR_INVALIDDEVICE" explanation="The requested device type is not valid." />
+	<ErrorCode name="D3DERR_INVALIDCALL" explanation="The method call is invalid. For example, a method's parameter may have an invalid value." />
+	<ErrorCode name="D3DERR_DRIVERINVALIDCALL" explanation="D3DERR_DRIVERINVALIDCALL" />
+	<ErrorCode name="D3DERR_WASSTILLDRAWING" explanation="D3DERR_WASSTILLDRAWING" />
+	<ErrorCode name="D3DOK_NOAUTOGEN" explanation="This is a success code. However, the autogeneration of mipmaps is not supported for this format. This means that resource creation will succeed but the mipmap levels will not be automatically generated." />
+
+	<ErrorCode name="D3DXERR_CANNOTMODIFYINDEXBUFFER" explanation="The index buffer cannot be modified." />
+	<ErrorCode name="D3DXERR_INVALIDMESH" explanation="The mesh is invalid." />
+	<ErrorCode name="D3DXERR_CANNOTATTRSORT" explanation="Attribute sort (D3DXMESHOPT_ATTRSORT) is not supported as an optimization technique." />
+	<ErrorCode name="D3DXERR_SKINNINGNOTSUPPORTED" explanation="Skinning is not supported." />
+	<ErrorCode name="D3DXERR_TOOMANYINFLUENCES" explanation="Too many influences specified." />
+	<ErrorCode name="D3DXERR_INVALIDDATA" explanation="The data is invalid." />
+	<ErrorCode name="D3DXERR_LOADEDMESHASNODATA" explanation="The mesh has no data." />
+	<ErrorCode name="D3DXERR_DUPLICATENAMEDFRAGMENT" explanation="A fragment with that name already exists." />
+
+	<!-- Others are in winerror.h-->
+	<ErrorCode name="E_OUTOFMEMORY" explanation="Direct3D could not allocate sufficient memory to complete the call." />
+</dx9ErrorCodes>

@@ -1,0 +1,157 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource_tugboat.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource_tugboat.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CRASH_DIALOG DIALOGEX 0, 0, 309, 214
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST | WS_EX_APPWINDOW
+CAPTION "Flagship Error Handler"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TITLE,45,26,257,51,ES_MULTILINE | ES_WANTRETURN
+    EDITTEXT        IDC_DESCRIPTION,7,92,295,74,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_NOHIDESEL | ES_WANTRETURN | WS_VSCROLL
+    EDITTEXT        IDC_LOGIN,7,178,160,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Send",IDOK,197,177,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,252,177,50,14
+    PUSHBUTTON      "Abort",IDABORT,143,194,50,14
+    PUSHBUTTON      "B&reak",IDRETRY,197,194,50,14
+    PUSHBUTTON      "&Ignore",IDIGNORE,252,194,50,14
+    CONTROL         "Send To Bug&zilla",IDC_CHK_SEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,197,78,11
+    LTEXT           "The application has encountered an error.  Would you like to report this error?  If so, please describe what you were doing when the error occured.",IDC_INSTRUCTIONS,7,5,295,16
+    LTEXT           "Please enter your Bugzilla login name:",IDC_STATIC,7,168,122,8
+    LTEXT           "Short title:",IDC_STATIC,7,29,35,8
+    LTEXT           "Full description:",IDC_STATIC,7,80,51,8
+END
+
+IDD_UPLOAD_DIALOG DIALOGEX 0, 0, 420, 202
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Uploading Error Report To  Server"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,363,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,363,24,50,14
+    EDITTEXT        IDC_UPLOAD_NAME,7,18,73,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_UPLOAD_DESC,7,79,406,116,ES_MULTILINE | ES_AUTOHSCROLL
+    LTEXT           "Username",IDC_USERNAME_LABEL,89,21,33,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CRASH_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
+    END
+
+    IDD_UPLOAD_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 413
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICONLARGE           ICON                    "tugboat.ico"
+IDI_ICONSMALL           ICON                    "tugboat.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TUGBOAT_LOGO_24     BITMAP                  "Resources\\Logo\\tugboat24.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_MYT_POINTER         CURSOR                  "..\\..\\data\\uix\\game_icons\\MYT_pointer.cur"
+IDC_MYT_POINTERIDENT    CURSOR                  "..\\..\\data\\uix\\game_icons\\MYT_pointerident.cur"
+IDC_MYT_HOURGLASS       CURSOR                  "..\\..\\data\\uix\\game_icons\\MYT_hourglass.cur"
+IDC_MYT_ATTACK          CURSOR                  "..\\..\\data\\uix\\game_icons\\MYT_attack.cur"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
+#include "version.rc"

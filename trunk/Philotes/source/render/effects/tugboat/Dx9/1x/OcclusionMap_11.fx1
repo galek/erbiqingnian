@@ -1,0 +1,4 @@
+#include "_common.fx"
+#include "dx9/_AnimatedShared11.fxh"
+#include "dx9/OcclusionMap.fxh"
+OCCLUSIONMAP_TECHNIQUES(VS_1_1, PS_1_1, vs_1_1, ps_1_1, 1)

@@ -1,0 +1,65 @@
+//*****************************************************************************
+//
+// 1.1 shader
+//	* Rigid
+//	* Vertex lit
+//	* Fogged
+//
+//*****************************************************************************
+
+#include "_common.fx"
+#include "dx9/_Common11.fxh"
+#include "Dx9/_ScrollUV.fx"
+
+//-----------------------------------------------------------------------------
+
+PS11_COMMON_INPUT VS11_LOCAL_ANIMATED(VS_ANIMATED_INPUT In, uniform int nPointLights, uniform int nDirectionalLights, uniform int nSHLevel, uniform bool bSkinned)
+{
+	PS11_COMMON_INPUT Out = VS11_COMMON_ANIMATED(In, nPointLights, nDirectionalLights, nSHLevel, false, bSkinned, _OFF);
+	Out.DiffuseMapUV = ScrollTextureCoordsHalf(Out.DiffuseMapUV, SCROLL_CHANNEL_DIFFUSE);
+	return Out;
+}
+
+//-----------------------------------------------------------------------------
+
+float4 PS11_LOCAL(PS11_COMMON_INPUT In, uniform float fAlpha, uniform bool bLightMap, uniform bool bParticleLightMap) : COLOR
+{
+	half4 DiffuseMap = tex2D(DiffuseMapSampler, In.DiffuseMapUV);
+	return DiffuseMap;
+}
+
+//-----------------------------------------------------------------------------
+
+#define TECH11(bSkinned) \
+DECLARE_TECH TVertexAndPixelShader11_Poison_Skinned##bSkinned## \
+	< \
+		SHADER_VERSION_11\
+		bool Skinned = bSkinned; \
+	> \
+{ \
+	pass P0 \
+	{ \
+		COMPILE_SET_VERTEX_SHADER( vs_1_1, VS11_LOCAL_ANIMATED(\
+			0,								/* nPointLights */			\
+			0,								/* nDirectionalLights */	\
+			0,								/* nSHLevel */				\
+			bSkinned						/* bSkinned */				\
+		)); \
+		COMPILE_SET_PIXEL_SHADER ( _PS_1_1, PS11_LOCAL(\
+			1.0f,							/* fAlpha */				\
+			false,							/* bLightMap */				\
+			false							/* bParticleLightMap */		\
+		)); \
+		AlphaBlendEnable = TRUE;						\
+		COLORWRITEENABLE = BLUE | GREEN | RED | ALPHA;	\
+		SrcBlend         = SRCALPHA;					\
+		DestBlend        = INVSRCALPHA;					\
+		AlphaTestEnable	 = FALSE;						\
+		WRAP0			 = COORD0;						\
+	} \
+}
+
+//-----------------------------------------------------------------------------
+
+TECH11(0);
+TECH11(1);

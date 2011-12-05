@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="FX Files"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="FX Compiler"
+			DisplayName="FX Compiler"
+			CommandLine="&quot;$(SolutionDir)3rd Party\Utilities\$(PrimeDXSDKDir)\x86\&quot;[FXC] [OptLvl] [Od] [Op] [AddlArgs] /nologo /DPRIME [Output]&quot;$(SolutionDir)data[Folder]\effects\[API]\$(InputName)&quot;.fxo &quot;$(InputPath)&quot;"
+			Outputs="$(SolutionDir)data[Folder]\effects\[API]\$(InputName).fxo"
+			AdditionalDependencies="$(ProjectDir)include\_Common.fx; $(ProjectDir)include\Dx9\_EnvMap.fx; $(ProjectDir)include\Dx9\_GlowShared.fx; $(ProjectDir)include\Dx9\_NoPixelShader.fx; $(ProjectDir)include\Dx9\_SphericalHarmonics.fx; $(ProjectDir)include\Dx9\_ScrollUV.fx; $(ProjectDir)include\Dx9\_AnimatedShared.fx;$(ProjectDir)include\Dx9\_Shadow.fxh; [AddlDep]"
+			FileExtensions="*.fx"
+			ExecutionDescription="[API]: [FXC] [OptLvl][Od][Op][AddlArgs] compile: $(InputFileName)"
+			>
+			<Properties>
+				<BooleanProperty
+					Name="Od"
+					DisplayName="Unoptimized"
+					Category="FXC"
+					Description="Should disable optimizations"
+					Switch="/Od"
+				/>
+				<BooleanProperty
+					Name="Op"
+					DisplayName="No Preshaders"
+					Category="FXC"
+					Description="Disable preshaders"
+					Switch="/Op"
+				/>
+				<EnumProperty
+					Name="FXC"
+					DisplayName="FX Compiler Version"
+					Category="FXC"
+					Description="FX compiler filename"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="fxc.exe [Gec] /Tfx_2_0 /I$(ProjectDir)include\ /I$(ProjectDir)include\Dx9\"
+							DisplayName="FXC9"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="fxc.exe [Gec] /Tfx_4_0 [Gch] /Vd /DENGINE_TARGET_DX10 /I$(ProjectDir)include\ /I$(ProjectDir)include\Dx9\ /I$(ProjectDir)include\Dx10\"
+							DisplayName="FXC10"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="fxc.exe /I$(ProjectDir)include\ /I$(ProjectDir)include\Dx9\"
+							DisplayName="Preproccessor"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="Output"
+					DisplayName="Output type"
+					Category="FXC"
+					Description="Output file type"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="/Fo"
+							DisplayName="Binary"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="/Zi /Fc"
+							DisplayName="ASM"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="/Fc"
+							DisplayName="Bare Asm"
+						/>
+						<EnumValue
+							Value="3"
+							Switch="/P"
+							DisplayName="Preprocessed"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="AddlDep"
+					DisplayName="Additional Dependencies"
+					Category="Misc"
+					Description="Additional dependencies"
+					Switch="[value]"
+				/>
+				<BooleanProperty
+					Name="Gec"
+					DisplayName="Dx10 Compatibility Mode"
+					Switch="/Gec"
+					DefaultValue="true"
+				/>
+				<EnumProperty
+					Name="Folder"
+					DisplayName="Application Folder"
+					Category="Misc"
+					Description="Application target folder"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="_common"
+							DisplayName="Common"
+						/>
+						<EnumValue
+							Value="1"
+							DisplayName="Hellgate"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="_mythos"
+							DisplayName="Tugboat"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="API"
+					DisplayName="Engine Target"
+					Category="Misc"
+					Description="Engine Target"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="dx9"
+							DisplayName="DX9"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="dx10"
+							DisplayName="DX10"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="AddlArgs"
+					DisplayName="Addl Args"
+					Category="FXC"
+					Description="Additional FXC Arguments"
+					Switch="[value]"
+				/>
+				<EnumProperty
+					Name="OptLvl"
+					DisplayName="Optimization Level"
+					Category="FXC"
+					Description="Optimization Level"
+					DefaultValue="65535"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="/O0"
+							DisplayName="0"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="/O1"
+							DisplayName="1"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="/O2"
+							DisplayName="2"
+						/>
+						<EnumValue
+							Value="3"
+							Switch="/O3"
+							DisplayName="3"
+						/>
+						<EnumValue
+							Value="65535"
+							DisplayName="Default"
+						/>
+					</Values>
+				</EnumProperty>
+				<BooleanProperty
+					Name="Gch"
+					DisplayName="Dx10 Child Effect"
+					Switch="/Gch"
+					DefaultValue="true"
+				/>
+				<BooleanProperty
+					Name="IncrediBuildAllowRemote"
+					DisplayName="IncrediBuildAllowRemote"
+					Category="Incredibuild"
+					Description="Allows incredibuild remoting"
+					DefaultValue="true"
+				/>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

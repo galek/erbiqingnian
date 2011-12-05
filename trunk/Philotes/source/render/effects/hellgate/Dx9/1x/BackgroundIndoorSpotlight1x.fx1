@@ -1,0 +1,17 @@
+#include "_common.fx"
+#define COMMON11_USE_SPOTLIGHT_PS 1
+#define COMMON11_USE_LIGHTMAP 1
+#define COMMON11_USE_SELF_ILLUMINATION 0
+#include "dx9/_Common11.fxh"
+
+//-----------------------------------------------------------------------------
+
+#define T(nSpots) \
+	TECH11_SL(nSpots,0,0,0,_ON_PS)
+
+#include "../Hellgate/Dx9/1x/_BackgroundCommonTechnique.fxh"
+
+//-----------------------------------------------------------------------------
+
+T(0)
+T(1)

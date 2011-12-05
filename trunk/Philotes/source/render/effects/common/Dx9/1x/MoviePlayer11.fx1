@@ -1,0 +1,116 @@
+//
+// YUV->RGB shader, ps_1_1 version
+//
+
+#include "_common.fx"
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Shared Structures
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+struct PS_MOVIE_INPUT
+{
+    float2 T0		: TEXCOORD0;
+    float2 T1		: TEXCOORD1;
+    float2 T2		: TEXCOORD2;
+    float2 T3		: TEXCOORD3;
+};
+
+
+#ifdef ENGINE_TARGET_DX10
+#	define SAMPLER_FILTERS								\
+		Filter = MIN_MAG_LINEAR_MIP_POINT;
+#else
+#	define SAMPLER_FILTERS								\
+		MipFilter = POINT;								\
+		MinFilter = LINEAR;								\
+		MagFilter = LINEAR;
+#endif
+
+#define DECLARE_SAMPLER(index)									\
+	sampler Sampler##index : register(s##index) = sampler_state		\
+	{															\
+		SAMPLER_FILTERS											\
+		AddressU = CLAMP;										\
+		AddressV = CLAMP;										\
+	};
+
+DECLARE_SAMPLER(0)
+DECLARE_SAMPLER(1)
+DECLARE_SAMPLER(2)
+DECLARE_SAMPLER(3)
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Shaders
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
+
+float2 ScreenToNDC( float2 screenPos )
+{
+#ifdef ENGINE_TARGET_DX10  //Remove half texel offset
+	screenPos.xy	+= 0.5f;
+#endif
+	screenPos.xy	*= gvScreenSize.zw;
+	screenPos.xy	= ( screenPos.xy - 0.5f ) * float2( 2.f, -2.f );
+	return screenPos;
+}
+
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+void VS_MOVIE (
+	in VS_POSITION_TEX			In,
+	out float4					Position	: POSITION,
+	out PS_MOVIE_INPUT			Out )
+{
+	Position	= float4( In.Position, 1.0f );
+	Position.xy	= ScreenToNDC( Position.xy );
+
+	Out.T0		= In.TexCoord;
+	Out.T1		= In.TexCoord;
+	Out.T2		= In.TexCoord;
+	Out.T3		= In.TexCoord;
+	//Out.TexCoord0	+= gvPixelAccurateOffset;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Techniques
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+DECLARE_TECH T_Movie_NoPixelAlpha < SHADER_VERSION_11 int Index = 0; >
+{
+	pass P0
+	{
+		COMPILE_SET_VERTEX_SHADER( vs_1_1, VS_MOVIE() );
+
+#ifdef ENGINE_TARGET_DX10
+#	error	DX10 shouldn't use the ps_1_1 version of this shader!
+#else
+        pixelshader = 
+            asm {
+                ps_1_1
+                def c0,   0.5820617675f,  0.5820617675f,   0.5820617675f,  0.5f	// x2
+                def c1,	  0.797897339f,  -0.4067382815f,   0.0f,           0.0f	// x2
+                def c2,   0.0f,          -0.09786224375f,  0.5044555665f,  0.0f	// x4
+                def c3,  -0.43532753f,    0.264852524f,   -0.540834427f,   0.0f	// x2
+                tex t0
+                tex t1
+                tex t2
+				mul r0, c0, t0
+				mad r0, c1, t1, r0
+				mul_x2 r1, c2, t2
+				add r0, r0, r1
+				add_x2 r0, r0, c3
+            };
+#endif
+	}
+}
+
