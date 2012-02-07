@@ -1,4 +1,0 @@
-#define DX9_BLEND_STATES		SrcBlend = ONE;		DestBlend = ONE;	ZWRITEENABLE = FALSE;
-#define ADDITIVE_BLEND			1
-
-#include "Dx9/_Spectral1x.fxh"

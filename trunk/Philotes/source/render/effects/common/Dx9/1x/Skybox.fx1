@@ -1,3 +1,0 @@
-#define SKYBOX_11
-
-#include "../Skybox.fx"

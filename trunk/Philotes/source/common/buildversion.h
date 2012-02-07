@@ -1,4 +1,0 @@
-#pragma once
-extern int BUILD_VERSION;
-#define  CURRENT_BUILD_VERSION  2749
-#define  CURRENT_BUILD_VERSION_S   "2749"

@@ -1,1 +1,0 @@
-#include "../hellgate/Dx9/_BackgroundIndoor20.fxh"
