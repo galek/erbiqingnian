@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestConsole", "..\Projects\TestConsole.vcproj", "{65720A7F-4270-3B49-80D5-E009AEF32E24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "..\Projects\Common.vcproj", "{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhiloRender", "..\Projects\PhiloRender.vcproj", "{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		ReleaseSymbols|Win32 = ReleaseSymbols|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.Debug|Win32.ActiveCfg = Debug|Win32
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.Debug|Win32.Build.0 = Debug|Win32
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.Release|Win32.ActiveCfg = Release|Win32
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.Release|Win32.Build.0 = Release|Win32
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.ReleaseSymbols|Win32.ActiveCfg = ReleaseSymbols|Win32
+		{65720A7F-4270-3B49-80D5-E009AEF32E24}.ReleaseSymbols|Win32.Build.0 = ReleaseSymbols|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.Debug|Win32.Build.0 = Debug|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.Release|Win32.ActiveCfg = Release|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.Release|Win32.Build.0 = Release|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.ReleaseSymbols|Win32.ActiveCfg = ReleaseSymbols|Win32
+		{CC8BE90E-6A1C-1C4F-A636-07ECA75F5BED}.ReleaseSymbols|Win32.Build.0 = ReleaseSymbols|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.Debug|Win32.ActiveCfg = Debug|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.Debug|Win32.Build.0 = Debug|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.Release|Win32.ActiveCfg = Release|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.Release|Win32.Build.0 = Release|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.ReleaseSymbols|Win32.ActiveCfg = ReleaseSymbols|Win32
+		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.ReleaseSymbols|Win32.Build.0 = ReleaseSymbols|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
