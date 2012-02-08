@@ -13,4 +13,6 @@
 #include "math/mathmisc.h"
 #include "math/quaternion.h"
 
+#include "renderPrerequisites.h"
+#include "gearsPrerequisites.h"
 #include "renderConfig.h"

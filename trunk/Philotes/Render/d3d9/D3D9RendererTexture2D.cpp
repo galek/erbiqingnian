@@ -1,5 +1,6 @@
 
 #include "D3D9RendererTexture2D.h"
+#include "gearsPlatform.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
@@ -9,7 +10,7 @@ _NAMESPACE_BEGIN
 
 static D3DFORMAT getD3D9TextureFormat(RendererTexture2D::Format format)
 {
-	D3DFORMAT d3dFormat = static_cast<D3DFORMAT>(PhiloPlatform::platform()->getD3D9TextureFormat(format));
+	D3DFORMAT d3dFormat = static_cast<D3DFORMAT>(GearPlatform::getSingleton()->getD3D9TextureFormat(format));
 	ph_assert2(d3dFormat != D3DFMT_UNKNOWN, "Unable to convert to D3D9 Texture Format.");
 	return d3dFormat;
 }
@@ -71,7 +72,7 @@ D3D9RendererTexture2D::~D3D9RendererTexture2D(void)
 	if(m_d3dTexture)
 	{
 		m_d3dDevice.SetTexture(0, NULL);
-		PhiloPlatform::platform()->D3D9BlockUntilNotBusy(m_d3dTexture);
+		GearPlatform::getSingleton()->D3D9BlockUntilNotBusy(m_d3dTexture);
 		m_d3dTexture->Release();
 	}
 }

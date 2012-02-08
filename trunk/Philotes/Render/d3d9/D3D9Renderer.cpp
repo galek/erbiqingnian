@@ -36,6 +36,8 @@
 #include <renderTargetDesc.h>
 #include "D3D9RendererTarget.h"
 
+#include "gearsPlatform.h"
+
 _NAMESPACE_BEGIN
 
 void convertToD3D9(D3DCOLOR &dxcolor, const RendererColor &color)
@@ -162,7 +164,7 @@ D3D9Renderer::D3D9Renderer(const RendererDesc &desc) :
 	
 	m_viewMatrix = Matrix4::IDENTITY;
 	
-	PhiloPlatform* m_platform = PhiloPlatform::platform();
+	GearPlatform* m_platform = GearPlatform::getSingleton();
 	m_d3d = static_cast<IDirect3D9*>(m_platform->initializeD3D9());
 	ph_assert2(m_d3d, "Could not create Direct3D9 Interface.");
 	if(m_d3d)
@@ -192,7 +194,7 @@ D3D9Renderer::D3D9Renderer(const RendererDesc &desc) :
 D3D9Renderer::~D3D9Renderer(void)
 {
 	assert(!m_textVDecl);
-	PhiloPlatform* m_platform = PhiloPlatform::platform();
+	GearPlatform* m_platform = GearPlatform::getSingleton();
 
 	if(m_d3dDepthStencilSurface)
 	{
@@ -209,11 +211,11 @@ bool D3D9Renderer::checkResize(bool isDeviceLost)
 {
 	bool isDeviceReset = false;
 #if defined(RENDERER_WINDOWS)
-	if(PhiloPlatform::platform()->getWindowHandle() && m_d3dDevice)
+	if(GearPlatform::getSingleton()->getWindowHandle() && m_d3dDevice)
 	{
 		uint32 width  = 0;
 		uint32 height = 0;
-		PhiloPlatform::platform()->getWindowSize(width, height);
+		GearPlatform::getSingleton()->getWindowSize(width, height);
 		if(width && height && (width != m_displayWidth || height != m_displayHeight) || isDeviceLost)
 		{
 			bool needsReset = (m_displayWidth&&m_displayHeight ? true : false);
@@ -331,7 +333,7 @@ bool D3D9Renderer::swapBuffers(void)
 	bool isDeviceReset = false;
 	if(m_d3dDevice)
 	{
-		HRESULT result = PhiloPlatform::platform()->D3D9Present();
+		HRESULT result = GearPlatform::getSingleton()->D3D9Present();
 		ph_assert2(result == D3D_OK || result == D3DERR_DEVICELOST, "Unknown Direct3D9 error when swapping buffers.");
 		if(result == D3D_OK || result == D3DERR_DEVICELOST)
 		{
@@ -497,10 +499,10 @@ void D3D9Renderer::endRender(void)
 
 void D3D9Renderer::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 {
-	m_viewMatrix = eye.inverse();
+	// TODO : 可能有问题
+	m_viewMatrix = eye.transpose();
 	convertToD3D9(m_environment.viewMatrix, m_viewMatrix);
 	convertToD3D9(m_environment.projMatrix, proj);
-	
 	
 	const Vector3 eyeDirection = -eye.getColumn(2);
 	const Vector3 eyeT = eye.getTrans();
@@ -597,7 +599,7 @@ bool D3D9Renderer::isOk(void) const
 	if(!m_d3d)            ok = false;
 	if(!m_d3dDevice)      ok = false;
 #if defined(RENDERER_WINDOWS)
-	ok = PhiloPlatform::platform()->isD3D9ok();
+	ok = GearPlatform::getSingleton()->isD3D9ok();
 	if(!m_d3dx.m_library) ok = false;
 #endif
 	return ok;

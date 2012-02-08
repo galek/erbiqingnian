@@ -74,7 +74,7 @@ project "PhiloGears"
   language "C++"
   libdirs { "../lib/"}
   pchheader "gearsPch.h"
-  includedirs {"../3rdLibs/" ,"../common/","../render", "../gears"}
+  includedirs {"../3rdLibs/cg/include","../3rdLibs/rapidxml/" ,"../common/","../render", "../gears", "../gears/addon"}
   pchsource "../Gears/gearsPch.cpp"
   files { "../Gears/**.c*","../Gears/**.h" }
   kind 'StaticLib'
