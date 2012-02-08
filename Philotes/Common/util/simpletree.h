@@ -1,9 +1,9 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::SimpleTree
+    @class SimpleTree
     
-    A simple tree class which stores its nodes in Util::Arrays.
+    A simple tree class which stores its nodes in Arrays.
     
     (C) 2006 Radon Labs GmbH
 */
@@ -11,7 +11,7 @@
 #include "util/array.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class VALUETYPE> class SimpleTree
 {
@@ -363,6 +363,6 @@ SimpleTree<VALUETYPE>::Root() const
     return this->rootNode;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
     

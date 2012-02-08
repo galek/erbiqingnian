@@ -4,13 +4,13 @@
 #include "mathprerequisites.h"
 #include "AxisAlignedBox.h"
 #include "Sphere.h"
-#include "MathMisc.h"
+#include "Math.h"
 #include "Plane.h"
 
 //#include "util/array.h"
 #include <vector>
 
-namespace Math {
+namespace Philo {
 
     class _PhiloCommonExport PlaneBoundedVolume
     {
@@ -86,7 +86,7 @@ namespace Math {
         */
         inline std::pair<bool, scalar> intersects(const Ray& ray)
         {
-            return MathMisc::intersects(ray, planes, outside == Plane::POSITIVE_SIDE);
+            return Math::intersects(ray, planes, outside == Plane::POSITIVE_SIDE);
         }
 
     };

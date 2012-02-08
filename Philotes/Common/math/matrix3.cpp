@@ -5,7 +5,7 @@
 
 // Adapted from Matrix math by Wild Magic http://www.geometrictools.com/
 
-namespace Math
+namespace Philo
 {
     const scalar Matrix3::EPSILON = (scalar)1e-06;
     const Matrix3 Matrix3::ZERO(0,0,0,0,0,0,0,0,0);
@@ -241,7 +241,7 @@ namespace Math
         bool bIdentity;
 
         // map first column to (*,0,0)
-        fLength = MathMisc::Sqrt(kA[0][0]*kA[0][0] + kA[1][0]*kA[1][0] +
+        fLength = Math::Sqrt(kA[0][0]*kA[0][0] + kA[1][0]*kA[1][0] +
             kA[2][0]*kA[2][0]);
         if ( fLength > 0.0 )
         {
@@ -278,7 +278,7 @@ namespace Math
         }
 
         // map first row to (*,*,0)
-        fLength = MathMisc::Sqrt(kA[0][1]*kA[0][1]+kA[0][2]*kA[0][2]);
+        fLength = Math::Sqrt(kA[0][1]*kA[0][1]+kA[0][2]*kA[0][2]);
         if ( fLength > 0.0 )
         {
             fSign = (kA[0][1] > 0.0f ? 1.0f : -1.0f);
@@ -308,7 +308,7 @@ namespace Math
         }
 
         // map second column to (*,*,0)
-        fLength = MathMisc::Sqrt(kA[1][1]*kA[1][1]+kA[2][1]*kA[2][1]);
+        fLength = Math::Sqrt(kA[1][1]*kA[1][1]+kA[2][1]*kA[2][1]);
         if ( fLength > 0.0 )
         {
             fSign = (kA[1][1] > 0.0f ? 1.0f : -1.0f);
@@ -356,7 +356,7 @@ namespace Math
         scalar fT12 = kA[1][1]*kA[1][2];
         scalar fTrace = fT11+fT22;
         scalar fDiff = fT11-fT22;
-        scalar fDiscr = MathMisc::Sqrt(fDiff*fDiff+4.0f*fT12*fT12);
+        scalar fDiscr = Math::Sqrt(fDiff*fDiff+4.0f*fT12*fT12);
         scalar fRoot1 = 0.5f*(fTrace+fDiscr);
         scalar fRoot2 = 0.5f*(fTrace-fDiscr);
 
@@ -364,7 +364,7 @@ namespace Math
         scalar fY = kA[0][0] - (fabs(fRoot1-fT22) <=
             fabs(fRoot2-fT22) ? fRoot1 : fRoot2);
         scalar fZ = kA[0][1];
-		scalar fInvLength = MathMisc::InvSqrt(fY*fY+fZ*fZ);
+		scalar fInvLength = Math::InvSqrt(fY*fY+fZ*fZ);
         scalar fSin = fZ*fInvLength;
         scalar fCos = -fY*fInvLength;
 
@@ -387,7 +387,7 @@ namespace Math
         // adjust left
         fY = kA[0][0];
         fZ = kA[1][0];
-        fInvLength = MathMisc::InvSqrt(fY*fY+fZ*fZ);
+        fInvLength = Math::InvSqrt(fY*fY+fZ*fZ);
         fSin = fZ*fInvLength;
         fCos = -fY*fInvLength;
 
@@ -411,7 +411,7 @@ namespace Math
         // adjust right
         fY = kA[0][1];
         fZ = kA[0][2];
-        fInvLength = MathMisc::InvSqrt(fY*fY+fZ*fZ);
+        fInvLength = Math::InvSqrt(fY*fY+fZ*fZ);
         fSin = fZ*fInvLength;
         fCos = -fY*fInvLength;
 
@@ -434,7 +434,7 @@ namespace Math
         // adjust left
         fY = kA[1][1];
         fZ = kA[2][1];
-        fInvLength = MathMisc::InvSqrt(fY*fY+fZ*fZ);
+        fInvLength = Math::InvSqrt(fY*fY+fZ*fZ);
         fSin = fZ*fInvLength;
         fCos = -fY*fInvLength;
 
@@ -487,8 +487,8 @@ namespace Math
                     // 2x2 closed form factorization
                     fTmp = (kA[1][1]*kA[1][1] - kA[2][2]*kA[2][2] +
                         kA[1][2]*kA[1][2])/(kA[1][2]*kA[2][2]);
-                    fTan0 = 0.5f*(fTmp+MathMisc::Sqrt(fTmp*fTmp + 4.0f));
-                    fCos0 = MathMisc::InvSqrt(1.0f+fTan0*fTan0);
+                    fTan0 = 0.5f*(fTmp+Math::Sqrt(fTmp*fTmp + 4.0f));
+                    fCos0 = Math::InvSqrt(1.0f+fTan0*fTan0);
                     fSin0 = fTan0*fCos0;
 
                     for (iCol = 0; iCol < 3; iCol++)
@@ -500,7 +500,7 @@ namespace Math
                     }
 
                     fTan1 = (kA[1][2]-kA[2][2]*fTan0)/kA[1][1];
-                    fCos1 = MathMisc::InvSqrt(1.0f+fTan1*fTan1);
+                    fCos1 = Math::InvSqrt(1.0f+fTan1*fTan1);
                     fSin1 = -fTan1*fCos1;
 
                     for (iRow = 0; iRow < 3; iRow++)
@@ -526,8 +526,8 @@ namespace Math
                     // 2x2 closed form factorization
                     fTmp = (kA[0][0]*kA[0][0] + kA[1][1]*kA[1][1] -
                         kA[0][1]*kA[0][1])/(kA[0][1]*kA[1][1]);
-                    fTan0 = 0.5f*(-fTmp+MathMisc::Sqrt(fTmp*fTmp + 4.0f));
-                    fCos0 = MathMisc::InvSqrt(1.0f+fTan0*fTan0);
+                    fTan0 = 0.5f*(-fTmp+Math::Sqrt(fTmp*fTmp + 4.0f));
+                    fCos0 = Math::InvSqrt(1.0f+fTan0*fTan0);
                     fSin0 = fTan0*fCos0;
 
                     for (iCol = 0; iCol < 3; iCol++)
@@ -539,7 +539,7 @@ namespace Math
                     }
 
                     fTan1 = (kA[0][1]-kA[1][1]*fTan0)/kA[0][0];
-                    fCos1 = MathMisc::InvSqrt(1.0f+fTan1*fTan1);
+                    fCos1 = Math::InvSqrt(1.0f+fTan1*fTan1);
                     fSin1 = -fTan1*fCos1;
 
                     for (iRow = 0; iRow < 3; iRow++)
@@ -614,7 +614,7 @@ namespace Math
         // product of vectors A and B.
 
         // compute q0
-        scalar fInvLength = MathMisc::InvSqrt(m[0][0]*m[0][0]
+        scalar fInvLength = Math::InvSqrt(m[0][0]*m[0][0]
             + m[1][0]*m[1][0] +
             m[2][0]*m[2][0]);
 
@@ -632,7 +632,7 @@ namespace Math
         m[1][1] -= fDot0*m[1][0];
         m[2][1] -= fDot0*m[2][0];
 
-        fInvLength = MathMisc::InvSqrt(m[0][1]*m[0][1] +
+        fInvLength = Math::InvSqrt(m[0][1]*m[0][1] +
             m[1][1]*m[1][1] +
             m[2][1]*m[2][1]);
 
@@ -655,7 +655,7 @@ namespace Math
         m[1][2] -= fDot0*m[1][0] + fDot1*m[1][1];
         m[2][2] -= fDot0*m[2][0] + fDot1*m[2][1];
 
-        fInvLength = MathMisc::InvSqrt(m[0][2]*m[0][2] +
+        fInvLength = Math::InvSqrt(m[0][2]*m[0][2] +
             m[1][2]*m[1][2] +
             m[2][2]*m[2][2]);
 
@@ -695,7 +695,7 @@ namespace Math
         // U stores the entries U[0] = u01, U[1] = u02, U[2] = u12
 
         // build orthogonal matrix Q
-        scalar fInvLength = MathMisc::InvSqrt(m[0][0]*m[0][0]
+        scalar fInvLength = Math::InvSqrt(m[0][0]*m[0][0]
             + m[1][0]*m[1][0] +
             m[2][0]*m[2][0]);
         kQ[0][0] = m[0][0]*fInvLength;
@@ -707,7 +707,7 @@ namespace Math
         kQ[0][1] = m[0][1]-fDot*kQ[0][0];
         kQ[1][1] = m[1][1]-fDot*kQ[1][0];
         kQ[2][1] = m[2][1]-fDot*kQ[2][0];
-        fInvLength = MathMisc::InvSqrt(kQ[0][1]*kQ[0][1] + kQ[1][1]*kQ[1][1] +
+        fInvLength = Math::InvSqrt(kQ[0][1]*kQ[0][1] + kQ[1][1]*kQ[1][1] +
             kQ[2][1]*kQ[2][1]);
         kQ[0][1] *= fInvLength;
         kQ[1][1] *= fInvLength;
@@ -723,7 +723,7 @@ namespace Math
         kQ[0][2] -= fDot*kQ[0][1];
         kQ[1][2] -= fDot*kQ[1][1];
         kQ[2][2] -= fDot*kQ[2][1];
-        fInvLength = MathMisc::InvSqrt(kQ[0][2]*kQ[0][2] + kQ[1][2]*kQ[1][2] +
+        fInvLength = Math::InvSqrt(kQ[0][2]*kQ[0][2] + kQ[1][2]*kQ[1][2] +
             kQ[2][2]*kQ[2][2]);
         kQ[0][2] *= fInvLength;
         kQ[1][2] *= fInvLength;
@@ -849,7 +849,7 @@ namespace Math
         afCoeff[2] = -(kP[0][0]+kP[1][1]+kP[2][2]);
 
         scalar fRoot = MaxCubicRoot(afCoeff);
-        scalar fNorm = MathMisc::Sqrt(fPmax*fRoot);
+        scalar fNorm = Math::Sqrt(fPmax*fRoot);
         return fNorm;
     }
     //-----------------------------------------------------------------------
@@ -879,7 +879,7 @@ namespace Math
 
         scalar fTrace = m[0][0] + m[1][1] + m[2][2];
         scalar fCos = 0.5f*(fTrace-1.0f);
-        rfRadians = MathMisc::ACos(fCos);  // in [0,PI]
+        rfRadians = Math::ACos(fCos);  // in [0,PI]
 
         if ( rfRadians > Radian(0.0) )
         {
@@ -900,7 +900,7 @@ namespace Math
                     if ( m[0][0] >= m[2][2] )
                     {
                         // r00 is maximum diagonal term
-                        rkAxis.x = 0.5f*MathMisc::Sqrt(m[0][0] -
+                        rkAxis.x = 0.5f*Math::Sqrt(m[0][0] -
                             m[1][1] - m[2][2] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.x;
                         rkAxis.y = fHalfInverse*m[0][1];
@@ -909,7 +909,7 @@ namespace Math
                     else
                     {
                         // r22 is maximum diagonal term
-                        rkAxis.z = 0.5f*MathMisc::Sqrt(m[2][2] -
+                        rkAxis.z = 0.5f*Math::Sqrt(m[2][2] -
                             m[0][0] - m[1][1] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.z;
                         rkAxis.x = fHalfInverse*m[0][2];
@@ -922,7 +922,7 @@ namespace Math
                     if ( m[1][1] >= m[2][2] )
                     {
                         // r11 is maximum diagonal term
-                        rkAxis.y = 0.5f*MathMisc::Sqrt(m[1][1] -
+                        rkAxis.y = 0.5f*Math::Sqrt(m[1][1] -
                             m[0][0] - m[2][2] + 1.0f);
                         fHalfInverse  = 0.5f/rkAxis.y;
                         rkAxis.x = fHalfInverse*m[0][1];
@@ -931,7 +931,7 @@ namespace Math
                     else
                     {
                         // r22 is maximum diagonal term
-                        rkAxis.z = 0.5f*MathMisc::Sqrt(m[2][2] -
+                        rkAxis.z = 0.5f*Math::Sqrt(m[2][2] -
                             m[0][0] - m[1][1] + 1.0f);
                         fHalfInverse = 0.5f/rkAxis.z;
                         rkAxis.x = fHalfInverse*m[0][2];
@@ -952,8 +952,8 @@ namespace Math
     //-----------------------------------------------------------------------
 	void Matrix3::FromAngleAxis (const Vector3& rkAxis, const Radian& fRadians)
 	{
-		scalar fCos =MathMisc::Cos(fRadians);
-		scalar fSin = MathMisc::Sin(fRadians);
+		scalar fCos =Math::Cos(fRadians);
+		scalar fSin = Math::Sin(fRadians);
 		scalar fOneMinusCos = 1.0f-fCos;
 		scalar fX2 = rkAxis.x*rkAxis.x;
 		scalar fY2 = rkAxis.y*rkAxis.y;
@@ -983,19 +983,19 @@ namespace Math
         //        cz*sx*sy+cx*sz  cx*cz-sx*sy*sz -cy*sx
         //       -cx*cz*sy+sx*sz  cz*sx+cx*sy*sz  cx*cy
 
-        rfPAngle = Radian(MathMisc::ASin(m[0][2]));
+        rfPAngle = Radian(Math::ASin(m[0][2]));
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(-m[1][2],m[2][2]);
-                rfRAngle = MathMisc::ATan2(-m[0][1],m[0][0]);
+                rfYAngle = Math::ATan2(-m[1][2],m[2][2]);
+                rfRAngle = Math::ATan2(-m[0][1],m[0][0]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-				Radian fRmY = MathMisc::ATan2(m[1][0],m[1][1]);
+				Radian fRmY = Math::ATan2(m[1][0],m[1][1]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1004,7 +1004,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(m[1][0],m[1][1]);
+            Radian fRpY = Math::ATan2(m[1][0],m[1][1]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1018,19 +1018,19 @@ namespace Math
         //        sx*sy+cx*cy*sz  cx*cz          -cy*sx+cx*sy*sz
         //       -cx*sy+cy*sx*sz  cz*sx           cx*cy+sx*sy*sz
 
-        rfPAngle = MathMisc::ASin(-m[0][1]);
+        rfPAngle = Math::ASin(-m[0][1]);
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(m[2][1],m[1][1]);
-                rfRAngle = MathMisc::ATan2(m[0][2],m[0][0]);
+                rfYAngle = Math::ATan2(m[2][1],m[1][1]);
+                rfRAngle = Math::ATan2(m[0][2],m[0][0]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = MathMisc::ATan2(-m[2][0],m[2][2]);
+                Radian fRmY = Math::ATan2(-m[2][0],m[2][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1039,7 +1039,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(-m[2][0],m[2][2]);
+            Radian fRpY = Math::ATan2(-m[2][0],m[2][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1053,19 +1053,19 @@ namespace Math
         //        cx*sz           cx*cz          -sx
         //       -cz*sy+cy*sx*sz  cy*cz*sx+sy*sz  cx*cy
 
-        rfPAngle = MathMisc::ASin(-m[1][2]);
+        rfPAngle = Math::ASin(-m[1][2]);
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(m[0][2],m[2][2]);
-                rfRAngle = MathMisc::ATan2(m[1][0],m[1][1]);
+                rfYAngle = Math::ATan2(m[0][2],m[2][2]);
+                rfRAngle = Math::ATan2(m[1][0],m[1][1]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = MathMisc::ATan2(-m[0][1],m[0][0]);
+                Radian fRmY = Math::ATan2(-m[0][1],m[0][0]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1074,7 +1074,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(-m[0][1],m[0][0]);
+            Radian fRpY = Math::ATan2(-m[0][1],m[0][0]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1088,19 +1088,19 @@ namespace Math
         //        sz              cx*cz          -cz*sx
         //       -cz*sy           cy*sx+cx*sy*sz  cx*cy-sx*sy*sz
 
-        rfPAngle = MathMisc::ASin(m[1][0]);
+        rfPAngle = Math::ASin(m[1][0]);
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(-m[2][0],m[0][0]);
-                rfRAngle = MathMisc::ATan2(-m[1][2],m[1][1]);
+                rfYAngle = Math::ATan2(-m[2][0],m[0][0]);
+                rfRAngle = Math::ATan2(-m[1][2],m[1][1]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = MathMisc::ATan2(m[2][1],m[2][2]);
+                Radian fRmY = Math::ATan2(m[2][1],m[2][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1109,7 +1109,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(m[2][1],m[2][2]);
+            Radian fRpY = Math::ATan2(m[2][1],m[2][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1123,19 +1123,19 @@ namespace Math
         //        cz*sx*sy+cy*sz  cx*cz          -cy*cz*sx+sy*sz
         //       -cx*sy           sx              cx*cy
 
-        rfPAngle = MathMisc::ASin(m[2][1]);
+        rfPAngle = Math::ASin(m[2][1]);
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(-m[0][1],m[1][1]);
-                rfRAngle = MathMisc::ATan2(-m[2][0],m[2][2]);
+                rfYAngle = Math::ATan2(-m[0][1],m[1][1]);
+                rfRAngle = Math::ATan2(-m[2][0],m[2][2]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = MathMisc::ATan2(m[0][2],m[0][0]);
+                Radian fRmY = Math::ATan2(m[0][2],m[0][0]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1144,7 +1144,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(m[0][2],m[0][0]);
+            Radian fRpY = Math::ATan2(m[0][2],m[0][0]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1158,19 +1158,19 @@ namespace Math
         //        cy*sz           cx*cz+sx*sy*sz -cz*sx+cx*sy*sz
         //       -sy              cy*sx           cx*cy
 
-        rfPAngle = MathMisc::ASin(-m[2][0]);
+        rfPAngle = Math::ASin(-m[2][0]);
         if ( rfPAngle < Radian(N_PI_HALF) )
         {
             if ( rfPAngle > Radian(-N_PI_HALF) )
             {
-                rfYAngle = MathMisc::ATan2(m[1][0],m[0][0]);
-                rfRAngle = MathMisc::ATan2(m[2][1],m[2][2]);
+                rfYAngle = Math::ATan2(m[1][0],m[0][0]);
+                rfRAngle = Math::ATan2(m[2][1],m[2][2]);
                 return true;
             }
             else
             {
                 // WARNING.  Not a unique solution.
-                Radian fRmY = MathMisc::ATan2(-m[0][1],m[0][2]);
+                Radian fRmY = Math::ATan2(-m[0][1],m[0][2]);
                 rfRAngle = Radian(0.0);  // any angle works
                 rfYAngle = rfRAngle - fRmY;
                 return false;
@@ -1179,7 +1179,7 @@ namespace Math
         else
         {
             // WARNING.  Not a unique solution.
-            Radian fRpY = MathMisc::ATan2(-m[0][1],m[0][2]);
+            Radian fRpY = Math::ATan2(-m[0][1],m[0][2]);
             rfRAngle = Radian(0.0);  // any angle works
             rfYAngle = fRpY - rfRAngle;
             return false;
@@ -1191,16 +1191,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
         *this = kXMat*(kYMat*kZMat);
@@ -1211,16 +1211,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
         *this = kXMat*(kZMat*kYMat);
@@ -1231,16 +1231,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
         *this = kYMat*(kXMat*kZMat);
@@ -1251,16 +1251,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
         *this = kYMat*(kZMat*kXMat);
@@ -1271,16 +1271,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
         *this = kZMat*(kXMat*kYMat);
@@ -1291,16 +1291,16 @@ namespace Math
     {
         scalar fCos, fSin;
 
-        fCos = MathMisc::Cos(fYAngle);
-        fSin = MathMisc::Sin(fYAngle);
+        fCos = Math::Cos(fYAngle);
+        fSin = Math::Sin(fYAngle);
         Matrix3 kZMat(fCos,-fSin,0.0,fSin,fCos,0.0,0.0,0.0,1.0);
 
-        fCos = MathMisc::Cos(fPAngle);
-        fSin = MathMisc::Sin(fPAngle);
+        fCos = Math::Cos(fPAngle);
+        fSin = Math::Sin(fPAngle);
         Matrix3 kYMat(fCos,0.0,fSin,0.0,1.0,0.0,-fSin,0.0,fCos);
 
-        fCos = MathMisc::Cos(fRAngle);
-        fSin = MathMisc::Sin(fRAngle);
+        fCos = Math::Cos(fRAngle);
+        fSin = Math::Sin(fRAngle);
         Matrix3 kXMat(1.0,0.0,0.0,0.0,fCos,-fSin,0.0,fSin,fCos);
 
         *this = kZMat*(kYMat*kXMat);
@@ -1327,7 +1327,7 @@ namespace Math
         afSubDiag[2] = 0.0;
         if ( fabs(fC) >= EPSILON )
         {
-            scalar fLength = MathMisc::Sqrt(fB*fB+fC*fC);
+            scalar fLength = Math::Sqrt(fB*fB+fC*fC);
             scalar fInvLength = 1.0f/fLength;
             fB *= fInvLength;
             fC *= fInvLength;
@@ -1387,7 +1387,7 @@ namespace Math
                     break;
 
                 scalar fTmp0 = (afDiag[i0+1]-afDiag[i0])/(2.0f*afSubDiag[i0]);
-                scalar fTmp1 = MathMisc::Sqrt(fTmp0*fTmp0+1.0f);
+                scalar fTmp1 = Math::Sqrt(fTmp0*fTmp0+1.0f);
                 if ( fTmp0 < 0.0 )
                     fTmp0 = afDiag[i1]-afDiag[i0]+afSubDiag[i0]/(fTmp0-fTmp1);
                 else
@@ -1402,7 +1402,7 @@ namespace Math
                     if ( fabs(fTmp3) >= fabs(fTmp0) )
                     {
                         fCos = fTmp0/fTmp3;
-                        fTmp1 = MathMisc::Sqrt(fCos*fCos+1.0f);
+                        fTmp1 = Math::Sqrt(fCos*fCos+1.0f);
                         afSubDiag[i2+1] = fTmp3*fTmp1;
                         fSin = 1.0f/fTmp1;
                         fCos *= fSin;
@@ -1410,7 +1410,7 @@ namespace Math
                     else
                     {
                         fSin = fTmp3/fTmp0;
-                        fTmp1 = MathMisc::Sqrt(fSin*fSin+1.0f);
+                        fTmp1 = Math::Sqrt(fSin*fSin+1.0f);
                         afSubDiag[i2+1] = fTmp0*fTmp1;
                         fCos = 1.0f/fTmp1;
                         fSin *= fCos;

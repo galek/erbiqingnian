@@ -13,7 +13,7 @@
 #include "math/bbox.h"
 #include "math/float4.h"
 
-namespace Util
+namespace Philo
 {
 //------------------------------------------------------------------------------
 template<class TYPE> class QuadTree
@@ -88,7 +88,7 @@ private:
     uchar treeDepth;
     Math::bbox boundingBox;                  // global bounding box
     Math::vector baseNodeSize;               // base chunk bounding box
-    Util::FixedArray<Node> nodeArray;
+    FixedArray<Node> nodeArray;
 };
 
 //------------------------------------------------------------------------------
@@ -408,5 +408,5 @@ QuadTree<TYPE>::Node::GetChildAt(IndexT i)
 {
     return this->children[i];
 }
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

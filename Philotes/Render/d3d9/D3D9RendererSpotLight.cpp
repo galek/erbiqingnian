@@ -5,6 +5,8 @@
 
 #include "D3D9RendererTexture2D.h"
 
+_NAMESPACE_BEGIN
+
 D3D9RendererSpotLight::D3D9RendererSpotLight(D3D9Renderer &renderer, const RendererSpotLightDesc &desc) :
 	RendererSpotLight(desc),
 	m_renderer(renderer)
@@ -31,5 +33,7 @@ void D3D9RendererSpotLight::bind(void) const
 	shaderEnv.lightShadowMap   = m_shadowMap ? static_cast<D3D9RendererTexture2D*>(m_shadowMap)->m_d3dTexture : 0;
 	RendererProjection::buildProjectMatrix(shaderEnv.lightShadowMatrix, m_shadowProjection, m_shadowTransform);
 }
+
+_NAMESPACE_END
 
 #endif // #if defined(RENDERER_ENABLE_DIRECT3D9)

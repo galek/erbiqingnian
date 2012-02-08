@@ -10,7 +10,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Math
+namespace Philo
 {
 class ClipStatus
 {
@@ -26,6 +26,6 @@ public:
     };
 };
 
-} // namespace Math    
+} // namespace Philo    
 //------------------------------------------------------------------------------
     

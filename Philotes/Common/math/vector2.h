@@ -5,7 +5,7 @@
 #include "scalar.h"
 #include "mathmisc.h"
 
-namespace Math
+namespace Philo
 {
     class _PhiloCommonExport Vector2
     {
@@ -284,7 +284,7 @@ namespace Math
         */
         inline scalar length () const
         {
-            return MathMisc::Sqrt( x * x + y * y );
+            return Math::Sqrt( x * x + y * y );
         }
 
         /** Returns the square of the length(magnitude) of the vector.
@@ -358,7 +358,7 @@ namespace Math
         */
         inline scalar normalise()
         {
-            scalar fLength = MathMisc::Sqrt( x * x + y * y);
+            scalar fLength = Math::Sqrt( x * x + y * y);
 
             // Will also work for zero-sized vectors, but will change nothing
             if ( fLength > 1e-08 )
@@ -470,7 +470,7 @@ namespace Math
             scalar angle) const
         {
 
-            angle *=  Math::MathMisc::UnitRandom() * N_PI_DOUBLE;
+            angle *=  Math::UnitRandom() * N_PI_DOUBLE;
             scalar cosa = cos(angle);
             scalar sina = sin(angle);
             return  Vector2(cosa * x - sina * y,
@@ -504,7 +504,7 @@ namespace Math
 		/// Check whether this vector contains valid values
 		inline bool isNaN() const
 		{
-			return MathMisc::isNaN(x) || MathMisc::isNaN(y);
+			return Math::isNaN(x) || Math::isNaN(y);
 		}
 
         // special points

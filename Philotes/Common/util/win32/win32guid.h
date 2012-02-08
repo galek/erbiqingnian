@@ -3,7 +3,7 @@
 /**
     @class Win32::Win32Guid
     
-    Win32 implementation of the Util::Guid class. GUIDs can be
+    Win32 implementation of the Guid class. GUIDs can be
     compared and provide a hash code, so they can be used as keys in
     most collections.
     
@@ -30,7 +30,7 @@ public:
     /// assignement operator
     void operator=(const Win32Guid& rhs);
     /// assignment operator from string
-    void operator=(const Util::String& rhs);
+    void operator=(const String& rhs);
     /// equality operator
     bool operator==(const Win32Guid& rhs) const;
     /// inequlality operator
@@ -48,16 +48,16 @@ public:
     /// generate a new guid
     void Generate();
     /// construct from string representation
-    static Win32Guid FromString(const Util::String& str);
+    static Win32Guid FromString(const String& str);
     /// construct from binary representation
     static Win32Guid FromBinary(const unsigned char* ptr, SizeT numBytes);
     /// get as string
-    Util::String AsString() const;
+    String AsString() const;
     /// get pointer to binary data
     SizeT AsBinary(const unsigned char*& outPtr) const;
     /// return the size of the binary representation in bytes
     static SizeT BinarySize();
-    /// get a hash code (compatible with Util::HashTable)
+    /// get a hash code (compatible with HashTable)
     IndexT HashCode() const;
 
 private:

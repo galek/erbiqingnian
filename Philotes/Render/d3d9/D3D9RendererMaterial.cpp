@@ -3,11 +3,11 @@
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <RendererMaterialDesc.h>
-
+#include <renderMaterialDesc.h>
 #include "D3D9RendererTexture2D.h"
-
 #include <stdio.h>
+
+_NAMESPACE_BEGIN
 
 void D3D9RendererMaterial::setModelMatrix(const scalar *matrix)
 {
@@ -466,7 +466,7 @@ void D3D9RendererMaterial::bind(RendererMaterial::Pass pass, RendererMaterialIns
 		}
 		else
 		{
-			uint8 alphaTestRef = (uint8)(MathMisc::Clamp(getAlphaTestRef(), 0.0f, 1.0f)*255.0f);
+			uint8 alphaTestRef = (uint8)(Math::Clamp(getAlphaTestRef(), 0.0f, 1.0f)*255.0f);
 			d3dDevice->SetRenderState(D3DRS_ALPHATESTENABLE, 1);
 			d3dDevice->SetRenderState(D3DRS_ALPHAFUNC,       (DWORD)m_d3dAlphaTestFunc);
 			d3dDevice->SetRenderState(D3DRS_ALPHAREF ,       (DWORD)alphaTestRef);
@@ -664,5 +664,7 @@ void D3D9RendererMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass p
 		}
 	}
 }
+
+_NAMESPACE_END
 
 #endif

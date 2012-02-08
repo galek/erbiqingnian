@@ -8,7 +8,7 @@
 #include "vector3.h"
 #include "planeBoundedVolume.h"
 
-namespace Math {
+namespace Philo {
 
     class _PhiloCommonExport Ray
     {
@@ -48,7 +48,7 @@ namespace Math {
 		*/
 		std::pair<bool, scalar> intersects(const Plane& p) const
 		{
-			return MathMisc::intersects(*this, p);
+			return Math::intersects(*this, p);
 		}
         /** Tests whether this ray intersects the given plane bounded volume. 
         @returns A pair structure where the first element indicates whether
@@ -58,7 +58,7 @@ namespace Math {
         */
         std::pair<bool, scalar> intersects(const PlaneBoundedVolume& p) const
         {
-            return MathMisc::intersects(*this, p.planes, p.outside == Plane::POSITIVE_SIDE);
+            return Math::intersects(*this, p.planes, p.outside == Plane::POSITIVE_SIDE);
         }
 		/** Tests whether this ray intersects the given sphere. 
 		@returns A pair structure where the first element indicates whether
@@ -68,7 +68,7 @@ namespace Math {
 		*/
 		std::pair<bool, scalar> intersects(const Sphere& s) const
 		{
-			return MathMisc::intersects(*this, s);
+			return Math::intersects(*this, s);
 		}
 		/** Tests whether this ray intersects the given box. 
 		@returns A pair structure where the first element indicates whether
@@ -78,7 +78,7 @@ namespace Math {
 		*/
 		std::pair<bool, scalar> intersects(const AxisAlignedBox& box) const
 		{
-			return MathMisc::intersects(*this, box);
+			return Math::intersects(*this, box);
 		}
 
     };

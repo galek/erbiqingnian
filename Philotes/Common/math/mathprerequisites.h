@@ -3,7 +3,7 @@
 #include <iostream>
 #include <utility>
 
-namespace Math
+namespace Philo
 {
 	class Vector2;
 	class Vector3;
@@ -19,7 +19,7 @@ namespace Math
 	class Sphere;
 	class AxisAlignedBox;
 	class PlaneBoundedVolume;
-	class MathMisc;
+	class Math;
 	struct Rectangle;
 }
-using namespace Math;
+using namespace Philo;

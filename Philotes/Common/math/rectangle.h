@@ -3,7 +3,7 @@
 
 #include "scalar.h"
 
-namespace Math {
+namespace Philo {
 
 	struct Rectangle
 	{
@@ -37,7 +37,7 @@ namespace Math {
 // #include "core/types.h"
 
 // ------------------------------------------------------------------------------
-// namespace Math
+// namespace Philo
 // {
 // template<class TYPE> class rectangle
 // {
@@ -146,7 +146,7 @@ namespace Math {
 // {
 //     return (this->top + this->bottom) / 2;
 // }
-// } // namespace Math
+// } // namespace Philo
 // ------------------------------------------------------------------------------
 // 
 // 

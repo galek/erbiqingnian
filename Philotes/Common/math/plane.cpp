@@ -2,7 +2,7 @@
 #include "plane.h"
 #include "axisAlignedBox.h"
 
-namespace Math
+namespace Philo
 {
 	//-----------------------------------------------------------------------
 	Plane::Plane ()

@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::RingBuffer
+    @class RingBuffer
   
     A ring buffer stores up to a maximum number of elements in a circular
     fashion. If the buffer is full, the newest element overwrites the
@@ -12,7 +12,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template <class TYPE> class RingBuffer
 {
@@ -335,5 +335,5 @@ RingBuffer<TYPE>::GetBuffer() const
     return this->elements;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

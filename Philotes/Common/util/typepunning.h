@@ -12,7 +12,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 
 template<typename A, typename B>
@@ -39,6 +39,6 @@ const A& TypePunning(const B &v)
     return *pun.a;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
 

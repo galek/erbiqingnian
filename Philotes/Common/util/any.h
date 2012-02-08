@@ -8,7 +8,7 @@
 #include <typeinfo>
 
 
-namespace Util
+namespace Philo
 {
 	class Any 
     {

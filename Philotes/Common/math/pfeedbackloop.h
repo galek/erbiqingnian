@@ -19,7 +19,7 @@
 #include "core/types.h"
 #include "timing/time.h"
 
-namespace Math
+namespace Philo
 {
 //------------------------------------------------------------------------------
 template<class TYPE> class PFeedbackLoop
@@ -163,6 +163,6 @@ PFeedbackLoop<TYPE>::Update(Timing::Time curTime)
         this->time += this->stepSize;
     }
 }
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

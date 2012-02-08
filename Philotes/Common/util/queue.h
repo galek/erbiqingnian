@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Queue
+    @class Queue
     
     Nebula3's queue class (a FIFO container).
     
@@ -11,7 +11,7 @@
 #include "util/array.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class Queue
 {
@@ -191,5 +191,5 @@ Queue<TYPE>::Peek() const
     return this->queueArray.Front();
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

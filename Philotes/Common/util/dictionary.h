@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Dictionary
+    @class Dictionary
   
     A collection of key/value pairs with quick value retrieval
     by key at roughly O(log n). 
@@ -10,12 +10,12 @@
 
     On insertion performance:
     Key/value pairs are inserted with the Add() method, which normally
-    calls the Util::Array::InsertSorted() method internally. If many
+    calls the Array::InsertSorted() method internally. If many
     insertions are performed at once, it may be beneficial to call
     BeginBulkAdd() before, and EndBulkAdd() after adding the 
     key/value pairs. Between BeginBulkAdd() and EndBulkAdd(), the
     Add() method will just append the new elements to the internal
-    array, and only call Util::Array::Sort() inside EndBulkAdd().
+    array, and only call Array::Sort() inside EndBulkAdd().
 
     Any methods which require the internal array to be sorted will
     throw an assertion between BeginBulkAdd() and EndBulkAdd().
@@ -26,7 +26,7 @@
 /**
 	注意：
 
-	Util::Dictionay 测试报告，整体效率远远超过std::map ；
+	Dictionay 测试报告，整体效率远远超过std::map ；
 
 	键Key可以重复；
 
@@ -45,7 +45,7 @@
 #include "util/keyvaluepair.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class KEYTYPE, class VALUETYPE> class Dictionary
 {
@@ -92,9 +92,9 @@ public:
     const VALUETYPE& ValueAtIndex(IndexT index) const;
     /// get key/value pair at index
     KeyValuePair<KEYTYPE, VALUETYPE>& KeyValuePairAtIndex(IndexT index) const;
-    /// get all keys as an Util::Array
+    /// get all keys as an Array
     Array<KEYTYPE> KeysAsArray() const;
-    /// get all keys as an Util::Array
+    /// get all keys as an Array
     Array<VALUETYPE> ValuesAsArray() const;
     /// get all keys as (typically) an array
     template<class RETURNTYPE> RETURNTYPE KeysAs() const;
@@ -444,5 +444,5 @@ Dictionary<KEYTYPE, VALUETYPE>::KeysAsArray() const
     return this->KeysAs<Array<KEYTYPE> >();
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

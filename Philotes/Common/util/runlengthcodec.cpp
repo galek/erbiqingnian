@@ -5,7 +5,7 @@
 
 #include "util/runlengthcodec.h"
 
-namespace Util
+namespace Philo
 {
 
 //------------------------------------------------------------------------------
@@ -93,4 +93,4 @@ RunLengthCodec::Decode(const uchar* srcPtr, SizeT srcNumBytes, uchar* dstPtr, Si
     return SizeT(dstPtr - dstStore);
 }
 
-} // namespace Util
+} // namespace Philo

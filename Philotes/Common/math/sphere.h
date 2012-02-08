@@ -5,7 +5,7 @@
 
 #include "vector3.h"
 
-namespace Math {
+namespace Philo {
 
     class Sphere
     {
@@ -38,22 +38,22 @@ namespace Math {
 		bool intersects(const Sphere& s) const
 		{
             return (s.mCenter - mCenter).squaredLength() <=
-                MathMisc::Sqr(s.mRadius + mRadius);
+                Math::Sqr(s.mRadius + mRadius);
 		}
 		/** Returns whether or not this sphere intersects a box. */
 		bool intersects(const AxisAlignedBox& box) const
 		{
-			return MathMisc::intersects(*this, box);
+			return Math::intersects(*this, box);
 		}
 		/** Returns whether or not this sphere intersects a plane. */
 		bool intersects(const Plane& plane) const
 		{
-			return MathMisc::intersects(*this, plane);
+			return Math::intersects(*this, plane);
 		}
 		/** Returns whether or not this sphere intersects a point. */
 		bool intersects(const Vector3& v) const
 		{
-            return ((v - mCenter).squaredLength() <= MathMisc::Sqr(mRadius));
+            return ((v - mCenter).squaredLength() <= Math::Sqr(mRadius));
 		}
         
 

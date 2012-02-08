@@ -7,7 +7,7 @@
 // disable "instruction may be inaccurate on some Pentiums"
 #  pragma warning (disable : 4725)
 #endif
-namespace Math
+namespace Philo
 {
 
 /*=============================================================================

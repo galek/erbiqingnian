@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Variant
+    @class Variant
 
     An "any type" variable.
 
@@ -19,7 +19,7 @@
 #include "core/refcounted.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class Variant
 {
@@ -60,31 +60,31 @@ public:
     /// matrix44 constructor
     Variant(const Math::matrix44& m);
     /// string constructor
-    Variant(const Util::String& rhs);
+    Variant(const String& rhs);
     /// blob constructor
-    Variant(const Util::Blob& blob);
+    Variant(const Blob& blob);
     /// guid constructor
-    Variant(const Util::Guid& guid);
+    Variant(const Guid& guid);
     /// const char constructor
     Variant(const char* chrPtr);
     /// object constructor
     Variant(Core::RefCounted* ptr);
     /// int array constructor
-    Variant(const Util::Array<int>& rhs);
+    Variant(const Array<int>& rhs);
     /// float array constructor
-    Variant(const Util::Array<float>& rhs);
+    Variant(const Array<float>& rhs);
     /// bool array constructor
-    Variant(const Util::Array<bool>& rhs);
+    Variant(const Array<bool>& rhs);
     /// float4 array constructor
-    Variant(const Util::Array<Math::float4>& rhs);
+    Variant(const Array<Math::float4>& rhs);
     /// matrix44 array constructor
-    Variant(const Util::Array<Math::matrix44>& rhs);
+    Variant(const Array<Math::matrix44>& rhs);
     /// string array constructor
-    Variant(const Util::Array<Util::String>& rhs);
+    Variant(const Array<String>& rhs);
     /// blob array constructor
-    Variant(const Util::Array<Util::Blob>& rhs);
+    Variant(const Array<Blob>& rhs);
     /// guid array constructor
-    Variant(const Util::Array<Util::Guid>& rhs);
+    Variant(const Array<Guid>& rhs);
     /// copy constructor
     Variant(const Variant& rhs);
 
@@ -110,31 +110,31 @@ public:
     /// matrix44 assignment operator
     void operator=(const Math::matrix44& val);
     /// string assignment operator
-    void operator=(const Util::String& s);
+    void operator=(const String& s);
     /// blob assignment operator
-    void operator=(const Util::Blob& val);
+    void operator=(const Blob& val);
     /// guid assignment operator
-    void operator=(const Util::Guid& val);
+    void operator=(const Guid& val);
     /// char pointer assignment
     void operator=(const char* chrPtr);
     /// object assignment
     void operator=(Core::RefCounted* ptr);
     /// int array assignment
-    void operator=(const Util::Array<int>& rhs);
+    void operator=(const Array<int>& rhs);
     /// float array assignment
-    void operator=(const Util::Array<float>& rhs);
+    void operator=(const Array<float>& rhs);
     /// bool array assignment
-    void operator=(const Util::Array<bool>& rhs);
+    void operator=(const Array<bool>& rhs);
     /// float4 array assignment
-    void operator=(const Util::Array<Math::float4>& rhs);
+    void operator=(const Array<Math::float4>& rhs);
     /// matrix44 array assignment
-    void operator=(const Util::Array<Math::matrix44>& rhs);
+    void operator=(const Array<Math::matrix44>& rhs);
     /// string array assignment
-    void operator=(const Util::Array<Util::String>& rhs);
+    void operator=(const Array<String>& rhs);
     /// blob array assignment
-    void operator=(const Util::Array<Util::Blob>& rhs);
+    void operator=(const Array<Blob>& rhs);
     /// guid array assignment
-    void operator=(const Util::Array<Util::Guid>& rhs);
+    void operator=(const Array<Guid>& rhs);
 
     /// equality operator
     bool operator==(const Variant& rhs) const;
@@ -147,9 +147,9 @@ public:
     /// float4 equality operator
     bool operator==(const Math::float4& rhs) const;
     /// string equality operator
-    bool operator==(const Util::String& rhs) const;
+    bool operator==(const String& rhs) const;
     /// guid equality operator
-    bool operator==(const Util::Guid& rhs) const;
+    bool operator==(const Guid& rhs) const;
     /// char ptr equality operator
     bool operator==(const char* chrPtr) const;
     /// pointer equality operator
@@ -166,9 +166,9 @@ public:
     /// float4 inequality operator
     bool operator!=(const Math::float4& rhs) const;
     /// string inequality operator
-    bool operator!=(const Util::String& rhs) const;
+    bool operator!=(const String& rhs) const;
     /// guid inequality operator
-    bool operator!=(const Util::Guid& rhs) const;
+    bool operator!=(const Guid& rhs) const;
     /// char ptr inequality operator
     bool operator!=(const char* chrPtr) const;
     /// pointer equality operator
@@ -196,9 +196,9 @@ public:
     /// get bool content
     bool GetBool() const;
     /// set string content
-    void SetString(const Util::String& val);
+    void SetString(const String& val);
     /// get string content
-    const Util::String& GetString() const;
+    const String& GetString() const;
     /// set float4 content
     void SetFloat4(const Math::float4& val);
     /// get float4 content
@@ -208,54 +208,54 @@ public:
     /// get matrix44 content
     const Math::matrix44& GetMatrix44() const;
     /// set blob 
-    void SetBlob(const Util::Blob& val);
+    void SetBlob(const Blob& val);
     /// get blob
-    const Util::Blob& GetBlob() const;
+    const Blob& GetBlob() const;
     /// set guid content
-    void SetGuid(const Util::Guid& val);
+    void SetGuid(const Guid& val);
     /// get guid content
-    const Util::Guid& GetGuid() const;
+    const Guid& GetGuid() const;
     /// set object pointer
     void SetObject(Core::RefCounted* ptr);
     /// get object pointer
     Core::RefCounted* GetObject() const;
     /// set int array content
-    void SetIntArray(const Util::Array<int>& val);
+    void SetIntArray(const Array<int>& val);
     /// get int array content
-    const Util::Array<int>& GetIntArray() const;
+    const Array<int>& GetIntArray() const;
     /// set float array content
-    void SetFloatArray(const Util::Array<float>& val);
+    void SetFloatArray(const Array<float>& val);
     /// get float array content
-    const Util::Array<float>& GetFloatArray() const;
+    const Array<float>& GetFloatArray() const;
     /// set bool array content
-    void SetBoolArray(const Util::Array<bool>& val);
+    void SetBoolArray(const Array<bool>& val);
     /// get bool array content
-    const Util::Array<bool>& GetBoolArray() const;
+    const Array<bool>& GetBoolArray() const;
     /// set float4 array content
-    void SetFloat4Array(const Util::Array<Math::float4>& val);
+    void SetFloat4Array(const Array<Math::float4>& val);
     /// get float4 array content
-    const Util::Array<Math::float4>& GetFloat4Array() const;
+    const Array<Math::float4>& GetFloat4Array() const;
     /// set matrix44 array content
-    void SetMatrix44Array(const Util::Array<Math::matrix44>& val);
+    void SetMatrix44Array(const Array<Math::matrix44>& val);
     /// get matrix44 array content
-    const Util::Array<Math::matrix44>& GetMatrix44Array() const;
+    const Array<Math::matrix44>& GetMatrix44Array() const;
     /// set string array content
-    void SetStringArray(const Util::Array<Util::String>& val);
+    void SetStringArray(const Array<String>& val);
     /// get string array content
-    const Util::Array<Util::String>& GetStringArray() const;
+    const Array<String>& GetStringArray() const;
     /// set guid array content
-    void SetGuidArray(const Util::Array<Util::Guid>& val);
+    void SetGuidArray(const Array<Guid>& val);
     /// get guid array content
-    const Util::Array<Util::Guid>& GetGuidArray() const;
+    const Array<Guid>& GetGuidArray() const;
     /// set blob array content
-    void SetBlobArray(const Util::Array<Util::Blob>& val);
+    void SetBlobArray(const Array<Blob>& val);
     /// get blob array content
-    const Util::Array<Util::Blob>& GetBlobArray() const;
+    const Array<Blob>& GetBlobArray() const;
 
     /// convert type to string
-    static Util::String TypeToString(Type t);
+    static String TypeToString(Type t);
     /// convert string to type
-    static Type StringToType(const Util::String& str);
+    static Type StringToType(const String& str);
 
 private:
     /// delete current content
@@ -270,18 +270,18 @@ private:
         bool b;
         float f[4];
         Math::matrix44* m;
-        Util::String* string;
-        Util::Guid* guid;
-        Util::Blob* blob;
+        String* string;
+        Guid* guid;
+        Blob* blob;
         Core::RefCounted* object;
-        Util::Array<int>* intArray;
-        Util::Array<float>* floatArray;
-        Util::Array<bool>* boolArray;
-        Util::Array<Math::float4>* float4Array;
-        Util::Array<Math::matrix44>* matrix44Array; 
-        Util::Array<Util::String>* stringArray;
-        Util::Array<Util::Guid>* guidArray;
-        Util::Array<Util::Blob>* blobArray;
+        Array<int>* intArray;
+        Array<float>* floatArray;
+        Array<bool>* boolArray;
+        Array<Math::float4>* float4Array;
+        Array<Math::matrix44>* matrix44Array; 
+        Array<String>* stringArray;
+        Array<Guid>* guidArray;
+        Array<Blob>* blobArray;
     };
 };
 
@@ -422,16 +422,16 @@ Variant::Copy(const Variant& rhs)
             this->f[3] = rhs.f[3];
             break;
         case String:
-            this->string = ph_new(Util::String(*rhs.string));
+            this->string = ph_new(String(*rhs.string));
             break;
         case Matrix44:
             this->m = ph_new(Math::matrix44(*rhs.m));
             break;
         case Blob:
-            this->blob = ph_new(Util::Blob(*rhs.blob));
+            this->blob = ph_new(Blob(*rhs.blob));
             break;
         case Guid:
-            this->guid = ph_new(Util::Guid(*rhs.guid));
+            this->guid = ph_new(Guid(*rhs.guid));
             break;
         case Object:
             this->object = rhs.object;
@@ -441,28 +441,28 @@ Variant::Copy(const Variant& rhs)
             }
             break;
         case IntArray:
-            this->intArray = ph_new(Util::Array<int>(*rhs.intArray));
+            this->intArray = ph_new(Array<int>(*rhs.intArray));
             break;
         case FloatArray:
-            this->floatArray = ph_new(Util::Array<float>(*rhs.floatArray));
+            this->floatArray = ph_new(Array<float>(*rhs.floatArray));
             break;
         case BoolArray:
-            this->boolArray = ph_new(Util::Array<bool>(*rhs.boolArray));
+            this->boolArray = ph_new(Array<bool>(*rhs.boolArray));
             break;
         case Float4Array:
-            this->float4Array = ph_new(Util::Array<Math::float4>(*rhs.float4Array));
+            this->float4Array = ph_new(Array<Math::float4>(*rhs.float4Array));
             break;
         case Matrix44Array:
-            this->matrix44Array = ph_new(Util::Array<Math::matrix44>(*rhs.matrix44Array));
+            this->matrix44Array = ph_new(Array<Math::matrix44>(*rhs.matrix44Array));
             break;
         case StringArray:
-            this->stringArray = ph_new(Util::Array<Util::String>(*rhs.stringArray));
+            this->stringArray = ph_new(Array<String>(*rhs.stringArray));
             break;
         case GuidArray:
-            this->guidArray = ph_new(Util::Array<Util::Guid>(*rhs.guidArray));
+            this->guidArray = ph_new(Array<Guid>(*rhs.guidArray));
             break;
         case BlobArray:
-            this->blobArray = ph_new(Util::Array<Util::Blob>(*rhs.blobArray));
+            this->blobArray = ph_new(Array<Blob>(*rhs.blobArray));
             break;
         default:
             n_error("Variant::Copy(): invalid type!");
@@ -526,10 +526,10 @@ Variant::Variant(const Math::float4& rhs) :
 /**
 */
 inline
-Variant::Variant(const Util::String& rhs) :
+Variant::Variant(const String& rhs) :
     type(String)
 {
-    this->string = ph_new(Util::String(rhs));
+    this->string = ph_new(String(rhs));
 }
 
 //------------------------------------------------------------------------------
@@ -539,7 +539,7 @@ inline
 Variant::Variant(const char* chrPtr) :
     type(String)
 {
-    this->string = ph_new(Util::String(chrPtr));
+    this->string = ph_new(String(chrPtr));
 }
 
 //------------------------------------------------------------------------------
@@ -570,100 +570,100 @@ Variant::Variant(const Math::matrix44& rhs) :
 /**
 */
 inline
-Variant::Variant(const Util::Blob& rhs) :
+Variant::Variant(const Blob& rhs) :
     type(Blob)
 {
-    this->blob = ph_new(Util::Blob(rhs));
+    this->blob = ph_new(Blob(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Guid& rhs) :
+Variant::Variant(const Guid& rhs) :
     type(Guid)
 {
-    this->guid = ph_new(Util::Guid(rhs));
+    this->guid = ph_new(Guid(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<int>& rhs) :
+Variant::Variant(const Array<int>& rhs) :
     type(IntArray)
 {
-    this->intArray = ph_new(Util::Array<int>(rhs));
+    this->intArray = ph_new(Array<int>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<float>& rhs) :
+Variant::Variant(const Array<float>& rhs) :
     type(FloatArray)
 {
-    this->floatArray = ph_new(Util::Array<float>(rhs));
+    this->floatArray = ph_new(Array<float>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<bool>& rhs) :
+Variant::Variant(const Array<bool>& rhs) :
     type(BoolArray)
 {
-    this->boolArray = ph_new(Util::Array<bool>(rhs));
+    this->boolArray = ph_new(Array<bool>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<Math::float4>& rhs) :
+Variant::Variant(const Array<Math::float4>& rhs) :
     type(Float4Array)
 {
-    this->float4Array = ph_new(Util::Array<Math::float4>(rhs));
+    this->float4Array = ph_new(Array<Math::float4>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<Math::matrix44>& rhs) :
+Variant::Variant(const Array<Math::matrix44>& rhs) :
     type(Matrix44Array)
 {
-    this->matrix44Array = ph_new(Util::Array<Math::matrix44>(rhs));
+    this->matrix44Array = ph_new(Array<Math::matrix44>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<Util::String>& rhs) :
+Variant::Variant(const Array<String>& rhs) :
     type(StringArray)
 {
-    this->stringArray = ph_new(Util::Array<Util::String>(rhs));
+    this->stringArray = ph_new(Array<String>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<Util::Guid>& rhs) :
+Variant::Variant(const Array<Guid>& rhs) :
     type(GuidArray)
 {
-    this->guidArray = ph_new(Util::Array<Util::Guid>(rhs));
+    this->guidArray = ph_new(Array<Guid>(rhs));
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 inline
-Variant::Variant(const Util::Array<Util::Blob>& rhs) :
+Variant::Variant(const Array<Blob>& rhs) :
     type(BlobArray)
 {
-    this->blobArray = ph_new(Util::Array<Util::Blob>(rhs));
+    this->blobArray = ph_new(Array<Blob>(rhs));
 }
 
 //------------------------------------------------------------------------------
@@ -686,43 +686,43 @@ Variant::SetType(Type t)
     switch (t)
     {
         case String:
-            this->string = ph_new(Util::String);
+            this->string = ph_new(String);
             break;
         case Matrix44:
             this->m = ph_new(Math::matrix44);
             break;
         case Blob:
-            this->blob = ph_new(Util::Blob);
+            this->blob = ph_new(Blob);
             break;
         case Guid:
-            this->guid = ph_new(Util::Guid);
+            this->guid = ph_new(Guid);
             break;
         case Object:
             this->object = 0;
             break;
         case IntArray:
-            this->intArray = ph_new(Util::Array<int>);
+            this->intArray = ph_new(Array<int>);
             break;
         case FloatArray:
-            this->floatArray = ph_new(Util::Array<float>);
+            this->floatArray = ph_new(Array<float>);
             break;
         case BoolArray:
-            this->boolArray = ph_new(Util::Array<bool>);
+            this->boolArray = ph_new(Array<bool>);
             break;
         case Float4Array:
-            this->float4Array = ph_new(Util::Array<Math::float4>);
+            this->float4Array = ph_new(Array<Math::float4>);
             break;
         case Matrix44Array:
-            this->matrix44Array = ph_new(Util::Array<Math::matrix44>);
+            this->matrix44Array = ph_new(Array<Math::matrix44>);
             break;
         case StringArray:
-            this->stringArray = ph_new(Util::Array<Util::String>);
+            this->stringArray = ph_new(Array<String>);
             break;
         case GuidArray:
-            this->guidArray = ph_new(Util::Array<Util::Guid>);
+            this->guidArray = ph_new(Array<Guid>);
             break;
         case BlobArray:
-            this->blobArray = ph_new(Util::Array<Util::Blob>);
+            this->blobArray = ph_new(Array<Blob>);
             break;
         default:
             break;
@@ -796,7 +796,7 @@ Variant::operator=(const Math::float4& val)
 /**
 */
 inline void
-Variant::operator=(const Util::String& s)
+Variant::operator=(const String& s)
 {
     if (String == this->type)
     {
@@ -805,7 +805,7 @@ Variant::operator=(const Util::String& s)
     else
     {
         this->Delete();
-        this->string = ph_new(Util::String(s));
+        this->string = ph_new(String(s));
     }
     this->type = String;
 }
@@ -816,7 +816,7 @@ Variant::operator=(const Util::String& s)
 inline void
 Variant::operator=(const char* chrPtr)
 {
-    *this = Util::String(chrPtr);
+    *this = String(chrPtr);
 }
 
 //------------------------------------------------------------------------------
@@ -841,7 +841,7 @@ Variant::operator=(const Math::matrix44& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Guid& val)
+Variant::operator=(const Guid& val)
 {
     if (Guid == this->type)
     {
@@ -850,7 +850,7 @@ Variant::operator=(const Util::Guid& val)
     else
     {
         this->Delete();
-        this->guid = ph_new(Util::Guid(val));
+        this->guid = ph_new(Guid(val));
     }
     this->type = Guid;
 }
@@ -859,7 +859,7 @@ Variant::operator=(const Util::Guid& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Blob& val)
+Variant::operator=(const Blob& val)
 {
     if (Blob == this->type)
     {
@@ -868,7 +868,7 @@ Variant::operator=(const Util::Blob& val)
     else
     {
         this->Delete();
-        this->blob = ph_new(Util::Blob(val));
+        this->blob = ph_new(Blob(val));
     }
     this->type = Blob;
 }
@@ -892,7 +892,7 @@ Variant::operator=(Core::RefCounted* ptr)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<int>& val)
+Variant::operator=(const Array<int>& val)
 {
     if (IntArray == this->type)
     {
@@ -901,7 +901,7 @@ Variant::operator=(const Util::Array<int>& val)
     else
     {
         this->Delete();
-        this->intArray = ph_new(Util::Array<int>(val));
+        this->intArray = ph_new(Array<int>(val));
     }
     this->type = IntArray;
 }
@@ -910,7 +910,7 @@ Variant::operator=(const Util::Array<int>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<float>& val)
+Variant::operator=(const Array<float>& val)
 {
     if (FloatArray == this->type)
     {
@@ -919,7 +919,7 @@ Variant::operator=(const Util::Array<float>& val)
     else
     {
         this->Delete();
-        this->floatArray = ph_new(Util::Array<float>(val));
+        this->floatArray = ph_new(Array<float>(val));
     }
     this->type = FloatArray;
 }
@@ -928,7 +928,7 @@ Variant::operator=(const Util::Array<float>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<bool>& val)
+Variant::operator=(const Array<bool>& val)
 {
     if (BoolArray == this->type)
     {
@@ -937,7 +937,7 @@ Variant::operator=(const Util::Array<bool>& val)
     else
     {
         this->Delete();
-        this->boolArray = ph_new(Util::Array<bool>(val));
+        this->boolArray = ph_new(Array<bool>(val));
     }
     this->type = BoolArray;
 }
@@ -946,7 +946,7 @@ Variant::operator=(const Util::Array<bool>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<Math::float4>& val)
+Variant::operator=(const Array<Math::float4>& val)
 {
     if (Float4Array == this->type)
     {
@@ -955,7 +955,7 @@ Variant::operator=(const Util::Array<Math::float4>& val)
     else
     {
         this->Delete();
-        this->float4Array = ph_new(Util::Array<Math::float4>(val));
+        this->float4Array = ph_new(Array<Math::float4>(val));
     }
     this->type = Float4Array;
 }
@@ -964,7 +964,7 @@ Variant::operator=(const Util::Array<Math::float4>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<Math::matrix44>& val)
+Variant::operator=(const Array<Math::matrix44>& val)
 {
     if (Matrix44Array == this->type)
     {
@@ -973,7 +973,7 @@ Variant::operator=(const Util::Array<Math::matrix44>& val)
     else
     {
         this->Delete();
-        this->matrix44Array = ph_new(Util::Array<Math::matrix44>(val));
+        this->matrix44Array = ph_new(Array<Math::matrix44>(val));
     }
     this->type = Matrix44Array;
 }
@@ -982,7 +982,7 @@ Variant::operator=(const Util::Array<Math::matrix44>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<Util::String>& val)
+Variant::operator=(const Array<String>& val)
 {
     if (StringArray == this->type)
     {
@@ -991,7 +991,7 @@ Variant::operator=(const Util::Array<Util::String>& val)
     else
     {
         this->Delete();
-        this->stringArray = ph_new(Util::Array<Util::String>(val));
+        this->stringArray = ph_new(Array<String>(val));
     }
     this->type = StringArray;
 }
@@ -1000,7 +1000,7 @@ Variant::operator=(const Util::Array<Util::String>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<Util::Guid>& val)
+Variant::operator=(const Array<Guid>& val)
 {
     if (GuidArray == this->type)
     {
@@ -1009,7 +1009,7 @@ Variant::operator=(const Util::Array<Util::Guid>& val)
     else
     {
         this->Delete();
-        this->guidArray = ph_new(Util::Array<Util::Guid>(val));
+        this->guidArray = ph_new(Array<Guid>(val));
     }
     this->type = GuidArray;
 }
@@ -1018,7 +1018,7 @@ Variant::operator=(const Util::Array<Util::Guid>& val)
 /**
 */
 inline void
-Variant::operator=(const Util::Array<Util::Blob>& val)
+Variant::operator=(const Array<Blob>& val)
 {
     if (BlobArray == this->type)
     {
@@ -1027,7 +1027,7 @@ Variant::operator=(const Util::Array<Util::Blob>& val)
     else
     {
         this->Delete();
-        this->blobArray = ph_new(Util::Array<Util::Blob>(val));
+        this->blobArray = ph_new(Array<Blob>(val));
     }
     this->type = BlobArray;
 }
@@ -1273,7 +1273,7 @@ Variant::operator==(bool rhs) const
 /**
 */
 inline bool
-Variant::operator==(const Util::String& rhs) const
+Variant::operator==(const String& rhs) const
 {
     ph_assert(String == this->type);
     return ((*this->string) == rhs);
@@ -1285,7 +1285,7 @@ Variant::operator==(const Util::String& rhs) const
 inline bool
 Variant::operator==(const char* chrPtr) const
 {
-    return *this == Util::String(chrPtr);
+    return *this == String(chrPtr);
 }
 
 //------------------------------------------------------------------------------
@@ -1305,7 +1305,7 @@ Variant::operator==(const Math::float4& rhs) const
 /**
 */
 inline bool
-Variant::operator==(const Util::Guid& rhs) const
+Variant::operator==(const Guid& rhs) const
 {
     ph_assert(Guid == this->type);
     return (*this->guid) == rhs;
@@ -1355,7 +1355,7 @@ Variant::operator!=(bool rhs) const
 /**
 */
 inline bool
-Variant::operator!=(const Util::String& rhs) const
+Variant::operator!=(const String& rhs) const
 {
     ph_assert(String == this->type);
     return (*this->string) != rhs;
@@ -1367,7 +1367,7 @@ Variant::operator!=(const Util::String& rhs) const
 inline bool
 Variant::operator!=(const char* chrPtr) const
 {
-    return *this != Util::String(chrPtr);
+    return *this != String(chrPtr);
 }
 
 //------------------------------------------------------------------------------
@@ -1387,7 +1387,7 @@ Variant::operator!=(const Math::float4& rhs) const
 /**
 */
 inline bool
-Variant::operator!=(const Util::Guid& rhs) const
+Variant::operator!=(const Guid& rhs) const
 {
     ph_assert(Guid == this->type);
     return (*this->guid) != rhs;
@@ -1464,7 +1464,7 @@ Variant::GetBool() const
 /**
 */
 inline void
-Variant::SetString(const Util::String& val)
+Variant::SetString(const String& val)
 {
     *this = val;
 }
@@ -1472,7 +1472,7 @@ Variant::SetString(const Util::String& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::String&
+inline const String&
 Variant::GetString() const
 {
     ph_assert(String == this->type);
@@ -1521,7 +1521,7 @@ Variant::GetMatrix44() const
 /**
 */
 inline void
-Variant::SetGuid(const Util::Guid& val)
+Variant::SetGuid(const Guid& val)
 {
     *this = val;
 }
@@ -1529,7 +1529,7 @@ Variant::SetGuid(const Util::Guid& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Guid&
+inline const Guid&
 Variant::GetGuid() const
 {
     ph_assert(Guid == this->type);
@@ -1540,7 +1540,7 @@ Variant::GetGuid() const
 /**
 */
 inline void
-Variant::SetBlob(const Util::Blob& val)
+Variant::SetBlob(const Blob& val)
 {
     *this = val;
 }
@@ -1548,7 +1548,7 @@ Variant::SetBlob(const Util::Blob& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Blob&
+inline const Blob&
 Variant::GetBlob() const
 {
     ph_assert(Blob == this->type);
@@ -1578,7 +1578,7 @@ Variant::GetObject() const
 /**
 */
 inline void
-Variant::SetIntArray(const Util::Array<int>& val)
+Variant::SetIntArray(const Array<int>& val)
 {
     *this = val;
 }
@@ -1586,7 +1586,7 @@ Variant::SetIntArray(const Util::Array<int>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<int>&
+inline const Array<int>&
 Variant::GetIntArray() const
 {
     ph_assert(IntArray == this->type);
@@ -1597,7 +1597,7 @@ Variant::GetIntArray() const
 /**
 */
 inline void
-Variant::SetFloatArray(const Util::Array<float>& val)
+Variant::SetFloatArray(const Array<float>& val)
 {
     *this = val;
 }
@@ -1605,7 +1605,7 @@ Variant::SetFloatArray(const Util::Array<float>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<float>&
+inline const Array<float>&
 Variant::GetFloatArray() const
 {
     ph_assert(FloatArray == this->type);
@@ -1616,7 +1616,7 @@ Variant::GetFloatArray() const
 /**
 */
 inline void
-Variant::SetBoolArray(const Util::Array<bool>& val)
+Variant::SetBoolArray(const Array<bool>& val)
 {
     *this = val;
 }
@@ -1624,7 +1624,7 @@ Variant::SetBoolArray(const Util::Array<bool>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<bool>&
+inline const Array<bool>&
 Variant::GetBoolArray() const
 {
     ph_assert(BoolArray == this->type);
@@ -1635,7 +1635,7 @@ Variant::GetBoolArray() const
 /**
 */
 inline void
-Variant::SetFloat4Array(const Util::Array<Math::float4>& val)
+Variant::SetFloat4Array(const Array<Math::float4>& val)
 {
     *this = val;
 }
@@ -1643,7 +1643,7 @@ Variant::SetFloat4Array(const Util::Array<Math::float4>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<Math::float4>&
+inline const Array<Math::float4>&
 Variant::GetFloat4Array() const
 {
     ph_assert(Float4Array == this->type);
@@ -1654,7 +1654,7 @@ Variant::GetFloat4Array() const
 /**
 */
 inline void
-Variant::SetMatrix44Array(const Util::Array<Math::matrix44>& val)
+Variant::SetMatrix44Array(const Array<Math::matrix44>& val)
 {
     *this = val;
 }
@@ -1662,7 +1662,7 @@ Variant::SetMatrix44Array(const Util::Array<Math::matrix44>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<Math::matrix44>&
+inline const Array<Math::matrix44>&
 Variant::GetMatrix44Array() const
 {
     ph_assert(Matrix44Array == this->type);
@@ -1673,7 +1673,7 @@ Variant::GetMatrix44Array() const
 /**
 */
 inline void
-Variant::SetStringArray(const Util::Array<Util::String>& val)
+Variant::SetStringArray(const Array<String>& val)
 {
     *this = val;
 }
@@ -1681,7 +1681,7 @@ Variant::SetStringArray(const Util::Array<Util::String>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<Util::String>&
+inline const Array<String>&
 Variant::GetStringArray() const
 {
     ph_assert(StringArray == this->type);
@@ -1692,7 +1692,7 @@ Variant::GetStringArray() const
 /**
 */
 inline void
-Variant::SetGuidArray(const Util::Array<Util::Guid>& val)
+Variant::SetGuidArray(const Array<Guid>& val)
 {
     *this = val;
 }
@@ -1700,7 +1700,7 @@ Variant::SetGuidArray(const Util::Array<Util::Guid>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<Util::Guid>&
+inline const Array<Guid>&
 Variant::GetGuidArray() const
 {
     ph_assert(GuidArray == this->type);
@@ -1711,7 +1711,7 @@ Variant::GetGuidArray() const
 /**
 */
 inline void
-Variant::SetBlobArray(const Util::Array<Util::Blob>& val)
+Variant::SetBlobArray(const Array<Blob>& val)
 {
     *this = val;
 }
@@ -1719,7 +1719,7 @@ Variant::SetBlobArray(const Util::Array<Util::Blob>& val)
 //------------------------------------------------------------------------------
 /**
 */
-inline const Util::Array<Util::Blob>&
+inline const Array<Blob>&
 Variant::GetBlobArray() const
 {
     ph_assert(BlobArray == this->type);
@@ -1729,7 +1729,7 @@ Variant::GetBlobArray() const
 //------------------------------------------------------------------------------
 /**
 */
-inline Util::String
+inline String
 Variant::TypeToString(Type t)
 {
     switch (t)
@@ -1762,7 +1762,7 @@ Variant::TypeToString(Type t)
 /**
 */
 inline Variant::Type
-Variant::StringToType(const Util::String& str)
+Variant::StringToType(const String& str)
 {
     if      ("void" == str)             return Void;
     else if ("int" == str)              return Int;
@@ -1790,5 +1790,5 @@ Variant::StringToType(const Util::String& str)
     }
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

@@ -15,7 +15,7 @@
 #include "math/quaternion.h"
 
 //------------------------------------------------------------------------------
-namespace Math
+namespace Philo
 {
 class transform44
 {
@@ -223,7 +223,7 @@ transform44::isdirty() const
     return this->isDirty;
 }
 
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif
 

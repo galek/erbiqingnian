@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /** 
-    @class Util::RunLengthCodec
+    @class RunLengthCodec
     
     A simple byte-based runlength encoder/decoder. Note that the encoded
     size may actually be bigger then the original size for random data!
@@ -11,7 +11,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class RunLengthCodec
 {
@@ -26,5 +26,5 @@ public:
     static SizeT Decode(const uchar* srcPtr, SizeT srcNumBytes, uchar* dstPtr, SizeT dstNumBytes);
 };
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

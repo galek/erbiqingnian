@@ -12,7 +12,7 @@
 #include "core/types.h"
 #include "timing/time.h"
 
-namespace Math
+namespace Philo
 {
 
 //------------------------------------------------------------------------------
@@ -182,6 +182,6 @@ AngularPFeedbackLoop::Update(Timing::Time curTime)
     }
 }
 
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

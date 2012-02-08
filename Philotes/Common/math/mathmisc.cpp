@@ -15,27 +15,26 @@
 
 #pragma warning(disable:4305)
 
-namespace Math
+namespace Philo
 {
 
-	const scalar MathMisc::POS_INFINITY = std::numeric_limits<scalar>::infinity();
-	const scalar MathMisc::NEG_INFINITY = -std::numeric_limits<scalar>::infinity();
-	//const scalar MathMisc::PI = scalar( 4.0 * atan( 1.0 ) );
-	const scalar MathMisc::TWO_PI = scalar( 2.0 * PI );
-	const scalar MathMisc::HALF_PI = scalar( 0.5 * PI );
-	const scalar MathMisc::fDeg2Rad = PI / scalar(180.0);
-	const scalar MathMisc::fRad2Deg = scalar(180.0) / PI;
-	const scalar MathMisc::LOG2 = log(scalar(2.0));
+	const scalar 	Math::POS_INFINITY = std::numeric_limits<scalar>::infinity();
+	const scalar 	Math::NEG_INFINITY = -std::numeric_limits<scalar>::infinity();
+	const scalar 	Math::TWO_PI = scalar( 2.0 * PI );
+	const scalar 	Math::HALF_PI = scalar( 0.5 * PI );
+	const scalar 	Math::fDeg2Rad = PI / scalar(180.0);
+	const scalar 	Math::fRad2Deg = scalar(180.0) / PI;
+	const scalar 	Math::LOG2 = log(scalar(2.0));
 
-    int MathMisc::mTrigTableSize;
-	MathMisc::AngleUnit MathMisc::msAngleUnit;
+    int				Math::mTrigTableSize;
+	Math::AngleUnit Math::msAngleUnit;
 
-    scalar  MathMisc::mTrigTableFactor;
-    scalar *MathMisc::mSinTable = NULL;
-    scalar *MathMisc::mTanTable = NULL;
+    scalar  		Math::mTrigTableFactor;
+    scalar*			Math::mSinTable = NULL;
+    scalar*			Math::mTanTable = NULL;
 
     //-----------------------------------------------------------------------
-    MathMisc::MathMisc( unsigned int trigTableSize )
+	Math::Math( uint trigTableSize )
     {
         msAngleUnit = AU_DEGREE;
 
@@ -51,7 +50,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    MathMisc::~MathMisc()
+    Math::~Math()
     {
         //PH_FREE(mSinTable, Memory::ObjectHeap);
         //PH_FREE(mTanTable, Memory::ObjectHeap);
@@ -60,7 +59,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    void MathMisc::buildTrigTables(void)
+    void Math::buildTrigTables(void)
     {
         // Build trig lookup tables
         // Could get away with building only PI sized Sin table but simpler this 
@@ -75,7 +74,7 @@ namespace Math
         }	
     }
 	//-----------------------------------------------------------------------	
-	scalar MathMisc::SinTable (scalar fValue)
+	scalar Math::SinTable (scalar fValue)
     {
         // Convert range to index values, wrap if required
         int idx;
@@ -91,19 +90,19 @@ namespace Math
         return mSinTable[idx];
     }
 	//-----------------------------------------------------------------------
-	scalar MathMisc::TanTable (scalar fValue)
+	scalar Math::TanTable (scalar fValue)
     {
         // Convert range to index values, wrap if required
 		int idx = int(fValue *= mTrigTableFactor) % mTrigTableSize;
 		return mTanTable[idx];
     }
     //-----------------------------------------------------------------------
-    int MathMisc::ISign (int iValue)
+    int Math::ISign (int iValue)
     {
         return ( iValue > 0 ? +1 : ( iValue < 0 ? -1 : 0 ) );
     }
     //-----------------------------------------------------------------------
-    Radian MathMisc::ACos (scalar fValue)
+    Radian Math::ACos (scalar fValue)
     {
         if ( -1.0 < fValue )
         {
@@ -118,7 +117,7 @@ namespace Math
         }
     }
     //-----------------------------------------------------------------------
-    Radian MathMisc::ASin (scalar fValue)
+    Radian Math::ASin (scalar fValue)
     {
         if ( -1.0 < fValue )
         {
@@ -133,7 +132,7 @@ namespace Math
         }
     }
     //-----------------------------------------------------------------------
-    scalar MathMisc::Sign (scalar fValue)
+    scalar Math::Sign (scalar fValue)
     {
         if ( fValue > 0.0 )
             return 1.0;
@@ -144,40 +143,40 @@ namespace Math
         return 0.0;
     }
 	//-----------------------------------------------------------------------
-	scalar MathMisc::InvSqrt(scalar fValue)
+	scalar Math::InvSqrt(scalar fValue)
 	{
 		return scalar(asm_rsq(fValue));
 	}
     //-----------------------------------------------------------------------
-    scalar MathMisc::UnitRandom ()
+    scalar Math::UnitRandom ()
     {
         return asm_rand() / asm_rand_max();
     }
     
     //-----------------------------------------------------------------------
-    scalar MathMisc::RangeRandom (scalar fLow, scalar fHigh)
+    scalar Math::RangeRandom (scalar fLow, scalar fHigh)
     {
         return (fHigh-fLow)*UnitRandom() + fLow;
     }
 
     //-----------------------------------------------------------------------
-    scalar MathMisc::SymmetricRandom ()
+    scalar Math::SymmetricRandom ()
     {
 		return 2.0f * UnitRandom() - 1.0f;
     }
 
    //-----------------------------------------------------------------------
-    void MathMisc::setAngleUnit(MathMisc::AngleUnit unit)
+    void Math::setAngleUnit(Math::AngleUnit unit)
    {
        msAngleUnit = unit;
    }
    //-----------------------------------------------------------------------
-   MathMisc::AngleUnit MathMisc::getAngleUnit(void)
+   Math::AngleUnit Math::getAngleUnit(void)
    {
        return msAngleUnit;
    }
     //-----------------------------------------------------------------------
-    scalar MathMisc::AngleUnitsToRadians(scalar angleunits)
+    scalar Math::AngleUnitsToRadians(scalar angleunits)
     {
        if (msAngleUnit == AU_DEGREE)
            return angleunits * fDeg2Rad;
@@ -186,7 +185,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    scalar MathMisc::RadiansToAngleUnits(scalar radians)
+    scalar Math::RadiansToAngleUnits(scalar radians)
     {
        if (msAngleUnit == AU_DEGREE)
            return radians * fRad2Deg;
@@ -195,7 +194,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    scalar MathMisc::AngleUnitsToDegrees(scalar angleunits)
+    scalar Math::AngleUnitsToDegrees(scalar angleunits)
     {
        if (msAngleUnit == AU_RADIAN)
            return angleunits * fRad2Deg;
@@ -204,7 +203,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    scalar MathMisc::DegreesToAngleUnits(scalar degrees)
+    scalar Math::DegreesToAngleUnits(scalar degrees)
     {
        if (msAngleUnit == AU_RADIAN)
            return degrees * fDeg2Rad;
@@ -213,7 +212,7 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-	bool MathMisc::pointInTri2D(const Vector2& p, const Vector2& a, 
+	bool Math::pointInTri2D(const Vector2& p, const Vector2& a, 
 		const Vector2& b, const Vector2& c)
     {
 		// Winding must be consistent from all edges for point to be inside
@@ -227,18 +226,18 @@ namespace Math
 		// Note we don't care about normalisation here since sign is all we need
 		// It means we don't have to worry about magnitude of cross products either
 		dot[0] = v1.crossProduct(v2);
-		zeroDot[0] = MathMisc::RealEqual(dot[0], 0.0f, 1e-3);
+		zeroDot[0] = Math::RealEqual(dot[0], 0.0f, 1e-3);
 
 
 		v1 = c - b;
 		v2 = p - b;
 
 		dot[1] = v1.crossProduct(v2);
-		zeroDot[1] = MathMisc::RealEqual(dot[1], 0.0f, 1e-3);
+		zeroDot[1] = Math::RealEqual(dot[1], 0.0f, 1e-3);
 
 		// Compare signs (ignore colinear / coincident points)
 		if(!zeroDot[0] && !zeroDot[1] 
-		&& MathMisc::Sign(dot[0]) != MathMisc::Sign(dot[1]))
+		&& Math::Sign(dot[0]) != Math::Sign(dot[1]))
 		{
 			return false;
 		}
@@ -247,12 +246,12 @@ namespace Math
 		v2 = p - c;
 
 		dot[2] = v1.crossProduct(v2);
-		zeroDot[2] = MathMisc::RealEqual(dot[2], 0.0f, 1e-3);
+		zeroDot[2] = Math::RealEqual(dot[2], 0.0f, 1e-3);
 		// Compare signs (ignore colinear / coincident points)
 		if((!zeroDot[0] && !zeroDot[2] 
-			&& MathMisc::Sign(dot[0]) != MathMisc::Sign(dot[2])) ||
+			&& Math::Sign(dot[0]) != Math::Sign(dot[2])) ||
 			(!zeroDot[1] && !zeroDot[2] 
-			&& MathMisc::Sign(dot[1]) != MathMisc::Sign(dot[2])))
+			&& Math::Sign(dot[1]) != Math::Sign(dot[2])))
 		{
 			return false;
 		}
@@ -261,7 +260,7 @@ namespace Math
 		return true;
     }
 	//-----------------------------------------------------------------------
-	bool MathMisc::pointInTri3D(const Vector3& p, const Vector3& a, 
+	bool Math::pointInTri3D(const Vector3& p, const Vector3& a, 
 		const Vector3& b, const Vector3& c, const Vector3& normal)
 	{
         // Winding must be consistent from all edges for point to be inside
@@ -275,18 +274,18 @@ namespace Math
 		// Note we don't care about normalisation here since sign is all we need
 		// It means we don't have to worry about magnitude of cross products either
         dot[0] = v1.crossProduct(v2).dotProduct(normal);
-		zeroDot[0] = MathMisc::RealEqual(dot[0], 0.0f, 1e-3);
+		zeroDot[0] = Math::RealEqual(dot[0], 0.0f, 1e-3);
 
 
         v1 = c - b;
         v2 = p - b;
 
 		dot[1] = v1.crossProduct(v2).dotProduct(normal);
-		zeroDot[1] = MathMisc::RealEqual(dot[1], 0.0f, 1e-3);
+		zeroDot[1] = Math::RealEqual(dot[1], 0.0f, 1e-3);
 
 		// Compare signs (ignore colinear / coincident points)
 		if(!zeroDot[0] && !zeroDot[1] 
-			&& MathMisc::Sign(dot[0]) != MathMisc::Sign(dot[1]))
+			&& Math::Sign(dot[0]) != Math::Sign(dot[1]))
 		{
             return false;
 		}
@@ -295,12 +294,12 @@ namespace Math
         v2 = p - c;
 
 		dot[2] = v1.crossProduct(v2).dotProduct(normal);
-		zeroDot[2] = MathMisc::RealEqual(dot[2], 0.0f, 1e-3);
+		zeroDot[2] = Math::RealEqual(dot[2], 0.0f, 1e-3);
 		// Compare signs (ignore colinear / coincident points)
 		if((!zeroDot[0] && !zeroDot[2] 
-			&& MathMisc::Sign(dot[0]) != MathMisc::Sign(dot[2])) ||
+			&& Math::Sign(dot[0]) != Math::Sign(dot[2])) ||
 			(!zeroDot[1] && !zeroDot[2] 
-			&& MathMisc::Sign(dot[1]) != MathMisc::Sign(dot[2])))
+			&& Math::Sign(dot[1]) != Math::Sign(dot[2])))
 		{
 			return false;
 		}
@@ -309,7 +308,7 @@ namespace Math
         return true;
 	}
     //-----------------------------------------------------------------------
-    bool MathMisc::RealEqual( scalar a, scalar b, scalar tolerance )
+    bool Math::RealEqual( scalar a, scalar b, scalar tolerance )
     {
         if (fabs(b-a) <= tolerance)
             return true;
@@ -318,11 +317,11 @@ namespace Math
     }
 
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, const Plane& plane)
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, const Plane& plane)
     {
 
         scalar denom = plane.normal.dotProduct(ray.getDirection());
-        if (MathMisc::Abs(denom) < std::numeric_limits<scalar>::epsilon())
+        if (Math::Abs(denom) < std::numeric_limits<scalar>::epsilon())
         {
             // Parallel
             return std::pair<bool, scalar>(false, 0);
@@ -336,7 +335,7 @@ namespace Math
         
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, 
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, 
         const std::vector<Plane>& planes, bool normalIsOutside)
     {
 		std::list<Plane> planesList;
@@ -347,7 +346,7 @@ namespace Math
 		return intersects(ray, planesList, normalIsOutside);
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, 
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, 
         const std::list<Plane>& planes, bool normalIsOutside)
     {
 		std::list<Plane>::const_iterator planeit, planeitend;
@@ -381,7 +380,7 @@ namespace Math
 					// Ok, we intersected
 					ret.first = true;
 					// Use the most distant result since convex volume
-					ret.second = MathMisc::Max(ret.second, planeRes.second);
+					ret.second = Math::Max(ret.second, planeRes.second);
 				}
 				else
 				{
@@ -403,7 +402,7 @@ namespace Math
 					}
 					else
 					{
-						end.second = MathMisc::Min( planeRes.second, end.second );
+						end.second = Math::Min( planeRes.second, end.second );
 					}
 
 				}
@@ -430,7 +429,7 @@ namespace Math
 		return ret;
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, const Sphere& sphere, 
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, const Sphere& sphere, 
         bool discardInside)
     {
         const Vector3& raydir = ray.getDirection();
@@ -463,16 +462,16 @@ namespace Math
             // BTW, if d=0 there is one intersection, if d > 0 there are 2
             // But we only want the closest one, so that's ok, just use the 
             // '-' version of the solver
-            scalar t = ( -b - MathMisc::Sqrt(d) ) / (2 * a);
+            scalar t = ( -b - Math::Sqrt(d) ) / (2 * a);
             if (t < 0)
-                t = ( -b + MathMisc::Sqrt(d) ) / (2 * a);
+                t = ( -b + Math::Sqrt(d) ) / (2 * a);
             return std::pair<bool, scalar>(true, t);
         }
 
 
     }
     //-----------------------------------------------------------------------
-	std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, const AxisAlignedBox& box)
+	std::pair<bool, scalar> Math::intersects(const Ray& ray, const AxisAlignedBox& box)
 	{
 		if (box.isNull()) return std::pair<bool, scalar>(false, 0);
 		if (box.isInfinite()) return std::pair<bool, scalar>(true, 0);
@@ -600,7 +599,7 @@ namespace Math
 
 	} 
     //-----------------------------------------------------------------------
-    bool MathMisc::intersects(const Ray& ray, const AxisAlignedBox& box,
+    bool Math::intersects(const Ray& ray, const AxisAlignedBox& box,
         scalar* d1, scalar* d2)
     {
         if (box.isNull())
@@ -609,7 +608,7 @@ namespace Math
         if (box.isInfinite())
         {
             if (d1) *d1 = 0;
-            if (d2) *d2 = MathMisc::POS_INFINITY;
+            if (d2) *d2 = Math::POS_INFINITY;
             return true;
         }
 
@@ -619,9 +618,9 @@ namespace Math
         const Vector3& raydir = ray.getDirection();
 
         Vector3 absDir;
-        absDir[0] = MathMisc::Abs(raydir[0]);
-        absDir[1] = MathMisc::Abs(raydir[1]);
-        absDir[2] = MathMisc::Abs(raydir[2]);
+        absDir[0] = Math::Abs(raydir[0]);
+        absDir[1] = Math::Abs(raydir[1]);
+        absDir[2] = Math::Abs(raydir[2]);
 
         // Sort the axis, ensure check minimise floating error axis first
         int imax = 0, imid = 1, imin = 2;
@@ -641,7 +640,7 @@ namespace Math
             imax = 1;
         }
 
-        scalar start = 0, end = MathMisc::POS_INFINITY;
+        scalar start = 0, end = Math::POS_INFINITY;
 
 #define _CALC_AXIS(i)                                       \
     do {                                                    \
@@ -688,7 +687,7 @@ namespace Math
         return true;
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, const Vector3& a,
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, const Vector3& a,
         const Vector3& b, const Vector3& c, const Vector3& normal,
         bool positiveSide, bool negativeSide)
     {
@@ -731,9 +730,9 @@ namespace Math
         //
         size_t i0, i1;
         {
-            scalar n0 = MathMisc::Abs(normal[0]);
-            scalar n1 = MathMisc::Abs(normal[1]);
-            scalar n2 = MathMisc::Abs(normal[2]);
+            scalar n0 = Math::Abs(normal[0]);
+            scalar n1 = Math::Abs(normal[1]);
+            scalar n2 = Math::Abs(normal[2]);
 
             i0 = 1; i1 = 2;
             if (n1 > n2)
@@ -781,7 +780,7 @@ namespace Math
         return std::pair<bool, scalar>(true, t);
     }
     //-----------------------------------------------------------------------
-    std::pair<bool, scalar> MathMisc::intersects(const Ray& ray, const Vector3& a,
+    std::pair<bool, scalar> Math::intersects(const Ray& ray, const Vector3& a,
         const Vector3& b, const Vector3& c,
         bool positiveSide, bool negativeSide)
     {
@@ -789,7 +788,7 @@ namespace Math
         return intersects(ray, a, b, c, normal, positiveSide, negativeSide);
     }
     //-----------------------------------------------------------------------
-    bool MathMisc::intersects(const Sphere& sphere, const AxisAlignedBox& box)
+    bool Math::intersects(const Sphere& sphere, const AxisAlignedBox& box)
     {
         if (box.isNull()) return false;
         if (box.isInfinite()) return true;
@@ -819,19 +818,19 @@ namespace Math
 
     }
     //-----------------------------------------------------------------------
-    bool MathMisc::intersects(const Plane& plane, const AxisAlignedBox& box)
+    bool Math::intersects(const Plane& plane, const AxisAlignedBox& box)
     {
         return (plane.getSide(box) == Plane::BOTH_SIDE);
     }
     //-----------------------------------------------------------------------
-    bool MathMisc::intersects(const Sphere& sphere, const Plane& plane)
+    bool Math::intersects(const Sphere& sphere, const Plane& plane)
     {
         return (
-            MathMisc::Abs(plane.getDistance(sphere.getCenter()))
+            Math::Abs(plane.getDistance(sphere.getCenter()))
             <= sphere.getRadius() );
     }
     //-----------------------------------------------------------------------
-    Vector3 MathMisc::calculateTangentSpaceVector(
+    Vector3 Math::calculateTangentSpaceVector(
         const Vector3& position1, const Vector3& position2, const Vector3& position3,
         scalar u1, scalar v1, scalar u2, scalar v2, scalar u3, scalar v3)
     {
@@ -869,7 +868,7 @@ namespace Math
 
     }
     //-----------------------------------------------------------------------
-    Matrix4 MathMisc::buildReflectionMatrix(const Plane& p)
+    Matrix4 Math::buildReflectionMatrix(const Plane& p)
     {
         return Matrix4(
             -2 * p.normal.x * p.normal.x + 1,   -2 * p.normal.x * p.normal.y,       -2 * p.normal.x * p.normal.z,       -2 * p.normal.x * p.d, 
@@ -878,44 +877,44 @@ namespace Math
             0,                                  0,                                  0,                                  1);
     }
     //-----------------------------------------------------------------------
-    Vector4 MathMisc::calculateFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector4 Math::calculateFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
     {
         Vector3 normal = calculateBasicFaceNormal(v1, v2, v3);
         // Now set up the w (distance of tri from origin
         return Vector4(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
     }
     //-----------------------------------------------------------------------
-    Vector3 MathMisc::calculateBasicFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector3 Math::calculateBasicFaceNormal(const Vector3& v1, const Vector3& v2, const Vector3& v3)
     {
         Vector3 normal = (v2 - v1).crossProduct(v3 - v1);
         normal.normalise();
         return normal;
     }
     //-----------------------------------------------------------------------
-    Vector4 MathMisc::calculateFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector4 Math::calculateFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
     {
         Vector3 normal = calculateBasicFaceNormalWithoutNormalize(v1, v2, v3);
         // Now set up the w (distance of tri from origin)
         return Vector4(normal.x, normal.y, normal.z, -(normal.dotProduct(v1)));
     }
     //-----------------------------------------------------------------------
-    Vector3 MathMisc::calculateBasicFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
+    Vector3 Math::calculateBasicFaceNormalWithoutNormalize(const Vector3& v1, const Vector3& v2, const Vector3& v3)
     {
         Vector3 normal = (v2 - v1).crossProduct(v3 - v1);
         return normal;
     }
 	//-----------------------------------------------------------------------
-	scalar MathMisc::gaussianDistribution(scalar x, scalar offset, scalar scale)
+	scalar Math::gaussianDistribution(scalar x, scalar offset, scalar scale)
 	{
-		scalar nom = MathMisc::Exp(
-			-MathMisc::Sqr(x - offset) / (2 * MathMisc::Sqr(scale)));
-		scalar denom = scale * MathMisc::Sqrt(2 * N_PI);
+		scalar nom = Math::Exp(
+			-Math::Sqr(x - offset) / (2 * Math::Sqr(scale)));
+		scalar denom = scale * Math::Sqrt(2 * N_PI);
 
 		return nom / denom;
 
 	}
 	//---------------------------------------------------------------------
-	Matrix4 MathMisc::makeViewMatrix(const Vector3& position, const Quaternion& orientation, 
+	Matrix4 Math::makeViewMatrix(const Vector3& position, const Quaternion& orientation, 
 		const Matrix4* reflectMatrix)
 	{
 		Matrix4 viewMatrix;
@@ -954,7 +953,7 @@ namespace Math
 
 	}
 	//---------------------------------------------------------------------
-	scalar MathMisc::boundingRadiusFromAABB(const AxisAlignedBox& aabb)
+	scalar Math::boundingRadiusFromAABB(const AxisAlignedBox& aabb)
 	{
 		Vector3 max = aabb.getMaximum();
 		Vector3 min = aabb.getMinimum();

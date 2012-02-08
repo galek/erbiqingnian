@@ -2,7 +2,7 @@
 
 #include "vector3.h"
 
-namespace Math {
+namespace Philo {
 
     class _PhiloCommonExport Plane
     {
@@ -90,4 +90,4 @@ namespace Math {
 	typedef std::vector<Plane> PlaneList;
 
 
-} // namespace Math
+} // namespace Philo

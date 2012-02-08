@@ -17,7 +17,7 @@
 */
 #include "core/types.h"
 
-namespace Util
+namespace Philo
 {
 
 //------------------------------------------------------------------------------
@@ -270,7 +270,7 @@ PriorityArray<TYPE>::IsEmpty() const
     return (0 == this->numElements);
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif
 

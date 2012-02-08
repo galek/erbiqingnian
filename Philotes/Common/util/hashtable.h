@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::HashTable
+    @class HashTable
     
     Organizes key/value pairs by a hash code. Looks very similar
     to a Dictionary, but may provide better search times (up to O(1))
@@ -19,7 +19,7 @@
     work with the HashTable:    
     IndexT HashCode() const;
 
-    The Util::String class implements this method as an example.
+    The String class implements this method as an example.
     Internally the hash table is implemented as a fixed array
     of sorted arrays. The fixed array is indexed by the hash code
     of the key, the sorted arrays contain all values with identical
@@ -44,7 +44,7 @@
 #include "util/keyvaluepair.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class KEYTYPE, class VALUETYPE> class HashTable
 {
@@ -675,5 +675,5 @@ HashTable<KEYTYPE, VALUETYPE>::Iterator::operator*() const
 	return (*(this->hash_array_ptr))[this->idx_1][this->idx_2];
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

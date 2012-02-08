@@ -35,12 +35,14 @@
 #ifndef D3D9_RENDERER_INSTANCEBUFFER_H
 #define D3D9_RENDERER_INSTANCEBUFFER_H
 
-#include <RendererConfig.h>
+#include <renderConfig.h>
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <RendererInstanceBuffer.h>
+#include <renderInstanceBuffer.h>
 #include "D3D9Renderer.h"
+
+_NAMESPACE_BEGIN
 
 class D3D9RendererInstanceBuffer : public RendererInstanceBuffer, public D3D9RendererResource
 {
@@ -72,6 +74,8 @@ class D3D9RendererInstanceBuffer : public RendererInstanceBuffer, public D3D9Ren
 		D3DPOOL                 m_pool;
 		UINT                    m_bufferSize;
 };
+
+_NAMESPACE_END
 
 #endif // #if defined(RENDERER_ENABLE_DIRECT3D9)
 #endif

@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Set
+    @class Set
 
 	Philotes Set class (a set container like std::set).
 
@@ -24,7 +24,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class Set
 {
@@ -641,7 +641,7 @@ Set<TYPE>::Contains(const TYPE& elm) const
 */
 template<class TYPE>
 void
-Util::Set<TYPE>::BeginBulkInsert()
+Set<TYPE>::BeginBulkInsert()
 {
 #if NEBULA3_BOUNDSCHECKS
 	ph_assert(!this->inBulkInsert);
@@ -742,7 +742,7 @@ Set<TYPE>::Insert(const TYPE& elm)
 */
 template<class TYPE>
 void
-Util::Set<TYPE>::EndBulkInsert()
+Set<TYPE>::EndBulkInsert()
 {
 #if NEBULA3_BOUNDSCHECKS
 	ph_assert(this->inBulkInsert);
@@ -752,5 +752,5 @@ Util::Set<TYPE>::EndBulkInsert()
 	this->inBulkInsert = false;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

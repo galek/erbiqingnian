@@ -2,7 +2,7 @@
 #define UTIL_RANDOMNUMNERTABLE_H
 //------------------------------------------------------------------------------
 /**
-    @class Util::RandomNumberTable
+    @class RandomNumberTable
     
     A table-based random-number generator. Returns the same random number
     for a given key.
@@ -12,7 +12,7 @@
 #include "core/types.h"
     
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class RandomNumberTable
 {
@@ -45,6 +45,6 @@ RandomNumberTable::Rand(IndexT key, float minVal, float maxVal)
     return minVal + (randTable[key % tableSize] * (maxVal - minVal));
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

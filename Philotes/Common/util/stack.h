@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Stack
+    @class Stack
   
     Nebula3's stack class (a FILO container).
       
@@ -11,7 +11,7 @@
 #include "util/array.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class Stack
 {
@@ -179,5 +179,5 @@ Stack<TYPE>::Pop()
     return e;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

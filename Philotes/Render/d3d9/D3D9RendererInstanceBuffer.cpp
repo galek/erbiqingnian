@@ -2,7 +2,9 @@
 #include "D3D9RendererInstanceBuffer.h"
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <RendererInstanceBufferDesc.h>
+#include <renderInstanceBufferDesc.h>
+
+_NAMESPACE_BEGIN
 
 static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYPE type, BYTE method, BYTE usage, BYTE usageIndex)
 {
@@ -198,5 +200,7 @@ void D3D9RendererInstanceBuffer::onDeviceReset(void)
 	}
 #endif
 }
+
+_NAMESPACE_END
 
 #endif // #if defined(RENDERER_ENABLE_DIRECT3D9)

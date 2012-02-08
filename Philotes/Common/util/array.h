@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Array
+    @class Array
 
     Nebula3's dynamic array class. This class is also used by most other
     collection classes.
@@ -33,7 +33,7 @@
 /**
 	注意：
 
-	Util::Array 测试报告，整体效率远远高于STL ；
+	Array 测试报告，整体效率远远高于STL ；
 	
 	20,000条以内数据效率比STL高一些，2000,000条数据效率只有STL的30% ；
 
@@ -62,7 +62,7 @@
 #include "util/fast_hash.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class Array
 {
@@ -1089,12 +1089,12 @@ Array<TYPE>::GetFastHashCode()
 
 	for (IndexT i = 0; i < this->size; ++i)
 	{
-		ret = Util::FastHash::ComputeHash
+		ret = FastHash::ComputeHash
 			( (const char*)&this->elements[i], sizeof(TYPE), ret );
 	}
 
 	return ret;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
