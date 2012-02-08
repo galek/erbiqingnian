@@ -54,11 +54,7 @@ extern char gShadersDir[];
 	#define RENDERER_DEBUG
 #endif
 
-#define RENDERER_OUTPUT_MESSAGE(_rendererPtr, _msg) \
-	if((_rendererPtr) && (_rendererPtr)->getOutputStream()) \
-	{ \
-		(_rendererPtr)->getOutputStream()->reportError(physx::PxErrorCode::eDEBUG_INFO, (_msg), __FILE__, __LINE__); \
-	}
+#define RENDERER_OUTPUT_MESSAGE(_rendererPtr, _msg) printf(_msg)
 
 #if RENDERER_ENABLE_DRESSCODE
 	#include <dresscode.h>

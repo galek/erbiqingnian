@@ -3,17 +3,15 @@
 //  (C) 2009 Radon Labs GmbH
 //------------------------------------------------------------------------------
 
-#include "win32stringconverter.h"
+#include "stringconverter.h"
 
-namespace Win32
+namespace Philo
 {
-using namespace Philo;
 
 //------------------------------------------------------------------------------
 /**
 */
-SizeT
-Win32StringConverter::UTF8ToWide(const String& src, ushort* dst, SizeT dstMaxBytes)
+SizeT StringConverter::UTF8ToWide(const String& src, ushort* dst, SizeT dstMaxBytes)
 {
     return UTF8ToWide(src.AsCharPtr(), dst, dstMaxBytes);
 }
@@ -21,8 +19,7 @@ Win32StringConverter::UTF8ToWide(const String& src, ushort* dst, SizeT dstMaxByt
 //------------------------------------------------------------------------------
 /**
 */
-SizeT
-Win32StringConverter::UTF8ToWide(const char* src, ushort* dst, SizeT dstMaxBytes)
+SizeT StringConverter::UTF8ToWide(const char* src, ushort* dst, SizeT dstMaxBytes)
 {
     ph_assert((0 != src) && (0 != dst) && (dstMaxBytes > 2) && ((dstMaxBytes & 1) == 0));
     SizeT numConv = MultiByteToWideChar(CP_UTF8, 0, src, -1, (LPWSTR) dst, (dstMaxBytes / 2) - 1);
@@ -51,8 +48,7 @@ Win32StringConverter::UTF8ToWide(const char* src, ushort* dst, SizeT dstMaxBytes
 //------------------------------------------------------------------------------
 /**
 */
-String
-Win32StringConverter::WideToUTF8(ushort* src)
+String StringConverter::WideToUTF8(ushort* src)
 {
     ph_assert(0 != src);
     String returnString;

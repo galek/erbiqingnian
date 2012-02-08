@@ -10,9 +10,9 @@
 #include "util/string.h"
 
 //------------------------------------------------------------------------------
-namespace Win32
+namespace Philo
 {
-class Win32StringConverter
+class StringConverter
 {
 public:
     /// convert from UTF-8 encoded string object to wide string, return number of used bytes

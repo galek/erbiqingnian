@@ -1,13 +1,19 @@
 
 #include <renderWindow.h>
 #include <renderMemoryMacros.h>
+#include "gearsPlatform.h"
 #include <stdio.h>
 
 _NAMESPACE_BEGIN
 
 RendererWindow::RendererWindow(void)
 {
-	m_platform = createPlatform(this);
+	m_platform = GearPlatform::getSingleton();
+	if (!m_platform)
+	{
+		m_platform = new GearPlatform(this);
+	}
+
 	m_isOpen = false;
 }
 
@@ -18,7 +24,7 @@ RendererWindow::~RendererWindow(void)
 
 bool RendererWindow::open(uint32 width, uint32 height, const char *title, bool fullscreen)
 {
-	bool ok         = false;
+	bool ok = false;
 	ph_assert2(width && height, "Attempting to open a window with invalid width and/or height.");
 	if(width && height)
 	{

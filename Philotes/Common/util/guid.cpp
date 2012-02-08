@@ -1,19 +1,14 @@
-//------------------------------------------------------------------------------
-//  win32guid.cc
-//  (C) 2006 Radon Labs GmbH
-//------------------------------------------------------------------------------
 
-#include "util/win32/win32guid.h"
+#include "util/guid.h"
 
-namespace Win32
+namespace Philo
 {
-using namespace Philo;
-
+	
 //------------------------------------------------------------------------------
 /**
 */
 void
-Win32Guid::operator=(const Win32Guid& rhs)
+Guid::operator=(const Guid& rhs)
 {
     if (this != &rhs)
     {
@@ -25,7 +20,7 @@ Win32Guid::operator=(const Win32Guid& rhs)
 /**
 */
 void
-Win32Guid::operator=(const String& rhs)
+Guid::operator=(const String& rhs)
 {
     ph_assert(rhs.IsValid());
     RPC_STATUS result = UuidFromString((RPC_CSTR) rhs.AsCharPtr(), &(this->uuid));
@@ -36,7 +31,7 @@ Win32Guid::operator=(const String& rhs)
 /**
 */
 bool
-Win32Guid::operator==(const Win32Guid& rhs) const
+Guid::operator==(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -47,7 +42,7 @@ Win32Guid::operator==(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::operator!=(const Win32Guid& rhs) const
+Guid::operator!=(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -58,7 +53,7 @@ Win32Guid::operator!=(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::operator<(const Win32Guid& rhs) const
+Guid::operator<(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -69,7 +64,7 @@ Win32Guid::operator<(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::operator<=(const Win32Guid& rhs) const
+Guid::operator<=(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -80,7 +75,7 @@ Win32Guid::operator<=(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::operator>(const Win32Guid& rhs) const
+Guid::operator>(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -91,7 +86,7 @@ Win32Guid::operator>(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::operator>=(const Win32Guid& rhs) const
+Guid::operator>=(const Guid& rhs) const
 {
     RPC_STATUS status;
     int result = UuidCompare(const_cast<UUID*>(&this->uuid), const_cast<UUID*>(&rhs.uuid), &status);
@@ -102,7 +97,7 @@ Win32Guid::operator>=(const Win32Guid& rhs) const
 /**
 */
 bool
-Win32Guid::IsValid() const
+Guid::IsValid() const
 {
     RPC_STATUS status;
     int result = UuidIsNil(const_cast<UUID*>(&this->uuid), &status);
@@ -113,7 +108,7 @@ Win32Guid::IsValid() const
 /**
 */
 void
-Win32Guid::Generate()
+Guid::Generate()
 {
     UuidCreate(&this->uuid);
 }
@@ -122,7 +117,7 @@ Win32Guid::Generate()
 /**
 */
 String
-Win32Guid::AsString() const
+Guid::AsString() const
 {
     const char* uuidStr;
     UuidToString((UUID*) &this->uuid, (RPC_CSTR*) &uuidStr);
@@ -138,7 +133,7 @@ Win32Guid::AsString() const
     data.
 */
 SizeT
-Win32Guid::AsBinary(const unsigned char*& outPtr) const
+Guid::AsBinary(const unsigned char*& outPtr) const
 {
     outPtr = (const unsigned char*) &this->uuid;
     return sizeof(UUID);
@@ -147,10 +142,10 @@ Win32Guid::AsBinary(const unsigned char*& outPtr) const
 //------------------------------------------------------------------------------
 /**
 */
-Win32Guid
-Win32Guid::FromString(const String& str)
+Guid
+Guid::FromString(const String& str)
 {
-    Win32Guid newGuid;
+    Guid newGuid;
     RPC_STATUS success = UuidFromString((RPC_CSTR)str.AsCharPtr(), &(newGuid.uuid));
     ph_assert(RPC_S_OK == success);
     return newGuid;
@@ -160,11 +155,11 @@ Win32Guid::FromString(const String& str)
 /**
     Constructs the guid from binary data, as returned by the AsBinary().
 */
-Win32Guid
-Win32Guid::FromBinary(const unsigned char* ptr, SizeT numBytes)
+Guid
+Guid::FromBinary(const unsigned char* ptr, SizeT numBytes)
 {
     ph_assert((0 != ptr) && (numBytes == sizeof(UUID)));
-    Win32Guid newGuid;
+    Guid newGuid;
     memcpy(&(newGuid.uuid),ptr, sizeof(UUID));
     return newGuid;
 }
@@ -175,11 +170,11 @@ Win32Guid::FromBinary(const unsigned char* ptr, SizeT numBytes)
     HashTable.
 */
 IndexT
-Win32Guid::HashCode() const
+Guid::HashCode() const
 {
     RPC_STATUS status;
     unsigned short hashCode = UuidHash((UUID*)&this->uuid, &status);
     return (IndexT) hashCode;
 }
 
-}; // namespace Win32
+}

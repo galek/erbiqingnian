@@ -10,30 +10,6 @@
 
 _NAMESPACE_BEGIN
 
-class RendererDesc;
-class RendererWindow;
-class RendererVertexBuffer;
-class RendererVertexBufferDesc;
-class RendererIndexBuffer;
-class RendererIndexBufferDesc;
-class RendererInstanceBuffer;
-class RendererInstanceBufferDesc;
-class RendererTexture2D;
-class RendererTexture2DDesc;
-class RendererTarget;
-class RendererTargetDesc;
-class RendererMaterial;
-class RendererMaterialDesc;
-class RendererMesh;
-class RendererMeshDesc;
-class RendererMeshContext;
-class RendererLight;
-class RendererLightDesc;
-
-class RendererColor;
-class RendererProjection;
-
-
 class ScreenQuad
 {
 public:
@@ -156,20 +132,20 @@ public:
 		Renderer &operator=(const Renderer&) { return *this; }
 	
 	private:
-		const DriverType              m_driver;
+		const DriverType					m_driver;
 		
-		std::vector<RendererMeshContext*> m_visibleLitMeshes;
-		std::vector<RendererMeshContext*> m_visibleUnlitMeshes;
-		std::vector<RendererMeshContext*> m_screenSpaceMeshes;
-		std::vector<RendererLight*>       m_visibleLights;
+		std::vector<RendererMeshContext*>	m_visibleLitMeshes;
+		std::vector<RendererMeshContext*>	m_visibleUnlitMeshes;
+		std::vector<RendererMeshContext*>	m_screenSpaceMeshes;
+		std::vector<RendererLight*>			m_visibleLights;
 		
-		RendererColor					m_ambientColor;
-		RendererColor					m_clearColor;
+		RendererColor						m_ambientColor;
+		RendererColor						m_clearColor;
 
     protected:
-		bool							m_deferredVBUnlock;
-		scalar							m_pixelCenterOffset;
-		char							m_deviceName[256];
+		bool								m_deferredVBUnlock;
+		scalar								m_pixelCenterOffset;
+		char								m_deviceName[256];
 };
 
 _NAMESPACE_END

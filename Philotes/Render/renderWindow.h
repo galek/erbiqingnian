@@ -6,7 +6,7 @@
 
 _NAMESPACE_BEGIN
 
-class PhiloPlatform;
+class GearPlatform;
 
 class RendererWindow
 {
@@ -43,17 +43,6 @@ class RendererWindow
 			KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
 
 			NUM_KEY_CODES,
-		};
-
-		typedef enum GamepadAxis
-		{
-			AXIS_UNKNOWN = 0,
-			AXIS_RIGHT_HORIZONTAL,
-			AXIS_RIGHT_VERTICAL,
-			AXIS_LEFT_HORIZONTAL,
-			AXIS_LEFT_VERTICAL,
-
-			NUM_GAMEPAD_AXIS,
 		};
 
 		bool keyCodeToASCII( KeyCode code, char& c )
@@ -119,7 +108,7 @@ class RendererWindow
 		virtual void onDraw(void) = 0;
 
 	protected:
-		PhiloPlatform*				m_platform;
+		GearPlatform*				m_platform;
 	private:
 		bool						m_isOpen;
 };
