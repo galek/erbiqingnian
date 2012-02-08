@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Delegate
+    @class Delegate
     
     Nebula3 delegate class, allows to store a method call into a C++ object
     for later execution.
@@ -14,7 +14,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class ARGTYPE> class Delegate
 {
@@ -111,5 +111,5 @@ Delegate<ARGTYPE>::FunctionStub(void* dummyPtr, ARGTYPE arg_)
     (*FUNCTION)(arg_);
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

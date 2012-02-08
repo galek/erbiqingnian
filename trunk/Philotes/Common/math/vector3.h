@@ -6,7 +6,7 @@
 #include "quaternion.h"
 #include "mathmisc.h"
 
-namespace Math
+namespace Philo
 {
 class _PhiloCommonExport Vector3
 {
@@ -311,7 +311,7 @@ public:
     */
     inline scalar length () const
     {
-        return MathMisc::Sqrt( x * x + y * y + z * z );
+        return Math::Sqrt( x * x + y * y + z * z );
     }
 
     /** Returns the square of the length(magnitude) of the vector.
@@ -401,7 +401,7 @@ public:
     */
     inline scalar normalise()
     {
-        scalar fLength = MathMisc::Sqrt( x * x + y * y + z * z );
+        scalar fLength = Math::Sqrt( x * x + y * y + z * z );
 
         // Will also work for zero-sized vectors, but will change nothing
         if ( fLength > 1e-08 )
@@ -572,7 +572,7 @@ public:
 
         // Rotate up vector by random amount around this
         Quaternion q;
-		q.FromAngleAxis( Radian(MathMisc::UnitRandom() * N_PI_DOUBLE), *this );
+		q.FromAngleAxis( Radian(Math::UnitRandom() * N_PI_DOUBLE), *this );
         newUp = q * newUp;
 
         // Finally rotate this by given angle around randomised up
@@ -594,8 +594,8 @@ public:
 
 		scalar f = dotProduct(dest) / lenProduct;
 
-		f = MathMisc::Clamp(f, (scalar)-1.0, (scalar)1.0);
-		return MathMisc::ACos(f);
+		f = Math::Clamp(f, (scalar)-1.0, (scalar)1.0);
+		return Math::ACos(f);
 
 	}
     /** Gets the shortest arc quaternion to rotate this vector to the destination
@@ -642,7 +642,7 @@ public:
 		}
 		else
 		{
-            scalar s = MathMisc::Sqrt( (1+d)*2 );
+            scalar s = Math::Sqrt( (1+d)*2 );
             scalar invs = 1 / s;
 
 			Vector3 c = v0.crossProduct(v1);
@@ -689,9 +689,9 @@ public:
 	*/
 	inline bool positionEquals(const Vector3& rhs, scalar tolerance = 1e-03) const
 	{
-		return MathMisc::RealEqual(x, rhs.x, tolerance) &&
-			MathMisc::RealEqual(y, rhs.y, tolerance) &&
-			MathMisc::RealEqual(z, rhs.z, tolerance);
+		return Math::RealEqual(x, rhs.x, tolerance) &&
+			Math::RealEqual(y, rhs.y, tolerance) &&
+			Math::RealEqual(z, rhs.z, tolerance);
 
 	}
 
@@ -718,7 +718,7 @@ public:
 		const Radian& tolerance) const
 	{
 		scalar dot = dotProduct(rhs);
-		Radian angle = MathMisc::ACos(dot);
+		Radian angle = Math::ACos(dot);
 
 		return fabs(angle.valueRadians()) <= tolerance.valueRadians();
 
@@ -727,7 +727,7 @@ public:
 	/// Check whether this vector contains valid values
 	inline bool isNaN() const
 	{
-		return MathMisc::isNaN(x) || MathMisc::isNaN(y) || MathMisc::isNaN(z);
+		return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z);
 	}
 
 	// special points

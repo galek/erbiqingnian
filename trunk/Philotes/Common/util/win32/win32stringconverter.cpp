@@ -7,7 +7,7 @@
 
 namespace Win32
 {
-using namespace Util;
+using namespace Philo;
 
 //------------------------------------------------------------------------------
 /**

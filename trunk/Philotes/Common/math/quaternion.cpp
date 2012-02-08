@@ -3,7 +3,7 @@
 #include "vector3.h"
 #include "matrix3.h"
 
-namespace Math
+namespace Philo
 {
 	const scalar Quaternion::ms_fEpsilon = (scalar)1e-03;
 	const Quaternion Quaternion::ZERO(0.0,0.0,0.0,0.0);
@@ -21,7 +21,7 @@ namespace Math
 		if ( fTrace > 0.0 )
 		{
 			// |w| > 1/2, may as well choose w > 1/2
-			fRoot = MathMisc::Sqrt(fTrace + 1.0f);  // 2w
+			fRoot = Math::Sqrt(fTrace + 1.0f);  // 2w
 			w = 0.5f*fRoot;
 			fRoot = 0.5f/fRoot;  // 1/(4w)
 			x = (kRot[2][1]-kRot[1][2])*fRoot;
@@ -40,7 +40,7 @@ namespace Math
 			size_t j = s_iNext[i];
 			size_t k = s_iNext[j];
 
-			fRoot = MathMisc::Sqrt(kRot[i][i]-kRot[j][j]-kRot[k][k] + 1.0f);
+			fRoot = Math::Sqrt(kRot[i][i]-kRot[j][j]-kRot[k][k] + 1.0f);
 			scalar* apkQuat[3] = { &x, &y, &z };
 			*apkQuat[i] = 0.5f*fRoot;
 			fRoot = 0.5f/fRoot;
@@ -85,8 +85,8 @@ namespace Math
 		//   q = cos(A/2)+sin(A/2)*(x*i+y*j+z*k)
 
 		Radian fHalfAngle ( 0.5*rfAngle );
-		scalar fSin = MathMisc::Sin(fHalfAngle);
-		w = MathMisc::Cos(fHalfAngle);
+		scalar fSin = Math::Sin(fHalfAngle);
+		w = Math::Cos(fHalfAngle);
 		x = fSin*rkAxis.x;
 		y = fSin*rkAxis.y;
 		z = fSin*rkAxis.z;
@@ -100,8 +100,8 @@ namespace Math
 		scalar fSqrLength = x*x+y*y+z*z;
 		if ( fSqrLength > 0.0 )
 		{
-			rfAngle = 2.0*MathMisc::ACos(w);
-			scalar fInvLength = MathMisc::InvSqrt(fSqrLength);
+			rfAngle = 2.0*Math::ACos(w);
+			scalar fInvLength = Math::InvSqrt(fSqrLength);
 			rkAxis.x = x*fInvLength;
 			rkAxis.y = y*fInvLength;
 			rkAxis.z = z*fInvLength;
@@ -306,11 +306,11 @@ namespace Math
 		// exp(q) = cos(A)+sin(A)*(x*i+y*j+z*k).  If sin(A) is near zero,
 		// use exp(q) = cos(A)+A*(x*i+y*j+z*k) since A/sin(A) has limit 1.
 
-		Radian fAngle ( MathMisc::Sqrt(x*x+y*y+z*z) );
-		scalar fSin = MathMisc::Sin(fAngle);
+		Radian fAngle ( Math::Sqrt(x*x+y*y+z*z) );
+		scalar fSin = Math::Sin(fAngle);
 
 		Quaternion kResult;
-		kResult.w = MathMisc::Cos(fAngle);
+		kResult.w = Math::Cos(fAngle);
 
 		if ( fabs(fSin) >= ms_fEpsilon )
 		{
@@ -340,8 +340,8 @@ namespace Math
 
 		if ( fabs(w) < 1.0 )
 		{
-			Radian fAngle ( MathMisc::ACos(w) );
-			scalar fSin = MathMisc::Sin(fAngle);
+			Radian fAngle ( Math::ACos(w) );
+			scalar fSin = Math::Sin(fAngle);
 			if ( fabs(fSin) >= ms_fEpsilon )
 			{
 				scalar fCoeff = fAngle.valueRadians()/fSin;
@@ -376,10 +376,10 @@ namespace Math
 	bool Quaternion::equals(const Quaternion& rhs, const Radian& tolerance) const
 	{
 		scalar fCos = Dot(rhs);
-		Radian angle = MathMisc::ACos(fCos);
+		Radian angle = Math::ACos(fCos);
 
 		return (fabs(angle.valueRadians()) <= tolerance.valueRadians())
-			|| MathMisc::RealEqual(angle.valueRadians(), N_PI, tolerance.valueRadians());
+			|| Math::RealEqual(angle.valueRadians(), N_PI, tolerance.valueRadians());
 
 
 	}
@@ -404,11 +404,11 @@ namespace Math
 		if (fabs(fCos) < 1 - ms_fEpsilon)
 		{
 			// Standard case (slerp)
-			scalar fSin = MathMisc::Sqrt(1 - MathMisc::Sqr(fCos));
-			Radian fAngle = MathMisc::ATan2(fSin, fCos);
+			scalar fSin = Math::Sqrt(1 - Math::Sqr(fCos));
+			Radian fAngle = Math::ATan2(fSin, fCos);
 			scalar fInvSin = 1.0f / fSin;
-			scalar fCoeff0 = MathMisc::Sin((1.0f - fT) * fAngle) * fInvSin;
-			scalar fCoeff1 = MathMisc::Sin(fT * fAngle) * fInvSin;
+			scalar fCoeff0 = Math::Sin((1.0f - fT) * fAngle) * fInvSin;
+			scalar fCoeff1 = Math::Sin(fT * fAngle) * fInvSin;
 			return fCoeff0 * rkP + fCoeff1 * rkT;
 		}
 		else
@@ -430,16 +430,16 @@ namespace Math
 		const Quaternion& rkP, const Quaternion& rkQ, int iExtraSpins)
 	{
 		scalar fCos = rkP.Dot(rkQ);
-		Radian fAngle ( MathMisc::ACos(fCos) );
+		Radian fAngle ( Math::ACos(fCos) );
 
 		if ( fabs(fAngle.valueRadians()) < ms_fEpsilon )
 			return rkP;
 
-		scalar fSin = MathMisc::Sin(fAngle);
+		scalar fSin = Math::Sin(fAngle);
 		Radian fPhase ( N_PI*iExtraSpins*fT );
 		scalar fInvSin = 1.0f/fSin;
-		scalar fCoeff0 = MathMisc::Sin((1.0f-fT)*fAngle - fPhase)*fInvSin;
-		scalar fCoeff1 = MathMisc::Sin(fT*fAngle + fPhase)*fInvSin;
+		scalar fCoeff0 = Math::Sin((1.0f-fT)*fAngle - fPhase)*fInvSin;
+		scalar fCoeff1 = Math::Sin(fT*fAngle + fPhase)*fInvSin;
 		return fCoeff0*rkP + fCoeff1*rkQ;
 	}
 	//-----------------------------------------------------------------------
@@ -473,7 +473,7 @@ namespace Math
 	scalar Quaternion::normalise(void)
 	{
 		scalar len = Norm();
-		scalar factor = 1.0f / MathMisc::Sqrt(len);
+		scalar factor = 1.0f / Math::Sqrt(len);
 		*this = *this * factor;
 		return len;
 	}
@@ -494,12 +494,12 @@ namespace Math
 
 			// Vector3(1.0-(fTyy+fTzz), fTxy+fTwz, fTxz-fTwy);
 
-			return Radian(MathMisc::ATan2(fTxy+fTwz, 1.0f-(fTyy+fTzz)));
+			return Radian(Math::ATan2(fTxy+fTwz, 1.0f-(fTyy+fTzz)));
 
 		}
 		else
 		{
-			return Radian(MathMisc::ATan2(2*(x*y + w*z), w*w + x*x - y*y - z*z));
+			return Radian(Math::ATan2(2*(x*y + w*z), w*w + x*x - y*y - z*z));
 		}
 	}
 	//-----------------------------------------------------------------------
@@ -518,12 +518,12 @@ namespace Math
 			scalar fTzz = fTz*z;
 
 			// Vector3(fTxy-fTwz, 1.0-(fTxx+fTzz), fTyz+fTwx);
-			return Radian(MathMisc::ATan2(fTyz+fTwx, 1.0f-(fTxx+fTzz)));
+			return Radian(Math::ATan2(fTyz+fTwx, 1.0f-(fTxx+fTzz)));
 		}
 		else
 		{
 			// internal version
-			return Radian(MathMisc::ATan2(2*(y*z + w*x), w*w - x*x - y*y + z*z));
+			return Radian(Math::ATan2(2*(y*z + w*x), w*w - x*x - y*y + z*z));
 		}
 	}
 	//-----------------------------------------------------------------------
@@ -543,13 +543,13 @@ namespace Math
 
 			// Vector3(fTxz+fTwy, fTyz-fTwx, 1.0-(fTxx+fTyy));
 
-			return Radian(MathMisc::ATan2(fTxz+fTwy, 1.0f-(fTxx+fTyy)));
+			return Radian(Math::ATan2(fTxz+fTwy, 1.0f-(fTxx+fTyy)));
 
 		}
 		else
 		{
 			// internal version
-			return Radian(MathMisc::ASin(-2*(x*z - w*y)));
+			return Radian(Math::ASin(-2*(x*z - w*y)));
 		}
 	}
 	//-----------------------------------------------------------------------

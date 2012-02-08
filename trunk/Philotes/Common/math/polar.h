@@ -19,7 +19,7 @@
 #include "math/float2.h"
 
 //------------------------------------------------------------------------------
-namespace Math
+namespace Philo
 {
 class polar
 {
@@ -178,6 +178,6 @@ polar::get_cartesian() const
     return v;
 }
 
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

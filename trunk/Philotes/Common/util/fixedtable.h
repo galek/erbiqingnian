@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::FixedTable
+    @class FixedTable
     
     A fixed-size 2-dimensional array.
     
@@ -10,7 +10,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class FixedTable
 {
@@ -310,5 +310,5 @@ FixedTable<TYPE>::At(IndexT x, IndexT y) const
     return this->elements[flatIndex];
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

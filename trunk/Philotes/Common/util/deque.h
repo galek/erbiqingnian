@@ -9,7 +9,7 @@
 #include <deque>
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 
 template <typename T, typename A = 

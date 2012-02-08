@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::StringBuffer
+    @class StringBuffer
   
     Global string buffer for the StringAtom system. This is where all
     raw strings for the StringAtom system are stored. If enabled,
@@ -23,7 +23,7 @@
 #include "util/array.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class StringBuffer
 {
@@ -51,7 +51,7 @@ private:
     /// allocate a new chunk
     void AllocNewChunk();
 
-    Util::Array<char*> chunks;
+    Array<char*> chunks;
     SizeT chunkSize;    
     char* curPointer;
 };
@@ -74,5 +74,5 @@ StringBuffer::GetNumChunks() const
     return this->chunks.Size();
 }
 
-} // namespace Util;
+} // namespace Philo;
 //------------------------------------------------------------------------------

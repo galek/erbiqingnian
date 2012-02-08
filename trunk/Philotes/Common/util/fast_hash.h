@@ -2,7 +2,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-@class Util::FastHash
+@class FastHash
 
 Compute FastHash checksums over a range of memory.
 
@@ -17,7 +17,7 @@ Added by Li
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class FastHash
 {
@@ -40,5 +40,5 @@ FastHash::HashCombine( uint32 hashSoFar, const T& data )
 	return ComputeHash((const char*)&data, sizeof(T), hashSoFar);
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

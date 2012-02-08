@@ -4,7 +4,7 @@
 #include "math/mathMisc.h"
 #include "math/scalar.h"
 
-namespace Util {
+namespace Philo {
 
     const ColourValue ColourValue::ZERO = ColourValue(0.0,0.0,0.0,0.0);
     const ColourValue ColourValue::Black = ColourValue(0.0,0.0,0.0);
@@ -222,7 +222,7 @@ namespace Util {
 	//---------------------------------------------------------------------
 	void ColourValue::setHSB(float hue, float saturation, float brightness)
 	{
-		using namespace Math;
+		using namespace Philo;
 		// wrap hue
 		if (hue > 1.0f)
 		{
@@ -233,10 +233,10 @@ namespace Util {
 			hue += (int)hue + 1;
 		}
 		// clamp saturation / brightness
-		saturation = MathMisc::Min(saturation, (float)1.0);
-		saturation = MathMisc::Max(saturation, (float)0.0);
-		brightness = MathMisc::Min(brightness, (float)1.0);
-		brightness = MathMisc::Max(brightness, (float)0.0);
+		saturation = Math::Min(saturation, (float)1.0);
+		saturation = Math::Max(saturation, (float)0.0);
+		brightness = Math::Min(brightness, (float)1.0);
+		brightness = Math::Max(brightness, (float)0.0);
 
 		if (brightness == 0.0f)
 		{   
@@ -310,15 +310,15 @@ namespace Util {
 	//---------------------------------------------------------------------
 	void ColourValue::getHSB(float* hue, float* saturation, float* brightness) const
 	{
-		using namespace Math;
+		using namespace Philo;
 
-		float vMin = MathMisc::Min(r, MathMisc::Min(g, b));
-		float vMax = MathMisc::Max(r, MathMisc::Max(g, b));
+		float vMin = Math::Min(r, Math::Min(g, b));
+		float vMax = Math::Max(r, Math::Max(g, b));
 		float delta = vMax - vMin;
 
 		*brightness = vMax;
 
-		if (MathMisc::RealEqual(delta, 0.0f, (scalar)1e-6))
+		if (Math::RealEqual(delta, 0.0f, (scalar)1e-6))
 		{
 			// grey
 			*hue = 0;
@@ -333,11 +333,11 @@ namespace Util {
 			float deltaG = (((vMax - g) / 6.0f) + (delta / 2.0f)) / delta;
 			float deltaB = (((vMax - b) / 6.0f) + (delta / 2.0f)) / delta;
 
-			if (MathMisc::RealEqual(r, vMax))
+			if (Math::RealEqual(r, vMax))
 				*hue = deltaB - deltaG;
-			else if (MathMisc::RealEqual(g, vMax))
+			else if (Math::RealEqual(g, vMax))
 				*hue = 0.3333333f + deltaR - deltaB;
-			else if (MathMisc::RealEqual(b, vMax)) 
+			else if (Math::RealEqual(b, vMax)) 
 				*hue = 0.6666667f + deltaG - deltaR;
 
 			if (*hue < 0.0f) 

@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::BitField
+    @class BitField
     
 	Implements large bit field with multiple of 32 bits (is like std::bitset).
     
@@ -22,7 +22,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<uint NUMBITS> class BitField
 {
@@ -172,7 +172,7 @@ BitField<NUMBITS>::And(const BitField<NUMBITS>& b0, const BitField<NUMBITS>& b1)
     return res;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
 
     

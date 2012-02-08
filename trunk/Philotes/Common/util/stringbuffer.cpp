@@ -7,7 +7,7 @@
 
 #include <string.h>
 
-namespace Util
+namespace Philo
 {
 
 //------------------------------------------------------------------------------
@@ -105,4 +105,4 @@ StringBuffer::AddString(const char* str)
     return dstPointer;
 }
 
-} // namespace Util
+} // namespace Philo

@@ -5,7 +5,7 @@
 #include "vector3.h"
 #include "matrix3.h"
 
-namespace Math
+namespace Philo
 {
 
     const Matrix4 Matrix4::ZERO(

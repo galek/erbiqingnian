@@ -3,7 +3,7 @@
 #include "scalar.h"
 #include "mathmisc.h"
 
-namespace Math
+namespace Philo
 {
 	class _PhiloCommonExport Quaternion
     {
@@ -203,7 +203,7 @@ namespace Math
 		/// Check whether this quaternion contains valid values
 		inline bool isNaN() const
 		{
-			return MathMisc::isNaN(x) || MathMisc::isNaN(y) || MathMisc::isNaN(z) || MathMisc::isNaN(w);
+			return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z) || Math::isNaN(w);
 		}
 
         /** Function for writing to a stream. Outputs "Quaternion(w, x, y, z)" with w,x,y,z

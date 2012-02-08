@@ -2,11 +2,12 @@
 #ifndef D3D9_RENDERER_H
 #define D3D9_RENDERER_H
 
-#include <RendererConfig.h>
+#include <renderConfig.h>
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <Renderer.h>
+#include "render.h"
+
 #include <vector>
 
 #if defined(RENDERER_DEBUG)
@@ -22,6 +23,8 @@
 #else
 #define RENDERER_ENABLE_DYNAMIC_VB_POOLS 1
 #endif
+
+_NAMESPACE_BEGIN
 
 class RendererDesc;
 class RendererColor;
@@ -130,7 +133,7 @@ class D3D9Renderer : public Renderer
 		virtual RendererIndexBuffer    *createIndexBuffer(   const RendererIndexBufferDesc    &desc);
 		virtual RendererInstanceBuffer *createInstanceBuffer(const RendererInstanceBufferDesc &desc);
 		virtual RendererTexture2D      *createTexture2D(     const RendererTexture2DDesc      &desc);
-		virtual RendererTarget         *createTarget(        const RendererTargetDesc         &desc);
+		virtual RendererTarget         *createTarget(        const Philo::RendererTargetDesc         &desc);
 		virtual RendererMaterial       *createMaterial(      const RendererMaterialDesc       &desc);
 		virtual RendererMesh           *createMesh(          const RendererMeshDesc           &desc);
 		virtual RendererLight          *createLight(         const RendererLightDesc          &desc);
@@ -141,7 +144,7 @@ class D3D9Renderer : public Renderer
 	private:
 		virtual bool beginRender(void);
 		virtual void endRender(void);
-		virtual void bindViewProj(const Matrix4 &eye, const RendererProjection &proj);
+		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj);
 		virtual void bindAmbientState(const RendererColor &ambientColor);
 		virtual void bindDeferredState(void);
 		virtual void bindMeshContext(const RendererMeshContext &context);
@@ -201,6 +204,8 @@ class D3D9RendererResource
 	private:
 		D3D9Renderer *m_d3dRenderer;
 };
+
+_NAMESPACE_END
 
 #endif // #if defined(RENDERER_ENABLE_DIRECT3D9)
 #endif

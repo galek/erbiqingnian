@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::KeyValuePair
+    @class KeyValuePair
     
     Key/Value pair objects are used by most assiociative container classes,
     like Dictionary or HashTable. 
@@ -11,7 +11,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class KEYTYPE, class VALUETYPE> class KeyValuePair
 {
@@ -75,7 +75,7 @@ KeyValuePair<KEYTYPE, VALUETYPE>::KeyValuePair(const KEYTYPE& k, const VALUETYPE
 //------------------------------------------------------------------------------
 /**
     This strange constructor is useful for search-by-key if
-    the key-value-pairs are stored in a Util::Array.
+    the key-value-pairs are stored in a Array.
 */
 template<class KEYTYPE, class VALUETYPE>
 KeyValuePair<KEYTYPE, VALUETYPE>::KeyValuePair(const KEYTYPE& k) :
@@ -207,6 +207,6 @@ KeyValuePair<KEYTYPE, VALUETYPE>::Value() const
     return this->valueData;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
     

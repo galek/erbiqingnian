@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::Crc
+    @class Crc
     
     Compute CRC checksums over a range of memory.
     
@@ -10,7 +10,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class Crc
 {
@@ -37,5 +37,5 @@ private:
     unsigned int checksum;
 };
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

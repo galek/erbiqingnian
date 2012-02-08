@@ -5,7 +5,7 @@
 
 #include "util/randomnumbertable.h"
 
-namespace Util
+namespace Philo
 {
 const float RandomNumberTable::randTable[tableSize] = {
     0.001251f,
@@ -2058,4 +2058,4 @@ const float RandomNumberTable::randTable[tableSize] = {
     0.215918f,
 };
 
-} // namespace Util
+} // namespace Philo

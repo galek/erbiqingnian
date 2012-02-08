@@ -4,7 +4,7 @@
 
 #include "core/config.h"
 
-namespace Util {
+namespace Philo {
 
 class Bitwise {
 public:

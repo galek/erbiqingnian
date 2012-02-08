@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::FourCC
+    @class FourCC
     
     A four-character-code is a quasi-human-readable 32-bit-id.
     
@@ -11,7 +11,7 @@
 #include "util/string.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class FourCC
 {
@@ -207,5 +207,5 @@ FourCC::FromString(const String& s)
     return FourCC(uint(s[0] | s[1]<<8 | s[2]<<16 | s[3]<<24));
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

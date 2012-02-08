@@ -20,7 +20,7 @@ static void Error(const char* error)
 void 
 n_barf(const char* exp, const char* file, int line)
 {
-	Util::String msg;
+	String msg;
 	msg.Format("*** PHILOTES ASSERTION ***\nexpression: %s\nfile: %s\nline: %d\n", exp, file, line);
     Error(msg.AsCharPtr());
 }
@@ -32,7 +32,7 @@ n_barf(const char* exp, const char* file, int line)
 void
 n_barf2(const char* exp, const char* msg, const char* file, int line)
 {
-	Util::String m;
+	String m;
 	m.Format("*** PHILOTES ASSERTION ***\nexpression: %s\nfile: %s\nline: %d\n", exp, file, line);
     Error(m.AsCharPtr());
 }
@@ -48,7 +48,7 @@ n_error(const char* msg, ...)
     va_list argList;
     va_start(argList, msg);
     
-    Util::String str;
+    String str;
     str.FormatArgList(msg, argList);
     Error(str.AsCharPtr());
 
@@ -66,7 +66,7 @@ n_warning(const char* msg, ...)
     va_list argList;
     va_start(argList, msg);
     
-    Util::String str;
+    String str;
     str.FormatArgList(msg, argList);
     MessageBox(NULL,str.AsCharPtr(),"Philotes",MB_OK);
 
@@ -84,7 +84,7 @@ n_confirm(const char* msg, ...)
 	va_list argList;
 	va_start(argList, msg);
 
-	Util::String str;
+	String str;
 	str.FormatArgList(msg, argList);
 	MessageBox(NULL,str.AsCharPtr(),"Philotes",MB_OK);
 
@@ -104,7 +104,7 @@ n_printf(const char *msg, ...)
     va_list argList;
     va_start(argList, msg);
     
-	Util::String str;
+	String str;
 	str.FormatArgList(msg, argList);
 
 	printf(str.AsCharPtr());
@@ -124,7 +124,7 @@ n_dbgout(const char *msg, ...)
     va_list argList;
     va_start(argList,msg);
 
-	Util::String str;
+	String str;
 	str.FormatArgList(msg, argList);
 
 	OutputDebugString(str.AsCharPtr());

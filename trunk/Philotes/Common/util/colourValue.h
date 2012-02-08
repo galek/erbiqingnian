@@ -4,7 +4,7 @@
 #include "core/types.h"
 #include <iostream>
 
-namespace Util {
+namespace Philo {
 
     typedef uint32 RGBA;
     typedef uint32 ARGB;

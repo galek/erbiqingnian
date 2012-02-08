@@ -4,7 +4,7 @@
 #include "scalar.h"
 #include "vector3.h"
 
-namespace Math
+namespace Philo
 {
 
     class  _PhiloCommonExport Vector4
@@ -358,7 +358,7 @@ namespace Math
 		/// Check whether this vector contains valid values
 		inline bool isNaN() const
 		{
-			return MathMisc::isNaN(x) || MathMisc::isNaN(y) || MathMisc::isNaN(z) || MathMisc::isNaN(w);
+			return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z) || Math::isNaN(w);
 		}
         /** Function for writing to a stream.
         */

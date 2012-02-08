@@ -14,7 +14,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Math
+namespace Philo
 {
 class noise
 {
@@ -126,6 +126,6 @@ noise::gen(float x, float y, float z)
                                    grad(perm[BB+1], x-1, y-1, z-1 ))));
 }
 
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "..\Projects\Commo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhiloRender", "..\Projects\PhiloRender.vcproj", "{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhiloGears", "..\Projects\PhiloGears.vcproj", "{65BB5DD8-26B2-934D-90FA-C06838C7846E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,6 +34,12 @@ Global
 		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.Release|Win32.Build.0 = Release|Win32
 		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.ReleaseSymbols|Win32.ActiveCfg = ReleaseSymbols|Win32
 		{37C1B5C6-5934-4F4B-ABF9-E694E6CB9E98}.ReleaseSymbols|Win32.Build.0 = ReleaseSymbols|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.Debug|Win32.Build.0 = Debug|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.Release|Win32.ActiveCfg = Release|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.Release|Win32.Build.0 = Release|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.ReleaseSymbols|Win32.ActiveCfg = ReleaseSymbols|Win32
+		{65BB5DD8-26B2-934D-90FA-C06838C7846E}.ReleaseSymbols|Win32.Build.0 = ReleaseSymbols|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

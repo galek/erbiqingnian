@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::List
+    @class List
   
     Implements a doubly linked list. Since list elements can be all over the
     place in memory, dynamic arrays are often the better choice, unless 
@@ -12,7 +12,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class List
 {
@@ -678,5 +678,5 @@ List<TYPE>::Find(const TYPE& e, Iterator start) const
     return 0;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

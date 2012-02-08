@@ -10,7 +10,7 @@
 #include "core/types.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class Round
 {
@@ -84,5 +84,5 @@ Round::RoundUp(uint val, uint boundary)
     return (((val - 1) / boundary) + 1) * boundary;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

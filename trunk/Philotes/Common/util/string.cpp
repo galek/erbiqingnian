@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-namespace Util
+namespace Philo
 {
 
 const String::size_type String::npos = -1;
@@ -768,7 +768,7 @@ String::ReplaceChars(const String& charSet, char replacement)
     }
 }
 
-Math::Vector3 
+Vector3 
 String::AsVector3() const
 {
 	Array<String> tokens(3, 0); 
@@ -776,11 +776,11 @@ String::AsVector3() const
 
 	ph_assert (tokens.Size() == 3);
 
-	Math::Vector3 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat());
+	Vector3 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat());
 	return v;
 }
 
-Math::Vector2 
+Vector2 
 String::AsVector2() const
 {
 	Array<String> tokens(2, 0); 
@@ -788,11 +788,11 @@ String::AsVector2() const
 
 	ph_assert (tokens.Size() == 2);
 	
-	Math::Vector2 v(tokens[0].AsFloat(),  tokens[1].AsFloat());
+	Vector2 v(tokens[0].AsFloat(),  tokens[1].AsFloat());
 	return v;
 }
 
-Math::Vector4 
+Vector4 
 String::AsVector4() const
 {
 	Array<String> tokens(4, 0); 
@@ -800,12 +800,12 @@ String::AsVector4() const
 
 	ph_assert (tokens.Size() == 4);
 
-	Math::Vector4 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),
+	Vector4 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),
 					tokens[2].AsFloat(),  tokens[3].AsFloat());
 	return v;
 }
 
-Math::Quaternion 
+Quaternion 
 String::AsQuaternion() const
 {
 	Array<String> tokens(4, 0); 
@@ -813,12 +813,12 @@ String::AsQuaternion() const
 
 	ph_assert (tokens.Size() == 4);
 
-	Math::Quaternion v(tokens[0].AsFloat(),  tokens[1].AsFloat(),
+	Quaternion v(tokens[0].AsFloat(),  tokens[1].AsFloat(),
 					   tokens[2].AsFloat(),  tokens[3].AsFloat());
 	return v;
 }
 
-Math::Matrix3 
+Matrix3 
 String::AsMatrix3() const
 {
 	Array<String> tokens(9, 0); 
@@ -826,13 +826,13 @@ String::AsMatrix3() const
 
 	ph_assert (tokens.Size() == 9);
 
-	Math::Matrix3 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  
+	Matrix3 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  
 					tokens[3].AsFloat(),  tokens[4].AsFloat(),  tokens[5].AsFloat(),
 					tokens[6].AsFloat(),  tokens[7].AsFloat(),  tokens[8].AsFloat());
 	return v;
 }
 
-Math::Matrix4 
+Matrix4 
 String::AsMatrix4() const
 {
 	Array<String> tokens(16, 0); 
@@ -840,14 +840,14 @@ String::AsMatrix4() const
 
 	ph_assert (tokens.Size() == 16);
 
-	Math::Matrix4 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat(),
+	Matrix4 v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat(),
 					tokens[4].AsFloat(),  tokens[5].AsFloat(),  tokens[6].AsFloat(),  tokens[7].AsFloat(),
 					tokens[8].AsFloat(),  tokens[9].AsFloat(),  tokens[10].AsFloat(),  tokens[11].AsFloat(),
 					tokens[12].AsFloat(),  tokens[13].AsFloat(),  tokens[14].AsFloat(),  tokens[15].AsFloat());
 	return v;
 }
 
-Util::ColourValue 
+ColourValue 
 String::AsColourValue() const
 {
 	Array<String> tokens(4, 0); 
@@ -855,7 +855,7 @@ String::AsColourValue() const
 
 	ph_assert (tokens.Size() == 4);
 
-	Util::ColourValue v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat());
+	ColourValue v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat());
 	
 	return v;
 } 
@@ -1164,7 +1164,7 @@ String::ParseKeyValuePairs(const String& str)
 
 //------------------------------------------------------------------------------
 void 
-String::ChangeFileExtension(const Util::String& newExt)
+String::ChangeFileExtension(const String& newExt)
 {
     this->StripFileExtension();
     this->Append("." + newExt);

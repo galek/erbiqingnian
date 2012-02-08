@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::FixedArray
+    @class FixedArray
     
     Implements a fixed size one-dimensional array.
     
@@ -11,7 +11,7 @@
 #include "util/array.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class FixedArray
 {
@@ -457,5 +457,5 @@ FixedArray<TYPE>::AsArray() const
     return result;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------

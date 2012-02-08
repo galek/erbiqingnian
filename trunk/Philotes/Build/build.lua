@@ -60,12 +60,24 @@ project "PhiloRender"
   location "Projects"
   language "C++"
   libdirs { "../lib/"}
-  pchheader "RendererPch.h"
-  includedirs {"../common/","../render"}
-  pchsource "../Render/RendererPch.cpp"
+  pchheader "renderPch.h"
+  includedirs {"../3rdLibs/" ,"../common/","../render", "../gears"}
+  pchsource "../Render/renderPch.cpp"
   files { "../Render/**.c*","../Render/**.h" }
   kind 'StaticLib'
   objdir ("../obj")
   targetdir ("../lib")
-  includedirs { "../common/","../3rdLibs/" }
-  buildoptions {[[/FI "RendererPch.h"]]}
+  buildoptions {[[/FI "renderPch.h"]]}
+  
+project "PhiloGears"
+  location "Projects"
+  language "C++"
+  libdirs { "../lib/"}
+  pchheader "gearsPch.h"
+  includedirs {"../3rdLibs/" ,"../common/","../render", "../gears"}
+  pchsource "../Gears/gearsPch.cpp"
+  files { "../Gears/**.c*","../Gears/**.h" }
+  kind 'StaticLib'
+  objdir ("../obj")
+  targetdir ("../lib")
+  buildoptions {[[/FI "gearsPch.h"]]}

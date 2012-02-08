@@ -12,7 +12,7 @@
 #include "core/types.h"
 #include "timing/time.h"
 
-namespace Math
+namespace Philo
 {
 class PIDFeedbackLoop
 {
@@ -254,6 +254,6 @@ PIDFeedbackLoop::ResetError()
 	runningError = 0.0f;
 	validError = false;
 }
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
 #endif

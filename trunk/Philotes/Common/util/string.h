@@ -1,7 +1,7 @@
 ///PHILOTES Source Code.  (C)2012 PhiloLabs
 
 //------------------------------------------------------------------------------
-//    @class Util::String
+//    @class String
 //
 //     PHILOTES's universal string class. An empty string object is always 32
 //     bytes big. The string class tries to avoid costly heap allocations
@@ -22,7 +22,7 @@
 //
 // 		注意：
 // 
-// 		Util::String 测试报告，整体效率远高于STL ；
+// 		String 测试报告，整体效率远高于STL ；
 // 		operator + 要少用，处理大量数据用Append ；
 // 		新增hash_code_std_style()，与自带的HashCode()效率相当；
 // 
@@ -47,7 +47,7 @@
 #include <string>//TODO: std::string  LEFT TEMPORARILY !!! by Li
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 class _PhiloCommonExport String
 {
@@ -143,13 +143,13 @@ public:
     void		SetBool(bool val);		// set as bool value
     
 
-	void SetVector2(const Math::Vector2& v);
-	void SetVector3(const Math::Vector3& v);
-	void SetVector4(const Math::Vector4& v);
-	void SetQuaternion(const Math::Quaternion& v);
-	void SetMatrix3(const Math::Matrix3& v);
-	void SetMatrix4(const Math::Matrix4& v);
-	void SetColourValue(const Util::ColourValue& v);
+	void SetVector2(const Vector2& v);
+	void SetVector3(const Vector3& v);
+	void SetVector4(const Vector4& v);
+	void SetQuaternion(const Quaternion& v);
+	void SetMatrix3(const Matrix3& v);
+	void SetMatrix4(const Matrix4& v);
+	void SetColourValue(const ColourValue& v);
 
 
     /// generic setter
@@ -160,13 +160,13 @@ public:
     void AppendFloat(float val);
     void AppendBool(bool val);
 
-	void AppendVector2(const Math::Vector2& v);
-	void AppendVector3(const Math::Vector3& v);
-	void AppendVector4(const Math::Vector4& v);
-	void AppendQuaternion(const Math::Quaternion& v);
-	void AppendMatrix3(const Math::Matrix3& v);
-	void AppendMatrix4(const Math::Matrix4& v);
-	void AppendColourValue(const Util::ColourValue& v);
+	void AppendVector2(const Vector2& v);
+	void AppendVector3(const Vector3& v);
+	void AppendVector4(const Vector4& v);
+	void AppendQuaternion(const Quaternion& v);
+	void AppendMatrix3(const Matrix3& v);
+	void AppendMatrix4(const Matrix4& v);
+	void AppendColourValue(const ColourValue& v);
 
     /// generic append
     template<typename T> void Append(const T& t);
@@ -177,13 +177,13 @@ public:
     float				AsFloat() const;		// return contents as float
     bool				AsBool() const;		// return contents as bool
 
-	Math::Vector2			AsVector2() const;
-	Math::Vector3			AsVector3() const;
-	Math::Vector4			AsVector4() const;
-	Math::Quaternion		AsQuaternion() const;
-	Math::Matrix3			AsMatrix3() const;
-	Math::Matrix4			AsMatrix4() const;
-	Util::ColourValue		AsColourValue() const;
+	Vector2			AsVector2() const;
+	Vector3			AsVector3() const;
+	Vector4			AsVector4() const;
+	Quaternion		AsQuaternion() const;
+	Matrix3			AsMatrix3() const;
+	Matrix4			AsMatrix4() const;
+	ColourValue		AsColourValue() const;
 
 
     /// convert to "anything"
@@ -213,13 +213,13 @@ public:
     static String	FromFloat(float f);	// construct a string from a float
     static String	FromBool(bool b);		// construct a string from a bool
 
-	static String	FromVector2(const Math::Vector2& v);
-	static String	FromVector3(const Math::Vector3& v);
-	static String	FromVector4(const Math::Vector4& v);
-	static String	FromQuaternion(const Math::Quaternion& v);
-	static String	FromMatrix3(const Math::Matrix3& v);
-	static String	FromMatrix4(const Math::Matrix4& v);
-	static String	FromColourValue(const Util::ColourValue& v);
+	static String	FromVector2(const Vector2& v);
+	static String	FromVector3(const Vector3& v);
+	static String	FromVector4(const Vector4& v);
+	static String	FromQuaternion(const Quaternion& v);
+	static String	FromMatrix3(const Matrix3& v);
+	static String	FromMatrix4(const Matrix4& v);
+	static String	FromColourValue(const ColourValue& v);
 
     /// convert from "anything"
     template<typename T> static String From(const T& t);
@@ -229,7 +229,7 @@ public:
     bool		CheckFileExtension(const String& ext) const;				// check file extension
     void		ConvertBackslashes();												// convert backslashes to slashes
     void		StripFileExtension();													// remove file extension
-    void		ChangeFileExtension(const Util::String& newExt);			// change file extension
+    void		ChangeFileExtension(const String& newExt);			// change file extension
 	String		ExtractFileName() const;											// extract the part after the last directory separator
     String		ExtractLastDirName() const;										// extract the last directory of the path
     String		ExtractDirName() const;											// extract the part before the last directory separator
@@ -435,31 +435,31 @@ String::SetBool(bool val)
 }
 
 inline void
-String::SetVector2(const Math::Vector2& v)
+String::SetVector2(const Vector2& v)
 {
 	this->Format("%.6f %.6f",v.x,v.y);
 }
 
 inline void
-String::SetVector3(const Math::Vector3& v)
+String::SetVector3(const Vector3& v)
 {
 	this->Format("%.6f %.6f %.6f",v.x,v.y,v.z);
 }
 
 inline void
-String::SetVector4(const Math::Vector4& v)
+String::SetVector4(const Vector4& v)
 {
 	this->Format("%.6f %.6f %.6f %.6f",v.x,v.y,v.z,v.w);
 }
 
 inline void
-String::SetQuaternion(const Math::Quaternion& v)
+String::SetQuaternion(const Quaternion& v)
 {
 	this->Format("%.6f %.6f %.6f %.6f",v.w,v.x,v.y,v.z);
 }
 
 inline void
-String::SetMatrix3(const Math::Matrix3& val)
+String::SetMatrix3(const Matrix3& val)
 {
 	this->Format("%.6f %.6f %.6f "
 				 "%.6f %.6f %.6f "
@@ -476,7 +476,7 @@ String::SetMatrix3(const Math::Matrix3& val)
 }
 
 inline void
-String::SetMatrix4(const Math::Matrix4& val)
+String::SetMatrix4(const Matrix4& val)
 {
 	this->Format("%.6f %.6f %.6f %.6f "
 				 "%.6f %.6f %.6f %.6f "
@@ -501,7 +501,7 @@ String::SetMatrix4(const Math::Matrix4& val)
 }
 
 inline void
-String::SetColourValue(const Util::ColourValue& v)
+String::SetColourValue(const ColourValue& v)
 {
 	this->Format("%.6f %.6f %.6f %.6f",v.r,v.g,v.b,v.a);
 }
@@ -675,7 +675,7 @@ String::SubString(IndexT offset/* = 0*/, SizeT n/* = InvalidIndex*/) const
 //------------------------------------------------------------------------------
 /**
     This method computes a hash code for the string. The method is
-    compatible with the Util::HashTable class.
+    compatible with the HashTable class.
 */
 inline IndexT
 String::HashCode() const
@@ -1002,7 +1002,7 @@ String::FromBool(bool b)
 }
 
 inline String
-String::FromVector2(const Math::Vector2& v)
+String::FromVector2(const Vector2& v)
 {
 	String str;
 	str.SetVector2(v);
@@ -1010,7 +1010,7 @@ String::FromVector2(const Math::Vector2& v)
 }
 
 inline String
-String::FromVector3(const Math::Vector3& v)
+String::FromVector3(const Vector3& v)
 {
 	String str;
 	str.SetVector3(v);
@@ -1018,7 +1018,7 @@ String::FromVector3(const Math::Vector3& v)
 }
 
 inline String
-String::FromVector4(const Math::Vector4& v)
+String::FromVector4(const Vector4& v)
 {
 	String str;
 	str.SetVector4(v);
@@ -1026,7 +1026,7 @@ String::FromVector4(const Math::Vector4& v)
 }
 
 inline String
-String::FromQuaternion(const Math::Quaternion& v)
+String::FromQuaternion(const Quaternion& v)
 {
 	String str;
 	str.SetQuaternion(v);
@@ -1034,7 +1034,7 @@ String::FromQuaternion(const Math::Quaternion& v)
 }
 
 inline String
-String::FromMatrix3(const Math::Matrix3& v)
+String::FromMatrix3(const Matrix3& v)
 {
 	String str;
 	str.SetMatrix3(v);
@@ -1042,7 +1042,7 @@ String::FromMatrix3(const Math::Matrix3& v)
 }
 
 inline String
-String::FromMatrix4(const Math::Matrix4& v)
+String::FromMatrix4(const Matrix4& v)
 {
 	String str;
 	str.SetMatrix4(v);
@@ -1050,7 +1050,7 @@ String::FromMatrix4(const Math::Matrix4& v)
 }
 
 inline String
-String::FromColourValue(const Util::ColourValue& v)
+String::FromColourValue(const ColourValue& v)
 {
 	String str;
 	str.SetColourValue(v);
@@ -1087,43 +1087,43 @@ String::AppendBool(bool val)
 }
 
 inline void
-String::AppendVector2(const Math::Vector2& v)
+String::AppendVector2(const Vector2& v)
 {
 	this->Append(FromVector2(v));
 }
 
 inline void
-String::AppendVector3(const Math::Vector3& v)
+String::AppendVector3(const Vector3& v)
 {
 	this->Append(FromVector3(v));
 }
 
 inline void
-String::AppendVector4(const Math::Vector4& v)
+String::AppendVector4(const Vector4& v)
 {
 	this->Append(FromVector4(v));
 }
 
 inline void
-String::AppendQuaternion(const Math::Quaternion& v)
+String::AppendQuaternion(const Quaternion& v)
 {
 	this->Append(FromQuaternion(v));
 }
 
 inline void
-String::AppendMatrix3(const Math::Matrix3& v)
+String::AppendMatrix3(const Matrix3& v)
 {
 	this->Append(FromMatrix3(v));
 }
 
 inline void
-String::AppendMatrix4(const Math::Matrix4& v)
+String::AppendMatrix4(const Matrix4& v)
 {
 	this->Append(FromMatrix4(v));
 }
 
 inline void
-String::AppendColourValue(const Util::ColourValue& v)
+String::AppendColourValue(const ColourValue& v)
 {
 	this->Append(FromColourValue(v));
 }
@@ -1203,6 +1203,6 @@ operator >= (const String& a, const String& b)
 	return strcmp(a.AsCharPtr(), b.AsCharPtr()) >= 0;
 }
 
-} // namespace Util
+} // namespace Philo
 //------------------------------------------------------------------------------
 

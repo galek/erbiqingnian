@@ -7,7 +7,7 @@
 
 namespace Win32
 {
-using namespace Util;
+using namespace Philo;
 
 //------------------------------------------------------------------------------
 /**
@@ -148,7 +148,7 @@ Win32Guid::AsBinary(const unsigned char*& outPtr) const
 /**
 */
 Win32Guid
-Win32Guid::FromString(const Util::String& str)
+Win32Guid::FromString(const String& str)
 {
     Win32Guid newGuid;
     RPC_STATUS success = UuidFromString((RPC_CSTR)str.AsCharPtr(), &(newGuid.uuid));
@@ -172,7 +172,7 @@ Win32Guid::FromBinary(const unsigned char* ptr, SizeT numBytes)
 //------------------------------------------------------------------------------
 /**
     This method returns a hash code for the uuid, compatible with 
-    Util::HashTable.
+    HashTable.
 */
 IndexT
 Win32Guid::HashCode() const

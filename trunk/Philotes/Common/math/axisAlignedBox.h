@@ -6,7 +6,7 @@
 #include "vector3.h"
 #include "matrix4.h"
 
-namespace Math {
+namespace Philo {
 
 	class _PhiloCommonExport AxisAlignedBox
 	{
@@ -596,7 +596,7 @@ namespace Math {
 				}
 
 			case EXTENT_INFINITE:
-				return MathMisc::POS_INFINITY;
+				return Math::POS_INFINITY;
 
 			default: // shut up compiler
 				ph_assert( false && "Never reached" );
@@ -620,12 +620,12 @@ namespace Math {
 		/** Tests whether this box intersects a sphere. */
 		bool intersects(const Sphere& s) const
 		{
-			return MathMisc::intersects(s, *this); 
+			return Math::intersects(s, *this); 
 		}
 		/** Tests whether this box intersects a plane. */
 		bool intersects(const Plane& p) const
 		{
-			return MathMisc::intersects(p, *this);
+			return Math::intersects(p, *this);
 		}
 		/** Tests whether the vector point is within this box. */
 		bool intersects(const Vector3& v) const
@@ -644,7 +644,7 @@ namespace Math {
 				return true;
 
 			default: // shut up compiler
-				MathMisc( false && "Never reached" );
+				Math( false && "Never reached" );
 				return false;
 			}
 		}
@@ -671,9 +671,9 @@ namespace Math {
 
 			case EXTENT_INFINITE:
 				return Vector3(
-					MathMisc::POS_INFINITY,
-					MathMisc::POS_INFINITY,
-					MathMisc::POS_INFINITY);
+					Math::POS_INFINITY,
+					Math::POS_INFINITY,
+					Math::POS_INFINITY);
 
 			default: // shut up compiler
 				ph_assert( false && "Never reached" );
@@ -693,9 +693,9 @@ namespace Math {
 
 			case EXTENT_INFINITE:
 				return Vector3(
-					MathMisc::POS_INFINITY,
-					MathMisc::POS_INFINITY,
-					MathMisc::POS_INFINITY);
+					Math::POS_INFINITY,
+					Math::POS_INFINITY,
+					Math::POS_INFINITY);
 
 			default: // shut up compiler
 				ph_assert( false && "Never reached" );

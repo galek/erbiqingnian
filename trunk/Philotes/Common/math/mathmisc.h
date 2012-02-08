@@ -3,16 +3,13 @@
 
 #include "mathprerequisites.h"
 #include "scalar.h"
-//#include "util/array.h"
-//#include "util/list.h"
 #include <vector>
 #include <iostream>
 #include <list>
 #include <limits>
 
-namespace Math
+namespace Philo
 {
-
 	class Radian
 	{
 		scalar mRad;
@@ -147,7 +144,7 @@ namespace Math
 		return *this;
 	}
 
-	class _PhiloCommonExport MathMisc
+	class _PhiloCommonExport Math
 	{
 	public:
        enum AngleUnit
@@ -158,19 +155,19 @@ namespace Math
 
     protected:
        // angle units used by the api
-       static AngleUnit msAngleUnit;
+		static AngleUnit msAngleUnit;
 
-        /// Size of the trig tables as determined by constructor.
-        static int mTrigTableSize;
+		/// Size of the trig tables as determined by constructor.
+		static int mTrigTableSize;
 
-        /// Radian -> index factor value ( mTrigTableSize / 2 * PI )
-        static scalar mTrigTableFactor;
-        static scalar* mSinTable;
-        static scalar* mTanTable;
+		/// Radian -> index factor value ( mTrigTableSize / 2 * PI )
+		static scalar mTrigTableFactor;
+		static scalar* mSinTable;
+		static scalar* mTanTable;
 
-        /** Private function to build trig tables.
-        */
-        void buildTrigTables();
+		/** Private function to build trig tables.
+		*/
+		void buildTrigTables();
 
 		static scalar SinTable (scalar fValue);
 		static scalar TanTable (scalar fValue);
@@ -180,11 +177,11 @@ namespace Math
                 trigTableSize Optional parameter to set the size of the
                 tables used to implement Sin, Cos, Tan
         */
-        MathMisc(unsigned int trigTableSize = 4096);
+        Math(uint trigTableSize = 4096);
 
         /** Default destructor.
         */
-        ~MathMisc();
+        ~Math();
 
 		static inline int IAbs (int iValue) { return ( iValue >= 0 ? iValue : -iValue ); }
 		static inline int ICeil (float fValue) { return int(ceil(fValue)); }
@@ -507,32 +504,32 @@ namespace Math
 
 	inline scalar Radian::valueDegrees() const
 	{
-		return MathMisc::RadiansToDegrees ( mRad );
+		return Math::RadiansToDegrees ( mRad );
 	}
 
 	inline scalar Radian::valueAngleUnits() const
 	{
-		return MathMisc::RadiansToAngleUnits ( mRad );
+		return Math::RadiansToAngleUnits ( mRad );
 	}
 
 	inline scalar Degree::valueRadians() const
 	{
-		return MathMisc::DegreesToRadians ( mDeg );
+		return Math::DegreesToRadians ( mDeg );
 	}
 
 	inline scalar Degree::valueAngleUnits() const
 	{
-		return MathMisc::DegreesToAngleUnits ( mDeg );
+		return Math::DegreesToAngleUnits ( mDeg );
 	}
 
 	inline Angle::operator Radian() const
 	{
-		return Radian(MathMisc::AngleUnitsToRadians(mAngle));
+		return Radian(Math::AngleUnitsToRadians(mAngle));
 	}
 
 	inline Angle::operator Degree() const
 	{
-		return Degree(MathMisc::AngleUnitsToDegrees(mAngle));
+		return Degree(Math::AngleUnitsToDegrees(mAngle));
 	}
 
 	inline Radian operator * ( scalar a, const Radian& b )

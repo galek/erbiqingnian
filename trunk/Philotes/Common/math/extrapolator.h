@@ -14,7 +14,7 @@
 */
 #include "timing/time.h"
 
-namespace Math
+namespace Philo
 {
 template<class TYPE> class Extrapolator
 {

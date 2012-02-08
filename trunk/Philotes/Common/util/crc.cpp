@@ -5,7 +5,7 @@
 
 #include "util/crc.h"
 
-namespace Util
+namespace Philo
 {
 unsigned int Crc::Table[NumByteValues] = { 0 };
 bool Crc::TableInitialized = false;
@@ -100,4 +100,4 @@ Crc::GetResult() const
     return this->checksum;
 }
 
-} // namespace Util
+} // namespace Philo

@@ -5,7 +5,7 @@
 
 #include "util/fast_hash.h"
 
-namespace Util
+namespace Philo
 {
 /*
 #if PHILO_ENDIAN == PHILO_ENDIAN_LITTLE

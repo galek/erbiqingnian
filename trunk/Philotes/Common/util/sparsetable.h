@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------------
 /**
-    @class Util::SparseTable
+    @class SparseTable
   
     A 2D sparse table where many entries may be redundant and support
     for multiple entries per cell.
@@ -14,7 +14,7 @@
 #include "util/stringatom.h"
 
 //------------------------------------------------------------------------------
-namespace Util
+namespace Philo
 {
 template<class TYPE> class SparseTable
 {
@@ -279,5 +279,5 @@ SparseTable<TYPE>::LookupElements(const StringAtom& colName, const StringAtom& r
     return this->GetElements(colIndex, rowIndex, outNumElements);
 }
 
-} // namespace Util 
+} // namespace Philo 
 //------------------------------------------------------------------------------

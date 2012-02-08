@@ -2,7 +2,7 @@
 #include "vector2.h"
 
 
-namespace Math
+namespace Philo
 {
     const Vector2 Vector2::ZERO( 0, 0);
 

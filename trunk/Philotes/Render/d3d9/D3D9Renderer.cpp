@@ -3,39 +3,40 @@
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <RendererDesc.h>
+#include <renderDesc.h>
 
-#include <RendererProjection.h>
+#include <renderProjection.h>
 
-#include <RendererVertexBufferDesc.h>
+#include <renderVertexBufferDesc.h>
 #include "D3D9RendererVertexBuffer.h"
 
-#include <RendererIndexBufferDesc.h>
+#include <renderIndexBufferDesc.h>
 #include "D3D9RendererIndexBuffer.h"
 
-#include <RendererInstanceBufferDesc.h>
+#include <renderInstanceBufferDesc.h>
 #include "D3D9RendererInstanceBuffer.h"
 
-#include <RendererMeshDesc.h>
-#include <RendererMeshContext.h>
+#include <renderMeshDesc.h>
+#include <renderMeshContext.h>
 #include "D3D9RendererMesh.h"
 
-#include <RendererMaterialDesc.h>
-#include <RendererMaterialInstance.h>
+#include <renderMaterialDesc.h>
+#include <renderMaterialInstance.h>
 #include "D3D9RendererMaterial.h"
 
-#include <RendererLightDesc.h>
-#include <RendererDirectionalLightDesc.h>
+#include <renderLightDesc.h>
+#include <renderDirectionalLightDesc.h>
 #include "D3D9RendererDirectionalLight.h"
-#include <RendererSpotLightDesc.h>
+#include <renderSpotLightDesc.h>
 #include "D3D9RendererSpotLight.h"
 
-#include <RendererTexture2DDesc.h>
+#include <renderTexture2DDesc.h>
 #include "D3D9RendererTexture2D.h"
 
-#include <RendererTargetDesc.h>
+#include <renderTargetDesc.h>
 #include "D3D9RendererTarget.h"
 
+_NAMESPACE_BEGIN
 
 void convertToD3D9(D3DCOLOR &dxcolor, const RendererColor &color)
 {
@@ -52,18 +53,11 @@ void convertToD3D9(float *dxvec, const Vector3 &vec)
 
 void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat)
 {
-	mat.getRowMajor44(&dxmat._11);
-}
-
-void convertToD3D9(D3DMATRIX &dxmat, const RendererProjection &mat)
-{
-	float temp[16];
-	mat.getColumnMajor44(temp);
-	for(uint32 r=0; r<4; r++)
-	for(uint32 c=0; c<4; c++)
-	{
-		dxmat.m[r][c] = temp[c*4+r];
-	}
+	dxmat = D3DXMATRIX(
+			mat[0][0], mat[1][0], mat[2][0], mat[3][0],
+            mat[0][1], mat[1][1], mat[2][1], mat[3][1],
+            mat[0][2], mat[1][2], mat[2][2], mat[3][2],
+            mat[0][3], mat[1][3], mat[2][3], mat[3][3]);
 }
 
 /******************************
@@ -113,7 +107,9 @@ D3D9Renderer::D3DXInterface::~D3DXInterface(void)
 	#define CALL_D3DX_FUNCTION(_name, _params)   result = _name _params;
 #endif
 
-HRESULT D3D9Renderer::D3DXInterface::CompileShaderFromFileA(LPCSTR srcFile, CONST D3DXMACRO *defines, LPD3DXINCLUDE include, LPCSTR functionName, LPCSTR profile, DWORD flags, LPD3DXBUFFER *shader, LPD3DXBUFFER *errorMsgs, LPD3DXCONSTANTTABLE *constantTable)
+HRESULT D3D9Renderer::D3DXInterface::CompileShaderFromFileA(LPCSTR srcFile, CONST D3DXMACRO *defines, LPD3DXINCLUDE include,
+															LPCSTR functionName, LPCSTR profile, DWORD flags, LPD3DXBUFFER *shader,
+															LPD3DXBUFFER *errorMsgs, LPD3DXCONSTANTTABLE *constantTable)
 {
 
 	HRESULT result = D3DERR_NOTAVAILABLE;
@@ -166,7 +162,7 @@ D3D9Renderer::D3D9Renderer(const RendererDesc &desc) :
 	
 	m_viewMatrix = Matrix4::IDENTITY;
 	
-	SamplePlatform* m_platform = SamplePlatform::platform();
+	PhiloPlatform* m_platform = PhiloPlatform::platform();
 	m_d3d = static_cast<IDirect3D9*>(m_platform->initializeD3D9());
 	ph_assert2(m_d3d, "Could not create Direct3D9 Interface.");
 	if(m_d3d)
@@ -196,7 +192,7 @@ D3D9Renderer::D3D9Renderer(const RendererDesc &desc) :
 D3D9Renderer::~D3D9Renderer(void)
 {
 	assert(!m_textVDecl);
-	SamplePlatform* m_platform = SamplePlatform::platform();
+	PhiloPlatform* m_platform = PhiloPlatform::platform();
 
 	if(m_d3dDepthStencilSurface)
 	{
@@ -213,11 +209,11 @@ bool D3D9Renderer::checkResize(bool isDeviceLost)
 {
 	bool isDeviceReset = false;
 #if defined(RENDERER_WINDOWS)
-	if(SamplePlatform::platform()->getWindowHandle() && m_d3dDevice)
+	if(PhiloPlatform::platform()->getWindowHandle() && m_d3dDevice)
 	{
 		uint32 width  = 0;
 		uint32 height = 0;
-		SamplePlatform::platform()->getWindowSize(width, height);
+		PhiloPlatform::platform()->getWindowSize(width, height);
 		if(width && height && (width != m_displayWidth || height != m_displayHeight) || isDeviceLost)
 		{
 			bool needsReset = (m_displayWidth&&m_displayHeight ? true : false);
@@ -233,7 +229,7 @@ bool D3D9Renderer::checkResize(bool isDeviceLost)
 
 			if(needsReset)
 			{
-				physx::pubfnd2::PxU64 res = m_d3dDevice->TestCooperativeLevel();
+				uint64 res = m_d3dDevice->TestCooperativeLevel();
 				if(res == D3D_OK || res == D3DERR_DEVICENOTRESET)	//if device is lost, device has to be ready for reset
 				{
 					onDeviceLost();
@@ -335,7 +331,7 @@ bool D3D9Renderer::swapBuffers(void)
 	bool isDeviceReset = false;
 	if(m_d3dDevice)
 	{
-		HRESULT result = SamplePlatform::platform()->D3D9Present();
+		HRESULT result = PhiloPlatform::platform()->D3D9Present();
 		ph_assert2(result == D3D_OK || result == D3DERR_DEVICELOST, "Unknown Direct3D9 error when swapping buffers.");
 		if(result == D3D_OK || result == D3DERR_DEVICELOST)
 		{
@@ -499,15 +495,17 @@ void D3D9Renderer::endRender(void)
 	}
 }
 
-void D3D9Renderer::bindViewProj(const Matrix4 &eye, const RendererProjection &proj)
+void D3D9Renderer::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 {
-	eye.getInverseRT(m_viewMatrix);
+	m_viewMatrix = eye.inverse();
 	convertToD3D9(m_environment.viewMatrix, m_viewMatrix);
 	convertToD3D9(m_environment.projMatrix, proj);
 	
-	const Vector3 eyeDirection = -eye.M.getColumn(2);
-	memcpy(m_environment.eyePosition,  &eye.t.x,        sizeof(float)*3);
-	memcpy(m_environment.eyeDirection, &eyeDirection.x, sizeof(float)*3);
+	
+	const Vector3 eyeDirection = -eye.getColumn(2);
+	const Vector3 eyeT = eye.getTrans();
+	memcpy(m_environment.eyePosition,  &eyeT.x,			sizeof(scalar)*3);
+	memcpy(m_environment.eyeDirection, &eyeDirection.x, sizeof(scalar)*3);
 }
 
 void D3D9Renderer::bindAmbientState(const RendererColor &ambientColor)
@@ -524,9 +522,16 @@ void D3D9Renderer::bindMeshContext(const RendererMeshContext &context)
 {
 	Matrix4 model;
 	Matrix4 modelView;
-	if(context.transform) model = *context.transform;
-	else                  model.id();
-	modelView.multiply(m_viewMatrix, model);
+	if(context.transform) 
+	{
+		model = *context.transform;
+	}
+	else
+	{
+		model = Matrix4::IDENTITY;
+	}
+
+	modelView = m_viewMatrix * model;
 	
 	convertToD3D9(m_environment.modelMatrix,     model);
 	convertToD3D9(m_environment.modelViewMatrix, modelView);
@@ -592,7 +597,7 @@ bool D3D9Renderer::isOk(void) const
 	if(!m_d3d)            ok = false;
 	if(!m_d3dDevice)      ok = false;
 #if defined(RENDERER_WINDOWS)
-	ok = SamplePlatform::platform()->isD3D9ok();
+	ok = PhiloPlatform::platform()->isD3D9ok();
 	if(!m_d3dx.m_library) ok = false;
 #endif
 	return ok;
@@ -650,5 +655,6 @@ void D3D9Renderer::notifyResourcesResetDevice(void)
 	}
 }
 
+_NAMESPACE_END
 
 #endif // #if defined(RENDERER_ENABLE_DIRECT3D9)

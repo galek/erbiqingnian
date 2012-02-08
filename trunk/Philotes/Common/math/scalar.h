@@ -8,7 +8,7 @@
 #include <math.h>
 
 // common platform-agnostic definitions
-namespace Math
+namespace Philo
 {
 typedef float scalar;
 
@@ -18,15 +18,15 @@ typedef float scalar;
 
 // the half circle
 #ifndef N_PI
-#define N_PI (Math::scalar(PI))
+#define N_PI (scalar(PI))
 #endif
 // the whole circle
 #ifndef N_PI_DOUBLE
-#define N_PI_DOUBLE (Math::scalar(6.283185307179586476925286766559))
+#define N_PI_DOUBLE (scalar(6.283185307179586476925286766559))
 #endif
 // a quarter circle
 #ifndef N_PI_HALF
-#define N_PI_HALF (Math::scalar(1.5707963267948966192313216916398f))
+#define N_PI_HALF (scalar(1.5707963267948966192313216916398f))
 #endif
 // ---HOTFIXED
 
@@ -35,5 +35,5 @@ typedef float scalar;
 #endif
 #define N_TINY TINY
 
-} // namespace Math
+} // namespace Philo
 //------------------------------------------------------------------------------
