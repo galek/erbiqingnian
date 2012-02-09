@@ -1,0 +1,70 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+};
+
+VertexOut  vmain(float4      localSpacePosition : POSITION,
+                 float3      localSpaceNormal   : NORMAL,
+                 float3      localSpaceTangent  : TANGENT,
+                 float4      texcoord0          : TEXCOORD0,
+                 float4      texcoord1          : TEXCOORD1,
+                 float4      texcoord2          : TEXCOORD2,
+                 float4      texcoord3          : TEXCOORD3,
+                 half4       vertexColor        : COLOR,
+                 float3      instancePosition   : TEXCOORD8,
+                 float4      instanceVelocity   : TEXCOORD9
+                 )
+{
+	VertexOut vout;
+	
+	float4x4 modelMatrix = g_modelMatrix;
+/*
+#if RENDERER_INSTANCED
+	modelMatrix = transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1)));
+#else
+	modelMatrix = g_modelMatrix;
+#endif*/
+
+	float4 worldSpacePos 		 = float4(0.05,0.05,0.05,1)*localSpacePosition.xyzw;//mul( modelMatrix, localSpacePosition);
+	
+	worldSpacePos.xyz += instancePosition.xyz;
+	
+	
+	float4x4 vpm                  = mul(g_projMatrix, g_viewMatrix);
+	vout.screenSpacePosition       = mul(vpm, worldSpacePos);
+	
+	vout.params.worldSpacePosition = mul(g_modelMatrix, localSpacePosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(g_modelMatrix, float4(localSpaceTangent, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent);
+	
+	vout.params.texcoord0   = texcoord0;
+	vout.params.texcoord1   = texcoord1;
+	vout.params.texcoord2   = texcoord2;
+	vout.params.texcoord3   = texcoord3;
+	
+/*
+	vout.params.color.xyz = saturate((instanceVelocity.xyz / float3(6,6,6)) + float3(1,1,1));
+	vout.params.color.w = 1;
+	
+	if(instanceVelocity.w > 0.75)
+		vout.params.color       *= float4(1,0,0,1);
+	else if(instanceVelocity.w > 0.5)
+		vout.params.color       *= float4(1,0,1,1);
+	else if(instanceVelocity.w > 0.25)		
+		vout.params.color       *= float4(0,1,1,1);
+	else
+		vout.params.color       *= float4(0,0,1,1);
+		
+*/
+	//simpler colors for debugging
+	vout.params.color.xyz = float3(1*instanceVelocity.w,0,0);
+	vout.params.color.w = 1;
+
+	return vout;
+}

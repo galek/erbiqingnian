@@ -412,7 +412,7 @@ D3D9RendererMaterial::D3D9RendererMaterial(D3D9Renderer &renderer, const Rendere
 				{"ENABLE_VFACE",       "1"},
 				{"ENABLE_VFACE_SCALE", "1"},
 			#if defined(WIN32)
-				{"WIN32",         "1"},
+				{"WIN32",			   "1"},
 				{"ENABLE_SHADOWS",     "1"},
 			#elif defined(PX_X360)
 				{"PX_X360",            "1"},

@@ -1,0 +1,53 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+};
+
+VertexOut  vmain(float4      localSpacePosition : POSITION,
+                 float3      localSpaceNormal   : NORMAL,
+                 float3      localSpaceTangent  : TANGENT,
+                 float4      texcoord0          : TEXCOORD0,
+                 float4      texcoord1          : TEXCOORD1,
+                 float4      texcoord2          : TEXCOORD2,
+                 float4      texcoord3          : TEXCOORD3,
+                 half4       vertexColor        : COLOR,
+                 int4        boneIndices        : TEXCOORD6,
+                 float4      boneWeights        : TEXCOORD7)
+{
+	VertexOut vout;
+	
+	float4 skinnedPosition = 0;
+	float3 skinnedNormal   = 0;
+	float3 skinnedTangent  = 0;
+	for(int i=0; i<4; i++)
+	{
+		float4x4 boneMatrix = g_boneMatrices[boneIndices[i]];
+		skinnedPosition += mul(boneMatrix, localSpacePosition)   * boneWeights[i];
+		skinnedNormal   += (mul(boneMatrix, float4(localSpaceNormal,  0)) * boneWeights[i]).xyz;
+		skinnedTangent  += (mul(boneMatrix, float4(localSpaceTangent, 0)) * boneWeights[i]).xyz;
+	}
+	skinnedPosition.w = 1;
+	skinnedNormal     = normalize(skinnedNormal);
+	skinnedTangent    = normalize(skinnedTangent);
+	
+	float4x4 mvpm                  = mul(g_projMatrix, g_modelViewMatrix); // TODO: should use g_modelViewProjMatrix....
+	vout.screenSpacePosition       = mul(mvpm, skinnedPosition);
+	
+	vout.params.worldSpacePosition = mul(g_modelMatrix, skinnedPosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(g_modelMatrix, float4(skinnedNormal,  0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(g_modelMatrix, float4(skinnedTangent, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent);
+	
+	vout.params.texcoord0   = texcoord0;
+	vout.params.texcoord1   = texcoord1;
+	vout.params.texcoord2   = texcoord2;
+	vout.params.texcoord3   = texcoord3;
+	vout.params.color       = vertexColor;
+	
+	return vout;
+}

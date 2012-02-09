@@ -1,0 +1,43 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+};
+
+VertexOut  vmain(float4      localSpacePosition : POSITION,
+                 float3      localSpaceNormal   : NORMAL,
+                 float3      localSpaceTangent  : TANGENT,
+                 float4      texcoord0          : TEXCOORD0,
+                 float4      texcoord1          : TEXCOORD1,
+                 float4      texcoord2          : TEXCOORD2,
+                 float4      texcoord3          : TEXCOORD3,
+                 half4       vertexColor        : COLOR,
+                 int         boneIndex          : SEMANTIC_BONEINDEX)
+{
+	VertexOut vout;
+	
+	float4x4 boneMatrix      = g_boneMatrices[boneIndex];
+	float4   skinnedPosition = mul(boneMatrix, localSpacePosition);
+	float3   skinnedNormal   = mul(boneMatrix, float4(localSpaceNormal,  0)).xyz;
+	float3   skinnedTangent  = mul(boneMatrix, float4(localSpaceTangent, 0)).xyz;
+	
+	float4x4 mvpm                  = mul(g_projMatrix, g_modelViewMatrix); // TODO: should use g_modelViewProjMatrix....
+	vout.screenSpacePosition       = mul(mvpm, skinnedPosition);
+	
+	vout.params.worldSpacePosition = mul(g_modelMatrix, skinnedPosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(g_modelMatrix, float4(skinnedNormal,  0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(g_modelMatrix, float4(skinnedTangent, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceTangent, vout.params.worldSpaceNormal);
+	
+	vout.params.texcoord0   = texcoord0;
+	vout.params.texcoord1   = texcoord1;
+	vout.params.texcoord2   = texcoord2;
+	vout.params.texcoord3   = texcoord3;
+	vout.params.color       = vertexColor;
+	
+	return vout;
+}

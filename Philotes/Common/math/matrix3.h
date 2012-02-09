@@ -126,6 +126,21 @@ namespace Philo
         void SingularValueComposition (const Matrix3& rkL,
             const Vector3& rkS, const Matrix3& rkR);
 
+		inline void setIdentity()
+		{
+			m[0][0] = 1;
+			m[0][1] = 0;
+			m[0][2] = 0;
+
+			m[1][0] = 0;
+			m[1][1] = 1;
+			m[1][2] = 0;
+
+			m[2][0] = 0;
+			m[2][1] = 0;
+			m[2][2] = 1;
+		}
+
         // Gram-Schmidt orthonormalization (applied to columns of rotation matrix)
         void Orthonormalize ();
 

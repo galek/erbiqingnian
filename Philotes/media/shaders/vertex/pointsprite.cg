@@ -1,0 +1,68 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+	float              pointSize           : PSIZE;
+};
+
+uniform const float windowWidth;
+uniform const float particleSize;
+
+float clampedGraph(float value, float vmin, float vmax)
+{
+	return saturate((value - vmin) / (vmax-vmin));
+}
+
+VertexOut  vmain(float4      localSpacePosition : POSITION,
+                 float3      localSpaceNormal   : NORMAL,
+                 float3      localSpaceTangent  : TANGENT,
+                 float4      texcoord0          : TEXCOORD0,
+                 float4      texcoord1          : TEXCOORD1,
+                 float4      texcoord2          : TEXCOORD2,
+                 float4      texcoord3          : TEXCOORD3,
+                 half4       vertexColor        : COLOR
+               #if RENDERER_INSTANCED
+                 ,
+                 float3      instanceOffset     : SEMANTIC_INSTANCE_T,
+                 float3      instanceNormalX    : SEMANTIC_INSTANCE_X,
+                 float3      instanceNormalY    : SEMANTIC_INSTANCE_Y,
+                 float3      instanceNormalZ    : SEMANTIC_INSTANCE_Z
+               #endif
+                 )
+{
+	VertexOut vout;
+	
+	float4x4 modelMatrix;
+#if RENDERER_INSTANCED
+	modelMatrix = transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1)));
+#else
+	modelMatrix = g_modelMatrix;
+#endif
+	
+	float4x4 mvm                   = mul(g_viewMatrix, modelMatrix);
+	float4x4 mvpm                  = mul(g_projMatrix, mvm);
+	vout.screenSpacePosition       = mul(mvpm, localSpacePosition);
+	
+	vout.params.worldSpacePosition = mul(g_modelMatrix, localSpacePosition).xyz;
+	
+	float3 tbz = normalize(vout.params.worldSpacePosition - g_eyePosition);
+	float3 tbx = cross(float3(0,1,0), tbz);
+	
+	vout.params.worldSpaceNormal   = tbz;//normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+	vout.params.worldSpaceTangent  = tbx;//normalize(mul(g_modelMatrix, float4(localSpaceTangent, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent);
+	
+	vout.params.texcoord0   = texcoord0;
+	vout.params.texcoord1   = texcoord1;
+	vout.params.texcoord2   = texcoord2;
+	vout.params.texcoord3   = texcoord3;
+	vout.params.color       = vertexColor;
+	
+	vout.pointSize          = (g_projMatrix[0][0] / vout.screenSpacePosition.w) * (windowWidth / 2.0) * particleSize;
+	
+	return vout;
+}
