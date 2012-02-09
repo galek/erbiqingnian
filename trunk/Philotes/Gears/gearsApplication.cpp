@@ -58,7 +58,7 @@ void GearApplication::onOpen( void )
 
 	char rendererdir[1024];
 	strcpy_s(rendererdir, sizeof(rendererdir), m_assetPathPrefix);
-	strcat_s(rendererdir, sizeof(rendererdir), "/SampleRenderer/3/");
+	strcat_s(rendererdir, sizeof(rendererdir), "/");
 	strcpy_s(gAssetDir, sizeof(gAssetDir), rendererdir);
 
 	strcpy_s(gShadersDir, sizeof(gShadersDir), rendererdir);
@@ -128,10 +128,22 @@ void GearApplication::onDraw( void )
 
 		const float eyeSpeed = m_sceneSize * 4.0f * dtime * (isKeyDown(KEY_SHIFT) ? 4.0f : 1.0f);
 
-		if(m_keyState[KEY_W]) targetParam -= m.GetColumn(2) * eyeSpeed;
-		if(m_keyState[KEY_A]) targetParam -= m.GetColumn(0) * eyeSpeed;
-		if(m_keyState[KEY_S]) targetParam += m.GetColumn(2) * eyeSpeed;
-		if(m_keyState[KEY_D]) targetParam += m.GetColumn(0) * eyeSpeed;
+		if(m_keyState[KEY_W]) 
+		{
+			targetParam += m.GetColumn(2) * eyeSpeed;
+		}
+		if(m_keyState[KEY_A]) 
+		{
+			targetParam += m.GetColumn(0) * eyeSpeed;
+		}
+		if(m_keyState[KEY_S]) 
+		{
+			targetParam -= m.GetColumn(2) * eyeSpeed;
+		}
+		if(m_keyState[KEY_D]) 
+		{
+			targetParam -= m.GetColumn(0) * eyeSpeed;
+		}
 
 		eye = m;
 		eye.setTrans(targetParam);

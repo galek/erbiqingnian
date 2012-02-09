@@ -110,7 +110,9 @@ void Renderer::queueMeshForRender(RendererMeshContext &mesh)
 	{
 		mesh.m_renderer = this;
 		if (mesh.screenSpace)
+		{
 			m_screenSpaceMeshes.push_back(&mesh);
+		}
 		else switch (mesh.material->getType())
 		{
 		case  RendererMaterial::TYPE_LIT:

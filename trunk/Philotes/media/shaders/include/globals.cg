@@ -1,0 +1,45 @@
+
+#ifndef GLOBALS_CG
+#define GLOBALS_CG
+
+#ifdef RENDERER_PS3
+#define MAX_BONES 50
+#else
+#define MAX_BONES 60
+#endif
+
+
+uniform const float4x4      g_modelMatrix;
+uniform const float4x4      g_viewMatrix;
+uniform const float4x4      g_projMatrix;
+uniform const float4x4      g_modelViewMatrix;
+uniform const float4x4      g_modelViewProjMatrix;
+
+uniform const float4x4      g_boneMatrices[MAX_BONES]; // TODO: change this to a float4x3 (a transposed 3x4) so we can pack more bones in...
+
+uniform const float3        g_eyePosition;
+uniform const float3        g_eyeDirection;
+
+uniform const float3        g_ambientColor;
+
+uniform const float3        g_lightColor;
+uniform const float         g_lightIntensity;
+uniform const float3        g_lightDirection;
+uniform const float3        g_lightPosition;
+uniform const float         g_lightInnerRadius;
+uniform const float         g_lightOuterRadius;
+uniform const float         g_lightInnerCone;
+uniform const float         g_lightOuterCone;
+
+#if defined(PASS_SPOT_LIGHT)
+	// TODO: Make this less hacky, have a PASS_SUPPORTS_SHADOWS #define
+	#define PASS_SUPPORTS_SHADOWS
+	uniform const sampler2D g_lightShadowMap;
+	uniform const float4x4  g_lightShadowMatrix;
+#endif
+
+#if ENABLE_VFACE_SCALE
+	uniform const float     g_vfaceScale;
+#endif
+
+#endif

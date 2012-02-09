@@ -1,0 +1,72 @@
+
+#ifndef FRAGMENT_ENTRY_CG
+#define FRAGMENT_ENTRY_CG
+
+#include <config.cg>
+
+#if !defined(ENABLE_VFACE)
+#define ENABLE_VFACE 0
+#endif
+
+#if defined(PASS_UNLIT)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.color = half4(material.diffuseColor, material.alpha);
+		return fout;
+	}
+#elif defined(PASS_AMBIENT_LIGHT) || defined(PASS_POINT_LIGHT) || defined(PASS_DIRECTIONAL_LIGHT) || defined(PASS_SPOT_LIGHT)
+	Fragment fmain(FragmentParameters params
+	#if ENABLE_VFACE
+		,float vface : VFACE
+	#endif
+	)
+	{
+	#if !ENABLE_VFACE
+		float vface = 1.0;
+	#endif
+	#if ENABLE_VFACE_SCALE
+		vface *= g_vfaceScale;
+	#endif
+		Fragment fout;
+		float3x3 tangentBasis = float3x3(params.worldSpaceTangent, params.worldSpaceBinormal, params.worldSpaceNormal);
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		params.worldSpaceNormal = sign(vface) * normalize(mul(material.tangentSpaceNormal, tangentBasis));
+		Lighting        lighting = computeLighting(params, material);
+		float3 diffuseColor  = material.diffuseColor  * lighting.diffuseColor;
+		float3 emssiveColor  = material.emissiveColor + material.specularColor * lighting.specularColor;
+		fout.color = half4(diffuseColor + emssiveColor, material.alpha);
+		//fout.color = half4(params.worldSpaceNormal, 1); // renders normals.
+		return fout;
+	}
+#elif defined(PASS_NORMALS)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.color = half4(0,1,0,material.alpha);
+		return fout;
+	}
+#elif defined(PASS_DEPTH)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		float depth = length(params.worldSpacePosition - g_eyePosition);
+		fout.color = half4((half)depth,(half)depth,(half)depth,material.alpha);
+		return fout;
+	}
+#elif defined(PASS_DEFERRED)
+	DeferredFragment fmain(FragmentParameters params)
+	{
+		DeferredFragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.diffuseColor                     = half4(material.diffuseColor,   0);
+		fout.emissiveColor                    = half4(material.emissiveColor,  0);
+		fout.worldSpaceNormalAndSpecularPower = half4(params.worldSpaceNormal, material.specularPower);
+		return fout;
+	}
+#endif
+	
+#endif

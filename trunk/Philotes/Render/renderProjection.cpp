@@ -31,6 +31,7 @@ void RendererProjection::makeProjectionMatrix( const Radian& fovy, scalar aspect
 	dest[3][2] = -1.0f;
 
 	dest[2][3] = qn;
+	dest = dest.transpose();
 }
 
 void RendererProjection::makeProjectionMatrix( scalar left, scalar right, scalar bottom,
@@ -58,6 +59,7 @@ void RendererProjection::makeProjectionMatrix( scalar left, scalar right, scalar
 	dest[3][2] = -1.0f;
 
 	dest[2][3] = qn;
+	dest = dest.transpose();
 }
 
 void RendererProjection::buildProjectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view)
