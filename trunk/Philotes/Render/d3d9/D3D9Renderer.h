@@ -138,9 +138,6 @@ class D3D9Renderer : public Renderer
 		virtual RendererMesh           *createMesh(          const RendererMeshDesc           &desc);
 		virtual RendererLight          *createLight(         const RendererLightDesc          &desc);
 
-		virtual	bool					initTexter();
-		virtual	void					closeTexter();
-
 	private:
 		virtual bool beginRender(void);
 		virtual void endRender(void);

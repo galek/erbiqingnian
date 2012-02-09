@@ -9,6 +9,8 @@
 
 _NAMESPACE_BEGIN
 
+extern char gShadersDir[];
+
 void D3D9RendererMaterial::setModelMatrix(const scalar *matrix)
 {
 	if ( m_instancedVertexConstants.table && m_instancedVertexConstants.modelMatrix )
