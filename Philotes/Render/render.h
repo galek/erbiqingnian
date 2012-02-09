@@ -102,11 +102,6 @@ public:
 		virtual RendererMesh           *createMesh(          const RendererMeshDesc           &desc) = 0;
 		virtual RendererLight          *createLight(         const RendererLightDesc          &desc) = 0;
 
-		// Text rendering
-		virtual	bool					initTexter();
-		virtual	void					closeTexter();
-				void					print(uint32 x, uint32 y, const char* text, scalar scale=0.5f, scalar shadowOffset=6.0f, uint32 textColor=0xffffffff);
-
 		// Disable this performance optimization when CUDA/Graphics Interop is in use
 		void setVertexBufferDeferredUnlocking( bool enabled );
 		bool getVertexBufferDeferredUnlocking() const;

@@ -248,4 +248,21 @@ GearAsset *GearAssetManager::loadTextureAsset(FILE &file, const char *path, Gear
 	return asset;
 }
 
+bool GearAssetManager::searchForPath( const char* path, char* buffer, int bufferSize, int maxRecursion )
+{
+	char* tmpBuffer = (char*)alloca(bufferSize);
+	strcpy_s(buffer, bufferSize, path);
+	for(int i = 0; i < maxRecursion; i++)
+	{
+		if(GetFileAttributes(buffer) == INVALID_FILE_ATTRIBUTES)
+		{
+			sprintf_s(tmpBuffer, bufferSize, "../%s", buffer);
+			strcpy_s(buffer, bufferSize, tmpBuffer);
+		}
+		else 
+			return true;
+	}
+	return false;
+}
+
 _NAMESPACE_END

@@ -11,6 +11,8 @@
 
 _NAMESPACE_BEGIN
 
+extern char gShadersDir[];
+
 _IMPLEMENT_SINGLETON(GearPlatform);
 
 static const char *g_windowClassName = "phwndclass";
@@ -162,11 +164,21 @@ static ATOM registerWindowClass(HINSTANCE hInstance)
 GearPlatform::GearPlatform( RendererWindow* _app ) :  m_app(_app)
 {
 	m_sf_app = static_cast<GearApplication*>(m_app);
+
+	m_isHandlingMessages = false;
+	m_destroyWindow = false;
+	m_hasFocus = true;
+	m_hwnd = 0;
 }
 
 GearPlatform::~GearPlatform()
 {
-
+	ph_assert2(m_hwnd==0, "RendererWindow was not closed before being destroyed.");
+	if(m_library) 
+	{
+		FreeLibrary(m_library);
+		m_library = 0;
+	}
 }
 
 void GearPlatform::correctCurrentDir( void )
