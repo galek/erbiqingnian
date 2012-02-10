@@ -7,7 +7,7 @@ class RenderCamera
 {
 public:
 
-
+	
 };
 
 _NAMESPACE_END

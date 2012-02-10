@@ -19,3 +19,11 @@
 #include "math/matrix4.h"
 #include "math/mathmisc.h"
 #include "math/quaternion.h"
+
+#include "util/string.h"
+#include "util/array.h"
+#include "util/dictionary.h"
+#include "util/list.h"
+#include "util/hashtable.h"
+
+#include "core/exception.h"

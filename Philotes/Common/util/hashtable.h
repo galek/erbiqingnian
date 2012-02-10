@@ -457,9 +457,9 @@ template<class KEYTYPE, class VALUETYPE>
 inline void
 HashTable<KEYTYPE, VALUETYPE>::Iterator::set_begin()
 {
-	for (int i = 0; i < this->hashArray.Size(); ++i)
+	for (int i = 0; i < (*this->hash_array_ptr).Size(); ++i)
 	{
-		for (int j = 0; j < this->hashArray[i].Size(); ++j)
+		for (int j = 0; j < (*this->hash_array_ptr)[i].Size(); ++j)
 		{
 			this->idx_1 = i;
 			this->idx_2 = j;
@@ -478,7 +478,7 @@ template<class KEYTYPE, class VALUETYPE>
 inline void
 HashTable<KEYTYPE, VALUETYPE>::Iterator::set_end()
 {
-	this->idx_1 = this->hashArray.Size();
+	this->idx_1 = (*this->hash_array_ptr).Size();
 	this->idx_2 = 0;
 }
 
@@ -490,7 +490,7 @@ template<class KEYTYPE, class VALUETYPE>
 inline bool
 HashTable<KEYTYPE, VALUETYPE>::Iterator::is_end()
 {
-	return (this->idx_1 == this->hashArray.Size() && this->idx_2 == 0);
+	return (this->idx_1 == (*this->hash_array_ptr).Size() && this->idx_2 == 0);
 }
 
 //------------------------------------------------------------------------------
