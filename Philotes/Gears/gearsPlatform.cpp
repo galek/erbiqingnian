@@ -19,7 +19,7 @@ static const char *g_windowClassName = "phwndclass";
 static const DWORD g_windowStyle     = WS_OVERLAPPEDWINDOW;
 static const DWORD g_fullscreenStyle = WS_POPUP;
 
-static void doOnMouseDown(HWND m_hwnd, RendererWindow &window, LPARAM lParam, RendererWindow::MouseButton button)
+static void doOnMouseDown(HWND m_hwnd, RenderWindow &window, LPARAM lParam, RenderWindow::MouseButton button)
 {
 	RECT rect;
 	GetClientRect(m_hwnd, &rect);
@@ -27,7 +27,7 @@ static void doOnMouseDown(HWND m_hwnd, RendererWindow &window, LPARAM lParam, Re
 	window.onMouseDown((uint32)LOWORD(lParam), height-(uint32)HIWORD(lParam), button);
 }
 
-static void doOnMouseUp(HWND m_hwnd, RendererWindow &window, LPARAM lParam, RendererWindow::MouseButton button)
+static void doOnMouseUp(HWND m_hwnd, RenderWindow &window, LPARAM lParam, RenderWindow::MouseButton button)
 {
 	RECT rect;
 	GetClientRect(m_hwnd, &rect);
@@ -35,22 +35,22 @@ static void doOnMouseUp(HWND m_hwnd, RendererWindow &window, LPARAM lParam, Rend
 	window.onMouseUp((uint32)LOWORD(lParam), height-(uint32)HIWORD(lParam), button);
 }
 
-static RendererWindow::KeyCode getKeyCode(WPARAM wParam)
+static RenderWindow::KeyCode getKeyCode(WPARAM wParam)
 {
-	RendererWindow::KeyCode keyCode = RendererWindow::KEY_UNKNOWN;
+	RenderWindow::KeyCode keyCode = RenderWindow::KEY_UNKNOWN;
 	const int keyparam = (int)wParam;
 
-	if(keyparam >= 'A' && keyparam <= 'Z') keyCode = (RendererWindow::KeyCode)((keyparam - 'A')+RendererWindow::KEY_A);
-	else if(keyparam >= '0' && keyparam <= '9') keyCode = (RendererWindow::KeyCode)((keyparam - '0')+RendererWindow::KEY_0);
-	else if(keyparam >= VK_NUMPAD0 && keyparam <= VK_DIVIDE) keyCode = (RendererWindow::KeyCode)((keyparam - VK_NUMPAD0)+RendererWindow::KEY_NUMPAD0);
-	else if(keyparam == VK_SHIFT) keyCode = RendererWindow::KEY_SHIFT;
-	else if(keyparam == VK_CONTROL) keyCode = RendererWindow::KEY_CONTROL;
-	else if(keyparam == VK_SPACE) keyCode = RendererWindow::KEY_SPACE;
-	else if(keyparam == VK_ESCAPE) keyCode = RendererWindow::KEY_ESCAPE;
-	else if(keyparam == VK_OEM_COMMA) keyCode = RendererWindow::KEY_COMMA;
-	else if(keyparam == VK_OEM_2) keyCode = RendererWindow::KEY_DIVIDE;
-	else if(keyparam == VK_OEM_MINUS) keyCode = RendererWindow::KEY_SUBTRACT;
-	else if(keyparam == VK_OEM_PLUS) keyCode = RendererWindow::KEY_ADD;
+	if(keyparam >= 'A' && keyparam <= 'Z') keyCode = (RenderWindow::KeyCode)((keyparam - 'A')+RenderWindow::KEY_A);
+	else if(keyparam >= '0' && keyparam <= '9') keyCode = (RenderWindow::KeyCode)((keyparam - '0')+RenderWindow::KEY_0);
+	else if(keyparam >= VK_NUMPAD0 && keyparam <= VK_DIVIDE) keyCode = (RenderWindow::KeyCode)((keyparam - VK_NUMPAD0)+RenderWindow::KEY_NUMPAD0);
+	else if(keyparam == VK_SHIFT) keyCode = RenderWindow::KEY_SHIFT;
+	else if(keyparam == VK_CONTROL) keyCode = RenderWindow::KEY_CONTROL;
+	else if(keyparam == VK_SPACE) keyCode = RenderWindow::KEY_SPACE;
+	else if(keyparam == VK_ESCAPE) keyCode = RenderWindow::KEY_ESCAPE;
+	else if(keyparam == VK_OEM_COMMA) keyCode = RenderWindow::KEY_COMMA;
+	else if(keyparam == VK_OEM_2) keyCode = RenderWindow::KEY_DIVIDE;
+	else if(keyparam == VK_OEM_MINUS) keyCode = RenderWindow::KEY_SUBTRACT;
+	else if(keyparam == VK_OEM_PLUS) keyCode = RenderWindow::KEY_ADD;
 
 	return keyCode;
 }
@@ -58,9 +58,9 @@ static RendererWindow::KeyCode getKeyCode(WPARAM wParam)
 static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 #if defined(RENDERER_64BIT)
-	RendererWindow *window = (RendererWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	RenderWindow *window = (RenderWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 #else
-	RendererWindow *window = (RendererWindow *)LongToPtr(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	RenderWindow *window = (RenderWindow *)LongToPtr(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 #endif
 
 	bool customHandle = false;
@@ -102,19 +102,19 @@ static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 
 		case WM_LBUTTONDOWN:
-			if(window) doOnMouseDown(hwnd, *window, lParam, RendererWindow::MOUSE_LEFT);
+			if(window) doOnMouseDown(hwnd, *window, lParam, RenderWindow::MOUSE_LEFT);
 			break;
 
 		case WM_LBUTTONUP:
-			if(window) doOnMouseUp(hwnd, *window, lParam, RendererWindow::MOUSE_LEFT);
+			if(window) doOnMouseUp(hwnd, *window, lParam, RenderWindow::MOUSE_LEFT);
 			break;
 
 		case WM_RBUTTONDOWN:
-			if(window) doOnMouseDown(hwnd, *window, lParam, RendererWindow::MOUSE_RIGHT);
+			if(window) doOnMouseDown(hwnd, *window, lParam, RenderWindow::MOUSE_RIGHT);
 			break;
 
 		case WM_RBUTTONUP:
-			if(window) doOnMouseUp(hwnd, *window, lParam, RendererWindow::MOUSE_RIGHT);
+			if(window) doOnMouseUp(hwnd, *window, lParam, RenderWindow::MOUSE_RIGHT);
 			break;
 
 		case WM_KEYDOWN:
@@ -161,7 +161,7 @@ static ATOM registerWindowClass(HINSTANCE hInstance)
 
 //////////////////////////////////////////////////////////////////////////
 
-GearPlatform::GearPlatform( RendererWindow* _app ) :  m_app(_app)
+GearPlatform::GearPlatform( RenderWindow* _app ) :  m_app(_app)
 {
 	m_sf_app = static_cast<GearApplication*>(m_app);
 
@@ -173,7 +173,7 @@ GearPlatform::GearPlatform( RendererWindow* _app ) :  m_app(_app)
 
 GearPlatform::~GearPlatform()
 {
-	ph_assert2(m_hwnd==0, "RendererWindow was not closed before being destroyed.");
+	ph_assert2(m_hwnd==0, "RenderWindow was not closed before being destroyed.");
 	if(m_library) 
 	{
 		FreeLibrary(m_library);
@@ -408,7 +408,7 @@ void* GearPlatform::initializeD3D9()
 		ph_assert2(m_library, "Could not load " D3D9_DLL ".");
 		if(!m_library)
 		{
-			MessageBoxA(0, "Could not load " D3D9_DLL ". Please install the latest DirectX End User Runtime available at www.microsoft.com/directx.", "Renderer Error.", MB_OK);
+			MessageBoxA(0, "Could not load " D3D9_DLL ". Please install the latest DirectX End User Runtime available at www.microsoft.com/directx.", "Render Error.", MB_OK);
 		}
 #undef D3D9_DLL
 		if(m_library)
@@ -534,50 +534,50 @@ void GearPlatform::D3D9DeviceBlockUntilIdle()
 
 }
 
-uint64 GearPlatform::getD3D9TextureFormat( RendererTexture2D::Format format )
+uint64 GearPlatform::getD3D9TextureFormat( RenderTexture2D::Format format )
 {
 	D3DFORMAT d3dFormat = D3DFMT_UNKNOWN;
 	switch(format)
 	{
-	case RendererTexture2D::FORMAT_B8G8R8A8: d3dFormat = D3DFMT_A8R8G8B8; break;
-	case RendererTexture2D::FORMAT_A8:       d3dFormat = D3DFMT_A8;       break;
-	case RendererTexture2D::FORMAT_R32F:     d3dFormat = D3DFMT_R32F;     break;
-	case RendererTexture2D::FORMAT_DXT1:     d3dFormat = D3DFMT_DXT1;     break;
-	case RendererTexture2D::FORMAT_DXT3:     d3dFormat = D3DFMT_DXT3;     break;
-	case RendererTexture2D::FORMAT_DXT5:     d3dFormat = D3DFMT_DXT5;     break;
-	case RendererTexture2D::FORMAT_D16:      d3dFormat = D3DFMT_D16;      break;
-	case RendererTexture2D::FORMAT_D24S8:    d3dFormat = D3DFMT_D24S8;    break;
+	case RenderTexture2D::FORMAT_B8G8R8A8: d3dFormat = D3DFMT_A8R8G8B8; break;
+	case RenderTexture2D::FORMAT_A8:       d3dFormat = D3DFMT_A8;       break;
+	case RenderTexture2D::FORMAT_R32F:     d3dFormat = D3DFMT_R32F;     break;
+	case RenderTexture2D::FORMAT_DXT1:     d3dFormat = D3DFMT_DXT1;     break;
+	case RenderTexture2D::FORMAT_DXT3:     d3dFormat = D3DFMT_DXT3;     break;
+	case RenderTexture2D::FORMAT_DXT5:     d3dFormat = D3DFMT_DXT5;     break;
+	case RenderTexture2D::FORMAT_D16:      d3dFormat = D3DFMT_D16;      break;
+	case RenderTexture2D::FORMAT_D24S8:    d3dFormat = D3DFMT_D24S8;    break;
 	}
 	return static_cast<uint64>(d3dFormat);
 }
 
-void GearPlatform::postRendererRelease()
+void GearPlatform::postRenderRelease()
 {
 
 }
 
-void GearPlatform::preRendererSetup()
+void GearPlatform::preRenderSetup()
 {
 
 }
 
-void GearPlatform::postRendererSetup()
+void GearPlatform::postRenderSetup()
 {
-	if(!m_sf_app->getRenderer())
+	if(!m_sf_app->getRender())
 	{
 		exit(1);
 	}
 	char windowTitle[1024] = {0};
 	m_app->getTitle(windowTitle, 1024);
 	strcat_s(windowTitle, 1024, " : ");
-	strcat_s(windowTitle, 1024, Renderer::getDriverTypeName(
-		m_sf_app->getRenderer()->getDriverType()));
+	strcat_s(windowTitle, 1024, Render::getDriverTypeName(
+		m_sf_app->getRender()->getDriverType()));
 	m_app->setTitle(windowTitle);
 }
 
-void GearPlatform::setupRendererDescription( RendererDesc& renDesc )
+void GearPlatform::setupRenderDescription( RenderDesc& renDesc )
 {
-	renDesc.driver = Renderer::DRIVER_DIRECT3D9;
+	renDesc.driver = Render::DRIVER_DIRECT3D9;
 	renDesc.windowHandle = reinterpret_cast<uint64>(m_hwnd);
 }
 

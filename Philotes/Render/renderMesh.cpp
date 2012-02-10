@@ -8,12 +8,12 @@
 
 _NAMESPACE_BEGIN
 
-RendererMesh::RendererMesh(const RendererMeshDesc &desc)
+RenderMesh::RenderMesh(const RenderMeshDesc &desc)
 {
 	m_primitives = desc.primitives;
 	
 	m_numVertexBuffers = desc.numVertexBuffers;
-	m_vertexBuffers = new RendererVertexBuffer*[m_numVertexBuffers];
+	m_vertexBuffers = new RenderVertexBuffer*[m_numVertexBuffers];
 	for(uint32 i=0; i<m_numVertexBuffers; i++)
 	{
 		m_vertexBuffers[i] = desc.vertexBuffers[i];
@@ -30,73 +30,73 @@ RendererMesh::RendererMesh(const RendererMeshDesc &desc)
 	m_numInstances   = desc.numInstances;
 }
 
-RendererMesh::~RendererMesh(void)
+RenderMesh::~RenderMesh(void)
 {
 	delete [] m_vertexBuffers;
 }
 
-RendererMesh::Primitive RendererMesh::getPrimitives(void) const
+RenderMesh::Primitive RenderMesh::getPrimitives(void) const
 {
 	return m_primitives;
 }
 
-uint32 RendererMesh::getNumVertices(void) const
+uint32 RenderMesh::getNumVertices(void) const
 {
 	return m_numVertices;
 }
 
-uint32 RendererMesh::getNumIndices(void) const
+uint32 RenderMesh::getNumIndices(void) const
 {
 	return m_numIndices;
 }
 
-uint32 RendererMesh::getNumInstances(void) const
+uint32 RenderMesh::getNumInstances(void) const
 {
 	return m_numInstances;
 }
 
-void RendererMesh::setVertexBufferRange(uint32 firstVertex, uint32 numVertices)
+void RenderMesh::setVertexBufferRange(uint32 firstVertex, uint32 numVertices)
 {
 	// TODO: Check for valid range...
 	m_firstVertex = firstVertex;
 	m_numVertices = numVertices;
 }
 
-void RendererMesh::setIndexBufferRange(uint32 firstIndex, uint32 numIndices)
+void RenderMesh::setIndexBufferRange(uint32 firstIndex, uint32 numIndices)
 {
 	// TODO: Check for valid range...
 	m_firstIndex = firstIndex;
 	m_numIndices = numIndices;
 }
 
-void RendererMesh::setInstanceBufferRange(uint32 firstInstance, uint32 numInstances)
+void RenderMesh::setInstanceBufferRange(uint32 firstInstance, uint32 numInstances)
 {
 	// TODO: Check for valid range...
 	m_firstInstance = firstInstance;
 	m_numInstances  = numInstances;
 }
 
-uint32 RendererMesh::getNumVertexBuffers(void) const
+uint32 RenderMesh::getNumVertexBuffers(void) const
 {
 	return m_numVertexBuffers;
 }
 
-const RendererVertexBuffer *const*RendererMesh::getVertexBuffers(void) const
+const RenderVertexBuffer *const*RenderMesh::getVertexBuffers(void) const
 {
 	return m_vertexBuffers;
 }
 
-const RendererIndexBuffer *RendererMesh::getIndexBuffer(void) const
+const RenderIndexBuffer *RenderMesh::getIndexBuffer(void) const
 {
 	return m_indexBuffer;
 }
 
-const RendererInstanceBuffer *RendererMesh::getInstanceBuffer(void) const
+const RenderInstanceBuffer *RenderMesh::getInstanceBuffer(void) const
 {
 	return m_instanceBuffer;
 }
 
-void RendererMesh::bind(void) const
+void RenderMesh::bind(void) const
 {
 	for(uint32 i=0; i<m_numVertexBuffers; i++)
 	{
@@ -113,7 +113,7 @@ void RendererMesh::bind(void) const
 	}
 }
 
-void RendererMesh::render(RendererMaterial *material) const
+void RenderMesh::render(RenderMaterial *material) const
 {
 	if(m_instanceBuffer)
 	{
@@ -139,7 +139,7 @@ void RendererMesh::render(RendererMaterial *material) const
 	}
 }
 
-void RendererMesh::unbind(void) const
+void RenderMesh::unbind(void) const
 {
 	if(m_indexBuffer)
 	{

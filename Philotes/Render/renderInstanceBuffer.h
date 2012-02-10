@@ -6,11 +6,11 @@
 
 _NAMESPACE_BEGIN
 
-class RendererInstanceBufferDesc;
+class RenderInstanceBufferDesc;
 
-class RendererInstanceBuffer
+class RenderInstanceBuffer
 {
-	friend class RendererMesh;
+	friend class RenderMesh;
 	public:
 		typedef enum Semantic
 		{
@@ -44,8 +44,8 @@ class RendererInstanceBuffer
 		static uint32 getFormatByteSize(Format format);
 	
 	protected:
-		RendererInstanceBuffer(const RendererInstanceBufferDesc &desc);
-		virtual ~RendererInstanceBuffer(void);
+		RenderInstanceBuffer(const RenderInstanceBufferDesc &desc);
+		virtual ~RenderInstanceBuffer(void);
 		
 	public:
 		void release(void) { delete this; }
@@ -64,7 +64,7 @@ class RendererInstanceBuffer
 		virtual void  bind(uint32 streamID, uint32 firstInstance) const = 0;
 		virtual void  unbind(uint32 streamID) const = 0;
 		
-		RendererInstanceBuffer &operator=(const RendererInstanceBuffer &) { return *this; }
+		RenderInstanceBuffer &operator=(const RenderInstanceBuffer &) { return *this; }
 		
 	protected:
 		class SemanticDesc

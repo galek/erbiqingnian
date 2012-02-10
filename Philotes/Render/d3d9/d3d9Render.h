@@ -26,23 +26,23 @@
 
 _NAMESPACE_BEGIN
 
-class RendererDesc;
-class RendererColor;
+class RenderDesc;
+class RenderColor;
 
-void convertToD3D9(D3DCOLOR &dxcolor, const RendererColor &color);
+void convertToD3D9(D3DCOLOR &dxcolor, const RenderColor &color);
 void convertToD3D9(float *dxvec, const Vector3 &vec);
 void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat);
-void convertToD3D9(D3DMATRIX &dxmat, const RendererProjection &mat);
+void convertToD3D9(D3DMATRIX &dxmat, const RenderProjection &mat);
 
-class D3D9RendererResource;
+class D3D9RenderResource;
 
-class D3D9Renderer : public Renderer
+class D3D9Render : public Render
 {
-	friend class D3D9RendererResource;
+	friend class D3D9RenderResource;
 	public:
 		class D3DXInterface
 		{
-			friend class D3D9Renderer;
+			friend class D3D9Render;
 			private:
 				D3DXInterface(void);
 				~D3DXInterface(void);
@@ -101,8 +101,8 @@ class D3D9Renderer : public Renderer
 		};
 		
 	public:
-		D3D9Renderer(const RendererDesc &desc);
-		virtual ~D3D9Renderer(void);
+		D3D9Render(const RenderDesc &desc);
+		virtual ~D3D9Render(void);
 		
 		IDirect3DDevice9        *getD3DDevice(void)               { return m_d3dDevice; }
 		D3DXInterface           &getD3DX(void)                    { return m_d3dx; }
@@ -129,31 +129,31 @@ class D3D9Renderer : public Renderer
 		// get the window size
 		void getWindowSize(uint32 &width, uint32 &height) const;
 		
-		virtual RendererVertexBuffer   *createVertexBuffer(  const RendererVertexBufferDesc   &desc);
-		virtual RendererIndexBuffer    *createIndexBuffer(   const RendererIndexBufferDesc    &desc);
-		virtual RendererInstanceBuffer *createInstanceBuffer(const RendererInstanceBufferDesc &desc);
-		virtual RendererTexture2D      *createTexture2D(     const RendererTexture2DDesc      &desc);
-		virtual RendererTarget         *createTarget(        const Philo::RendererTargetDesc         &desc);
-		virtual RendererMaterial       *createMaterial(      const RendererMaterialDesc       &desc);
-		virtual RendererMesh           *createMesh(          const RendererMeshDesc           &desc);
-		virtual RendererLight          *createLight(         const RendererLightDesc          &desc);
+		virtual RenderVertexBuffer   *createVertexBuffer(  const RenderVertexBufferDesc   &desc);
+		virtual RenderIndexBuffer    *createIndexBuffer(   const RenderIndexBufferDesc    &desc);
+		virtual RenderInstanceBuffer *createInstanceBuffer(const RenderInstanceBufferDesc &desc);
+		virtual RenderTexture2D      *createTexture2D(     const RenderTexture2DDesc      &desc);
+		virtual RenderTarget         *createTarget(        const Philo::RenderTargetDesc         &desc);
+		virtual RenderMaterial       *createMaterial(      const RenderMaterialDesc       &desc);
+		virtual RenderMesh           *createMesh(          const RenderMeshDesc           &desc);
+		virtual RenderLight          *createLight(         const RenderLightDesc          &desc);
 
 	private:
 		virtual bool beginRender(void);
 		virtual void endRender(void);
 		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj);
-		virtual void bindAmbientState(const RendererColor &ambientColor);
+		virtual void bindAmbientState(const RenderColor &ambientColor);
 		virtual void bindDeferredState(void);
-		virtual void bindMeshContext(const RendererMeshContext &context);
+		virtual void bindMeshContext(const RenderElement &context);
 		virtual void beginMultiPass(void);
 		virtual void endMultiPass(void);
-		virtual void renderDeferredLight(const RendererLight &light);
+		virtual void renderDeferredLight(const RenderLight &light);
 		
 		virtual bool isOk(void) const;
 		
 	private:
-		void addResource(D3D9RendererResource &resource);
-		void removeResource(D3D9RendererResource &resource);
+		void addResource(D3D9RenderResource &resource);
+		void removeResource(D3D9RenderResource &resource);
 		void notifyResourcesLostDevice(void);
 		void notifyResourcesResetDevice(void);
 	
@@ -175,23 +175,23 @@ class D3D9Renderer : public Renderer
 		Matrix4							m_viewMatrix;
 		
 		// non-managed resources...
-		std::vector<D3D9RendererResource*> m_resources;
+		std::vector<D3D9RenderResource*> m_resources;
 
 		IDirect3DVertexDeclaration9*	m_textVDecl;
 };
 
-class D3D9RendererResource
+class D3D9RenderResource
 {
-	friend class D3D9Renderer;
+	friend class D3D9Render;
 	public:
-		D3D9RendererResource(void)
+		D3D9RenderResource(void)
 		{
-			m_d3dRenderer = 0;
+			m_d3dRender = 0;
 		}
 		
-		virtual ~D3D9RendererResource(void)
+		virtual ~D3D9RenderResource(void)
 		{
-			if(m_d3dRenderer) m_d3dRenderer->removeResource(*this);
+			if(m_d3dRender) m_d3dRender->removeResource(*this);
 		}
 		
 	public:
@@ -199,7 +199,7 @@ class D3D9RendererResource
 		virtual void onDeviceReset(void)=0;
 	
 	private:
-		D3D9Renderer *m_d3dRenderer;
+		D3D9Render *m_d3dRender;
 };
 
 _NAMESPACE_END

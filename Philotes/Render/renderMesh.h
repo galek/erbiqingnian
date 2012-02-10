@@ -7,15 +7,15 @@
 
 _NAMESPACE_BEGIN
 
-class RendererMeshDesc;
-class RendererVertexBuffer;
-class RendererIndexBuffer;
-class RendererInstanceBuffer;
-class RendererMaterial;
+class RenderMeshDesc;
+class RenderVertexBuffer;
+class RenderIndexBuffer;
+class RenderInstanceBuffer;
+class RenderMaterial;
 
-class RendererMesh
+class RenderMesh
 {
-	friend class Renderer;
+	friend class Render;
 	public:
 		typedef enum Primitive
 		{
@@ -30,8 +30,8 @@ class RendererMesh
 		};
 	
 	protected:
-		RendererMesh(const RendererMeshDesc &desc);
-		virtual ~RendererMesh(void);
+		RenderMesh(const RenderMeshDesc &desc);
+		virtual ~RenderMesh(void);
 		
 	public:
 		void release(void) { delete this; }
@@ -47,36 +47,36 @@ class RendererMesh
 		void setInstanceBufferRange(uint32 firstInstance, uint32 numInstances);
 		
 		uint32                             getNumVertexBuffers(void) const;
-		const RendererVertexBuffer *const*getVertexBuffers(void) const;
+		const RenderVertexBuffer *const*getVertexBuffers(void) const;
 		
-		const RendererIndexBuffer        *getIndexBuffer(void) const;
+		const RenderIndexBuffer        *getIndexBuffer(void) const;
 		
-		const RendererInstanceBuffer     *getInstanceBuffer(void) const;
+		const RenderInstanceBuffer     *getInstanceBuffer(void) const;
 		
 	private:
 		void         bind(void) const;
-		void         render(RendererMaterial *material) const;
+		void         render(RenderMaterial *material) const;
 		void         unbind(void) const;
 		
-		virtual void renderIndices(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RendererIndexBuffer::Format indexFormat) const = 0;
+		virtual void renderIndices(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RenderIndexBuffer::Format indexFormat) const = 0;
 		virtual void renderVertices(uint32 numVertices) const = 0;
 		
-		virtual void renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RendererIndexBuffer::Format indexFormat,RendererMaterial *material) const = 0;
-		virtual void renderVerticesInstanced(uint32 numVertices,RendererMaterial *material) const = 0;
+		virtual void renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RenderIndexBuffer::Format indexFormat,RenderMaterial *material) const = 0;
+		virtual void renderVerticesInstanced(uint32 numVertices,RenderMaterial *material) const = 0;
 	
 	protected:
 		Primitive               m_primitives;
 		
-		RendererVertexBuffer  **m_vertexBuffers;
+		RenderVertexBuffer  **m_vertexBuffers;
 		uint32                   m_numVertexBuffers;
 		uint32                   m_firstVertex;
 		uint32                   m_numVertices;
 		
-		RendererIndexBuffer    *m_indexBuffer;
+		RenderIndexBuffer    *m_indexBuffer;
 		uint32                   m_firstIndex;
 		uint32                   m_numIndices;
 		
-		RendererInstanceBuffer *m_instanceBuffer;
+		RenderInstanceBuffer *m_instanceBuffer;
 		uint32                   m_firstInstance;
 		uint32                   m_numInstances;
 };

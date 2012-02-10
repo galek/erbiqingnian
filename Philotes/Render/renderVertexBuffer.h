@@ -6,11 +6,11 @@
 
 _NAMESPACE_BEGIN
 
-class RendererVertexBufferDesc;
+class RenderVertexBufferDesc;
 
-class RendererVertexBuffer
+class RenderVertexBuffer
 {
-	friend class RendererMesh;
+	friend class RenderMesh;
 	public:
 		typedef enum Semantic
 		{
@@ -42,7 +42,7 @@ class RendererVertexBuffer
 			FORMAT_UBYTE4,
 			FORMAT_USHORT4,
 			
-			FORMAT_COLOR, // RendererColor
+			FORMAT_COLOR, // RenderColor
 			
 			NUM_FORMATS,
 		};
@@ -57,8 +57,8 @@ class RendererVertexBuffer
 		static uint32 getFormatByteSize(Format format);
 	
 	protected:
-		RendererVertexBuffer(const RendererVertexBufferDesc &desc);
-		virtual ~RendererVertexBuffer(void);
+		RenderVertexBuffer(const RenderVertexBufferDesc &desc);
+		virtual ~RenderVertexBuffer(void);
 	
 	public:
 		void release(void) { delete this; }
@@ -83,7 +83,7 @@ class RendererVertexBuffer
 		virtual void  bind(uint32 streamID, uint32 firstVertex) = 0;
 		virtual void  unbind(uint32 streamID) = 0;
 		
-		RendererVertexBuffer &operator=(const RendererVertexBuffer &) { return *this; }
+		RenderVertexBuffer &operator=(const RenderVertexBuffer &) { return *this; }
 		
 	protected:
 		void prepareForRender(void);

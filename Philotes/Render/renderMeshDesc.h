@@ -6,30 +6,30 @@
 
 _NAMESPACE_BEGIN
 
-class RendererVertexBuffer;
-class RendererIndexBuffer;
-class RendererInstanceBuffer;
+class RenderVertexBuffer;
+class RenderIndexBuffer;
+class RenderInstanceBuffer;
 
-class RendererMeshDesc
+class RenderMeshDesc
 {
 	public:
-		RendererMesh::Primitive primitives;
+		RenderMesh::Primitive primitives;
 		
-		RendererVertexBuffer  **vertexBuffers;
+		RenderVertexBuffer  **vertexBuffers;
 		uint32                   numVertexBuffers;
 		uint32                   firstVertex;
 		uint32                   numVertices;
 		
-		RendererIndexBuffer    *indexBuffer;
+		RenderIndexBuffer    *indexBuffer;
 		uint32                   firstIndex;
 		uint32                   numIndices;
 		
-		RendererInstanceBuffer *instanceBuffer;
+		RenderInstanceBuffer *instanceBuffer;
 		uint32                   firstInstance;
 		uint32                   numInstances;
 		
 	public:
-		RendererMeshDesc(void);
+		RenderMeshDesc(void);
 		
 		bool isValid(void) const;
 };

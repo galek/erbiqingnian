@@ -6,13 +6,13 @@
 
 _NAMESPACE_BEGIN
 
-class RendererDirectionalLightDesc : public RendererLightDesc
+class RenderDirectionalLightDesc : public RenderLightDesc
 {
 	public:
 		Vector3 direction;
 		
 	public:
-		RendererDirectionalLightDesc(void);
+		RenderDirectionalLightDesc(void);
 		
 		virtual bool isValid(void) const;
 };

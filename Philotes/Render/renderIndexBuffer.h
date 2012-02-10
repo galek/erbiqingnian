@@ -6,11 +6,11 @@
 
 _NAMESPACE_BEGIN
 
-class RendererIndexBufferDesc;
+class RenderIndexBufferDesc;
 
-class RendererIndexBuffer
+class RenderIndexBuffer
 {
-	friend class RendererMesh;
+	friend class RenderMesh;
 	public:
 		typedef enum Format
 		{
@@ -30,9 +30,9 @@ class RendererIndexBuffer
 		static uint32 getFormatByteSize(Format format);
 	
 	protected:
-		RendererIndexBuffer(const RendererIndexBufferDesc &desc);
+		RenderIndexBuffer(const RenderIndexBufferDesc &desc);
 		
-		virtual ~RendererIndexBuffer(void);
+		virtual ~RenderIndexBuffer(void);
 		
 	public:
 		void release(void) { delete this; }
@@ -49,7 +49,7 @@ class RendererIndexBuffer
 		virtual void bind(void) const = 0;
 		virtual void unbind(void) const = 0;
 		
-		RendererIndexBuffer &operator=(const RendererIndexBuffer &) { return *this; }
+		RenderIndexBuffer &operator=(const RenderIndexBuffer &) { return *this; }
 		
 	protected:
 		const Hint   m_hint;

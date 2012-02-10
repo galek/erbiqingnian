@@ -3,25 +3,25 @@
 
 _NAMESPACE_BEGIN
 
-RendererMaterialDesc::RendererMaterialDesc(void)
+RenderMaterialDesc::RenderMaterialDesc(void)
 {
-	type               = RendererMaterial::TYPE_UNLIT;
-	alphaTestFunc      = RendererMaterial::ALPHA_TEST_ALWAYS;
+	type               = RenderMaterial::TYPE_UNLIT;
+	alphaTestFunc      = RenderMaterial::ALPHA_TEST_ALWAYS;
 	alphaTestRef       = 0;
 	blending           = false;
-	srcBlendFunc       = RendererMaterial::BLEND_ZERO;
-	dstBlendFunc       = RendererMaterial::BLEND_ZERO;
+	srcBlendFunc       = RenderMaterial::BLEND_ZERO;
+	dstBlendFunc       = RenderMaterial::BLEND_ZERO;
 	geometryShaderPath = 0;
 	vertexShaderPath   = 0;
 	fragmentShaderPath = 0;
 }
 		
-bool RendererMaterialDesc::isValid(void) const
+bool RenderMaterialDesc::isValid(void) const
 {
 	bool ok = true;
-	if(type >= RendererMaterial::NUM_TYPES) ok = false;
+	if(type >= RenderMaterial::NUM_TYPES) ok = false;
 	if(alphaTestRef < 0 || alphaTestRef > 1) ok = false;
-	if(blending && type != RendererMaterial::TYPE_UNLIT) ok = false;
+	if(blending && type != RenderMaterial::TYPE_UNLIT) ok = false;
 	if(geometryShaderPath)
 	{
 		ph_assert2(0, "Not implemented!");

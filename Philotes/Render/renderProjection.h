@@ -8,7 +8,7 @@
 
 _NAMESPACE_BEGIN
 
-class RendererProjection
+class RenderProjection
 {
 	public:
 

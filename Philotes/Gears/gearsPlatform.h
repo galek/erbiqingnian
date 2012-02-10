@@ -16,7 +16,7 @@ public:
 
 public:
 
-	explicit							GearPlatform(RendererWindow* rw);
+	explicit							GearPlatform(RenderWindow* rw);
 
 	virtual								~GearPlatform();
 
@@ -73,15 +73,15 @@ public:
 	
 	virtual void						D3D9DeviceBlockUntilIdle();
 	
-	virtual uint64						getD3D9TextureFormat(RendererTexture2D::Format format);
+	virtual uint64						getD3D9TextureFormat(RenderTexture2D::Format format);
 	
-	virtual void						postRendererRelease();
+	virtual void						postRenderRelease();
 	
-	virtual void						preRendererSetup();
+	virtual void						preRenderSetup();
 	
-	virtual void						postRendererSetup();
+	virtual void						postRenderSetup();
 	
-	virtual void						setupRendererDescription(RendererDesc& renDesc);
+	virtual void						setupRenderDescription(RenderDesc& renDesc);
 	
 	// Input
 	virtual void						doInput();
@@ -90,7 +90,7 @@ public:
 
 protected:
 
-	RendererWindow*						m_app;
+	RenderWindow*						m_app;
 
 	GearApplication*					m_sf_app;
 

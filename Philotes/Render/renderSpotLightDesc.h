@@ -6,7 +6,7 @@
 
 _NAMESPACE_BEGIN
 
-class RendererSpotLightDesc : public RendererLightDesc
+class RenderSpotLightDesc : public RenderLightDesc
 {
 	public:
 		Vector3	   position;
@@ -21,7 +21,7 @@ class RendererSpotLightDesc : public RendererLightDesc
 		scalar             outerCone;
 		
 	public:
-		RendererSpotLightDesc(void);
+		RenderSpotLightDesc(void);
 		
 		virtual bool isValid(void) const;
 };

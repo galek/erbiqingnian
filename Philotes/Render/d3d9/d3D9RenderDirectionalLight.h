@@ -8,20 +8,20 @@
 
 #include <renderDirectionalLight.h>
 
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererDirectionalLight : public RendererDirectionalLight
+class D3D9RenderDirectionalLight : public RenderDirectionalLight
 {
 	public:
-		D3D9RendererDirectionalLight(D3D9Renderer &renderer, const RendererDirectionalLightDesc &desc);
-		virtual ~D3D9RendererDirectionalLight(void);
+		D3D9RenderDirectionalLight(D3D9Render &renderer, const RenderDirectionalLightDesc &desc);
+		virtual ~D3D9RenderDirectionalLight(void);
 		
 		virtual void bind(void) const;
 		
 	private:
-		D3D9Renderer &m_renderer;
+		D3D9Render &m_renderer;
 };
 
 _NAMESPACE_END

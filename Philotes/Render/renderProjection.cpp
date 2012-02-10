@@ -3,9 +3,9 @@
 
 _NAMESPACE_BEGIN
 
-const scalar RendererProjection::INFINITE_FAR_PLANE_ADJUST = 0.00001f;
+const scalar RenderProjection::INFINITE_FAR_PLANE_ADJUST = 0.00001f;
 
-void RendererProjection::makeProjectionMatrix( const Radian& fovy, scalar aspect, 
+void RenderProjection::makeProjectionMatrix( const Radian& fovy, scalar aspect, 
 											  scalar nearPlane, scalar farPlane, Matrix4& dest )
 {
 	Radian theta ( fovy * 0.5 );
@@ -14,8 +14,8 @@ void RendererProjection::makeProjectionMatrix( const Radian& fovy, scalar aspect
 	scalar q, qn;
 	if (farPlane == 0)
 	{
-		q = 1 - RendererProjection::INFINITE_FAR_PLANE_ADJUST;
-		qn = nearPlane * (RendererProjection::INFINITE_FAR_PLANE_ADJUST - 1);
+		q = 1 - RenderProjection::INFINITE_FAR_PLANE_ADJUST;
+		qn = nearPlane * (RenderProjection::INFINITE_FAR_PLANE_ADJUST - 1);
 	}
 	else
 	{
@@ -31,10 +31,9 @@ void RendererProjection::makeProjectionMatrix( const Radian& fovy, scalar aspect
 	dest[3][2] = -1.0f;
 
 	dest[2][3] = qn;
-	dest = dest.transpose();
 }
 
-void RendererProjection::makeProjectionMatrix( scalar left, scalar right, scalar bottom,
+void RenderProjection::makeProjectionMatrix( scalar left, scalar right, scalar bottom,
 											  scalar top, scalar nearPlane, scalar farPlane, Matrix4& dest )
 {
 	scalar width = right - left;
@@ -42,8 +41,8 @@ void RendererProjection::makeProjectionMatrix( scalar left, scalar right, scalar
 	scalar q, qn;
 	if (farPlane == 0)
 	{
-		q = 1 - RendererProjection::INFINITE_FAR_PLANE_ADJUST;
-		qn = nearPlane * (RendererProjection::INFINITE_FAR_PLANE_ADJUST - 1);
+		q = 1 - RenderProjection::INFINITE_FAR_PLANE_ADJUST;
+		qn = nearPlane * (RenderProjection::INFINITE_FAR_PLANE_ADJUST - 1);
 	}
 	else
 	{
@@ -59,16 +58,15 @@ void RendererProjection::makeProjectionMatrix( scalar left, scalar right, scalar
 	dest[3][2] = -1.0f;
 
 	dest[2][3] = qn;
-	dest = dest.transpose();
 }
 
-void RendererProjection::buildProjectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view)
+void RenderProjection::buildProjectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view)
 {
 	Matrix4 projView = Matrix4(view * proj).inverse();
 	memcpy(dst, projView[0], sizeof(float)*16);
 }
 
-void RendererProjection::buildUnprojectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view)
+void RenderProjection::buildUnprojectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view)
 {
 	Matrix4 invProjView = Matrix4(view * proj).inverse();
 	memcpy(dst, invProjView[0], sizeof(float)*16);

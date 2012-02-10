@@ -3,23 +3,23 @@
 
 _NAMESPACE_BEGIN
 
-RendererDesc::RendererDesc(void)
+RenderDesc::RenderDesc(void)
 {
 #if defined(RENDERER_ENABLE_OPENGL)
-	driver = Renderer::DRIVER_OPENGL;
+	driver = Render::DRIVER_OPENGL;
 #elif defined(RENDERER_ENABLE_DIRECT3D9)
-	driver = Renderer::DRIVER_DIRECT3D9;
+	driver = Render::DRIVER_DIRECT3D9;
 #elif defined(RENDERER_ENABLE_DIRECT3D10)
-	driver = Renderer::DRIVER_DIRECT3D10;
+	driver = Render::DRIVER_DIRECT3D10;
 #elif defined(RENDERER_ENABLE_LIBGCM)
-	driver = Renderer::DRIVER_LIBGCM;
+	driver = Render::DRIVER_LIBGCM;
 #else
-	#error "No Renderer Drivers support!"
+	#error "No Render Drivers support!"
 #endif
 	windowHandle   = 0;
 }
 		
-bool RendererDesc::isValid(void) const
+bool RenderDesc::isValid(void) const
 {
 	bool ok = true;
 #if defined(RENDERER_WINDOWS)

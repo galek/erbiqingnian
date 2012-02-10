@@ -6,7 +6,7 @@
 
 _NAMESPACE_BEGIN
 
-RendererWindow::RendererWindow(void)
+RenderWindow::RenderWindow(void)
 {
 	m_platform = GearPlatform::getSingleton();
 	if (!m_platform)
@@ -17,12 +17,12 @@ RendererWindow::RendererWindow(void)
 	m_isOpen = false;
 }
 
-RendererWindow::~RendererWindow(void)
+RenderWindow::~RenderWindow(void)
 {
 	DELETESINGLE(m_platform);
 }
 
-bool RendererWindow::open(uint32 width, uint32 height, const char *title, bool fullscreen)
+bool RenderWindow::open(uint32 width, uint32 height, const char *title, bool fullscreen)
 {
 	bool ok = false;
 	ph_assert2(width && height, "Attempting to open a window with invalid width and/or height.");
@@ -33,19 +33,19 @@ bool RendererWindow::open(uint32 width, uint32 height, const char *title, bool f
 	return ok;
 }
 
-void RendererWindow::close(void)
+void RenderWindow::close(void)
 {
 	m_platform->closeWindow();
 }
 
-bool RendererWindow::isOpen(void) const
+bool RenderWindow::isOpen(void) const
 {
 	bool open = m_platform->isOpen();
 	return open;
 }
 
 // update the window's state... handle messages, etc.
-void RendererWindow::update(void)
+void RenderWindow::update(void)
 {
 	m_platform->update();
 
@@ -56,24 +56,24 @@ void RendererWindow::update(void)
 }
 
 // get/set the size of the window...
-void RendererWindow::getSize(uint32 &width, uint32 &height) const
+void RenderWindow::getSize(uint32 &width, uint32 &height) const
 {
 	m_platform->getWindowSize(width, height);
 }
 
-void RendererWindow::setSize(uint32 width, uint32 height)
+void RenderWindow::setSize(uint32 width, uint32 height)
 {
 	m_platform->setWindowSize(width, height);
 }
 
 // get the window's title...
-void RendererWindow::getTitle(char *title, uint32 maxLength) const
+void RenderWindow::getTitle(char *title, uint32 maxLength) const
 {
 	m_platform->getTitle(title, maxLength);
 }
 
 // set the window's title...
-void RendererWindow::setTitle(const char *title)
+void RenderWindow::setTitle(const char *title)
 {
 	m_platform->setTitle(title);
 }

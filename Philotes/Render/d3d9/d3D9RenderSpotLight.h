@@ -7,20 +7,20 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderSpotLight.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererSpotLight : public RendererSpotLight
+class D3D9RenderSpotLight : public RenderSpotLight
 {
 	public:
-		D3D9RendererSpotLight(D3D9Renderer &renderer, const RendererSpotLightDesc &desc);
-		virtual ~D3D9RendererSpotLight(void);
+		D3D9RenderSpotLight(D3D9Render &renderer, const RenderSpotLightDesc &desc);
+		virtual ~D3D9RenderSpotLight(void);
 		
 		virtual void bind(void) const;
 		
 	private:
-		D3D9Renderer &m_renderer;
+		D3D9Render &m_renderer;
 };
 
 _NAMESPACE_END

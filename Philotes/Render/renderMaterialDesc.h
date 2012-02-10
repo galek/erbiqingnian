@@ -6,24 +6,24 @@
 
 _NAMESPACE_BEGIN
 
-class RendererMaterialDesc
+class RenderMaterialDesc
 {
 	public:
-		RendererMaterial::Type          type;
+		RenderMaterial::Type          type;
 		
-		RendererMaterial::AlphaTestFunc alphaTestFunc;
+		RenderMaterial::AlphaTestFunc alphaTestFunc;
 		float                           alphaTestRef;
 		
 		bool                            blending;
-		RendererMaterial::BlendFunc     srcBlendFunc;
-		RendererMaterial::BlendFunc     dstBlendFunc;
+		RenderMaterial::BlendFunc     srcBlendFunc;
+		RenderMaterial::BlendFunc     dstBlendFunc;
 		
 		const char                     *geometryShaderPath;
 		const char                     *vertexShaderPath;
 		const char                     *fragmentShaderPath;
 		
 	public:
-		RendererMaterialDesc(void);
+		RenderMaterialDesc(void);
 		
 		bool isValid(void) const;
 };

@@ -1,5 +1,5 @@
 
-#include "D3D9RendererIndexBuffer.h"
+#include "D3D9RenderIndexBuffer.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
@@ -7,20 +7,20 @@
 
 _NAMESPACE_BEGIN
 
-static D3DFORMAT getD3D9Format(RendererIndexBuffer::Format format)
+static D3DFORMAT getD3D9Format(RenderIndexBuffer::Format format)
 {
 	D3DFORMAT d3dFormat = D3DFMT_UNKNOWN;
 	switch(format)
 	{
-		case RendererIndexBuffer::FORMAT_UINT16: d3dFormat = D3DFMT_INDEX16; break;
-		case RendererIndexBuffer::FORMAT_UINT32: d3dFormat = D3DFMT_INDEX32; break;
+		case RenderIndexBuffer::FORMAT_UINT16: d3dFormat = D3DFMT_INDEX16; break;
+		case RenderIndexBuffer::FORMAT_UINT32: d3dFormat = D3DFMT_INDEX32; break;
 	}
 	ph_assert2(d3dFormat != D3DFMT_UNKNOWN, "Unable to convert to D3DFORMAT.");
 	return d3dFormat;
 }
 
-D3D9RendererIndexBuffer::D3D9RendererIndexBuffer(IDirect3DDevice9 &d3dDevice, const RendererIndexBufferDesc &desc) :
-	RendererIndexBuffer(desc),
+D3D9RenderIndexBuffer::D3D9RenderIndexBuffer(IDirect3DDevice9 &d3dDevice, const RenderIndexBufferDesc &desc) :
+	RenderIndexBuffer(desc),
 	m_d3dDevice(d3dDevice)
 {
 	m_d3dIndexBuffer = 0;
@@ -32,7 +32,7 @@ D3D9RendererIndexBuffer::D3D9RendererIndexBuffer(IDirect3DDevice9 &d3dDevice, co
     m_bufferSize = indexSize * desc.maxIndices;
 
 #if RENDERER_ENABLE_DYNAMIC_VB_POOLS
-	if(desc.hint == RendererIndexBuffer::HINT_DYNAMIC)
+	if(desc.hint == RenderIndexBuffer::HINT_DYNAMIC)
 	{
 		m_usage = D3DUSAGE_DYNAMIC;
 		m_pool  = D3DPOOL_DEFAULT;
@@ -47,7 +47,7 @@ D3D9RendererIndexBuffer::D3D9RendererIndexBuffer(IDirect3DDevice9 &d3dDevice, co
 	}
 }
 
-D3D9RendererIndexBuffer::~D3D9RendererIndexBuffer(void)
+D3D9RenderIndexBuffer::~D3D9RenderIndexBuffer(void)
 {
 	if(m_d3dIndexBuffer)
 	{
@@ -55,7 +55,7 @@ D3D9RendererIndexBuffer::~D3D9RendererIndexBuffer(void)
 	}
 }
 
-void D3D9RendererIndexBuffer::onDeviceLost(void)
+void D3D9RenderIndexBuffer::onDeviceLost(void)
 {
 	if(m_pool != D3DPOOL_MANAGED && m_d3dIndexBuffer)
 	{
@@ -64,7 +64,7 @@ void D3D9RendererIndexBuffer::onDeviceLost(void)
 	}
 }
 
-void D3D9RendererIndexBuffer::onDeviceReset(void)
+void D3D9RenderIndexBuffer::onDeviceReset(void)
 {
 	if(!m_d3dIndexBuffer)
 	{
@@ -73,7 +73,7 @@ void D3D9RendererIndexBuffer::onDeviceReset(void)
 	}
 }
 
-void *D3D9RendererIndexBuffer::lock(void)
+void *D3D9RenderIndexBuffer::lock(void)
 {
 	void *buffer = 0;
 	if(m_d3dIndexBuffer)
@@ -89,7 +89,7 @@ void *D3D9RendererIndexBuffer::lock(void)
 	return buffer;
 }
 
-void D3D9RendererIndexBuffer::unlock(void)
+void D3D9RenderIndexBuffer::unlock(void)
 {
 	if(m_d3dIndexBuffer)
 	{
@@ -97,12 +97,12 @@ void D3D9RendererIndexBuffer::unlock(void)
 	}
 }
 
-void D3D9RendererIndexBuffer::bind(void) const
+void D3D9RenderIndexBuffer::bind(void) const
 {
 	m_d3dDevice.SetIndices(m_d3dIndexBuffer);
 }
 
-void D3D9RendererIndexBuffer::unbind(void) const
+void D3D9RenderIndexBuffer::unbind(void) const
 {
 	m_d3dDevice.SetIndices(0);
 }

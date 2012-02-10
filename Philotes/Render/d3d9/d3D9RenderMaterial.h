@@ -7,21 +7,21 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderMaterial.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9Renderer;
+class D3D9Render;
 
-class D3D9RendererMaterial : public RendererMaterial
+class D3D9RenderMaterial : public RenderMaterial
 {
 	public:
-		D3D9RendererMaterial(D3D9Renderer &renderer, const RendererMaterialDesc &desc);
-		virtual ~D3D9RendererMaterial(void);
+		D3D9RenderMaterial(D3D9Render &renderer, const RenderMaterialDesc &desc);
+		virtual ~D3D9RenderMaterial(void);
 		virtual void setModelMatrix(const scalar *matrix);
 		
 	private:
-		virtual void bind(RendererMaterial::Pass pass, RendererMaterialInstance *materialInstance, bool instanced) const;
+		virtual void bind(RenderMaterial::Pass pass, RenderMaterialInstance *materialInstance, bool instanced) const;
 		virtual void bindMeshState(bool instanced) const;
 		virtual void unbind(void) const;
 		virtual void bindVariable(Pass pass, const Variable &variable, const void *data) const;
@@ -66,12 +66,12 @@ class D3D9RendererMaterial : public RendererMaterial
 				
 				void loadConstants(void);
 				
-				void bindEnvironment(IDirect3DDevice9 &d3dDevice, const D3D9Renderer::ShaderEnvironment &shaderEnv) const;
+				void bindEnvironment(IDirect3DDevice9 &d3dDevice, const D3D9Render::ShaderEnvironment &shaderEnv) const;
 		};
 		
 		class D3D9Variable : public Variable
 		{
-			friend class D3D9RendererMaterial;
+			friend class D3D9RenderMaterial;
 			public:
 				D3D9Variable(const char *name, VariableType type, uint32 offset);
 				virtual ~D3D9Variable(void);
@@ -90,10 +90,10 @@ class D3D9RendererMaterial : public RendererMaterial
 		};
 	
 	private:
-		D3D9RendererMaterial &operator=(const D3D9RendererMaterial&) { return *this; }
+		D3D9RenderMaterial &operator=(const D3D9RenderMaterial&) { return *this; }
 		
 	private:
-		D3D9Renderer           &m_renderer;
+		D3D9Render           &m_renderer;
 		
 		D3DCMPFUNC              m_d3dAlphaTestFunc;
 		D3DBLEND                m_d3dSrcBlendFunc;

@@ -5,7 +5,7 @@
 
 _NAMESPACE_BEGIN
 
-class GearApplication : public RendererWindow
+class GearApplication : public RenderWindow
 {
 public:
 
@@ -13,7 +13,7 @@ public:
 
 	virtual						~GearApplication(void);
 
-	Renderer*					getRenderer(void)								{ return m_renderer; }
+	Render*						getRender(void)								{ return m_renderer; }
 	GearAssetManager*			getAssetManager(void)							{ return m_assetManager; }
 	inline const char*			getAssetPathPrefix(void)				const	{ return m_assetPathPrefix; }
 	Matrix4						getEyeTransform(void)					const	{ return m_worldToView.inverse(); }
@@ -50,7 +50,7 @@ protected:
 
 	scalar						m_sceneSize;
 
-	Renderer*					m_renderer;
+	Render*					m_renderer;
 
 	char						m_assetPathPrefix[256];
 	GearAssetManager*			m_assetManager;

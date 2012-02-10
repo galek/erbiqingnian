@@ -10,14 +10,14 @@
 #include <renderLight.h>
 #include <algorithm>
 
-#include "d3d9/D3D9Renderer.h"
+#include "d3d9/D3D9Render.h"
 #include "renderDesc.h"
 
 _NAMESPACE_BEGIN
 
-Renderer *Renderer::createRenderer(const RendererDesc &desc)
+Render *Render::createRender(const RenderDesc &desc)
 {
-	Renderer *renderer = 0;
+	Render *renderer = 0;
 	const bool valid = desc.isValid();
 	if(valid)
 	{
@@ -25,7 +25,7 @@ Renderer *Renderer::createRenderer(const RendererDesc &desc)
 		{
 			case DRIVER_DIRECT3D9:
 			#if defined(RENDERER_ENABLE_DIRECT3D9)
-				renderer = new D3D9Renderer(desc);
+				renderer = new D3D9Render(desc);
 			#endif
 				break;
 		}
@@ -39,7 +39,7 @@ Renderer *Renderer::createRenderer(const RendererDesc &desc)
 	return renderer;
 }
 
-const char *Renderer::getDriverTypeName(DriverType type)
+const char *Render::getDriverTypeName(DriverType type)
 {
 	const char *name = 0;
 	switch(type)
@@ -49,63 +49,63 @@ const char *Renderer::getDriverTypeName(DriverType type)
 		case DRIVER_DIRECT3D10: name = "Direct3D10"; break;
 		case DRIVER_LIBGCM:     name = "LibGCM";     break;
 	}
-	ph_assert2(name, "Unable to find Name String for Renderer Driver Type.");
+	ph_assert2(name, "Unable to find Name String for Render Driver Type.");
 	return name;
 }
 
 		
-Renderer::Renderer(DriverType driver) :
+Render::Render(DriverType driver) :
 	m_driver						(driver),
 	m_deferredVBUnlock				(true)
 {
 	m_pixelCenterOffset = 0;
-	setAmbientColor(RendererColor(64,64,64, 255));
-    setClearColor(RendererColor(133,153,181,255));
+	setAmbientColor(RenderColor(64,64,64, 255));
+    setClearColor(RenderColor(133,153,181,255));
 	strncpy_s(m_deviceName, sizeof(m_deviceName), "UNKNOWN", sizeof(m_deviceName));
 }
 
-void Renderer::setVertexBufferDeferredUnlocking( bool enabled )
+void Render::setVertexBufferDeferredUnlocking( bool enabled )
 {
 	m_deferredVBUnlock = enabled;
 }
 
-bool Renderer::getVertexBufferDeferredUnlocking() const
+bool Render::getVertexBufferDeferredUnlocking() const
 {
 	return m_deferredVBUnlock;
 }
 
-Renderer::~Renderer(void)
+Render::~Render(void)
 {
 }
 
-void Renderer::release(void)
+void Render::release(void)
 {
 	delete this;
 }
 
 // get the driver type for this renderer.
-Renderer::DriverType Renderer::getDriverType(void) const
+Render::DriverType Render::getDriverType(void) const
 {
 	return m_driver;
 }
 
 // get the offset to the center of a pixel relative to the size of a pixel (so either 0 or 0.5).
-scalar Renderer::getPixelCenterOffset(void) const
+scalar Render::getPixelCenterOffset(void) const
 {
 	return m_pixelCenterOffset;
 }
 
 // get the name of the hardware device.
-const char *Renderer::getDeviceName(void) const
+const char *Render::getDeviceName(void) const
 {
 	return m_deviceName;
 }
 
 // adds a mesh to the render queue.
-void Renderer::queueMeshForRender(RendererMeshContext &mesh)
+void Render::queueMeshForRender(RenderElement &mesh)
 {
 	ph_assert2( mesh.isValid(),  "Mesh Context is invalid.");
-	ph_assert2(!mesh.isLocked(), "Mesh Context is already locked to a Renderer.");
+	ph_assert2(!mesh.isLocked(), "Mesh Context is already locked to a Render.");
 	if(mesh.isValid() && !mesh.isLocked())
 	{
 		mesh.m_renderer = this;
@@ -113,12 +113,12 @@ void Renderer::queueMeshForRender(RendererMeshContext &mesh)
 		{
 			m_screenSpaceMeshes.push_back(&mesh);
 		}
-		else switch (mesh.material->getType())
+		else switch (mesh.getMaterial()->getType())
 		{
-		case  RendererMaterial::TYPE_LIT:
+		case  RenderMaterial::TYPE_LIT:
 			m_visibleLitMeshes.push_back(&mesh);
 			break;
-		default: //case RendererMaterial::TYPE_UNLIT:
+		default: //case RenderMaterial::TYPE_UNLIT:
 			m_visibleUnlitMeshes.push_back(&mesh);
 		//	break;
 		}
@@ -126,9 +126,9 @@ void Renderer::queueMeshForRender(RendererMeshContext &mesh)
 }
 
 // adds a light to the render queue.
-void Renderer::queueLightForRender(RendererLight &light)
+void Render::queueLightForRender(RenderLight &light)
 {
-	ph_assert2(!light.isLocked(), "Light is already locked to a Renderer.");
+	ph_assert2(!light.isLocked(), "Light is already locked to a Render.");
 	if(!light.isLocked())
 	{
 		light.m_renderer = this;
@@ -137,9 +137,9 @@ void Renderer::queueLightForRender(RendererLight &light)
 }
 
 // renders the current scene to the offscreen buffers. empties the render queue when done.
-void Renderer::render(const Matrix4 &eye, const Matrix4 &proj, RendererTarget *target, bool depthOnly)
+void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *target, bool depthOnly)
 {
-	RENDERER_PERFZONE(Renderer_render);
+	RENDERER_PERFZONE(Render_render);
 	const uint32 numLights = (uint32)m_visibleLights.size();
 	if(target)
 	{
@@ -158,58 +158,58 @@ void Renderer::render(const Matrix4 &eye, const Matrix4 &proj, RendererTarget *t
 			{
 				Matrix4 id = Matrix4::IDENTITY;
 				Matrix4 pj;
-				RendererProjection::makeProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f,pj);
+				RenderProjection::makeProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f,pj);
 				bindViewProj(id, pj);	//TODO: pass screen space matrices
-				renderMeshes(m_screenSpaceMeshes, RendererMaterial::PASS_UNLIT);	//render screen space stuff first so stuff we occlude doesn't waste time on shading.
+				renderMeshes(m_screenSpaceMeshes, RenderMaterial::PASS_UNLIT);	//render screen space stuff first so stuff we occlude doesn't waste time on shading.
 			}
 		}
 		
 		if(depthOnly)
 		{
-			RENDERER_PERFZONE(Renderer_render_depthOnly);
-			bindAmbientState(RendererColor(0,0,0,255));
+			RENDERER_PERFZONE(Render_render_depthOnly);
+			bindAmbientState(RenderColor(0,0,0,255));
 			bindViewProj(eye, proj);
-			renderMeshes(m_visibleLitMeshes,   RendererMaterial::PASS_DEPTH);
-			renderMeshes(m_visibleUnlitMeshes, RendererMaterial::PASS_DEPTH);
+			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_DEPTH);
+			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_DEPTH);
 		}
 		else  if(numLights > RENDERER_DEFERRED_THRESHOLD)
 		{
-			RENDERER_PERFZONE(Renderer_render_deferred);
+			RENDERER_PERFZONE(Render_render_deferred);
 			bindDeferredState();
 			bindViewProj(eye, proj);
-			renderMeshes(m_visibleLitMeshes,   RendererMaterial::PASS_UNLIT);
-			renderMeshes(m_visibleUnlitMeshes, RendererMaterial::PASS_UNLIT);
+			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_UNLIT);
+			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
 			renderDeferredLights();
 		}
 		else if(numLights > 0)
 		{
-			RENDERER_PERFZONE(Renderer_render_lit);
+			RENDERER_PERFZONE(Render_render_lit);
 			bindAmbientState(m_ambientColor);
 			bindViewProj(eye, proj);
-			RendererLight &light0 = *m_visibleLights[0];
+			RenderLight &light0 = *m_visibleLights[0];
 			light0.bind();
 			renderMeshes(m_visibleLitMeshes, light0.getPass());
 			light0.m_renderer = 0;
 			
-			bindAmbientState(RendererColor(0,0,0,255));
+			bindAmbientState(RenderColor(0,0,0,255));
 			beginMultiPass();
 			for(uint32 i=1; i<numLights; i++)
 			{
-				RendererLight &light = *m_visibleLights[i];
+				RenderLight &light = *m_visibleLights[i];
 				light.bind();
 				renderMeshes(m_visibleLitMeshes, light.getPass());
 				light.m_renderer = 0;
 			}
 			endMultiPass();
-			renderMeshes(m_visibleUnlitMeshes, RendererMaterial::PASS_UNLIT);
+			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
 		}
 		else
 		{
-			RENDERER_PERFZONE(Renderer_render_unlit);
-			bindAmbientState(RendererColor(0,0,0,255));
+			RENDERER_PERFZONE(Render_render_unlit);
+			bindAmbientState(RenderColor(0,0,0,255));
 			bindViewProj(eye, proj);
-			renderMeshes(m_visibleLitMeshes,   RendererMaterial::PASS_UNLIT);
-			renderMeshes(m_visibleUnlitMeshes, RendererMaterial::PASS_UNLIT);
+			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_UNLIT);
+			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
 		}
 		endRender();
 	}
@@ -221,30 +221,30 @@ void Renderer::render(const Matrix4 &eye, const Matrix4 &proj, RendererTarget *t
 }
 
 // sets the ambient lighting color.
-void Renderer::setAmbientColor(const RendererColor &ambientColor)
+void Render::setAmbientColor(const RenderColor &ambientColor)
 {
 	m_ambientColor   = ambientColor;
 	m_ambientColor.a = 255;
 }
 
-void Renderer::setClearColor(const RendererColor &clearColor)
+void Render::setClearColor(const RenderColor &clearColor)
 {
 	m_clearColor   = clearColor;
 	m_clearColor.a = 255;
 }
 
-void Renderer::renderMeshes(std::vector<RendererMeshContext*> & meshes, RendererMaterial::Pass pass)
+void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass)
 {
-	RENDERER_PERFZONE(Renderer_renderMeshes);
+	RENDERER_PERFZONE(Render_renderMeshes);
 	
-	RendererMaterial         *lastMaterial         = 0;
-	RendererMaterialInstance *lastMaterialInstance = 0;
-	const RendererMesh       *lastMesh             = 0;
+	RenderMaterial         *lastMaterial         = 0;
+	RenderMaterialInstance *lastMaterialInstance = 0;
+	const RenderMesh       *lastMesh             = 0;
 	
 	const uint32 numMeshes = (uint32)meshes.size();
 	for(uint32 i=0; i<numMeshes; i++)
 	{
-		RendererMeshContext &context = *meshes[i];
+		RenderElement &context = *meshes[i];
 		bindMeshContext(context);
 		bool instanced = context.mesh->getInstanceBuffer()?true:false;
 		
@@ -255,11 +255,11 @@ void Renderer::renderMeshes(std::vector<RendererMeshContext*> & meshes, Renderer
 			lastMaterial         = &context.materialInstance->getMaterial();
 			lastMaterial->bind(pass, lastMaterialInstance, instanced);
 		}
-		else if(context.material != lastMaterial)
+		else if(context.getMaterial() != lastMaterial)
 		{
 			if(lastMaterial) lastMaterial->unbind();
 			lastMaterialInstance = 0;
-			lastMaterial         = context.material;
+			lastMaterial         = context.getMaterial();
 			lastMaterial->bind(pass, lastMaterialInstance, instanced);
 		}
 		
@@ -270,7 +270,7 @@ void Renderer::renderMeshes(std::vector<RendererMeshContext*> & meshes, Renderer
 			lastMesh = context.mesh;
 			if(lastMesh) lastMesh->bind();
 		}
-		if(lastMesh) context.mesh->render(context.material);
+		if(lastMesh) context.mesh->render(context.getMaterial());
 		context.m_renderer = 0;
 	}
 	if(lastMesh)     lastMesh->unbind();
@@ -278,9 +278,9 @@ void Renderer::renderMeshes(std::vector<RendererMeshContext*> & meshes, Renderer
 }
 
 
-void Renderer::renderDeferredLights(void)
+void Render::renderDeferredLights(void)
 {
-	RENDERER_PERFZONE(Renderer_renderDeferredLights);
+	RENDERER_PERFZONE(Render_renderDeferredLights);
 	
 	const uint32 numLights = (uint32)m_visibleLights.size();
 	for(uint32 i=0; i<numLights; i++)

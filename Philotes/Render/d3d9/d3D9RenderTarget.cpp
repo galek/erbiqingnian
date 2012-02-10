@@ -1,14 +1,14 @@
 
-#include "D3D9RendererTarget.h"
+#include "D3D9RenderTarget.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9) && defined(RENDERER_ENABLE_DIRECT3D9_TARGET)
 
 #include <renderTargetDesc.h>
-#include "D3D9RendererTexture2D.h"
+#include "D3D9RenderTexture2D.h"
 
 namespace Philo
 {
-	D3D9RendererTarget::D3D9RendererTarget(IDirect3DDevice9 &d3dDevice, const Philo::RendererTargetDesc &desc) :
+	D3D9RenderTarget::D3D9RenderTarget(IDirect3DDevice9 &d3dDevice, const Philo::RenderTargetDesc &desc) :
 		m_d3dDevice(d3dDevice)
 	{
 		m_d3dLastSurface = 0;
@@ -16,20 +16,20 @@ namespace Philo
 		m_d3dDepthStencilSurface = 0;
 		for(uint32 i=0; i<desc.numTextures; i++)
 		{
-			D3D9RendererTexture2D &texture = *static_cast<D3D9RendererTexture2D*>(desc.textures[i]);
+			D3D9RenderTexture2D &texture = *static_cast<D3D9RenderTexture2D*>(desc.textures[i]);
 			m_textures.push_back(&texture);
 		}
-		m_depthStencilSurface = static_cast<D3D9RendererTexture2D*>(desc.depthStencilSurface);
+		m_depthStencilSurface = static_cast<D3D9RenderTexture2D*>(desc.depthStencilSurface);
 		ph_assert2(m_depthStencilSurface && m_depthStencilSurface->m_d3dTexture, "Invalid Target Depth Stencil Surface!");
 		onDeviceReset();
 	}
 
-	D3D9RendererTarget::~D3D9RendererTarget(void)
+	D3D9RenderTarget::~D3D9RenderTarget(void)
 	{
 		if(m_d3dDepthStencilSurface) m_d3dDepthStencilSurface->Release();
 	}
 
-	void D3D9RendererTarget::bind(void)
+	void D3D9RenderTarget::bind(void)
 	{
 		ph_assert2(m_d3dLastSurface==0 && m_d3dLastDepthStencilSurface==0, "Render Target in bad state!");
 		if(m_d3dDepthStencilSurface && !m_d3dLastSurface && !m_d3dLastDepthStencilSurface)
@@ -40,7 +40,7 @@ namespace Philo
 			for(uint32 i=0; i<numTextures; i++)
 			{
 				IDirect3DSurface9 *d3dSurcace = 0;
-				D3D9RendererTexture2D &texture = *m_textures[i];
+				D3D9RenderTexture2D &texture = *m_textures[i];
 				/* HRESULT result = */ texture.m_d3dTexture->GetSurfaceLevel(0, &d3dSurcace);
 				ph_assert2(d3dSurcace, "Cannot get Texture Surface!");
 				if(d3dSurcace)
@@ -63,7 +63,7 @@ namespace Philo
 		m_d3dDevice.SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(DWORD*)&biasSlope);
 	}
 
-	void D3D9RendererTarget::unbind(void)
+	void D3D9RenderTarget::unbind(void)
 	{
 		ph_assert2(m_d3dLastSurface && m_d3dLastDepthStencilSurface, "Render Target in bad state!");
 		if(m_d3dDepthStencilSurface && m_d3dLastSurface && m_d3dLastDepthStencilSurface)
@@ -86,7 +86,7 @@ namespace Philo
 		m_d3dDevice.SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, *(DWORD*)&biasSlope);
 	}
 
-	void D3D9RendererTarget::onDeviceLost(void)
+	void D3D9RenderTarget::onDeviceLost(void)
 	{
 		ph_assert2(m_d3dLastDepthStencilSurface==0, "Render Target in bad state!");
 		ph_assert2(m_d3dDepthStencilSurface,        "Render Target in bad state!");
@@ -97,7 +97,7 @@ namespace Philo
 		}
 	}
 
-	void D3D9RendererTarget::onDeviceReset(void)
+	void D3D9RenderTarget::onDeviceReset(void)
 	{
 		ph_assert2(m_d3dDepthStencilSurface==0, "Render Target in bad state!");
 		if(!m_d3dDepthStencilSurface && m_depthStencilSurface && m_depthStencilSurface->m_d3dTexture)

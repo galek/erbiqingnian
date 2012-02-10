@@ -6,15 +6,15 @@
 
 _NAMESPACE_BEGIN
 
-class RendererColor
+class RenderColor
 {
 	public:
 		uint8 b, g, r, a;
 	
 	public:
-		RendererColor(void);
-		RendererColor(uint8 r, uint8 g, uint8 b, uint8 a);
-		RendererColor(uint32 rgba);
+		RenderColor(void);
+		RenderColor(uint8 r, uint8 g, uint8 b, uint8 a);
+		RenderColor(uint32 rgba);
 		
 		// switches between RGBA and BGRA.
 		inline void swizzleRB(void)
@@ -25,9 +25,9 @@ class RendererColor
 		}
 };
 
-inline RendererColor lerp( const RendererColor& start, const RendererColor& end, float s )
+inline RenderColor lerp( const RenderColor& start, const RenderColor& end, float s )
 {
-    return RendererColor(
+    return RenderColor(
         start.r + uint8(( end.r - start.r ) * s),
         start.g + uint8(( end.g - start.g ) * s),
         start.b + uint8(( end.b - start.b ) * s),

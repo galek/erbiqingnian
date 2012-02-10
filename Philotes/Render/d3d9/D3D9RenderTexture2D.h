@@ -7,19 +7,19 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderTexture2D.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class RendererTexture2DDesc;
+class RenderTexture2DDesc;
 
-class D3D9RendererTexture2D : public RendererTexture2D, public D3D9RendererResource
+class D3D9RenderTexture2D : public RenderTexture2D, public D3D9RenderResource
 {
-	friend class D3D9RendererTarget;
-	friend class D3D9RendererSpotLight;
+	friend class D3D9RenderTarget;
+	friend class D3D9RenderSpotLight;
 	public:
-		D3D9RendererTexture2D(IDirect3DDevice9 &d3dDevice, const RendererTexture2DDesc &desc);
-		virtual ~D3D9RendererTexture2D(void);
+		D3D9RenderTexture2D(IDirect3DDevice9 &d3dDevice, const RenderTexture2DDesc &desc);
+		virtual ~D3D9RenderTexture2D(void);
 	
 	public:
 		virtual void *lockLevel(uint32 level, uint32 &pitch);

@@ -15,20 +15,20 @@
 
 #include <renderTarget.h>
 #include "renderTargetDesc.h"
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererTexture2D;
+class D3D9RenderTexture2D;
 
-class D3D9RendererTarget : public RendererTarget, public D3D9RendererResource
+class D3D9RenderTarget : public RenderTarget, public D3D9RenderResource
 {
 	public:
-		D3D9RendererTarget(IDirect3DDevice9 &d3dDevice, const Philo::RendererTargetDesc &desc);
-		virtual ~D3D9RendererTarget(void);
+		D3D9RenderTarget(IDirect3DDevice9 &d3dDevice, const Philo::RenderTargetDesc &desc);
+		virtual ~D3D9RenderTarget(void);
 		
 	private:
-		D3D9RendererTarget& operator=( const D3D9RendererTarget& ) {}
+		D3D9RenderTarget& operator=( const D3D9RenderTarget& ) {}
 		virtual void bind(void);
 		virtual void unbind(void);
 	
@@ -41,8 +41,8 @@ class D3D9RendererTarget : public RendererTarget, public D3D9RendererResource
 		IDirect3DSurface9              *m_d3dLastSurface;
 		IDirect3DSurface9              *m_d3dLastDepthStencilSurface;
 		IDirect3DSurface9              *m_d3dDepthStencilSurface;
-		std::vector<D3D9RendererTexture2D*> m_textures;
-		D3D9RendererTexture2D          *m_depthStencilSurface;
+		std::vector<D3D9RenderTexture2D*> m_textures;
+		D3D9RenderTexture2D          *m_depthStencilSurface;
 };
 
 _NAMESPACE_END

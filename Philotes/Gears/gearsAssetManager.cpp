@@ -20,7 +20,7 @@ namespace rapidxml
 
 _NAMESPACE_BEGIN
 
-GearAssetManager::GearAssetManager(Renderer &renderer) :
+GearAssetManager::GearAssetManager(Render &renderer) :
 m_renderer(renderer)
 {
 }
@@ -244,7 +244,7 @@ GearAsset *GearAssetManager::loadXMLAsset(FILE &file, const char *path)
 GearAsset *GearAssetManager::loadTextureAsset(FILE &file, const char *path, GearTextureAsset::Type texType)
 {
 	GearTextureAsset *asset = 0;
-	asset = new GearTextureAsset(getRenderer(), file, path, texType);
+	asset = new GearTextureAsset(getRender(), file, path, texType);
 	return asset;
 }
 

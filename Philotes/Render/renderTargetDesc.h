@@ -6,18 +6,18 @@
 
 _NAMESPACE_BEGIN
 
-class RendererTexture2D;
+class RenderTexture2D;
 
-class RendererTargetDesc
+class RenderTargetDesc
 {
 	public:
-		RendererTexture2D **textures;
+		RenderTexture2D **textures;
 		uint32               numTextures;
 		
-		RendererTexture2D  *depthStencilSurface;
+		RenderTexture2D  *depthStencilSurface;
 		
 	public:
-		RendererTargetDesc(void);
+		RenderTargetDesc(void);
 		
 		bool isValid(void) const;
 };

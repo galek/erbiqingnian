@@ -6,16 +6,16 @@
 
 _NAMESPACE_BEGIN
 
-class RendererInstanceBufferDesc
+class RenderInstanceBufferDesc
 {
 	public:
-		RendererInstanceBuffer::Hint   hint;
-		RendererInstanceBuffer::Format semanticFormats[RendererInstanceBuffer::NUM_SEMANTICS];
+		RenderInstanceBuffer::Hint   hint;
+		RenderInstanceBuffer::Format semanticFormats[RenderInstanceBuffer::NUM_SEMANTICS];
 		
 		uint32                          maxInstances;
 		
 	public:
-		RendererInstanceBufferDesc(void);
+		RenderInstanceBufferDesc(void);
 		
 		bool isValid(void) const;
 };

@@ -4,7 +4,7 @@
 
 _NAMESPACE_BEGIN
 
-uint32 RendererInstanceBuffer::getFormatByteSize(Format format)
+uint32 RenderInstanceBuffer::getFormatByteSize(Format format)
 {
 	uint32 size = 0;
 	switch(format)
@@ -18,7 +18,7 @@ uint32 RendererInstanceBuffer::getFormatByteSize(Format format)
 	return size;
 }
 
-RendererInstanceBuffer::RendererInstanceBuffer(const RendererInstanceBufferDesc &desc) :
+RenderInstanceBuffer::RenderInstanceBuffer(const RenderInstanceBufferDesc &desc) :
 	m_hint(desc.hint)
 {
 	m_maxInstances     = 0;
@@ -38,22 +38,22 @@ RendererInstanceBuffer::RendererInstanceBuffer(const RendererInstanceBufferDesc 
 	}
 }
 
-RendererInstanceBuffer::~RendererInstanceBuffer(void)
+RenderInstanceBuffer::~RenderInstanceBuffer(void)
 {
 	ph_assert2(m_lockedBuffer==0 && m_numSemanticLocks==0, "InstanceBuffer had outstanding locks during destruction!");
 }
 
-RendererInstanceBuffer::Hint RendererInstanceBuffer::getHint(void) const
+RenderInstanceBuffer::Hint RenderInstanceBuffer::getHint(void) const
 {
 	return m_hint;
 }
 
-RendererInstanceBuffer::Format RendererInstanceBuffer::getFormatForSemantic(Semantic semantic) const
+RenderInstanceBuffer::Format RenderInstanceBuffer::getFormatForSemantic(Semantic semantic) const
 {
 	return m_semanticDescs[semantic].format;
 }
 
-void *RendererInstanceBuffer::lockSemantic(Semantic semantic, uint32 &stride)
+void *RenderInstanceBuffer::lockSemantic(Semantic semantic, uint32 &stride)
 {
 	void *semanticBuffer = 0;
 	ph_assert2(semantic < NUM_SEMANTICS, "Invalid InstanceBuffer Semantic!");
@@ -81,7 +81,7 @@ void *RendererInstanceBuffer::lockSemantic(Semantic semantic, uint32 &stride)
 	return semanticBuffer;
 }
 
-void RendererInstanceBuffer::unlockSemantic(Semantic semantic)
+void RenderInstanceBuffer::unlockSemantic(Semantic semantic)
 {
 	ph_assert2(semantic < NUM_SEMANTICS, "Invalid InstanceBuffer Semantic!");
 	if(semantic < NUM_SEMANTICS)

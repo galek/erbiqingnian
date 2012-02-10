@@ -24,7 +24,7 @@ public:
 	scalar	mX1, mY1;			//!< Bottom-right coordinates
 };
 
-class Renderer
+class Render
 {
 	public:
 		struct TextVertex
@@ -44,13 +44,13 @@ class Renderer
 		};
 		
 	public:
-		static Renderer *createRenderer(const RendererDesc &desc);
+		static Render *createRender(const RenderDesc &desc);
 		
 		static const char *getDriverTypeName(DriverType type);
 		
 	protected:
-		Renderer(DriverType driver);
-		virtual ~Renderer(void);
+		Render(DriverType driver);
+		virtual ~Render(void);
 		
 	public:
 		void release(void);
@@ -65,20 +65,20 @@ class Renderer
 		const char *getDeviceName(void) const;
 
 		// adds a mesh to the render queue.
-		void queueMeshForRender(RendererMeshContext &mesh);
+		void queueMeshForRender(RenderElement &mesh);
 		
 		// adds a light to the render queue.
-		void queueLightForRender(RendererLight &light);
+		void queueLightForRender(RenderLight &light);
 		
 		// renders the current scene to the offscreen buffers. empties the render queue when done.
-		void render(const Matrix4 &eye, const Matrix4 &proj, RendererTarget *target=0, bool depthOnly=false);
+		void render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *target=0, bool depthOnly=false);
 		
 		// sets the ambient lighting color.
-		void setAmbientColor(const RendererColor &ambientColor);
+		void setAmbientColor(const RenderColor &ambientColor);
 
         // sets the clear color.
-		void setClearColor(const RendererColor &clearColor);
-        RendererColor& getClearColor() { return m_clearColor; }
+		void setClearColor(const RenderColor &clearColor);
+        RenderColor& getClearColor() { return m_clearColor; }
 		
 public:
 		// clears the offscreen buffers.
@@ -93,49 +93,49 @@ public:
 
 		virtual void getWindowSize(uint32 &width, uint32 &height) const = 0;
 
-		virtual RendererVertexBuffer   *createVertexBuffer(  const RendererVertexBufferDesc   &desc) = 0;
-		virtual RendererIndexBuffer    *createIndexBuffer(   const RendererIndexBufferDesc    &desc) = 0;
-		virtual RendererInstanceBuffer *createInstanceBuffer(const RendererInstanceBufferDesc &desc) = 0;
-		virtual RendererTexture2D      *createTexture2D(     const RendererTexture2DDesc      &desc) = 0;
-		virtual RendererTarget         *createTarget(        const RendererTargetDesc         &desc) = 0;
-		virtual RendererMaterial       *createMaterial(      const RendererMaterialDesc       &desc) = 0;
-		virtual RendererMesh           *createMesh(          const RendererMeshDesc           &desc) = 0;
-		virtual RendererLight          *createLight(         const RendererLightDesc          &desc) = 0;
+		virtual RenderVertexBuffer   *createVertexBuffer(  const RenderVertexBufferDesc   &desc) = 0;
+		virtual RenderIndexBuffer    *createIndexBuffer(   const RenderIndexBufferDesc    &desc) = 0;
+		virtual RenderInstanceBuffer *createInstanceBuffer(const RenderInstanceBufferDesc &desc) = 0;
+		virtual RenderTexture2D      *createTexture2D(     const RenderTexture2DDesc      &desc) = 0;
+		virtual RenderTarget         *createTarget(        const RenderTargetDesc         &desc) = 0;
+		virtual RenderMaterial       *createMaterial(      const RenderMaterialDesc       &desc) = 0;
+		virtual RenderMesh           *createMesh(          const RenderMeshDesc           &desc) = 0;
+		virtual RenderLight          *createLight(         const RenderLightDesc          &desc) = 0;
 
 		// Disable this performance optimization when CUDA/Graphics Interop is in use
 		void setVertexBufferDeferredUnlocking( bool enabled );
 		bool getVertexBufferDeferredUnlocking() const;
 	
 	private:
-		void renderMeshes(std::vector<RendererMeshContext*> & meshes, RendererMaterial::Pass pass);
+		void renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass);
 		void renderDeferredLights(void);
 	
 	private:
 		virtual bool beginRender(void) { return true;}
 		virtual void endRender(void) {}
 		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj)    = 0;
-		virtual void bindAmbientState(const RendererColor &ambientColor)                 = 0;
+		virtual void bindAmbientState(const RenderColor &ambientColor)                 = 0;
 		virtual void bindDeferredState(void)                                             = 0;
-		virtual void bindMeshContext(const RendererMeshContext &context)                 = 0;
+		virtual void bindMeshContext(const RenderElement &context)                 = 0;
 		virtual void beginMultiPass(void)                                                = 0;
 		virtual void endMultiPass(void)                                                  = 0;
-		virtual void renderDeferredLight(const RendererLight &light)                     = 0;
+		virtual void renderDeferredLight(const RenderLight &light)                     = 0;
 		
 		virtual bool isOk(void) const = 0;
 
 	private:
-		Renderer &operator=(const Renderer&) { return *this; }
+		Render &operator=(const Render&) { return *this; }
 	
 	private:
 		const DriverType					m_driver;
 		
-		std::vector<RendererMeshContext*>	m_visibleLitMeshes;
-		std::vector<RendererMeshContext*>	m_visibleUnlitMeshes;
-		std::vector<RendererMeshContext*>	m_screenSpaceMeshes;
-		std::vector<RendererLight*>			m_visibleLights;
+		std::vector<RenderElement*>	m_visibleLitMeshes;
+		std::vector<RenderElement*>	m_visibleUnlitMeshes;
+		std::vector<RenderElement*>	m_screenSpaceMeshes;
+		std::vector<RenderLight*>			m_visibleLights;
 		
-		RendererColor						m_ambientColor;
-		RendererColor						m_clearColor;
+		RenderColor						m_ambientColor;
+		RenderColor						m_clearColor;
 
     protected:
 		bool								m_deferredVBUnlock;

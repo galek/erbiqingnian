@@ -4,8 +4,8 @@
 
 _NAMESPACE_BEGIN
 
-RendererSpotLight::RendererSpotLight(const RendererSpotLightDesc &desc) :
-	RendererLight(desc)
+RenderSpotLight::RenderSpotLight(const RenderSpotLightDesc &desc) :
+	RenderLight(desc)
 {
 	setPosition(desc.position);
 	setDirection(desc.direction);
@@ -13,27 +13,27 @@ RendererSpotLight::RendererSpotLight(const RendererSpotLightDesc &desc) :
 	setCone(desc.innerCone, desc.outerCone);
 }
 
-RendererSpotLight::~RendererSpotLight(void)
+RenderSpotLight::~RenderSpotLight(void)
 {
 
 }
 
-const Vector3 &RendererSpotLight::getPosition(void) const
+const Vector3 &RenderSpotLight::getPosition(void) const
 {
 	return m_position;
 }
 
-void RendererSpotLight::setPosition(const Vector3 &pos)
+void RenderSpotLight::setPosition(const Vector3 &pos)
 {
 	m_position = pos;
 }
 
-const Vector3 &RendererSpotLight::getDirection(void) const
+const Vector3 &RenderSpotLight::getDirection(void) const
 {
 	return m_direction;
 }
 
-void RendererSpotLight::setDirection(const Vector3 &dir)
+void RenderSpotLight::setDirection(const Vector3 &dir)
 {
 	ph_assert2(dir.squaredLength() >= 0.1f, "Trying to give Direction Light invalid Direction value.");
 	if(dir.squaredLength() >= 0.1f)
@@ -43,17 +43,17 @@ void RendererSpotLight::setDirection(const Vector3 &dir)
 	}
 }
 
-scalar RendererSpotLight::getInnerRadius(void) const
+scalar RenderSpotLight::getInnerRadius(void) const
 {
 	return m_innerRadius;
 }
 
-scalar RendererSpotLight::getOuterRadius(void) const
+scalar RenderSpotLight::getOuterRadius(void) const
 {
 	return m_outerRadius;
 }
 
-void RendererSpotLight::setRadius(scalar innerRadius, scalar outerRadius)
+void RenderSpotLight::setRadius(scalar innerRadius, scalar outerRadius)
 {
 	ph_assert2(innerRadius>=0 && innerRadius<=outerRadius, "Invalid Spot Light radius values.");
 	if(innerRadius>=0 && innerRadius<=outerRadius)
@@ -63,17 +63,17 @@ void RendererSpotLight::setRadius(scalar innerRadius, scalar outerRadius)
 	}
 }
 
-scalar RendererSpotLight::getInnerCone(void) const
+scalar RenderSpotLight::getInnerCone(void) const
 {
 	return m_innerCone;
 }
 
-scalar RendererSpotLight::getOuterCone(void) const
+scalar RenderSpotLight::getOuterCone(void) const
 {
 	return m_outerCone;
 }
 
-void RendererSpotLight::setCone(scalar innerCone, scalar outerCone)
+void RenderSpotLight::setCone(scalar innerCone, scalar outerCone)
 {
 	ph_assert2(innerCone<=1 && innerCone>=outerCone, "Invalid Spot Light cone values.");
 	if(innerCone<=1 && innerCone>=outerCone)

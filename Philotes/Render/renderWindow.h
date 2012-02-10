@@ -8,7 +8,7 @@ _NAMESPACE_BEGIN
 
 class GearPlatform;
 
-class RendererWindow
+class RenderWindow
 {
 	public:
 		typedef enum MouseButton
@@ -67,8 +67,8 @@ class RendererWindow
 		}
 		
 	public:
-		RendererWindow(void);
-		virtual ~RendererWindow(void);
+		RenderWindow(void);
+		virtual ~RenderWindow(void);
 		
 		bool open(uint32 width, uint32 height, const char *title, bool fullscreen=false);
 		void close(void);
