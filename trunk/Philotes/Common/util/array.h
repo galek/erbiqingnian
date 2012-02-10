@@ -108,6 +108,8 @@ public:
     TYPE& Front() const;
     /// return reference to last element
     TYPE& Back() const;
+	/// erase the last element
+	void PopBack();
     /// return true if array empty
     bool IsEmpty() const;
     /// erase element at index, keep sorting intact
@@ -634,6 +636,15 @@ Array<TYPE>::Back() const
     ph_assert(this->elements && (this->size > 0));
     #endif
     return this->elements[this->size - 1];
+}
+
+//------------------------------------------------------------------------------
+/**
+*/
+template<class TYPE>
+void Philo::Array<TYPE>::PopBack()
+{
+	EraseIndex(this->size - 1);
 }
 
 //------------------------------------------------------------------------------
