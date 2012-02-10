@@ -13,8 +13,8 @@
 
 _NAMESPACE_BEGIN
 
-RendererGridShape::RendererGridShape( Renderer &renderer, uint32 size, float cellSize ):
-	RendererShape(renderer)
+RenderGridShape::RenderGridShape( Render &renderer, uint32 size, float cellSize ):
+	RenderShape(renderer)
 {
 	m_vertexBuffer = 0;
 
@@ -22,16 +22,16 @@ RendererGridShape::RendererGridShape( Renderer &renderer, uint32 size, float cel
 	const uint32 numLines    = numColLines*2;
 	const uint32 numVerts    = numLines*2;
 
-	RendererVertexBufferDesc vbdesc;
-	vbdesc.hint                                                     = RendererVertexBuffer::HINT_STATIC;
-	vbdesc.semanticFormats[RendererVertexBuffer::SEMANTIC_POSITION] = RendererVertexBuffer::FORMAT_FLOAT3;
-	vbdesc.semanticFormats[RendererVertexBuffer::SEMANTIC_COLOR]    = RendererVertexBuffer::FORMAT_COLOR;
+	RenderVertexBufferDesc vbdesc;
+	vbdesc.hint                                                     = RenderVertexBuffer::HINT_STATIC;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION] = RenderVertexBuffer::FORMAT_FLOAT3;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_COLOR]    = RenderVertexBuffer::FORMAT_COLOR;
 	vbdesc.maxVertices                                              = numVerts;
 	m_vertexBuffer = m_renderer.createVertexBuffer(vbdesc);
 	if(m_vertexBuffer)
 	{
-		RendererMeshDesc meshdesc;
-		meshdesc.primitives			= RendererMesh::PRIMITIVE_LINES;
+		RenderMeshDesc meshdesc;
+		meshdesc.primitives			= RenderMesh::PRIMITIVE_LINES;
 		meshdesc.vertexBuffers		= &m_vertexBuffer;
 		meshdesc.numVertexBuffers	= 1;
 		meshdesc.firstVertex		= 0;
@@ -44,9 +44,9 @@ RendererGridShape::RendererGridShape( Renderer &renderer, uint32 size, float cel
 		uint32 color1 = 0xFF5E6C7F;
 
 		uint32 positionStride = 0;
-		void *positions = m_vertexBuffer->lockSemantic(RendererVertexBuffer::SEMANTIC_POSITION, positionStride);
+		void *positions = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_POSITION, positionStride);
 		uint32 colorStride = 0;
-		void *colors = m_vertexBuffer->lockSemantic(RendererVertexBuffer::SEMANTIC_COLOR, colorStride);
+		void *colors = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_COLOR, colorStride);
 		if(positions && colors)
 		{
 			const float radius   = size*cellSize;
@@ -110,12 +110,12 @@ RendererGridShape::RendererGridShape( Renderer &renderer, uint32 size, float cel
 				p1[0] = d; p1[1] = 0; p1[2] =  radius;
 			}
 		}
-		m_vertexBuffer->unlockSemantic(RendererVertexBuffer::SEMANTIC_COLOR);
-		m_vertexBuffer->unlockSemantic(RendererVertexBuffer::SEMANTIC_POSITION);
+		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_COLOR);
+		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_POSITION);
 	}
 }
 
-RendererGridShape::~RendererGridShape( void )
+RenderGridShape::~RenderGridShape( void )
 {
 	if(m_vertexBuffer) 
 	{

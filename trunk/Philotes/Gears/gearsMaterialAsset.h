@@ -21,8 +21,8 @@ protected:
 
 public:
 	size_t						getNumVertexShaders() const;
-	RendererMaterial*			getMaterial(size_t vertexShaderIndex = 0);
-	RendererMaterialInstance*	getMaterialInstance(size_t vertexShaderIndex = 0);
+	RenderMaterial*			getMaterial(size_t vertexShaderIndex = 0);
+	RenderMaterialInstance*	getMaterialInstance(size_t vertexShaderIndex = 0);
 	unsigned int				getMaxBones(size_t vertexShaderIndex) const;
 
 public:
@@ -30,13 +30,16 @@ public:
 
 private:
 	GearAssetManager			&m_assetManager;
+
 	struct MaterialStruct
 	{
-		RendererMaterial         *m_material;
-		RendererMaterialInstance *m_materialInstance;
+		RenderMaterial         *m_material;
+		RenderMaterialInstance *m_materialInstance;
 		unsigned int              m_maxBones;
 	};
+
 	std::vector<MaterialStruct> m_vertexShaders;
+
 	std::vector<GearAsset*> m_assets;
 };
 

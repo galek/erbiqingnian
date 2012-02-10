@@ -1,5 +1,5 @@
 
-#include "D3D9RendererVertexBuffer.h"
+#include "D3D9RenderVertexBuffer.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
@@ -23,45 +23,45 @@ static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYP
 	return element;
 }
 
-static D3DDECLTYPE getD3DType(RendererVertexBuffer::Format format)
+static D3DDECLTYPE getD3DType(RenderVertexBuffer::Format format)
 {
 	D3DDECLTYPE d3dType = D3DDECLTYPE_UNUSED;
 	switch(format)
 	{
-		case RendererVertexBuffer::FORMAT_FLOAT1:  d3dType = D3DDECLTYPE_FLOAT1;   break;
-		case RendererVertexBuffer::FORMAT_FLOAT2:  d3dType = D3DDECLTYPE_FLOAT2;   break;
-		case RendererVertexBuffer::FORMAT_FLOAT3:  d3dType = D3DDECLTYPE_FLOAT3;   break;
-		case RendererVertexBuffer::FORMAT_FLOAT4:  d3dType = D3DDECLTYPE_FLOAT4;   break;
-		case RendererVertexBuffer::FORMAT_UBYTE4:  d3dType = D3DDECLTYPE_UBYTE4;   break;
-		case RendererVertexBuffer::FORMAT_USHORT4: d3dType = D3DDECLTYPE_SHORT4;   break;
-		case RendererVertexBuffer::FORMAT_COLOR:   d3dType = D3DDECLTYPE_D3DCOLOR; break;
+		case RenderVertexBuffer::FORMAT_FLOAT1:  d3dType = D3DDECLTYPE_FLOAT1;   break;
+		case RenderVertexBuffer::FORMAT_FLOAT2:  d3dType = D3DDECLTYPE_FLOAT2;   break;
+		case RenderVertexBuffer::FORMAT_FLOAT3:  d3dType = D3DDECLTYPE_FLOAT3;   break;
+		case RenderVertexBuffer::FORMAT_FLOAT4:  d3dType = D3DDECLTYPE_FLOAT4;   break;
+		case RenderVertexBuffer::FORMAT_UBYTE4:  d3dType = D3DDECLTYPE_UBYTE4;   break;
+		case RenderVertexBuffer::FORMAT_USHORT4: d3dType = D3DDECLTYPE_SHORT4;   break;
+		case RenderVertexBuffer::FORMAT_COLOR:   d3dType = D3DDECLTYPE_D3DCOLOR; break;
 	}
 	ph_assert2(d3dType != D3DDECLTYPE_UNUSED, "Invalid Direct3D9 vertex type.");
 	return d3dType;
 }
 
-static D3DDECLUSAGE getD3DUsage(RendererVertexBuffer::Semantic semantic, uint8 &usageIndex)
+static D3DDECLUSAGE getD3DUsage(RenderVertexBuffer::Semantic semantic, uint8 &usageIndex)
 {
 	D3DDECLUSAGE d3dUsage = D3DDECLUSAGE_FOG;
 	usageIndex = 0;
-	if(semantic >= RendererVertexBuffer::SEMANTIC_TEXCOORD0 && semantic <= RendererVertexBuffer::SEMANTIC_TEXCOORDMAX)
+	if(semantic >= RenderVertexBuffer::SEMANTIC_TEXCOORD0 && semantic <= RenderVertexBuffer::SEMANTIC_TEXCOORDMAX)
 	{
 		d3dUsage   = D3DDECLUSAGE_TEXCOORD;
-		usageIndex = (uint8)(semantic - RendererVertexBuffer::SEMANTIC_TEXCOORD0);
+		usageIndex = (uint8)(semantic - RenderVertexBuffer::SEMANTIC_TEXCOORD0);
 	}
 	else
 	{
 		switch(semantic)
 		{
-			case RendererVertexBuffer::SEMANTIC_POSITION:  d3dUsage = D3DDECLUSAGE_POSITION; break;
-			case RendererVertexBuffer::SEMANTIC_NORMAL:    d3dUsage = D3DDECLUSAGE_NORMAL;   break;
-			case RendererVertexBuffer::SEMANTIC_TANGENT:   d3dUsage = D3DDECLUSAGE_TANGENT;  break;
-			case RendererVertexBuffer::SEMANTIC_COLOR:     d3dUsage = D3DDECLUSAGE_COLOR;    break;
-			case RendererVertexBuffer::SEMANTIC_BONEINDEX:
+			case RenderVertexBuffer::SEMANTIC_POSITION:  d3dUsage = D3DDECLUSAGE_POSITION; break;
+			case RenderVertexBuffer::SEMANTIC_NORMAL:    d3dUsage = D3DDECLUSAGE_NORMAL;   break;
+			case RenderVertexBuffer::SEMANTIC_TANGENT:   d3dUsage = D3DDECLUSAGE_TANGENT;  break;
+			case RenderVertexBuffer::SEMANTIC_COLOR:     d3dUsage = D3DDECLUSAGE_COLOR;    break;
+			case RenderVertexBuffer::SEMANTIC_BONEINDEX:
 				d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 				usageIndex = RENDERER_BONEINDEX_CHANNEL;
 				break;
-			case RendererVertexBuffer::SEMANTIC_BONEWEIGHT:
+			case RenderVertexBuffer::SEMANTIC_BONEWEIGHT:
 				d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 				usageIndex = RENDERER_BONEWEIGHT_CHANNEL;
 				break;
@@ -71,8 +71,8 @@ static D3DDECLUSAGE getD3DUsage(RendererVertexBuffer::Semantic semantic, uint8 &
 	return d3dUsage;
 }
 
-D3D9RendererVertexBuffer::D3D9RendererVertexBuffer(IDirect3DDevice9 &d3dDevice, const RendererVertexBufferDesc &desc, bool deferredUnlock) :
-	RendererVertexBuffer(desc),
+D3D9RenderVertexBuffer::D3D9RenderVertexBuffer(IDirect3DDevice9 &d3dDevice, const RenderVertexBufferDesc &desc, bool deferredUnlock) :
+	RenderVertexBuffer(desc),
 	m_d3dDevice(d3dDevice)
 {
 	m_d3dVertexBuffer = 0;
@@ -85,7 +85,7 @@ D3D9RendererVertexBuffer::D3D9RendererVertexBuffer(IDirect3DDevice9 &d3dDevice, 
 	m_bufferWritten = false;
 	
 #if RENDERER_ENABLE_DYNAMIC_VB_POOLS
-	if(desc.hint==RendererVertexBuffer::HINT_DYNAMIC)
+	if(desc.hint==RenderVertexBuffer::HINT_DYNAMIC)
 	{
 		m_usage = D3DUSAGE_DYNAMIC;
 		m_pool  = D3DPOOL_DEFAULT;
@@ -100,7 +100,7 @@ D3D9RendererVertexBuffer::D3D9RendererVertexBuffer(IDirect3DDevice9 &d3dDevice, 
 	}
 }
 
-D3D9RendererVertexBuffer::~D3D9RendererVertexBuffer(void)
+D3D9RenderVertexBuffer::~D3D9RenderVertexBuffer(void)
 {
 	if(m_d3dVertexBuffer)
 	{
@@ -108,7 +108,7 @@ D3D9RendererVertexBuffer::~D3D9RendererVertexBuffer(void)
 	}
 }
 
-void D3D9RendererVertexBuffer::addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const
+void D3D9RenderVertexBuffer::addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const
 {
 	for(uint32 i=0; i<NUM_SEMANTICS; i++)
 	{
@@ -123,7 +123,7 @@ void D3D9RendererVertexBuffer::addVertexElements(uint32 streamIndex, std::vector
 	}
 }
 
-void *D3D9RendererVertexBuffer::lock(void)
+void *D3D9RenderVertexBuffer::lock(void)
 {
 	RENDERER_PERFZONE(D3D9RenderVBlock);
 	void *lockedBuffer = 0;
@@ -137,7 +137,7 @@ void *D3D9RendererVertexBuffer::lock(void)
 	return lockedBuffer;
 }
 
-void D3D9RendererVertexBuffer::unlock(void)
+void D3D9RenderVertexBuffer::unlock(void)
 {
 	RENDERER_PERFZONE(D3D9RenderVBunlock);
 	if(m_d3dVertexBuffer)
@@ -146,7 +146,7 @@ void D3D9RendererVertexBuffer::unlock(void)
 	}
 }
 
-void D3D9RendererVertexBuffer::bind(uint32 streamID, uint32 firstVertex)
+void D3D9RenderVertexBuffer::bind(uint32 streamID, uint32 firstVertex)
 {
 	prepareForRender();
 	if(m_d3dVertexBuffer)
@@ -155,12 +155,12 @@ void D3D9RendererVertexBuffer::bind(uint32 streamID, uint32 firstVertex)
 	}
 }
 
-void D3D9RendererVertexBuffer::unbind(uint32 streamID)
+void D3D9RenderVertexBuffer::unbind(uint32 streamID)
 {
 	m_d3dDevice.SetStreamSource((UINT)streamID, 0, 0, 0);
 }
 
-void D3D9RendererVertexBuffer::onDeviceLost(void)
+void D3D9RenderVertexBuffer::onDeviceLost(void)
 {
 	if(m_pool != D3DPOOL_MANAGED && m_d3dVertexBuffer)
 	{
@@ -169,7 +169,7 @@ void D3D9RendererVertexBuffer::onDeviceLost(void)
 	}
 }
 
-void D3D9RendererVertexBuffer::onDeviceReset(void)
+void D3D9RenderVertexBuffer::onDeviceReset(void)
 {
 	if(!m_d3dVertexBuffer)
 	{
@@ -179,7 +179,7 @@ void D3D9RendererVertexBuffer::onDeviceReset(void)
 	}
 }
 
-bool D3D9RendererVertexBuffer::checkBufferWritten(void)
+bool D3D9RenderVertexBuffer::checkBufferWritten(void)
 {
 	return m_bufferWritten;
 }

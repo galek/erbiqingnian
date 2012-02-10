@@ -6,13 +6,13 @@
 
 _NAMESPACE_BEGIN
 
-class RendererDirectionalLightDesc;
+class RenderDirectionalLightDesc;
 
-class RendererDirectionalLight : public RendererLight
+class RenderDirectionalLight : public RenderLight
 {
 	protected:
-		RendererDirectionalLight(const RendererDirectionalLightDesc &desc);
-		virtual ~RendererDirectionalLight(void);
+		RenderDirectionalLight(const RenderDirectionalLightDesc &desc);
+		virtual ~RenderDirectionalLight(void);
 	
 	public:
 		const Vector3 &getDirection(void) const;

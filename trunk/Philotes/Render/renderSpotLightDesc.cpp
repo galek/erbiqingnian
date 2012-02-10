@@ -3,8 +3,8 @@
 
 _NAMESPACE_BEGIN
 
-RendererSpotLightDesc::RendererSpotLightDesc(void) :
-	RendererLightDesc(RendererLight::TYPE_SPOT)
+RenderSpotLightDesc::RenderSpotLightDesc(void) :
+	RenderLightDesc(RenderLight::TYPE_SPOT)
 {
 	position = Vector3(0,0,0);
 	direction = Vector3(0,0,0);
@@ -14,9 +14,9 @@ RendererSpotLightDesc::RendererSpotLightDesc(void) :
 	outerCone   = 0;
 }
 
-bool RendererSpotLightDesc::isValid(void) const
+bool RenderSpotLightDesc::isValid(void) const
 {
-	bool ok = RendererLightDesc::isValid();
+	bool ok = RenderLightDesc::isValid();
 	if(direction.squaredLength() < 0.1f) ok = false;
 	if(innerRadius < 0)                     ok = false;
 	if(outerRadius < innerRadius)           ok = false;

@@ -4,7 +4,7 @@
 
 _NAMESPACE_BEGIN
 
-uint32 RendererIndexBuffer::getFormatByteSize(Format format)
+uint32 RenderIndexBuffer::getFormatByteSize(Format format)
 {
 	uint32 size = 0;
 	switch(format)
@@ -16,29 +16,29 @@ uint32 RendererIndexBuffer::getFormatByteSize(Format format)
 	return size;
 }
 	
-RendererIndexBuffer::RendererIndexBuffer(const RendererIndexBufferDesc &desc) :
+RenderIndexBuffer::RenderIndexBuffer(const RenderIndexBufferDesc &desc) :
 	m_hint(desc.hint),
 	m_format(desc.format)
 {
 	m_maxIndices = 0;
 }
 
-RendererIndexBuffer::~RendererIndexBuffer(void)
+RenderIndexBuffer::~RenderIndexBuffer(void)
 {
 	
 }
 		
-RendererIndexBuffer::Hint RendererIndexBuffer::getHint(void) const
+RenderIndexBuffer::Hint RenderIndexBuffer::getHint(void) const
 {
 	return m_hint;
 }
 
-RendererIndexBuffer::Format RendererIndexBuffer::getFormat(void) const
+RenderIndexBuffer::Format RenderIndexBuffer::getFormat(void) const
 {
 	return m_format;
 }
 
-uint32 RendererIndexBuffer::getMaxIndices(void) const
+uint32 RenderIndexBuffer::getMaxIndices(void) const
 {
 	return m_maxIndices;
 }

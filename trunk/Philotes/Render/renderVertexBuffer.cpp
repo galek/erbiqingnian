@@ -4,7 +4,7 @@
 
 _NAMESPACE_BEGIN
 
-uint32 RendererVertexBuffer::getFormatByteSize(Format format)
+uint32 RenderVertexBuffer::getFormatByteSize(Format format)
 {
 	uint32 size = 0;
 	switch(format)
@@ -21,7 +21,7 @@ uint32 RendererVertexBuffer::getFormatByteSize(Format format)
 	return size;
 }
 
-RendererVertexBuffer::RendererVertexBuffer(const RendererVertexBufferDesc &desc) :
+RenderVertexBuffer::RenderVertexBuffer(const RenderVertexBufferDesc &desc) :
 	m_hint(desc.hint),
 	m_deferredUnlock(true)
 {
@@ -43,28 +43,28 @@ RendererVertexBuffer::RendererVertexBuffer(const RendererVertexBufferDesc &desc)
 	}
 }
 
-RendererVertexBuffer::~RendererVertexBuffer(void)
+RenderVertexBuffer::~RenderVertexBuffer(void)
 {
 	ph_assert2(m_numSemanticLocks==0, "VertexBuffer had outstanding locks during destruction!");
 }
 
-uint32 RendererVertexBuffer::getMaxVertices(void) const
+uint32 RenderVertexBuffer::getMaxVertices(void) const
 {
 	return m_maxVertices;
 }
 
-RendererVertexBuffer::Hint RendererVertexBuffer::getHint(void) const
+RenderVertexBuffer::Hint RenderVertexBuffer::getHint(void) const
 {
 	return m_hint;
 }
 
-RendererVertexBuffer::Format RendererVertexBuffer::getFormatForSemantic(Semantic semantic) const
+RenderVertexBuffer::Format RenderVertexBuffer::getFormatForSemantic(Semantic semantic) const
 {
 	ph_assert2(semantic < NUM_SEMANTICS, "Invalid VertexBuffer Semantic!");
 	return m_semanticDescs[semantic].format;
 }
 
-void *RendererVertexBuffer::lockSemantic(Semantic semantic, uint32 &stride)
+void *RenderVertexBuffer::lockSemantic(Semantic semantic, uint32 &stride)
 {
 	void *semanticBuffer = 0;
 	ph_assert2(semantic < NUM_SEMANTICS, "Invalid VertexBuffer Semantic!");
@@ -96,7 +96,7 @@ void *RendererVertexBuffer::lockSemantic(Semantic semantic, uint32 &stride)
 	return semanticBuffer;
 }
 
-void RendererVertexBuffer::unlockSemantic(Semantic semantic)
+void RenderVertexBuffer::unlockSemantic(Semantic semantic)
 {
 	ph_assert2(semantic < NUM_SEMANTICS, "Invalid VertexBuffer Semantic!");
 	if(semantic < NUM_SEMANTICS)
@@ -120,7 +120,7 @@ void RendererVertexBuffer::unlockSemantic(Semantic semantic)
 	}
 }
 
-void RendererVertexBuffer::prepareForRender(void)
+void RenderVertexBuffer::prepareForRender(void)
 {
 	if(m_lockedBuffer && m_numSemanticLocks == 0)
 	{

@@ -7,15 +7,15 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderVertexBuffer.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererVertexBuffer : public RendererVertexBuffer, public D3D9RendererResource
+class D3D9RenderVertexBuffer : public RenderVertexBuffer, public D3D9RenderResource
 {
 	public:
-		D3D9RendererVertexBuffer(IDirect3DDevice9 &d3dDevice, const RendererVertexBufferDesc &desc, bool deferredUnlock);
-		virtual ~D3D9RendererVertexBuffer(void);
+		D3D9RenderVertexBuffer(IDirect3DDevice9 &d3dDevice, const RenderVertexBufferDesc &desc, bool deferredUnlock);
+		virtual ~D3D9RenderVertexBuffer(void);
 		
 		void addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const;
 

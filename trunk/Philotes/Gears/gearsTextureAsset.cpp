@@ -12,7 +12,7 @@
 _NAMESPACE_BEGIN
 
 
-GearTextureAsset::GearTextureAsset(Renderer &renderer, FILE &file, const char *path, Type texType) :
+GearTextureAsset::GearTextureAsset(Render &renderer, FILE &file, const char *path, Type texType) :
 GearAsset(ASSET_TEXTURE, path)
 {
 	m_texture = 0;
@@ -30,21 +30,21 @@ GearTextureAsset::~GearTextureAsset(void)
 	if(m_texture) m_texture->release();
 }
 
-void GearTextureAsset::loadDDS(Renderer &renderer, FILE &file) 
+void GearTextureAsset::loadDDS(Render &renderer, FILE &file) 
 {
 	nv_dds::CDDSImage ddsimage;
 	bool ok = ddsimage.load(&file, false);
 	ph_assert(ok);
 	if(ok)
 	{
-		RendererTexture2DDesc tdesc;
+		RenderTexture2DDesc tdesc;
 		nv_dds::TextureFormat ddsformat = ddsimage.get_format();
 		switch(ddsformat)
 		{
-		case nv_dds::TextureBGRA:      tdesc.format = RendererTexture2D::FORMAT_B8G8R8A8; break;
-		case nv_dds::TextureDXT1:      tdesc.format = RendererTexture2D::FORMAT_DXT1;     break;
-		case nv_dds::TextureDXT3:      tdesc.format = RendererTexture2D::FORMAT_DXT3;     break;
-		case nv_dds::TextureDXT5:      tdesc.format = RendererTexture2D::FORMAT_DXT5;     break;
+		case nv_dds::TextureBGRA:      tdesc.format = RenderTexture2D::FORMAT_B8G8R8A8; break;
+		case nv_dds::TextureDXT1:      tdesc.format = RenderTexture2D::FORMAT_DXT1;     break;
+		case nv_dds::TextureDXT3:      tdesc.format = RenderTexture2D::FORMAT_DXT3;     break;
+		case nv_dds::TextureDXT5:      tdesc.format = RenderTexture2D::FORMAT_DXT5;     break;
 		}
 		tdesc.width     = ddsimage.get_width();
 		tdesc.height    = ddsimage.get_height();
@@ -88,8 +88,8 @@ void GearTextureAsset::loadDDS(Renderer &renderer, FILE &file)
 
 					uint8       *levelDst    = (uint8*)buffer;
 					const uint8 *levelSrc    = (uint8*)(unsigned char*)surface;
-					const uint32 levelWidth  = RendererTexture2D::getFormatNumBlocks(surface.get_width(),  m_texture->getFormat());
-					const uint32 levelHeight = RendererTexture2D::getFormatNumBlocks(surface.get_height(), m_texture->getFormat());
+					const uint32 levelWidth  = RenderTexture2D::getFormatNumBlocks(surface.get_width(),  m_texture->getFormat());
+					const uint32 levelHeight = RenderTexture2D::getFormatNumBlocks(surface.get_height(), m_texture->getFormat());
 					const uint32 rowSrcSize  = levelWidth * m_texture->getBlockSize();
 					ph_assert(rowSrcSize <= pitch); // the pitch can't be less than the source row size.
 					for(uint32 row=0; row<levelHeight; row++)
@@ -105,7 +105,7 @@ void GearTextureAsset::loadDDS(Renderer &renderer, FILE &file)
 	}
 }
 
-void GearTextureAsset::loadTGA(Renderer &renderer, FILE &file)
+void GearTextureAsset::loadTGA(Render &renderer, FILE &file)
 {
 #ifdef RENDERER_ENABLE_TGA_SUPPORT
 
@@ -118,11 +118,11 @@ void GearTextureAsset::loadTGA(Renderer &renderer, FILE &file)
 	ph_assert(ok);
 	if( ok )
 	{
-		RendererTexture2DDesc tdesc;
+		RenderTexture2DDesc tdesc;
 		int componentCount = image->pixel_depth/8;
 		if( componentCount == 3 || componentCount == 4 )
 		{
-			tdesc.format = RendererTexture2D::FORMAT_B8G8R8A8;
+			tdesc.format = RenderTexture2D::FORMAT_B8G8R8A8;
 
 			tdesc.width     = image->width;
 			tdesc.height    = image->height;
@@ -176,7 +176,7 @@ void GearTextureAsset::loadTGA(Renderer &renderer, FILE &file)
 #endif /* RENDERER_ENABLE_TGA_SUPPORT */
 }
 
-RendererTexture2D *GearTextureAsset::getTexture(void)
+RenderTexture2D *GearTextureAsset::getTexture(void)
 {
 	return m_texture;
 }

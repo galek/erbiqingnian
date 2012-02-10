@@ -3,9 +3,9 @@
 
 _NAMESPACE_BEGIN
 
-RendererMeshDesc::RendererMeshDesc(void)
+RenderMeshDesc::RenderMeshDesc(void)
 {
-	primitives = RendererMesh::PRIMITIVE_POINTS;
+	primitives = RenderMesh::PRIMITIVE_POINTS;
 	
 	vertexBuffers    = 0;
 	numVertexBuffers = 0;
@@ -21,7 +21,7 @@ RendererMeshDesc::RendererMeshDesc(void)
 	numInstances   = 0;
 }
 		
-bool RendererMeshDesc::isValid(void) const
+bool RenderMeshDesc::isValid(void) const
 {
 	bool ok = true;
 	// remove vertexBuffer check for sprites

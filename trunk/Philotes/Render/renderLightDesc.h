@@ -7,28 +7,28 @@
 
 _NAMESPACE_BEGIN
 
-class RendererLightDesc
+class RenderLightDesc
 {
 	public:
-		const RendererLight::Type	type;
+		const RenderLight::Type	type;
 		
-		RendererColor				color;
+		RenderColor				color;
 		float						intensity;
 		
-		RendererTexture2D*			shadowMap;
+		RenderTexture2D*			shadowMap;
 		Matrix4						shadowTransform;
 		Matrix4						shadowProjection;
 		
 	protected:
-		RendererLightDesc(RendererLight::Type _type);
+		RenderLightDesc(RenderLight::Type _type);
 
-		virtual ~RendererLightDesc() {}
+		virtual ~RenderLightDesc() {}
 		
 	public:
 		virtual bool isValid(void) const;
 	
 	private:
-		RendererLightDesc &operator=(const RendererLightDesc&) { return *this; }
+		RenderLightDesc &operator=(const RenderLightDesc&) { return *this; }
 };
 
 _NAMESPACE_END

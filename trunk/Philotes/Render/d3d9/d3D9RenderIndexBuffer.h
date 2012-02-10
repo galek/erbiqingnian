@@ -7,15 +7,15 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderIndexBuffer.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererIndexBuffer : public RendererIndexBuffer, public D3D9RendererResource
+class D3D9RenderIndexBuffer : public RenderIndexBuffer, public D3D9RenderResource
 {
 	public:
-		D3D9RendererIndexBuffer(IDirect3DDevice9 &d3dDevice, const RendererIndexBufferDesc &desc);
-		virtual ~D3D9RendererIndexBuffer(void);
+		D3D9RenderIndexBuffer(IDirect3DDevice9 &d3dDevice, const RenderIndexBufferDesc &desc);
+		virtual ~D3D9RenderIndexBuffer(void);
 		
 	public:
 		virtual void *lock(void);

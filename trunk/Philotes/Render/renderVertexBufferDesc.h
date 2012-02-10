@@ -6,16 +6,16 @@
 
 _NAMESPACE_BEGIN
 
-class RendererVertexBufferDesc
+class RenderVertexBufferDesc
 {
 	public:
-		RendererVertexBuffer::Hint   hint;
-		RendererVertexBuffer::Format semanticFormats[RendererVertexBuffer::NUM_SEMANTICS];
+		RenderVertexBuffer::Hint   hint;
+		RenderVertexBuffer::Format semanticFormats[RenderVertexBuffer::NUM_SEMANTICS];
 		
 		uint32                 maxVertices;
 		
 	public:
-		RendererVertexBufferDesc(void);
+		RenderVertexBufferDesc(void);
 		
 		bool isValid(void) const;
 };

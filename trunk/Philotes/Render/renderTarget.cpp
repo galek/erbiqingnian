@@ -3,12 +3,12 @@
 
 _NAMESPACE_BEGIN
 
-RendererTarget::RendererTarget(void)
+RenderTarget::RenderTarget(void)
 {
 
 }
 
-RendererTarget::~RendererTarget(void)
+RenderTarget::~RenderTarget(void)
 {
 
 }

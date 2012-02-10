@@ -45,13 +45,13 @@ GearApplication::GearApplication(const GearCommandLine &cmdline, const char *ass
 
 GearApplication::~GearApplication(void)
 {
-	ph_assert2(!m_renderer, "Renderer was not released prior to window closure.");
+	ph_assert2(!m_renderer, "Render was not released prior to window closure.");
 	ph_assert2(!m_assetManager, "Asset Manager was not released prior to window closure.");
 }
 
 void GearApplication::onOpen( void )
 {
-	m_platform->preRendererSetup();
+	m_platform->preRenderSetup();
 
 	memset(m_mouseButtonState, 0, sizeof(m_mouseButtonState));
 	memset(m_keyState,         0, sizeof(m_keyState));
@@ -68,19 +68,19 @@ void GearApplication::onOpen( void )
 	Matrix4 eye = Matrix4::IDENTITY;
 	m_worldToView = eye.inverse();
 
-	RendererDesc renDesc;
+	RenderDesc renDesc;
 
 	// default renderer drivers for various platforms...
-	m_platform->setupRendererDescription(renDesc);
+	m_platform->setupRenderDescription(renDesc);
 
 	// check to see if the user wants to override the renderer driver...
-	if(m_cmdline.hasSwitch("ogl"))        renDesc.driver = Renderer::DRIVER_OPENGL;
-	else if(m_cmdline.hasSwitch("d3d9"))  renDesc.driver = Renderer::DRIVER_DIRECT3D9;
-	else if(m_cmdline.hasSwitch("d3d10")) renDesc.driver = Renderer::DRIVER_DIRECT3D10;
-	else if(m_cmdline.hasSwitch("gcm"))   renDesc.driver = Renderer::DRIVER_LIBGCM;
+	if(m_cmdline.hasSwitch("ogl"))        renDesc.driver = Render::DRIVER_OPENGL;
+	else if(m_cmdline.hasSwitch("d3d9"))  renDesc.driver = Render::DRIVER_DIRECT3D9;
+	else if(m_cmdline.hasSwitch("d3d10")) renDesc.driver = Render::DRIVER_DIRECT3D10;
+	else if(m_cmdline.hasSwitch("gcm"))   renDesc.driver = Render::DRIVER_LIBGCM;
 
-	m_renderer = Renderer::createRenderer(renDesc);
-	m_platform->postRendererSetup();
+	m_renderer = Render::createRender(renDesc);
+	m_platform->postRenderSetup();
 
 	m_timeCounter = m_time.getCurrentCounterValue();
 
@@ -97,7 +97,7 @@ bool GearApplication::onClose( void )
 	DELETESINGLE(m_assetManager);
 
 	SAFE_RELEASE(m_renderer);
-	m_platform->postRendererRelease();
+	m_platform->postRenderRelease();
 
 	return true;
 }

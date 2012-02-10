@@ -3,12 +3,12 @@
 
 _NAMESPACE_BEGIN
 
-RendererColor::RendererColor(void)
+RenderColor::RenderColor(void)
 {
 
 }
 
-RendererColor::RendererColor(uint8 _r, uint8 _g, uint8 _b, uint8 _a)
+RenderColor::RenderColor(uint8 _r, uint8 _g, uint8 _b, uint8 _a)
 {
 	r=_r;
 	g=_g;
@@ -16,7 +16,7 @@ RendererColor::RendererColor(uint8 _r, uint8 _g, uint8 _b, uint8 _a)
 	a=_a;
 }
 
-RendererColor::RendererColor(uint32 rgba)
+RenderColor::RenderColor(uint32 rgba)
 {
 	r = (uint8)((rgba>>16) & 0xff);
 	g = (uint8)((rgba>>8)  & 0xff);

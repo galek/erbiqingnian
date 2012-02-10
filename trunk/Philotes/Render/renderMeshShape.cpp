@@ -14,31 +14,31 @@
 
 _NAMESPACE_BEGIN
 
-RendererMeshShape::RendererMeshShape(	Renderer& renderer, 
+RenderMeshShape::RenderMeshShape(	Render& renderer, 
 										const Vector3* verts, uint32 numVerts, 
 										const Vector3* normals,
 										const scalar* uvs,
 										const uint16* faces, uint32 numFaces, bool flipWinding) :
-	RendererShape(renderer)
+	RenderShape(renderer)
 {
-	Philo::RendererVertexBufferDesc vbdesc;
-	vbdesc.hint = RendererVertexBuffer::HINT_STATIC;
-	vbdesc.semanticFormats[RendererVertexBuffer::SEMANTIC_POSITION]  = RendererVertexBuffer::FORMAT_FLOAT3;
-	vbdesc.semanticFormats[RendererVertexBuffer::SEMANTIC_NORMAL]    = RendererVertexBuffer::FORMAT_FLOAT3;
-	vbdesc.semanticFormats[RendererVertexBuffer::SEMANTIC_TEXCOORD0] = RendererVertexBuffer::FORMAT_FLOAT2;
+	Philo::RenderVertexBufferDesc vbdesc;
+	vbdesc.hint = RenderVertexBuffer::HINT_STATIC;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION]  = RenderVertexBuffer::FORMAT_FLOAT3;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_NORMAL]    = RenderVertexBuffer::FORMAT_FLOAT3;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_TEXCOORD0] = RenderVertexBuffer::FORMAT_FLOAT2;
 	vbdesc.maxVertices = numVerts;
 	m_vertexBuffer = m_renderer.createVertexBuffer(vbdesc);
 	ph_assert2(m_vertexBuffer, "Failed to create Vertex Buffer.");
 	if(m_vertexBuffer)
 	{
 		uint32 positionStride = 0;
-		void* vertPositions = m_vertexBuffer->lockSemantic(RendererVertexBuffer::SEMANTIC_POSITION, positionStride);
+		void* vertPositions = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_POSITION, positionStride);
 
 		uint32 normalStride = 0;
-		void* vertNormals = m_vertexBuffer->lockSemantic(RendererVertexBuffer::SEMANTIC_NORMAL, normalStride);
+		void* vertNormals = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_NORMAL, normalStride);
 
 		uint32 uvStride = 0;
-		void* vertUVs = m_vertexBuffer->lockSemantic(RendererVertexBuffer::SEMANTIC_TEXCOORD0, uvStride);
+		void* vertUVs = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_TEXCOORD0, uvStride);
 
 		if(vertPositions && vertNormals && vertUVs)
 		{
@@ -60,16 +60,16 @@ RendererMeshShape::RendererMeshShape(	Renderer& renderer,
 				vertUVs       = (void*)(((uint8*)vertUVs)       + uvStride);
 			}
 		}
-		m_vertexBuffer->unlockSemantic(RendererVertexBuffer::SEMANTIC_NORMAL);
-		m_vertexBuffer->unlockSemantic(RendererVertexBuffer::SEMANTIC_POSITION);
-		m_vertexBuffer->unlockSemantic(RendererVertexBuffer::SEMANTIC_TEXCOORD0);
+		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_NORMAL);
+		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_POSITION);
+		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_TEXCOORD0);
 	}
 
 	const uint32 numIndices = numFaces*3;
 	
-	RendererIndexBufferDesc ibdesc;
-	ibdesc.hint       = RendererIndexBuffer::HINT_STATIC;
-	ibdesc.format     = RendererIndexBuffer::FORMAT_UINT16;
+	RenderIndexBufferDesc ibdesc;
+	ibdesc.hint       = RenderIndexBuffer::HINT_STATIC;
+	ibdesc.format     = RenderIndexBuffer::FORMAT_UINT16;
 	ibdesc.maxIndices = numIndices;
 	m_indexBuffer = m_renderer.createIndexBuffer(ibdesc);
 	ph_assert2(m_indexBuffer, "Failed to create Index Buffer.");
@@ -94,8 +94,8 @@ RendererMeshShape::RendererMeshShape(	Renderer& renderer,
 	
 	if(m_vertexBuffer && m_indexBuffer)
 	{
-		RendererMeshDesc meshdesc;
-		meshdesc.primitives       = RendererMesh::PRIMITIVE_TRIANGLES;
+		RenderMeshDesc meshdesc;
+		meshdesc.primitives       = RenderMesh::PRIMITIVE_TRIANGLES;
 		meshdesc.vertexBuffers    = &m_vertexBuffer;
 		meshdesc.numVertexBuffers = 1;
 		meshdesc.firstVertex      = 0;
@@ -108,7 +108,7 @@ RendererMeshShape::RendererMeshShape(	Renderer& renderer,
 	}
 }
 
-RendererMeshShape::~RendererMeshShape(void)
+RenderMeshShape::~RenderMeshShape(void)
 {
 	if(m_vertexBuffer) m_vertexBuffer->release();
 	if(m_indexBuffer)  m_indexBuffer->release();

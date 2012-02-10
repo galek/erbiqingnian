@@ -1,28 +1,28 @@
 
-#include "D3D9RendererMaterial.h"
+#include "D3D9RenderMaterial.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderMaterialDesc.h>
-#include "D3D9RendererTexture2D.h"
+#include "D3D9RenderTexture2D.h"
 #include <stdio.h>
 
 _NAMESPACE_BEGIN
 
 extern char gShadersDir[];
 
-void D3D9RendererMaterial::setModelMatrix(const scalar *matrix)
+void D3D9RenderMaterial::setModelMatrix(const scalar *matrix)
 {
 	if ( m_instancedVertexConstants.table && m_instancedVertexConstants.modelMatrix )
 		m_instancedVertexConstants.table->SetMatrix(m_renderer.getD3DDevice(),m_instancedVertexConstants.modelMatrix,(const D3DXMATRIX *)matrix);
 }
 
-D3D9RendererMaterial::ShaderConstants::ShaderConstants(void)
+D3D9RenderMaterial::ShaderConstants::ShaderConstants(void)
 {
 	memset(this, 0, sizeof(*this));
 }
 
-D3D9RendererMaterial::ShaderConstants::~ShaderConstants(void)
+D3D9RenderMaterial::ShaderConstants::~ShaderConstants(void)
 {
 	if(table) table->Release();
 }
@@ -52,28 +52,28 @@ static D3DXHANDLE getShaderConstantByName(ID3DXConstantTable &table, const char 
 	return found;
 }
 
-static D3DBLEND getD3DBlendFunc(RendererMaterial::BlendFunc func)
+static D3DBLEND getD3DBlendFunc(RenderMaterial::BlendFunc func)
 {
 	D3DBLEND d3dfunc = D3DBLEND_FORCE_DWORD;
 	switch(func)
 	{
-		case RendererMaterial::BLEND_ZERO:                d3dfunc = D3DBLEND_ZERO;         break;
-		case RendererMaterial::BLEND_ONE:                 d3dfunc = D3DBLEND_ONE;          break;
-		case RendererMaterial::BLEND_SRC_COLOR:           d3dfunc = D3DBLEND_SRCCOLOR;     break;
-		case RendererMaterial::BLEND_ONE_MINUS_SRC_COLOR: d3dfunc = D3DBLEND_INVSRCCOLOR;  break;
-		case RendererMaterial::BLEND_SRC_ALPHA:           d3dfunc = D3DBLEND_SRCALPHA;     break;
-		case RendererMaterial::BLEND_ONE_MINUS_SRC_ALPHA: d3dfunc = D3DBLEND_INVSRCALPHA;  break;
-		case RendererMaterial::BLEND_DST_ALPHA:           d3dfunc = D3DBLEND_DESTALPHA;    break;
-		case RendererMaterial::BLEND_ONE_MINUS_DST_ALPHA: d3dfunc = D3DBLEND_INVDESTALPHA; break;
-		case RendererMaterial::BLEND_DST_COLOR:           d3dfunc = D3DBLEND_DESTCOLOR;    break;
-		case RendererMaterial::BLEND_ONE_MINUS_DST_COLOR: d3dfunc = D3DBLEND_INVDESTCOLOR; break;
-		case RendererMaterial::BLEND_SRC_ALPHA_SATURATE:  d3dfunc = D3DBLEND_SRCALPHASAT;  break;
+		case RenderMaterial::BLEND_ZERO:                d3dfunc = D3DBLEND_ZERO;         break;
+		case RenderMaterial::BLEND_ONE:                 d3dfunc = D3DBLEND_ONE;          break;
+		case RenderMaterial::BLEND_SRC_COLOR:           d3dfunc = D3DBLEND_SRCCOLOR;     break;
+		case RenderMaterial::BLEND_ONE_MINUS_SRC_COLOR: d3dfunc = D3DBLEND_INVSRCCOLOR;  break;
+		case RenderMaterial::BLEND_SRC_ALPHA:           d3dfunc = D3DBLEND_SRCALPHA;     break;
+		case RenderMaterial::BLEND_ONE_MINUS_SRC_ALPHA: d3dfunc = D3DBLEND_INVSRCALPHA;  break;
+		case RenderMaterial::BLEND_DST_ALPHA:           d3dfunc = D3DBLEND_DESTALPHA;    break;
+		case RenderMaterial::BLEND_ONE_MINUS_DST_ALPHA: d3dfunc = D3DBLEND_INVDESTALPHA; break;
+		case RenderMaterial::BLEND_DST_COLOR:           d3dfunc = D3DBLEND_DESTCOLOR;    break;
+		case RenderMaterial::BLEND_ONE_MINUS_DST_COLOR: d3dfunc = D3DBLEND_INVDESTCOLOR; break;
+		case RenderMaterial::BLEND_SRC_ALPHA_SATURATE:  d3dfunc = D3DBLEND_SRCALPHASAT;  break;
 	}
 	ph_assert2(d3dfunc!=D3DBLEND_FORCE_DWORD, "Failed to look up D3D Blend Func.");
 	return d3dfunc;
 }
 
-void D3D9RendererMaterial::ShaderConstants::loadConstants(void)
+void D3D9RenderMaterial::ShaderConstants::loadConstants(void)
 {
 	if(table)
 	{
@@ -106,7 +106,7 @@ void D3D9RendererMaterial::ShaderConstants::loadConstants(void)
 	}
 }
 
-void D3D9RendererMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dDevice, const D3D9Renderer::ShaderEnvironment &shaderEnv) const
+void D3D9RenderMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dDevice, const D3D9Render::ShaderEnvironment &shaderEnv) const
 {
 	if(table)
 	{
@@ -193,22 +193,22 @@ void D3D9RendererMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3
 }
 
 /**************************************
-*  D3D9RendererMaterial::D3D9Variable *
+*  D3D9RenderMaterial::D3D9Variable *
 **************************************/
 
-D3D9RendererMaterial::D3D9Variable::D3D9Variable(const char *name, VariableType type, uint32 offset) :
+D3D9RenderMaterial::D3D9Variable::D3D9Variable(const char *name, VariableType type, uint32 offset) :
 	Variable(name, type, offset)
 {
 	m_vertexHandle = 0;
 	memset(m_fragmentHandles, 0, sizeof(m_fragmentHandles));
 }
 
-D3D9RendererMaterial::D3D9Variable::~D3D9Variable(void)
+D3D9RenderMaterial::D3D9Variable::~D3D9Variable(void)
 {
 	
 }
 
-void D3D9RendererMaterial::D3D9Variable::addVertexHandle(ID3DXConstantTable &table, D3DXHANDLE handle)
+void D3D9RenderMaterial::D3D9Variable::addVertexHandle(ID3DXConstantTable &table, D3DXHANDLE handle)
 {
 	m_vertexHandle = handle;
 	D3DXCONSTANT_DESC cdesc;
@@ -217,7 +217,7 @@ void D3D9RendererMaterial::D3D9Variable::addVertexHandle(ID3DXConstantTable &tab
 	m_vertexRegister = cdesc.RegisterIndex;
 }
 
-void D3D9RendererMaterial::D3D9Variable::addFragmentHandle(ID3DXConstantTable &table, D3DXHANDLE handle, Pass pass)
+void D3D9RenderMaterial::D3D9Variable::addFragmentHandle(ID3DXConstantTable &table, D3DXHANDLE handle, Pass pass)
 {
 	m_fragmentHandles[pass] = handle;
 	D3DXCONSTANT_DESC cdesc;
@@ -292,8 +292,8 @@ class D3D9ShaderIncluder : public ID3DXInclude
 		}
 };
 
-D3D9RendererMaterial::D3D9RendererMaterial(D3D9Renderer &renderer, const RendererMaterialDesc &desc) :
-	RendererMaterial(desc),
+D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMaterialDesc &desc) :
+	RenderMaterial(desc),
 	m_renderer(renderer)
 {
 	m_d3dAlphaTestFunc      = D3DCMP_ALWAYS;
@@ -318,7 +318,7 @@ D3D9RendererMaterial::D3D9RendererMaterial(D3D9Renderer &renderer, const Rendere
 	m_d3dSrcBlendFunc = getD3DBlendFunc(getSrcBlendFunc());
 	m_d3dDstBlendFunc = getD3DBlendFunc(getDstBlendFunc());
 	
-	D3D9Renderer::D3DXInterface &d3dx      = m_renderer.getD3DX();
+	D3D9Render::D3DXInterface &d3dx      = m_renderer.getD3DX();
 	IDirect3DDevice9            *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice)
 	{
@@ -443,7 +443,7 @@ D3D9RendererMaterial::D3D9RendererMaterial(D3D9Renderer &renderer, const Rendere
 	}
 }
 
-D3D9RendererMaterial::~D3D9RendererMaterial(void)
+D3D9RenderMaterial::~D3D9RenderMaterial(void)
 {
 	if(m_vertexShader)          m_vertexShader->Release();
 	if(m_instancedVertexShader) m_instancedVertexShader->Release();
@@ -454,13 +454,13 @@ D3D9RendererMaterial::~D3D9RendererMaterial(void)
 	}
 }
 
-void D3D9RendererMaterial::bind(RendererMaterial::Pass pass, RendererMaterialInstance *materialInstance, bool instanced) const
+void D3D9RenderMaterial::bind(RenderMaterial::Pass pass, RenderMaterialInstance *materialInstance, bool instanced) const
 {
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	ph_assert2(pass < NUM_PASSES, "Invalid Material Pass.");
 	if(d3dDevice && pass < NUM_PASSES)
 	{
-		const D3D9Renderer::ShaderEnvironment &shaderEnv = m_renderer.getShaderEnvironment();
+		const D3D9Render::ShaderEnvironment &shaderEnv = m_renderer.getShaderEnvironment();
 		
 		if(m_d3dAlphaTestFunc == D3DCMP_ALWAYS)
 		{
@@ -494,16 +494,16 @@ void D3D9RendererMaterial::bind(RendererMaterial::Pass pass, RendererMaterialIns
 		m_fragmentConstants[pass].bindEnvironment(*d3dDevice, shaderEnv);
 		d3dDevice->SetPixelShader(m_fragmentPrograms[pass]);
 		
-		RendererMaterial::bind(pass, materialInstance, instanced);
+		RenderMaterial::bind(pass, materialInstance, instanced);
 	}
 }
 
-void D3D9RendererMaterial::bindMeshState(bool instanced) const
+void D3D9RenderMaterial::bindMeshState(bool instanced) const
 {
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice)
 	{
-		const D3D9Renderer::ShaderEnvironment &shaderEnv = m_renderer.getShaderEnvironment();
+		const D3D9Render::ShaderEnvironment &shaderEnv = m_renderer.getShaderEnvironment();
 		
 		if(instanced)
 		{
@@ -516,7 +516,7 @@ void D3D9RendererMaterial::bindMeshState(bool instanced) const
 	}
 }
 
-void D3D9RendererMaterial::unbind(void) const
+void D3D9RenderMaterial::unbind(void) const
 {
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice)
@@ -532,16 +532,16 @@ void D3D9RendererMaterial::unbind(void) const
 	}
 }
 
-static void bindSampler2DVariable(IDirect3DDevice9 &d3dDevice, ID3DXConstantTable &table, D3DXHANDLE handle, RendererTexture2D &texture)
+static void bindSampler2DVariable(IDirect3DDevice9 &d3dDevice, ID3DXConstantTable &table, D3DXHANDLE handle, RenderTexture2D &texture)
 {
 	if(handle)
 	{
 		UINT samplerIndex = table.GetSamplerIndex(handle);
-		static_cast<D3D9RendererTexture2D*>(&texture)->bind(samplerIndex);
+		static_cast<D3D9RenderTexture2D*>(&texture)->bind(samplerIndex);
 	}
 }
 
-void D3D9RendererMaterial::bindVariable(Pass pass, const Variable &variable, const void *data) const
+void D3D9RenderMaterial::bindVariable(Pass pass, const Variable &variable, const void *data) const
 {
 	D3D9Variable &var = *(D3D9Variable*)&variable;
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
@@ -582,35 +582,35 @@ void D3D9RendererMaterial::bindVariable(Pass pass, const Variable &variable, con
 				ph_assert2(data, "NULL Sampler.");
 				if(data)
 				{
-					bindSampler2DVariable(*m_renderer.getD3DDevice(), *m_vertexConstants.table,         var.m_vertexHandle,          *(RendererTexture2D*)data);
-					bindSampler2DVariable(*m_renderer.getD3DDevice(), *m_fragmentConstants[pass].table, var.m_fragmentHandles[pass], *(RendererTexture2D*)data);
+					bindSampler2DVariable(*m_renderer.getD3DDevice(), *m_vertexConstants.table,         var.m_vertexHandle,          *(RenderTexture2D*)data);
+					bindSampler2DVariable(*m_renderer.getD3DDevice(), *m_fragmentConstants[pass].table, var.m_fragmentHandles[pass], *(RenderTexture2D*)data);
 				}
 				break;
 		}
 	}
 }
 
-static RendererMaterial::VariableType getVariableType(const D3DXCONSTANT_DESC &desc)
+static RenderMaterial::VariableType getVariableType(const D3DXCONSTANT_DESC &desc)
 {
-	RendererMaterial::VariableType vt = RendererMaterial::NUM_VARIABLE_TYPES;
+	RenderMaterial::VariableType vt = RenderMaterial::NUM_VARIABLE_TYPES;
 	switch(desc.Type)
 	{
 		case D3DXPT_FLOAT:
-			if(     desc.Rows == 4 && desc.Columns == 4) vt = RendererMaterial::VARIABLE_FLOAT4x4;
-			else if(desc.Rows == 1 && desc.Columns == 1) vt = RendererMaterial::VARIABLE_FLOAT;
-			else if(desc.Rows == 1 && desc.Columns == 2) vt = RendererMaterial::VARIABLE_FLOAT2;
-			else if(desc.Rows == 1 && desc.Columns == 3) vt = RendererMaterial::VARIABLE_FLOAT3;
-			else if(desc.Rows == 1 && desc.Columns == 4) vt = RendererMaterial::VARIABLE_FLOAT4;
+			if(     desc.Rows == 4 && desc.Columns == 4) vt = RenderMaterial::VARIABLE_FLOAT4x4;
+			else if(desc.Rows == 1 && desc.Columns == 1) vt = RenderMaterial::VARIABLE_FLOAT;
+			else if(desc.Rows == 1 && desc.Columns == 2) vt = RenderMaterial::VARIABLE_FLOAT2;
+			else if(desc.Rows == 1 && desc.Columns == 3) vt = RenderMaterial::VARIABLE_FLOAT3;
+			else if(desc.Rows == 1 && desc.Columns == 4) vt = RenderMaterial::VARIABLE_FLOAT4;
 			break;
 		case D3DXPT_SAMPLER2D:
-			vt = RendererMaterial::VARIABLE_SAMPLER2D;
+			vt = RenderMaterial::VARIABLE_SAMPLER2D;
 			break;
 	}
-	ph_assert2(vt < RendererMaterial::NUM_VARIABLE_TYPES, "Unable to convert shader variable type.");
+	ph_assert2(vt < RenderMaterial::NUM_VARIABLE_TYPES, "Unable to convert shader variable type.");
 	return vt;
 }
 
-void D3D9RendererMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pass)
+void D3D9RenderMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pass)
 {
 	D3DXCONSTANTTABLE_DESC desc;
 	table.GetDesc(&desc);

@@ -4,7 +4,7 @@
 
 _NAMESPACE_BEGIN
 
-RendererMaterialInstance::RendererMaterialInstance(RendererMaterial &material) :
+RenderMaterialInstance::RenderMaterialInstance(RenderMaterial &material) :
 	m_material(material)
 {
 	m_data = 0;
@@ -16,18 +16,18 @@ RendererMaterialInstance::RendererMaterialInstance(RendererMaterial &material) :
 	}
 }
 
-RendererMaterialInstance::~RendererMaterialInstance(void)
+RenderMaterialInstance::~RenderMaterialInstance(void)
 {
 	if(m_data) delete [] m_data;
 }
 
-const RendererMaterial::Variable *RendererMaterialInstance::findVariable(const char *name, RendererMaterial::VariableType varType)
+const RenderMaterial::Variable *RenderMaterialInstance::findVariable(const char *name, RenderMaterial::VariableType varType)
 {
-	RendererMaterial::Variable *var = 0;
+	RenderMaterial::Variable *var = 0;
 	uint32 numVariables = (uint32)m_material.m_variables.size();
 	for(uint32 i=0; i<numVariables; i++)
 	{
-		RendererMaterial::Variable &v = *m_material.m_variables[i];
+		RenderMaterial::Variable &v = *m_material.m_variables[i];
 		if(!strcmp(v.getName(), name))
 		{
 			var = &v;
@@ -41,7 +41,7 @@ const RendererMaterial::Variable *RendererMaterialInstance::findVariable(const c
 	return var;
 }
 
-void RendererMaterialInstance::writeData(const RendererMaterial::Variable &var, const void *data)
+void RenderMaterialInstance::writeData(const RenderMaterial::Variable &var, const void *data)
 {
 	if(m_data && data)
 	{
@@ -49,7 +49,7 @@ void RendererMaterialInstance::writeData(const RendererMaterial::Variable &var, 
 	}
 }
 
-RendererMaterialInstance &RendererMaterialInstance::operator=(const RendererMaterialInstance &b)
+RenderMaterialInstance &RenderMaterialInstance::operator=(const RenderMaterialInstance &b)
 {
 	ph_assert(&m_material == &b.m_material);
 	if(&m_material == &b.m_material)

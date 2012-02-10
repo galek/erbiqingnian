@@ -6,22 +6,22 @@
 
 _NAMESPACE_BEGIN
 
-class RendererVertexBuffer;
-class RendererIndexBuffer;
+class RenderVertexBuffer;
+class RenderIndexBuffer;
 
-class RendererMeshShape : public RendererShape
+class RenderMeshShape : public RenderShape
 {
 	public:
-		RendererMeshShape(Renderer& renderer, 
+		RenderMeshShape(Render& renderer, 
 							 const Vector3* verts, uint32 numVerts,
 							 const Vector3* normals,
 							 const scalar* uvs,
 							 const uint16* faces, uint32 numFaces, bool flipWinding=false);
-		virtual ~RendererMeshShape();
+		virtual ~RenderMeshShape();
 		
 	private:
-		RendererVertexBuffer*	m_vertexBuffer;
-		RendererIndexBuffer*	m_indexBuffer;
+		RenderVertexBuffer*	m_vertexBuffer;
+		RenderIndexBuffer*	m_indexBuffer;
 };
 
 _NAMESPACE_END

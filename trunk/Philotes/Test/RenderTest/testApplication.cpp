@@ -26,7 +26,7 @@ void TestApplication::onInit( void )
 	srand(::GetTickCount());
 
 	// »æÖÆline²âÊÔ
-	m_debugLine = new RendererDebugLine(*m_renderer,*m_assetManager);
+	m_debugLine = new RenderDebugLine(*m_renderer,*m_assetManager);
 
 	m_debugLine->clearLine();
 	for (size_t i=0; i<100; i++)
@@ -34,10 +34,10 @@ void TestApplication::onInit( void )
 		Vector3 vec0 = Vector3(-(float)(rand()%10),-(float)(rand()%10),-(float)(rand()%10));
 		Vector3 vec1 = Vector3((float)(rand()%10),(float)(rand()%10),(float)(rand()%10));
 
-		m_debugLine->addLine(vec0,vec1,RendererColor(255,0,0,255));
+		m_debugLine->addLine(vec0,vec1,RenderColor(255,0,0,255));
 	}
 
-	m_debugGrid = new RendererGridShape(*m_renderer,100,40);
+	m_debugGrid = new RenderGridShape(*m_renderer,100,40);
 }
 
 void TestApplication::onShutdown( void )
@@ -56,7 +56,7 @@ void TestApplication::onTickPreRender( float dtime )
 
 void TestApplication::onRender( void )
 {
-	Renderer* renderer = getRenderer();
+	Render* renderer = getRender();
 
 	if (renderer)
 	{
@@ -67,7 +67,7 @@ void TestApplication::onRender( void )
 		{
 			renderer->clearBuffers();
 
-			RendererProjection::makeProjectionMatrix(Radian(Degree(45)),windowWidth / (float)windowHeight, 0.1f, 10000.0f,m_projection);
+			RenderProjection::makeProjectionMatrix(Radian(Degree(45)),windowWidth / (float)windowHeight, 0.1f, 10000.0f,m_projection);
 
 			m_debugLine->queueForRenderLine();
 

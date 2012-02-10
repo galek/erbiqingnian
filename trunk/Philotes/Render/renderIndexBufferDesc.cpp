@@ -3,18 +3,18 @@
 
 _NAMESPACE_BEGIN
 
-RendererIndexBufferDesc::RendererIndexBufferDesc(void)
+RenderIndexBufferDesc::RenderIndexBufferDesc(void)
 {
-	hint       = RendererIndexBuffer::HINT_STATIC;
-	format     = RendererIndexBuffer::NUM_FORMATS;
+	hint       = RenderIndexBuffer::HINT_STATIC;
+	format     = RenderIndexBuffer::NUM_FORMATS;
 	maxIndices = 0;
 
 }
 		
-bool RendererIndexBufferDesc::isValid(void) const
+bool RenderIndexBufferDesc::isValid(void) const
 {
 	bool ok = true;
-	if(format >= RendererIndexBuffer::NUM_FORMATS) ok = false;
+	if(format >= RenderIndexBuffer::NUM_FORMATS) ok = false;
 	if(maxIndices == 0) ok = false;
 	return ok;
 }

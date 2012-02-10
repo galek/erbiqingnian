@@ -3,32 +3,36 @@
 
 _NAMESPACE_BEGIN
 
-class Renderer;
-class RendererDebugLine;
-class RendererDesc;
-class RendererGridShape;
-class RendererWindow;
-class RendererVertexBuffer;
-class RendererVertexBufferDesc;
-class RendererIndexBuffer;
-class RendererIndexBufferDesc;
-class RendererInstanceBuffer;
-class RendererInstanceBufferDesc;
-class RendererShape;
-class RendererTexture2D;
-class RendererTexture2DDesc;
-class RendererTarget;
-class RendererTargetDesc;
-class RendererMaterial;
-class RendererMaterialDesc;
-class RendererMaterialInstance;
-class RendererMesh;
-class RendererMeshDesc;
-class RendererMeshContext;
-class RendererLight;
-class RendererLightDesc;
+class RenderElement;
+class RenderFrustum;
+class RenderCamera;
+class RenderNode;
+class RenderTransform;
+class Render;
+class RenderDebugLine;
+class RenderDesc;
+class RenderGridShape;
+class RenderWindow;
+class RenderVertexBuffer;
+class RenderVertexBufferDesc;
+class RenderIndexBuffer;
+class RenderIndexBufferDesc;
+class RenderInstanceBuffer;
+class RenderInstanceBufferDesc;
+class RenderShape;
+class RenderTexture2D;
+class RenderTexture2DDesc;
+class RenderTarget;
+class RenderTargetDesc;
+class RenderMaterial;
+class RenderMaterialDesc;
+class RenderMaterialInstance;
+class RenderMesh;
+class RenderMeshDesc;
+class RenderLight;
+class RenderLightDesc;
 
-class RendererColor;
-class RendererProjection;
+class RenderColor;
+class RenderProjection;
 
 _NAMESPACE_END

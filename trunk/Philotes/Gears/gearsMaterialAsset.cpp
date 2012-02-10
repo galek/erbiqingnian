@@ -43,6 +43,7 @@ static void readFloats(const char *str, float *floats, unsigned int numFloats)
 	ph_assert(fcount==numFloats);
 }
 
+//////////////////////////////////////////////////////////////////////////
 
 GearMaterialAsset::GearMaterialAsset(GearAssetManager &assetManager, rapidxml::xml_node<char> &xmlroot, const char *path) :
 	GearAsset(ASSET_MATERIAL, path),
@@ -53,17 +54,17 @@ m_assetManager(assetManager)
 	//m_material         = 0;
 	//m_materialInstance = 0;
 
-	Renderer &renderer = assetManager.getRenderer();
+	Render &renderer = assetManager.getRender();
 
-	RendererMaterialDesc matdesc;
+	RenderMaterialDesc matdesc;
 	const char *materialTypeName = getXMLAttribute(xmlroot, "type");
 	if(materialTypeName && !strcmp(materialTypeName, "lit"))
 	{
-		matdesc.type = RendererMaterial::TYPE_LIT;
+		matdesc.type = RenderMaterial::TYPE_LIT;
 	}
 	else if(materialTypeName && !strcmp(materialTypeName, "unlit"))
 	{
-		matdesc.type = RendererMaterial::TYPE_UNLIT;
+		matdesc.type = RenderMaterial::TYPE_UNLIT;
 	}
 	for(rapidxml::xml_node<char> *child=xmlroot.first_node(); child; child=child->next_sibling())
 	{
@@ -87,12 +88,12 @@ m_assetManager(assetManager)
 			}
 			else if(!strcmp(nodeName, "alphaTestFunc"))
 			{
-				if(     !strcmp(nodeValue, "EQUAL"))         matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_EQUAL;
-				else if(!strcmp(nodeValue, "NOT_EQUAL"))     matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_NOT_EQUAL;
-				else if(!strcmp(nodeValue, "LESS"))          matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_LESS;
-				else if(!strcmp(nodeValue, "LESS_EQUAL"))    matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_LESS_EQUAL;
-				else if(!strcmp(nodeValue, "GREATER"))       matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_GREATER;
-				else if(!strcmp(nodeValue, "GREATER_EQUAL")) matdesc.alphaTestFunc = RendererMaterial::ALPHA_TEST_GREATER_EQUAL;
+				if(     !strcmp(nodeValue, "EQUAL"))         matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_EQUAL;
+				else if(!strcmp(nodeValue, "NOT_EQUAL"))     matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_NOT_EQUAL;
+				else if(!strcmp(nodeValue, "LESS"))          matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_LESS;
+				else if(!strcmp(nodeValue, "LESS_EQUAL"))    matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_LESS_EQUAL;
+				else if(!strcmp(nodeValue, "GREATER"))       matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_GREATER;
+				else if(!strcmp(nodeValue, "GREATER_EQUAL")) matdesc.alphaTestFunc = RenderMaterial::ALPHA_TEST_GREATER_EQUAL;
 				else ph_assert(0); // Unknown alpha test func!
 			}
 			else if(!strcmp(nodeName, "alphaTestRef"))
@@ -103,8 +104,8 @@ m_assetManager(assetManager)
 			{
 				matdesc.blending = true;
 				// HACK/TODO: read these values from disk!
-				matdesc.srcBlendFunc = RendererMaterial::BLEND_SRC_ALPHA;
-				matdesc.dstBlendFunc = RendererMaterial::BLEND_ONE_MINUS_SRC_ALPHA;
+				matdesc.srcBlendFunc = RenderMaterial::BLEND_SRC_ALPHA;
+				matdesc.dstBlendFunc = RenderMaterial::BLEND_ONE_MINUS_SRC_ALPHA;
 			}
 		}
 	}
@@ -127,7 +128,7 @@ m_assetManager(assetManager)
 			rapidxml::xml_node<char> *varsnode = xmlroot.first_node("variables");
 			if(varsnode)
 			{
-				materialStruct.m_materialInstance = new RendererMaterialInstance(*materialStruct.m_material);
+				materialStruct.m_materialInstance = new RenderMaterialInstance(*materialStruct.m_material);
 				for(rapidxml::xml_node<char> *child=varsnode->first_node(); child; child=child->next_sibling())
 				{
 					const char *nodename = child->name();
@@ -137,7 +138,7 @@ m_assetManager(assetManager)
 					if(!strcmp(nodename, "float"))
 					{
 						float f = (float)atof(value);
-						const RendererMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RendererMaterial::VARIABLE_FLOAT);
+						const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_FLOAT);
 						ph_assert(var);
 						if(var) materialStruct.m_materialInstance->writeData(*var, &f);
 					}
@@ -145,7 +146,7 @@ m_assetManager(assetManager)
 					{
 						float f[2];
 						readFloats(value, f, 2);
-						const RendererMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RendererMaterial::VARIABLE_FLOAT2);
+						const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_FLOAT2);
 						ph_assert(var);
 						if(var) materialStruct.m_materialInstance->writeData(*var, f);
 					}
@@ -153,7 +154,7 @@ m_assetManager(assetManager)
 					{
 						float f[3];
 						readFloats(value, f, 3);
-						const RendererMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RendererMaterial::VARIABLE_FLOAT3);
+						const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_FLOAT3);
 						ph_assert(var);
 						if(var) materialStruct.m_materialInstance->writeData(*var, f);
 					}
@@ -161,7 +162,7 @@ m_assetManager(assetManager)
 					{
 						float f[4];
 						readFloats(value, f, 4);
-						const RendererMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RendererMaterial::VARIABLE_FLOAT4);
+						const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_FLOAT4);
 						ph_assert(var);
 						if(var) materialStruct.m_materialInstance->writeData(*var, f);
 					}
@@ -172,11 +173,11 @@ m_assetManager(assetManager)
 						if(textureAsset)
 						{
 							m_assets.push_back(textureAsset);
-							const RendererMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RendererMaterial::VARIABLE_SAMPLER2D);
+							const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_SAMPLER2D);
 							ph_assert(var);
 							if(var)
 							{
-								RendererTexture2D *texture = textureAsset->getTexture();
+								RenderTexture2D *texture = textureAsset->getTexture();
 								materialStruct.m_materialInstance->writeData(*var, &texture);
 							}
 						}
@@ -209,12 +210,12 @@ size_t GearMaterialAsset::getNumVertexShaders() const
 	return m_vertexShaders.size();
 }
 
-RendererMaterial *GearMaterialAsset::getMaterial(size_t vertexShaderIndex)
+RenderMaterial *GearMaterialAsset::getMaterial(size_t vertexShaderIndex)
 {
 	return m_vertexShaders[vertexShaderIndex].m_material;
 }
 
-RendererMaterialInstance *GearMaterialAsset::getMaterialInstance(size_t vertexShaderIndex)
+RenderMaterialInstance *GearMaterialAsset::getMaterialInstance(size_t vertexShaderIndex)
 {
 	return m_vertexShaders[vertexShaderIndex].m_materialInstance;
 }

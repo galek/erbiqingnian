@@ -6,25 +6,26 @@
 
 _NAMESPACE_BEGIN
 
-class Renderer;
-class RendererMesh;
+class Render;
+class RenderMesh;
 
-class RendererShape
+class RenderShape
 {
 	protected:
-		RendererShape(Renderer &renderer);
+		RenderShape(Render &renderer);
 	
 	public:
-		virtual ~RendererShape(void);
+		virtual ~RenderShape(void);
 		
-		RendererMesh *getMesh(void);
+		RenderMesh *getMesh(void);
 	
 	private:
-		RendererShape &operator=(const RendererShape &) { return *this; }
+
+		RenderShape &operator = (const RenderShape &) { return *this; }
 		
 	protected:
-		Renderer     &m_renderer;
-		RendererMesh *m_mesh;
+		Render     &m_renderer;
+		RenderMesh *m_mesh;
 };
 
 _NAMESPACE_END

@@ -7,23 +7,23 @@
 
 _NAMESPACE_BEGIN
 
-class RendererMaterialInstance
+class RenderMaterialInstance
 {
-	friend class RendererMaterial;
+	friend class RenderMaterial;
 	public:
-		RendererMaterialInstance(RendererMaterial &material);
-		~RendererMaterialInstance(void);
+		RenderMaterialInstance(RenderMaterial &material);
+		~RenderMaterialInstance(void);
 		
-		RendererMaterial &getMaterial(void) { return m_material; }
+		RenderMaterial &getMaterial(void) { return m_material; }
 		
-		const RendererMaterial::Variable *findVariable(const char *name, RendererMaterial::VariableType varType);
+		const RenderMaterial::Variable *findVariable(const char *name, RenderMaterial::VariableType varType);
 		
-		void writeData(const RendererMaterial::Variable &var, const void *data);
+		void writeData(const RenderMaterial::Variable &var, const void *data);
 	
-		RendererMaterialInstance &operator=(const RendererMaterialInstance&);
+		RenderMaterialInstance &operator=(const RenderMaterialInstance&);
 		
 	private:
-		RendererMaterial &m_material;
+		RenderMaterial &m_material;
 		uint8             *m_data;
 		
 };

@@ -7,17 +7,17 @@
 
 _NAMESPACE_BEGIN
 
-class RendererWindow;
+class RenderWindow;
 
-class RendererDesc
+class RenderDesc
 {
 public:
-	Renderer::DriverType driver;
+	Render::DriverType driver;
 
 	uint64	windowHandle;
 
 public:
-	RendererDesc(void);
+	RenderDesc(void);
 	
 	bool isValid(void) const;
 };

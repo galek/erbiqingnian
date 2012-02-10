@@ -4,12 +4,12 @@
 
 _NAMESPACE_BEGIN
 
-class RendererTarget
+class RenderTarget
 {
-	friend class Renderer;
+	friend class Render;
 	public:
-		RendererTarget(void);
-		virtual ~RendererTarget(void);
+		RenderTarget(void);
+		virtual ~RenderTarget(void);
 		
 		void release(void) 
 		{ 

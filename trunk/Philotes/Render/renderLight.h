@@ -9,11 +9,11 @@
 
 _NAMESPACE_BEGIN
 
-class RendererLightDesc;
-class Renderer;
-class RendererLight
+class RenderLightDesc;
+class Render;
+class RenderLight
 {
-	friend class Renderer;
+	friend class Render;
 	public:
 		typedef enum Type
 		{
@@ -25,26 +25,26 @@ class RendererLight
 		};
 		
 	protected:
-		RendererLight(const RendererLightDesc &desc);
-		virtual ~RendererLight(void);
+		RenderLight(const RenderLightDesc &desc);
+		virtual ~RenderLight(void);
 		
 	public:
 		void						release(void) { delete this; }
 		
 		Type						getType(void) const;
 		
-		RendererMaterial::Pass		getPass(void) const;
+		RenderMaterial::Pass		getPass(void) const;
 		
-		const RendererColor&		getColor(void) const;
-		void						setColor(const RendererColor &color);
+		const RenderColor&		getColor(void) const;
+		void						setColor(const RenderColor &color);
 		
 		float						getIntensity(void) const;
 		void						setIntensity(float intensity);
 		
 		bool						isLocked(void) const;
 		
-		RendererTexture2D*			getShadowMap(void) const;
-		void						setShadowMap(RendererTexture2D *shadowMap);
+		RenderTexture2D*			getShadowMap(void) const;
+		void						setShadowMap(RenderTexture2D *shadowMap);
 		
 		const Matrix4&				getShadowTransform(void) const;
 		void						setShadowTransform(const Matrix4 &shadowTransform);
@@ -53,22 +53,22 @@ class RendererLight
 		void						setShadowProjection(const Matrix4 &shadowProjection);
 	
 	private:
-		RendererLight&				operator=(const RendererLight &) { return *this; }
+		RenderLight&				operator=(const RenderLight &) { return *this; }
 		
 		virtual void				bind(void) const = 0;
 		
 	protected:
 		const Type					m_type;
 		
-		RendererColor				m_color;
+		RenderColor				m_color;
 		float						m_intensity;
 		
-		RendererTexture2D*			m_shadowMap;
+		RenderTexture2D*			m_shadowMap;
 		Matrix4						m_shadowTransform;
 		Matrix4						m_shadowProjection;
 	
 	private:
-		Renderer*					m_renderer;
+		Render*					m_renderer;
 };
 
 _NAMESPACE_END

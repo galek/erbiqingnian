@@ -4,14 +4,14 @@
 
 _NAMESPACE_BEGIN
 
-RendererTargetDesc::RendererTargetDesc(void)
+RenderTargetDesc::RenderTargetDesc(void)
 {
 	textures            = 0;
 	numTextures         = 0;
 	depthStencilSurface = 0;
 }
 
-bool RendererTargetDesc::isValid(void) const
+bool RenderTargetDesc::isValid(void) const
 {
 	bool ok = true;
 	uint32 width  = 0;
@@ -31,10 +31,10 @@ bool RendererTargetDesc::isValid(void) const
 			{
 				if(width  != textures[i]->getWidth())  ok = false;
 				if(height != textures[i]->getHeight()) ok = false;
-				const RendererTexture2D::Format format = textures[i]->getFormat();
-				if(     format == RendererTexture2D::FORMAT_DXT1) ok = false;
-				else if(format == RendererTexture2D::FORMAT_DXT3) ok = false;
-				else if(format == RendererTexture2D::FORMAT_DXT5) ok = false;
+				const RenderTexture2D::Format format = textures[i]->getFormat();
+				if(     format == RenderTexture2D::FORMAT_DXT1) ok = false;
+				else if(format == RenderTexture2D::FORMAT_DXT3) ok = false;
+				else if(format == RenderTexture2D::FORMAT_DXT5) ok = false;
 			}
 		}
 	}
@@ -46,7 +46,7 @@ bool RendererTargetDesc::isValid(void) const
 	{
 		if(width  != depthStencilSurface->getWidth())  ok = false;
 		if(height != depthStencilSurface->getHeight()) ok = false;
-		if(!RendererTexture2D::isDepthStencilFormat(depthStencilSurface->getFormat())) ok = false;
+		if(!RenderTexture2D::isDepthStencilFormat(depthStencilSurface->getFormat())) ok = false;
 	}
 	else
 	{

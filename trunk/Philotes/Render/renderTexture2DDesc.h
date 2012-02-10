@@ -6,13 +6,13 @@
 
 _NAMESPACE_BEGIN
 
-class RendererTexture2DDesc
+class RenderTexture2DDesc
 {
 	public:
-		RendererTexture2D::Format     format;
-		RendererTexture2D::Filter     filter;
-		RendererTexture2D::Addressing addressingU;
-		RendererTexture2D::Addressing addressingV;
+		RenderTexture2D::Format     format;
+		RenderTexture2D::Filter     filter;
+		RenderTexture2D::Addressing addressingU;
+		RenderTexture2D::Addressing addressingV;
 		
 		uint32                     width;
 		uint32                     height;
@@ -21,7 +21,7 @@ class RendererTexture2DDesc
 		bool                      renderTarget;
 		
 	public:
-		RendererTexture2DDesc(void);
+		RenderTexture2DDesc(void);
 		
 		bool isValid(void) const;
 };

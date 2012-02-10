@@ -110,8 +110,6 @@ public:
 		bool operator!=(const Iterator& rhs) const;
 		/// pre-increment operator, if none, return End, if End, return Begin
 		const Iterator& operator++();
-		/// post-increment operator, if none, return End, if End, return Begin
-		Iterator operator++(int);
 		/// pre-decrement operator, if none, return End
 		const Iterator& operator--();
 		/// safe -> operator
@@ -570,46 +568,6 @@ HashTable<KEYTYPE, VALUETYPE>::Iterator::operator++()
 
 	set_end();
 	return *this;
-}
-
-//------------------------------------------------------------------------------
-/**
-	Added by Li
-*/
-template<class KEYTYPE, class VALUETYPE>
-typename HashTable<KEYTYPE, VALUETYPE>::Iterator
-HashTable<KEYTYPE, VALUETYPE>::Iterator::operator++(int)
-{
-	#if NEBULA3_BOUNDSCHECKS
-		ph_assert(0 != this->hash_array_ptr);
-	#endif
-
-	Iterator temp( (*this) );
-
-	++this;
-
-// 	if ( (*(this->hash_array_ptr))[this->idx_1].Size() - 1 > this->idx_2 )
-// 	{
-// 		++(this->idx_2);
-// 		return temp;
-// 	}
-// 	else
-// 	{
-// 		int i, j;
-// 		for ( i = this->idx_1 + 1; i < this->hash_array_ptr->Size(); ++i )
-// 		{
-// 			for ( j = 0; j < (*(this->hash_array_ptr))[i].Size(); ++j )
-// 			{
-// 				this->idx_1 = i;
-// 				this->idx_2 = j;
-// 				return temp; 
-// 			}
-// 		}
-// 	}
-// 
-// 	set_end();
-
-	return temp;
 }
 
 //------------------------------------------------------------------------------

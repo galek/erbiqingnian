@@ -32,8 +32,8 @@ protected:
 	bool				m_rewriteBuffers;    // flag for rewriting static buffers on device reset
 	Matrix4				m_projection;
 
-	RendererDebugLine*	m_debugLine;
-	RendererGridShape*	m_debugGrid;
+	RenderDebugLine*	m_debugLine;
+	RenderGridShape*	m_debugGrid;
 
 };
 

@@ -6,16 +6,16 @@
 
 _NAMESPACE_BEGIN
 
-class RendererIndexBufferDesc
+class RenderIndexBufferDesc
 {
 	public:
-		RendererIndexBuffer::Hint   hint;
-		RendererIndexBuffer::Format format;
+		RenderIndexBuffer::Hint   hint;
+		RenderIndexBuffer::Format format;
 		
 		uint32                       maxIndices;
 
 	public:
-		RendererIndexBufferDesc(void);
+		RenderIndexBufferDesc(void);
 		
 		bool isValid(void) const;
 };

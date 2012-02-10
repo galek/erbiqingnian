@@ -40,15 +40,15 @@
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderInstanceBuffer.h>
-#include "D3D9Renderer.h"
+#include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
 
-class D3D9RendererInstanceBuffer : public RendererInstanceBuffer, public D3D9RendererResource
+class D3D9RenderInstanceBuffer : public RenderInstanceBuffer, public D3D9RenderResource
 {
 	public:
-		D3D9RendererInstanceBuffer(IDirect3DDevice9 &d3dDevice, const RendererInstanceBufferDesc &desc);
-		virtual ~D3D9RendererInstanceBuffer(void);
+		D3D9RenderInstanceBuffer(IDirect3DDevice9 &d3dDevice, const RenderInstanceBufferDesc &desc);
+		virtual ~D3D9RenderInstanceBuffer(void);
 		
 		void addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const;
 		

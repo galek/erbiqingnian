@@ -1,5 +1,5 @@
 
-#include "D3D9RendererInstanceBuffer.h"
+#include "D3D9RenderInstanceBuffer.h"
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
 #include <renderInstanceBufferDesc.h>
@@ -22,47 +22,47 @@ static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYP
 	return element;
 }
 
-static D3DDECLTYPE getD3DType(RendererInstanceBuffer::Format format)
+static D3DDECLTYPE getD3DType(RenderInstanceBuffer::Format format)
 {
 	D3DDECLTYPE d3dType = D3DDECLTYPE_UNUSED;
 	switch(format)
 	{
-		case RendererInstanceBuffer::FORMAT_FLOAT1:  d3dType = D3DDECLTYPE_FLOAT1;   break;
-		case RendererInstanceBuffer::FORMAT_FLOAT2:  d3dType = D3DDECLTYPE_FLOAT2;   break;
-		case RendererInstanceBuffer::FORMAT_FLOAT3:  d3dType = D3DDECLTYPE_FLOAT3;   break;
-		case RendererInstanceBuffer::FORMAT_FLOAT4:  d3dType = D3DDECLTYPE_FLOAT4;   break;
+		case RenderInstanceBuffer::FORMAT_FLOAT1:  d3dType = D3DDECLTYPE_FLOAT1;   break;
+		case RenderInstanceBuffer::FORMAT_FLOAT2:  d3dType = D3DDECLTYPE_FLOAT2;   break;
+		case RenderInstanceBuffer::FORMAT_FLOAT3:  d3dType = D3DDECLTYPE_FLOAT3;   break;
+		case RenderInstanceBuffer::FORMAT_FLOAT4:  d3dType = D3DDECLTYPE_FLOAT4;   break;
 	}
 	ph_assert2(d3dType != D3DDECLTYPE_UNUSED, "Invalid Direct3D9 vertex type.");
 	return d3dType;
 }
 
-static D3DDECLUSAGE getD3DUsage(RendererInstanceBuffer::Semantic semantic, uint8 &usageIndex)
+static D3DDECLUSAGE getD3DUsage(RenderInstanceBuffer::Semantic semantic, uint8 &usageIndex)
 {
 	D3DDECLUSAGE d3dUsage = D3DDECLUSAGE_FOG;
 	usageIndex = 0;
 	switch(semantic)
 	{
-		case RendererInstanceBuffer::SEMANTIC_POSITION:
+		case RenderInstanceBuffer::SEMANTIC_POSITION:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_POSITION_CHANNEL;
 			break;
-		case RendererInstanceBuffer::SEMANTIC_NORMALX:
+		case RenderInstanceBuffer::SEMANTIC_NORMALX:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_NORMALX_CHANNEL;
 			break;
-		case RendererInstanceBuffer::SEMANTIC_NORMALY:
+		case RenderInstanceBuffer::SEMANTIC_NORMALY:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_NORMALY_CHANNEL;
 			break;
-		case RendererInstanceBuffer::SEMANTIC_NORMALZ:
+		case RenderInstanceBuffer::SEMANTIC_NORMALZ:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_NORMALZ_CHANNEL;
 			break;
-		case RendererInstanceBuffer::SEMANTIC_VELOCITY_LIFE:
+		case RenderInstanceBuffer::SEMANTIC_VELOCITY_LIFE:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_VEL_LIFE_CHANNEL;
 			break;
-		case RendererInstanceBuffer::SEMANTIC_DENSITY:
+		case RenderInstanceBuffer::SEMANTIC_DENSITY:
 			d3dUsage   = D3DDECLUSAGE_TEXCOORD;
 			usageIndex = RENDERER_INSTANCE_DENSITY_CHANNEL;
 			break;
@@ -71,8 +71,8 @@ static D3DDECLUSAGE getD3DUsage(RendererInstanceBuffer::Semantic semantic, uint8
 	return d3dUsage;
 }
 
-D3D9RendererInstanceBuffer::D3D9RendererInstanceBuffer(IDirect3DDevice9 &d3dDevice, const RendererInstanceBufferDesc &desc) :
-	RendererInstanceBuffer(desc)
+D3D9RenderInstanceBuffer::D3D9RenderInstanceBuffer(IDirect3DDevice9 &d3dDevice, const RenderInstanceBufferDesc &desc) :
+	RenderInstanceBuffer(desc)
 #if RENDERER_INSTANCING
 	,m_d3dDevice(d3dDevice)
 #endif
@@ -86,7 +86,7 @@ D3D9RendererInstanceBuffer::D3D9RendererInstanceBuffer(IDirect3DDevice9 &d3dDevi
 	m_bufferSize = (UINT)(desc.maxInstances * m_stride);
 	
 #if RENDERER_ENABLE_DYNAMIC_VB_POOLS
-	if(desc.hint==RendererInstanceBuffer::HINT_DYNAMIC)
+	if(desc.hint==RenderInstanceBuffer::HINT_DYNAMIC)
 	{
 		m_usage = D3DUSAGE_DYNAMIC;
 		m_pool  = D3DPOOL_DEFAULT;
@@ -106,7 +106,7 @@ D3D9RendererInstanceBuffer::D3D9RendererInstanceBuffer(IDirect3DDevice9 &d3dDevi
 #endif
 }
 
-D3D9RendererInstanceBuffer::~D3D9RendererInstanceBuffer(void)
+D3D9RenderInstanceBuffer::~D3D9RenderInstanceBuffer(void)
 {
 #if RENDERER_INSTANCING
 	if(m_d3dVertexBuffer) m_d3dVertexBuffer->Release();
@@ -115,7 +115,7 @@ D3D9RendererInstanceBuffer::~D3D9RendererInstanceBuffer(void)
 #endif
 }
 
-void D3D9RendererInstanceBuffer::addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const
+void D3D9RenderInstanceBuffer::addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const
 {
 	for(uint32 i=0; i<NUM_SEMANTICS; i++)
 	{
@@ -130,7 +130,7 @@ void D3D9RendererInstanceBuffer::addVertexElements(uint32 streamIndex, std::vect
 	}
 }
 
-void *D3D9RendererInstanceBuffer::lock(void)
+void *D3D9RenderInstanceBuffer::lock(void)
 {
 	RENDERER_PERFZONE(D3D9RenderIBlock);
 
@@ -148,7 +148,7 @@ void *D3D9RendererInstanceBuffer::lock(void)
 	return lockedBuffer;
 }
 
-void D3D9RendererInstanceBuffer::unlock(void)
+void D3D9RenderInstanceBuffer::unlock(void)
 {
 	RENDERER_PERFZONE(D3D9RenderIBunlock);
 #if RENDERER_INSTANCING
@@ -159,7 +159,7 @@ void D3D9RendererInstanceBuffer::unlock(void)
 #endif
 }
 
-void D3D9RendererInstanceBuffer::bind(uint32 streamID, uint32 firstInstance) const
+void D3D9RenderInstanceBuffer::bind(uint32 streamID, uint32 firstInstance) const
 {
 #if RENDERER_INSTANCING
 	if(m_d3dVertexBuffer)
@@ -170,14 +170,14 @@ void D3D9RendererInstanceBuffer::bind(uint32 streamID, uint32 firstInstance) con
 #endif
 }
 
-void D3D9RendererInstanceBuffer::unbind(uint32 streamID) const
+void D3D9RenderInstanceBuffer::unbind(uint32 streamID) const
 {
 #if RENDERER_INSTANCING
 	m_d3dDevice.SetStreamSource((UINT)streamID, 0, 0, 0);
 #endif
 }
 
-void D3D9RendererInstanceBuffer::onDeviceLost(void)
+void D3D9RenderInstanceBuffer::onDeviceLost(void)
 {
 #if RENDERER_INSTANCING
 
@@ -190,7 +190,7 @@ void D3D9RendererInstanceBuffer::onDeviceLost(void)
 #endif
 }
 
-void D3D9RendererInstanceBuffer::onDeviceReset(void)
+void D3D9RenderInstanceBuffer::onDeviceReset(void)
 {
 #if RENDERER_INSTANCING
 	if(!m_d3dVertexBuffer)

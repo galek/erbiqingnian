@@ -7,17 +7,17 @@
 
 _NAMESPACE_BEGIN
 
-class RendererMaterialDesc;
+class RenderMaterialDesc;
 
-class RendererTexture2D;
+class RenderTexture2D;
 
 //ps3 need this declare
-class RendererMaterialInstance;
+class RenderMaterialInstance;
 
-class RendererMaterial
+class RenderMaterial
 {
-	friend class Renderer;
-	friend class RendererMaterialInstance;
+	friend class Render;
+	friend class RenderMaterialInstance;
 	public:
 		typedef enum Type
 		{
@@ -88,7 +88,7 @@ class RendererMaterial
 		
 		class Variable
 		{
-			friend class RendererMaterial;
+			friend class RenderMaterial;
 			protected:
 				Variable(const char *name, VariableType type, uint32 offset);
 				virtual ~Variable(void);
@@ -111,8 +111,8 @@ class RendererMaterial
 		virtual void setModelMatrix(const scalar *matrix) = 0;
 		
 	protected:
-		RendererMaterial(const RendererMaterialDesc &desc);
-		virtual ~RendererMaterial(void);
+		RenderMaterial(const RenderMaterialDesc &desc);
+		virtual ~RenderMaterial(void);
 	
 	public:
 		void release(void) { delete this; }
@@ -126,12 +126,12 @@ class RendererMaterial
 		__forceinline	uint32			getMaterialInstanceDataSize(void)	const { return m_variableBufferSize; }
 		
 	protected:
-		virtual void bind(RendererMaterial::Pass pass, RendererMaterialInstance *materialInstance, bool instanced) const;
+		virtual void bind(RenderMaterial::Pass pass, RenderMaterialInstance *materialInstance, bool instanced) const;
 		virtual void bindMeshState(bool instanced) const = 0;
 		virtual void unbind(void) const = 0;
 		virtual void bindVariable(Pass pass, const Variable &variable, const void *data) const = 0;
 		
-		RendererMaterial &operator=(const RendererMaterial&) { return *this; }
+		RenderMaterial &operator=(const RenderMaterial&) { return *this; }
 		
 	protected:
 		const Type          m_type;

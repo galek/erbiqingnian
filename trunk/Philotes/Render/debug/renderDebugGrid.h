@@ -6,16 +6,16 @@
 
 _NAMESPACE_BEGIN
 
-class RendererGridShape : RendererShape
+class RenderGridShape : RenderShape
 {
 public:
-	RendererGridShape(Renderer &renderer, uint32 size, float cellSize);
+	RenderGridShape(Render &renderer, uint32 size, float cellSize);
 
-	virtual ~RendererGridShape(void);
+	virtual ~RenderGridShape(void);
 
 private:
 
-	RendererVertexBuffer *m_vertexBuffer;
+	RenderVertexBuffer *m_vertexBuffer;
 };
 
 _NAMESPACE_END

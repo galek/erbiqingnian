@@ -6,9 +6,9 @@
 
 _NAMESPACE_BEGIN
 
-class RendererTexture2DDesc;
+class RenderTexture2DDesc;
 
-class RendererTexture2D
+class RenderTexture2D
 {
 	public:
 		typedef enum Format
@@ -54,8 +54,8 @@ class RendererTexture2D
 		static uint32 getFormatBlockSize(Format format);
 		
 	protected:
-		RendererTexture2D(const RendererTexture2DDesc &desc);
-		virtual ~RendererTexture2D(void);
+		RenderTexture2D(const RenderTexture2DDesc &desc);
+		virtual ~RenderTexture2D(void);
 	
 	public:
 		void release(void) { delete this; }
@@ -79,7 +79,7 @@ class RendererTexture2D
 		virtual	void	select(uint32 stageIndex)	= 0;
 
 	private:
-		RendererTexture2D &operator=(const RendererTexture2D&) { return *this; }
+		RenderTexture2D &operator=(const RenderTexture2D&) { return *this; }
 		
 	private:
 		Format     m_format;

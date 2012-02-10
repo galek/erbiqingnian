@@ -6,14 +6,14 @@
 
 _NAMESPACE_BEGIN
 
-class RendererSpotLightDesc;
+class RenderSpotLightDesc;
 
-class RendererSpotLight : public RendererLight
+class RenderSpotLight : public RenderLight
 {
 	protected:
-		RendererSpotLight(const RendererSpotLightDesc &desc);
+		RenderSpotLight(const RenderSpotLightDesc &desc);
 
-		virtual ~RendererSpotLight(void);
+		virtual ~RenderSpotLight(void);
 	
 	public:
 		const Vector3		&getPosition(void) const;

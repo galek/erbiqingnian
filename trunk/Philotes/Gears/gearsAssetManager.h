@@ -8,10 +8,10 @@ _NAMESPACE_BEGIN
 class GearAssetManager
 {
 	public:
-		GearAssetManager(Renderer &renderer);
+		GearAssetManager(Render &renderer);
 		~GearAssetManager(void);
 		
-		Renderer    &getRenderer(void) { return m_renderer; }
+		Render    &getRender(void) { return m_renderer; }
 		
 		GearAsset *getAsset(const char *path, GearAsset::Type type);
 		void         returnAsset(GearAsset &asset);
@@ -47,7 +47,7 @@ class GearAssetManager
 		GearAssetManager &operator=(const GearAssetManager&) { return *this; }
 		
 	protected:
-		Renderer&	m_renderer;
+		Render&	m_renderer;
 		std::vector<char *>    m_searchPaths;
 		std::vector<GearAsset*>	m_assets;
 };

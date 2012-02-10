@@ -1,17 +1,17 @@
 
 #include <renderVertexBufferDesc.h>
 
-RendererVertexBufferDesc::RendererVertexBufferDesc(void)
+RenderVertexBufferDesc::RenderVertexBufferDesc(void)
 {
-	hint = RendererVertexBuffer::HINT_STATIC;
-	for(uint32 i=0; i<RendererVertexBuffer::NUM_SEMANTICS; i++)
+	hint = RenderVertexBuffer::HINT_STATIC;
+	for(uint32 i=0; i<RenderVertexBuffer::NUM_SEMANTICS; i++)
 	{
-		semanticFormats[i] = RendererVertexBuffer::NUM_FORMATS;
+		semanticFormats[i] = RenderVertexBuffer::NUM_FORMATS;
 	}
 	maxVertices = 0;
 }
 
-bool RendererVertexBufferDesc::isValid(void) const
+bool RenderVertexBufferDesc::isValid(void) const
 {
 	bool ok = true;
 	// TODO: make sure at least "some" of the semanticFormats are set.

@@ -17,20 +17,20 @@ public:
 		TEXTURE_FILE_TYPE_COUNT,
 	};
 protected:
-	GearTextureAsset(Renderer &renderer, FILE &file, const char *path, Type texType);
+	GearTextureAsset(Render &renderer, FILE &file, const char *path, Type texType);
 	virtual ~GearTextureAsset(void);
 
 public:
-	RendererTexture2D *getTexture(void);
+	RenderTexture2D *getTexture(void);
 
 public:
 	virtual bool isOk(void) const;
 
 private:
-	void loadDDS(Renderer &renderer, FILE &file);
-	void loadTGA(Renderer &renderer, FILE &file);
+	void loadDDS(Render &renderer, FILE &file);
+	void loadTGA(Render &renderer, FILE &file);
 
-	RendererTexture2D *m_texture;
+	RenderTexture2D *m_texture;
 };
 
 

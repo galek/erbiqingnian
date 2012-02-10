@@ -1,10 +1,10 @@
 
-#include "D3D9RendererMesh.h"
+#include "D3D9RenderMesh.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include "D3D9RendererVertexBuffer.h"
-#include "D3D9RendererInstanceBuffer.h"
+#include "D3D9RenderVertexBuffer.h"
+#include "D3D9RenderInstanceBuffer.h"
 
 #include <renderMeshDesc.h>
 
@@ -28,32 +28,32 @@ static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYP
 	return element;
 }
 
-D3D9RendererMesh::D3D9RendererMesh(D3D9Renderer &renderer, const RendererMeshDesc &desc) :
-	RendererMesh(desc),
+D3D9RenderMesh::D3D9RenderMesh(D3D9Render &renderer, const RenderMeshDesc &desc) :
+	RenderMesh(desc),
 	m_renderer(renderer)
 {
 	m_d3dVertexDecl = 0;
 	
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
-	ph_assert2(d3dDevice, "Renderer's D3D Device not found!");
+	ph_assert2(d3dDevice, "Render's D3D Device not found!");
 	if(d3dDevice)
 	{
 		uint32                             numVertexBuffers = getNumVertexBuffers();
-		const RendererVertexBuffer *const*vertexBuffers    = getVertexBuffers();
+		const RenderVertexBuffer *const*vertexBuffers    = getVertexBuffers();
 		std::vector<D3DVERTEXELEMENT9> vertexElements;
 		for(uint32 i=0; i<numVertexBuffers; i++)
 		{
-			const RendererVertexBuffer *vb = vertexBuffers[i];
+			const RenderVertexBuffer *vb = vertexBuffers[i];
 			if(vb)
 			{
-				const D3D9RendererVertexBuffer &d3dVb = *static_cast<const D3D9RendererVertexBuffer*>(vb);
+				const D3D9RenderVertexBuffer &d3dVb = *static_cast<const D3D9RenderVertexBuffer*>(vb);
 				d3dVb.addVertexElements(i, vertexElements);
 			}
 		}
 #if RENDERER_INSTANCING
 		if(m_instanceBuffer)
 		{
-			static_cast<const D3D9RendererInstanceBuffer*>(m_instanceBuffer)->addVertexElements(numVertexBuffers, vertexElements);
+			static_cast<const D3D9RenderInstanceBuffer*>(m_instanceBuffer)->addVertexElements(numVertexBuffers, vertexElements);
 		}
 #endif
 		vertexElements.push_back(buildVertexElement(0xFF, 0, D3DDECLTYPE_UNUSED, 0, 0, 0));
@@ -63,7 +63,7 @@ D3D9RendererMesh::D3D9RendererMesh(D3D9Renderer &renderer, const RendererMeshDes
 	}
 }
 
-D3D9RendererMesh::~D3D9RendererMesh(void)
+D3D9RenderMesh::~D3D9RenderMesh(void)
 {
 	if(m_d3dVertexDecl)
 	{
@@ -76,42 +76,42 @@ D3D9RendererMesh::~D3D9RendererMesh(void)
 	}
 }
 
-static D3DPRIMITIVETYPE getD3DPrimitive(RendererMesh::Primitive primitive)
+static D3DPRIMITIVETYPE getD3DPrimitive(RenderMesh::Primitive primitive)
 {
 	D3DPRIMITIVETYPE d3dPrimitive = D3DPT_FORCE_DWORD;
 	switch(primitive)
 	{
-		case RendererMesh::PRIMITIVE_POINTS:         d3dPrimitive = D3DPT_POINTLIST;     break;
-		case RendererMesh::PRIMITIVE_LINES:          d3dPrimitive = D3DPT_LINELIST;      break;
-		case RendererMesh::PRIMITIVE_LINE_STRIP:     d3dPrimitive = D3DPT_LINESTRIP;     break;
-		case RendererMesh::PRIMITIVE_TRIANGLES:      d3dPrimitive = D3DPT_TRIANGLELIST;  break;
-		case RendererMesh::PRIMITIVE_TRIANGLE_STRIP: d3dPrimitive = D3DPT_TRIANGLESTRIP; break;
-		case RendererMesh::PRIMITIVE_POINT_SPRITES:  d3dPrimitive = D3DPT_POINTLIST;     break;
+		case RenderMesh::PRIMITIVE_POINTS:         d3dPrimitive = D3DPT_POINTLIST;     break;
+		case RenderMesh::PRIMITIVE_LINES:          d3dPrimitive = D3DPT_LINELIST;      break;
+		case RenderMesh::PRIMITIVE_LINE_STRIP:     d3dPrimitive = D3DPT_LINESTRIP;     break;
+		case RenderMesh::PRIMITIVE_TRIANGLES:      d3dPrimitive = D3DPT_TRIANGLELIST;  break;
+		case RenderMesh::PRIMITIVE_TRIANGLE_STRIP: d3dPrimitive = D3DPT_TRIANGLESTRIP; break;
+		case RenderMesh::PRIMITIVE_POINT_SPRITES:  d3dPrimitive = D3DPT_POINTLIST;     break;
 	}
 	ph_assert2(d3dPrimitive != D3DPT_FORCE_DWORD, "Unable to find Direct3D9 Primitive.");
 	return d3dPrimitive;
 }
 
-static uint32 computePrimitiveCount(RendererMesh::Primitive primitive, uint32 vertexCount)
+static uint32 computePrimitiveCount(RenderMesh::Primitive primitive, uint32 vertexCount)
 {
 	uint32 numPrimitives = 0;
 	switch(primitive)
 	{
-		case RendererMesh::PRIMITIVE_POINTS:          numPrimitives = vertexCount;                          break;
-		case RendererMesh::PRIMITIVE_LINES:           numPrimitives = vertexCount / 2;                      break;
-		case RendererMesh::PRIMITIVE_LINE_STRIP:      numPrimitives = vertexCount>=2 ? vertexCount - 1 : 0; break;
-		case RendererMesh::PRIMITIVE_TRIANGLES:       numPrimitives = vertexCount / 3;                      break;
-		case RendererMesh::PRIMITIVE_TRIANGLE_STRIP:  numPrimitives = vertexCount>=3 ? vertexCount - 2 : 0; break;
-		case RendererMesh::PRIMITIVE_POINT_SPRITES:   numPrimitives = vertexCount;                          break;
+		case RenderMesh::PRIMITIVE_POINTS:          numPrimitives = vertexCount;                          break;
+		case RenderMesh::PRIMITIVE_LINES:           numPrimitives = vertexCount / 2;                      break;
+		case RenderMesh::PRIMITIVE_LINE_STRIP:      numPrimitives = vertexCount>=2 ? vertexCount - 1 : 0; break;
+		case RenderMesh::PRIMITIVE_TRIANGLES:       numPrimitives = vertexCount / 3;                      break;
+		case RenderMesh::PRIMITIVE_TRIANGLE_STRIP:  numPrimitives = vertexCount>=3 ? vertexCount - 2 : 0; break;
+		case RenderMesh::PRIMITIVE_POINT_SPRITES:   numPrimitives = vertexCount;                          break;
 	}
 	ph_assert2(numPrimitives, "Unable to compute the number of Primitives.");
 	return numPrimitives;
 }
 
-void D3D9RendererMesh::renderIndices(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RendererIndexBuffer::Format indexFormat) const
+void D3D9RenderMesh::renderIndices(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RenderIndexBuffer::Format indexFormat) const
 {
 
-	RENDERER_PERFZONE(D3D9RendererMesh_renderIndices);
+	RENDERER_PERFZONE(D3D9RenderMesh_renderIndices);
 	
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice && m_d3dVertexDecl)
@@ -125,17 +125,17 @@ void D3D9RendererMesh::renderIndices(uint32 numVertices, uint32 firstIndex, uint
 			d3dDevice->SetStreamSourceFreq((UINT)i, D3DSTREAMSOURCE_INDEXEDDATA | 1);
 		}
 #endif
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
 		
 		d3dDevice->DrawIndexedPrimitive(getD3DPrimitive(primitive), 0, 0, numVertices, firstIndex, computePrimitiveCount(primitive, numIndices));
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
 	}
 }
 
-void D3D9RendererMesh::renderVertices(uint32 numVertices) const
+void D3D9RenderMesh::renderVertices(uint32 numVertices) const
 {
-	RENDERER_PERFZONE(D3D9RendererMesh_renderVertices);
+	RENDERER_PERFZONE(D3D9RenderMesh_renderVertices);
 	
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice && m_d3dVertexDecl)
@@ -149,20 +149,20 @@ void D3D9RendererMesh::renderVertices(uint32 numVertices) const
 			d3dDevice->SetStreamSourceFreq((UINT)i, 1);
 		}
 #endif		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
 		
 		D3DPRIMITIVETYPE d3dPrimitive  = getD3DPrimitive(primitive);
 		uint32            numPrimitives = computePrimitiveCount(primitive, numVertices);
 		ph_assert(d3dPrimitive != D3DPT_LINELIST || (numVertices&1)==0); // can't have an odd number of verts when drawing lines...!
 		d3dDevice->DrawPrimitive(d3dPrimitive, 0, numPrimitives);
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
 	}
 }
 
-void D3D9RendererMesh::renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RendererIndexBuffer::Format indexFormat,RendererMaterial *material) const
+void D3D9RenderMesh::renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RenderIndexBuffer::Format indexFormat,RenderMaterial *material) const
 {
-	RENDERER_PERFZONE(D3D9RendererMesh_renderIndicesInstanced);
+	RENDERER_PERFZONE(D3D9RenderMesh_renderIndicesInstanced);
 	
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice && m_d3dVertexDecl)
@@ -179,7 +179,7 @@ void D3D9RendererMesh::renderIndicesInstanced(uint32 numVertices, uint32 firstIn
 		
 		Primitive primitive = getPrimitives();
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) 
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) 
 		{
 			d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
 		}
@@ -224,16 +224,16 @@ void D3D9RendererMesh::renderIndicesInstanced(uint32 numVertices, uint32 firstIn
 
 #endif
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) 
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) 
 		{
 			d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
 		}
 	}
 }
 
-void D3D9RendererMesh::renderVerticesInstanced(uint32 numVertices,RendererMaterial *material) const
+void D3D9RenderMesh::renderVerticesInstanced(uint32 numVertices,RenderMaterial *material) const
 {
-	RENDERER_PERFZONE(D3D9RendererMesh_renderVerticesInstanced);
+	RENDERER_PERFZONE(D3D9RenderMesh_renderVerticesInstanced);
 	
 	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice && m_d3dVertexDecl)
@@ -250,7 +250,7 @@ void D3D9RendererMesh::renderVerticesInstanced(uint32 numVertices,RendererMateri
 		
 		Primitive primitive = getPrimitives();
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) 
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) 
 		{
 			d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 1);
 		}
@@ -297,7 +297,7 @@ void D3D9RendererMesh::renderVerticesInstanced(uint32 numVertices,RendererMateri
 		}
 #endif
 		
-		if(primitive == RendererMesh::PRIMITIVE_POINT_SPRITES) 
+		if(primitive == RenderMesh::PRIMITIVE_POINT_SPRITES) 
 		{
 			d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
 		}
