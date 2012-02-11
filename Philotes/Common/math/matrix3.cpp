@@ -883,7 +883,7 @@ namespace Philo
 
         if ( rfRadians > Radian(0.0) )
         {
-            if ( rfRadians < Radian(N_PI) )
+            if ( rfRadians < Radian(Math::PI) )
             {
                 rkAxis.x = m[2][1]-m[1][2];
                 rkAxis.y = m[0][2]-m[2][0];
@@ -984,9 +984,9 @@ namespace Philo
         //       -cx*cz*sy+sx*sz  cz*sx+cx*sy*sz  cx*cy
 
         rfPAngle = Radian(Math::ASin(m[0][2]));
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(-m[1][2],m[2][2]);
                 rfRAngle = Math::ATan2(-m[0][1],m[0][0]);
@@ -1019,9 +1019,9 @@ namespace Philo
         //       -cx*sy+cy*sx*sz  cz*sx           cx*cy+sx*sy*sz
 
         rfPAngle = Math::ASin(-m[0][1]);
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(m[2][1],m[1][1]);
                 rfRAngle = Math::ATan2(m[0][2],m[0][0]);
@@ -1054,9 +1054,9 @@ namespace Philo
         //       -cz*sy+cy*sx*sz  cy*cz*sx+sy*sz  cx*cy
 
         rfPAngle = Math::ASin(-m[1][2]);
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(m[0][2],m[2][2]);
                 rfRAngle = Math::ATan2(m[1][0],m[1][1]);
@@ -1089,9 +1089,9 @@ namespace Philo
         //       -cz*sy           cy*sx+cx*sy*sz  cx*cy-sx*sy*sz
 
         rfPAngle = Math::ASin(m[1][0]);
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(-m[2][0],m[0][0]);
                 rfRAngle = Math::ATan2(-m[1][2],m[1][1]);
@@ -1124,9 +1124,9 @@ namespace Philo
         //       -cx*sy           sx              cx*cy
 
         rfPAngle = Math::ASin(m[2][1]);
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(-m[0][1],m[1][1]);
                 rfRAngle = Math::ATan2(-m[2][0],m[2][2]);
@@ -1159,9 +1159,9 @@ namespace Philo
         //       -sy              cy*sx           cx*cy
 
         rfPAngle = Math::ASin(-m[2][0]);
-        if ( rfPAngle < Radian(N_PI_HALF) )
+        if ( rfPAngle < Radian(Math::HALF_PI) )
         {
-            if ( rfPAngle > Radian(-N_PI_HALF) )
+            if ( rfPAngle > Radian(-Math::HALF_PI) )
             {
                 rfYAngle = Math::ATan2(m[1][0],m[0][0]);
                 rfRAngle = Math::ATan2(m[2][1],m[2][2]);

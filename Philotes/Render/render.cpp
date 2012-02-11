@@ -1,40 +1,27 @@
 
 #include <render.h>
-#include <renderDesc.h>
 #include <renderMesh.h>
 #include <renderMeshContext.h>
 #include <renderMaterial.h>
 #include <renderMaterialInstance.h>
-#include <renderProjection.h>
 #include <renderTarget.h>
 #include <renderLight.h>
 #include <algorithm>
 
 #include "d3d9/D3D9Render.h"
-#include "renderDesc.h"
 
 _NAMESPACE_BEGIN
 
-Render *Render::createRender(const RenderDesc &desc)
+Render *Render::createRender(uint64 windowHandle)
 {
-	Render *renderer = 0;
-	const bool valid = desc.isValid();
-	if(valid)
-	{
-		switch(desc.driver)
-		{
-			case DRIVER_DIRECT3D9:
-			#if defined(RENDERER_ENABLE_DIRECT3D9)
-				renderer = new D3D9Render(desc);
-			#endif
-				break;
-		}
-	}
+	Render *renderer = new D3D9Render(windowHandle);
+
 	if(renderer && !renderer->isOk())
 	{
 		renderer->release();
 		renderer = 0;
 	}
+
 	ph_assert2(renderer, "Failed to create renderer!");
 	return renderer;
 }
@@ -59,8 +46,8 @@ Render::Render(DriverType driver) :
 	m_deferredVBUnlock				(true)
 {
 	m_pixelCenterOffset = 0;
-	setAmbientColor(RenderColor(64,64,64, 255));
-    setClearColor(RenderColor(133,153,181,255));
+	setAmbientColor(Colour(0.25f,0.25f,0.25f,1));
+    setClearColor(Colour(0.52f,0.6f,0.7f,1));
 	strncpy_s(m_deviceName, sizeof(m_deviceName), "UNKNOWN", sizeof(m_deviceName));
 }
 
@@ -158,7 +145,7 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 			{
 				Matrix4 id = Matrix4::IDENTITY;
 				Matrix4 pj;
-				RenderProjection::makeProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f,pj);
+				Math::makeProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f,pj);
 				bindViewProj(id, pj);	//TODO: pass screen space matrices
 				renderMeshes(m_screenSpaceMeshes, RenderMaterial::PASS_UNLIT);	//render screen space stuff first so stuff we occlude doesn't waste time on shading.
 			}
@@ -167,7 +154,7 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 		if(depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_depthOnly);
-			bindAmbientState(RenderColor(0,0,0,255));
+			bindAmbientState(Colour(0,0,0,1));
 			bindViewProj(eye, proj);
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_DEPTH);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_DEPTH);
@@ -191,7 +178,7 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 			renderMeshes(m_visibleLitMeshes, light0.getPass());
 			light0.m_renderer = 0;
 			
-			bindAmbientState(RenderColor(0,0,0,255));
+			bindAmbientState(Colour(0,0,0,1));
 			beginMultiPass();
 			for(uint32 i=1; i<numLights; i++)
 			{
@@ -206,7 +193,7 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 		else
 		{
 			RENDERER_PERFZONE(Render_render_unlit);
-			bindAmbientState(RenderColor(0,0,0,255));
+			bindAmbientState(Colour(0,0,0,1));
 			bindViewProj(eye, proj);
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_UNLIT);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
@@ -221,16 +208,15 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 }
 
 // sets the ambient lighting color.
-void Render::setAmbientColor(const RenderColor &ambientColor)
+void Render::setAmbientColor(const Colour &ambientColor)
 {
 	m_ambientColor   = ambientColor;
-	m_ambientColor.a = 255;
+	m_ambientColor.a = 1;
 }
 
-void Render::setClearColor(const RenderColor &clearColor)
+void Render::setClearColor(const Colour &clearColor)
 {
 	m_clearColor   = clearColor;
-	m_clearColor.a = 255;
 }
 
 void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass)

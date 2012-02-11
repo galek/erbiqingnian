@@ -4,7 +4,6 @@
 
 #include "renderConfig.h"
 #include "renderMaterial.h"
-#include "renderColor.h"
 
 #include <vector>
 
@@ -44,7 +43,7 @@ class Render
 		};
 		
 	public:
-		static Render *createRender(const RenderDesc &desc);
+		static Render *createRender(uint64 windowHandle);
 		
 		static const char *getDriverTypeName(DriverType type);
 		
@@ -74,11 +73,11 @@ class Render
 		void render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *target=0, bool depthOnly=false);
 		
 		// sets the ambient lighting color.
-		void setAmbientColor(const RenderColor &ambientColor);
+		void setAmbientColor(const Colour &ambientColor);
 
         // sets the clear color.
-		void setClearColor(const RenderColor &clearColor);
-        RenderColor& getClearColor() { return m_clearColor; }
+		void setClearColor(const Colour &clearColor);
+        Colour& getClearColor() { return m_clearColor; }
 		
 public:
 		// clears the offscreen buffers.
@@ -114,7 +113,7 @@ public:
 		virtual bool beginRender(void) { return true;}
 		virtual void endRender(void) {}
 		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj)    = 0;
-		virtual void bindAmbientState(const RenderColor &ambientColor)                 = 0;
+		virtual void bindAmbientState(const Colour &ambientColor)                 = 0;
 		virtual void bindDeferredState(void)                                             = 0;
 		virtual void bindMeshContext(const RenderElement &context)                 = 0;
 		virtual void beginMultiPass(void)                                                = 0;
@@ -134,8 +133,8 @@ public:
 		std::vector<RenderElement*>	m_screenSpaceMeshes;
 		std::vector<RenderLight*>			m_visibleLights;
 		
-		RenderColor						m_ambientColor;
-		RenderColor						m_clearColor;
+		Colour								m_ambientColor;
+		Colour								m_clearColor;
 
     protected:
 		bool								m_deferredVBUnlock;

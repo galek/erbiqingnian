@@ -105,15 +105,15 @@ class RenderVertexBuffer
 		};
 		
 	protected:
-		const Hint   m_hint;
-		uint32 m_maxVertices;
-		uint32 m_stride;
-		bool         m_deferredUnlock;
-		SemanticDesc m_semanticDescs[NUM_SEMANTICS];
+		const Hint		m_hint;
+		uint32			m_maxVertices;
+		uint32			m_stride;
+		bool			m_deferredUnlock;
+		SemanticDesc	m_semanticDescs[NUM_SEMANTICS];
 		
 	private:
-		void        *m_lockedBuffer;
-		uint32 m_numSemanticLocks;
+		void			*m_lockedBuffer;
+		uint32			m_numSemanticLocks;
 };
 
 _NAMESPACE_END

@@ -7,7 +7,6 @@
 #include "gearsApplication.h"
 
 #include "render.h"
-#include "renderDesc.h"
 
 _NAMESPACE_BEGIN
 
@@ -573,12 +572,6 @@ void GearPlatform::postRenderSetup()
 	strcat_s(windowTitle, 1024, Render::getDriverTypeName(
 		m_sf_app->getRender()->getDriverType()));
 	m_app->setTitle(windowTitle);
-}
-
-void GearPlatform::setupRenderDescription( RenderDesc& renDesc )
-{
-	renDesc.driver = Render::DRIVER_DIRECT3D9;
-	renDesc.windowHandle = reinterpret_cast<uint64>(m_hwnd);
 }
 
 void GearPlatform::doInput()

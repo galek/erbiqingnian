@@ -3,16 +3,15 @@
 #define RENDERER_LIGHT_DESC_H
 
 #include <renderLight.h>
-#include <renderProjection.h>
 
 _NAMESPACE_BEGIN
 
 class RenderLightDesc
 {
 	public:
-		const RenderLight::Type	type;
+		const RenderLight::Type		type;
 		
-		RenderColor				color;
+		Colour						color;
 		float						intensity;
 		
 		RenderTexture2D*			shadowMap;

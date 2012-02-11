@@ -1,7 +1,6 @@
 
 #include "testApplication.h"
 #include "render.h"
-#include "renderProjection.h"
 
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
@@ -34,7 +33,7 @@ void TestApplication::onInit( void )
 		Vector3 vec0 = Vector3(-(float)(rand()%10),-(float)(rand()%10),-(float)(rand()%10));
 		Vector3 vec1 = Vector3((float)(rand()%10),(float)(rand()%10),(float)(rand()%10));
 
-		m_debugLine->addLine(vec0,vec1,RenderColor(255,0,0,255));
+		m_debugLine->addLine(vec0,vec1,Colour(1,0,0,1));
 	}
 
 	m_debugGrid = new RenderGridShape(*m_renderer,100,40);
@@ -67,7 +66,7 @@ void TestApplication::onRender( void )
 		{
 			renderer->clearBuffers();
 
-			RenderProjection::makeProjectionMatrix(Radian(Degree(45)),windowWidth / (float)windowHeight, 0.1f, 10000.0f,m_projection);
+			Math::makeProjectionMatrix(Radian(Degree(45)),windowWidth / (float)windowHeight, 0.1f, 10000.0f,m_projection);
 
 			m_debugLine->queueForRenderLine();
 

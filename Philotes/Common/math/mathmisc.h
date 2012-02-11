@@ -241,7 +241,7 @@ namespace Philo
                 calculation - faster but less accurate.
         */
         static inline scalar Cos (const Radian& fValue, bool useTables = false) {
-			return (!useTables) ? scalar(cos(fValue.valueRadians())) : SinTable(fValue.valueRadians() + N_PI_HALF);
+			return (!useTables) ? scalar(cos(fValue.valueRadians())) : SinTable(fValue.valueRadians() + HALF_PI);
 		}
         /** Cosine function.
             @param
@@ -251,7 +251,7 @@ namespace Philo
                 calculation - faster but less accurate.
         */
         static inline scalar Cos (scalar fValue, bool useTables = false) {
-			return (!useTables) ? scalar(cos(fValue)) : SinTable(fValue + N_PI_HALF);
+			return (!useTables) ? scalar(cos(fValue)) : SinTable(fValue + HALF_PI);
 		}
 
 		static inline scalar Exp (scalar fValue) { return scalar(exp(fValue)); }
@@ -488,15 +488,25 @@ namespace Philo
 		/** Get a bounding radius value from a bounding box. */
 		static scalar boundingRadiusFromAABB(const AxisAlignedBox& aabb);
 
+		static void makeProjectionMatrix(const Radian& fovy, scalar aspectRatio, 
+			scalar nearPlane, scalar farPlane, Matrix4& outMatrix);
+
+		static void makeProjectionMatrix(scalar left, scalar right, scalar bottom, 
+			scalar top, scalar near, scalar far, Matrix4& outMatrix);
+
+		static void	buildProjectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view);
+
+		static void	buildUnprojectMatrix(float *dst, const Matrix4 &proj, const Matrix4 &view);
+
 
 		static const scalar POS_INFINITY;
 		static const scalar NEG_INFINITY;
-		//static const scalar PI;
+		static const scalar PI;
 		static const scalar TWO_PI;
 		static const scalar HALF_PI;
 		static const scalar fDeg2Rad;
 		static const scalar fRad2Deg;
-
+		static const scalar INFINITE_FAR_PLANE_ADJUST;
     };
 
 	// these functions must be defined down here, because they rely on the

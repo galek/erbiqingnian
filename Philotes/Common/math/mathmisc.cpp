@@ -17,7 +17,7 @@
 
 namespace Philo
 {
-
+	const scalar 	Math::PI = 3.141592653f;
 	const scalar 	Math::POS_INFINITY = std::numeric_limits<scalar>::infinity();
 	const scalar 	Math::NEG_INFINITY = -std::numeric_limits<scalar>::infinity();
 	const scalar 	Math::TWO_PI = scalar( 2.0 * PI );
@@ -25,6 +25,7 @@ namespace Philo
 	const scalar 	Math::fDeg2Rad = PI / scalar(180.0);
 	const scalar 	Math::fRad2Deg = scalar(180.0) / PI;
 	const scalar 	Math::LOG2 = log(scalar(2.0));
+	const scalar	Math::INFINITE_FAR_PLANE_ADJUST = 0.00001f;
 
     int				Math::mTrigTableSize;
 	Math::AngleUnit Math::msAngleUnit;
@@ -39,7 +40,7 @@ namespace Philo
         msAngleUnit = AU_DEGREE;
 
         mTrigTableSize = trigTableSize;
-        mTrigTableFactor = mTrigTableSize / N_PI_DOUBLE;
+        mTrigTableFactor = mTrigTableSize / Math::HALF_PI;
 
         //mSinTable = PH_ALLOC_T(scalar, mTrigTableSize, Memory::ObjectHeap);
 		mSinTable = ph_new_array(scalar,mTrigTableSize);
@@ -68,7 +69,7 @@ namespace Philo
         scalar angle;
         for (int i = 0; i < mTrigTableSize; ++i)
         {
-            angle = N_PI_DOUBLE * i / mTrigTableSize;
+            angle = Math::HALF_PI * i / mTrigTableSize;
             mSinTable[i] = sin(angle);
             mTanTable[i] = tan(angle);
         }	
@@ -124,11 +125,11 @@ namespace Philo
             if ( fValue < 1.0 )
                 return Radian(asin(fValue));
             else
-                return Radian(N_PI_HALF);
+                return Radian(HALF_PI);
         }
         else
         {
-            return Radian(-N_PI_HALF);
+            return Radian(-HALF_PI);
         }
     }
     //-----------------------------------------------------------------------
@@ -908,7 +909,7 @@ namespace Philo
 	{
 		scalar nom = Math::Exp(
 			-Math::Sqr(x - offset) / (2 * Math::Sqr(scale)));
-		scalar denom = scale * Math::Sqrt(2 * N_PI);
+		scalar denom = scale * Math::Sqrt(2 * Math::PI);
 
 		return nom / denom;
 
@@ -964,6 +965,71 @@ namespace Philo
 		magnitude.makeCeil(-min);
 
 		return magnitude.length();
+	}
+
+	void Math::makeProjectionMatrix( const Radian& fovy, scalar aspectRatio, scalar nearPlane, scalar farPlane, Matrix4& dest )
+	{
+		Radian theta ( fovy * 0.5 );
+		scalar h = 1 / Math::Tan(theta);
+		scalar w = h / aspectRatio;
+		scalar q, qn;
+		if (farPlane == 0)
+		{
+			q = 1 - Math::INFINITE_FAR_PLANE_ADJUST;
+			qn = nearPlane * (Math::INFINITE_FAR_PLANE_ADJUST - 1);
+		}
+		else
+		{
+			q = farPlane / ( farPlane - nearPlane );
+			qn = -q * nearPlane;
+		}
+
+		dest = Matrix4::ZERO;
+		dest[0][0] = w;
+		dest[1][1] = h;
+
+		dest[2][2] = -q;
+		dest[3][2] = -1.0f;
+
+		dest[2][3] = qn;
+	}
+
+	void Math::makeProjectionMatrix( scalar left, scalar right, scalar bottom, scalar top, scalar nearPlane, scalar farPlane, Matrix4& dest )
+	{
+		scalar width = right - left;
+		scalar height = top - bottom;
+		scalar q, qn;
+		if (farPlane == 0)
+		{
+			q = 1 - Math::INFINITE_FAR_PLANE_ADJUST;
+			qn = nearPlane * (Math::INFINITE_FAR_PLANE_ADJUST - 1);
+		}
+		else
+		{
+			q = farPlane / ( farPlane - nearPlane );
+			qn = -q * nearPlane;
+		}
+		dest = Matrix4::ZERO;
+		dest[0][0] = 2 * nearPlane / width;
+		dest[0][2] = (right+left) / width;
+		dest[1][1] = 2 * nearPlane / height;
+		dest[1][2] = (top+bottom) / height;
+		dest[2][2] = -q;
+		dest[3][2] = -1.0f;
+
+		dest[2][3] = qn;
+	}
+
+	void Math::buildProjectMatrix( float *dst, const Matrix4 &proj, const Matrix4 &view )
+	{
+		Matrix4 projView = Matrix4(view * proj).inverse();
+		memcpy(dst, projView[0], sizeof(float)*16);
+	}
+
+	void Math::buildUnprojectMatrix( float *dst, const Matrix4 &proj, const Matrix4 &view )
+	{
+		Matrix4 invProjView = Matrix4(view * proj).inverse();
+		memcpy(dst, invProjView[0], sizeof(float)*16);
 	}
 
 }

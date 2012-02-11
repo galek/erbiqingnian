@@ -572,7 +572,7 @@ public:
 
         // Rotate up vector by random amount around this
         Quaternion q;
-		q.FromAngleAxis( Radian(Math::UnitRandom() * N_PI_DOUBLE), *this );
+		q.FromAngleAxis( Radian(Math::UnitRandom() * Math::HALF_PI), *this );
         newUp = q * newUp;
 
         // Finally rotate this by given angle around randomised up
@@ -628,7 +628,7 @@ public:
 			if (fallbackAxis != Vector3::ZERO)
 			{
 				// rotate 180 degrees about the fallback axis
-				q.FromAngleAxis(Radian(N_PI), fallbackAxis);
+				q.FromAngleAxis(Radian(Math::PI), fallbackAxis);
 			}
 			else
 			{
@@ -637,7 +637,7 @@ public:
 				if (axis.isZeroLength()) // pick another if colinear
 					axis = Vector3::UNIT_Y.crossProduct(*this);
 				axis.normalise();
-				q.FromAngleAxis(Radian(N_PI), axis);
+				q.FromAngleAxis(Radian(Math::PI), axis);
 			}
 		}
 		else

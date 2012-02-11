@@ -3,14 +3,13 @@
 
 _NAMESPACE_BEGIN
 
+class Render;
 class RenderElement;
 class RenderFrustum;
 class RenderCamera;
 class RenderNode;
 class RenderTransform;
-class Render;
 class RenderDebugLine;
-class RenderDesc;
 class RenderGridShape;
 class RenderWindow;
 class RenderVertexBuffer;
@@ -31,8 +30,5 @@ class RenderMesh;
 class RenderMeshDesc;
 class RenderLight;
 class RenderLightDesc;
-
-class RenderColor;
-class RenderProjection;
 
 _NAMESPACE_END

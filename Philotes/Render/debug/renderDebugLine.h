@@ -12,7 +12,7 @@ public:
 	RenderDebugLine(Render &renderer, GearAssetManager &assetmanager);
 	virtual ~RenderDebugLine(void);
 
-	void addLine(const Vector3 &p0, const Vector3 &p1, const RenderColor &color);
+	void addLine(const Vector3 &p0, const Vector3 &p1, const Colour &color);
 	void checkResizeLine(uint32 maxVerts);
 	void queueForRenderLine(void);
 	void clearLine(void);
@@ -20,7 +20,7 @@ public:
 private:
 	void checkLock(void);
 	void checkUnlock(void);
-	void addVert(const Vector3 &p, const RenderColor &color);
+	void addVert(const Vector3 &p, const Colour &color);
 
 private:
 	RenderDebugLine &operator=(const RenderDebugLine&) { return *this; }

@@ -149,7 +149,7 @@ public:
 	void SetQuaternion(const Quaternion& v);
 	void SetMatrix3(const Matrix3& v);
 	void SetMatrix4(const Matrix4& v);
-	void SetColourValue(const ColourValue& v);
+	void SetColourValue(const Colour& v);
 
 
     /// generic setter
@@ -166,7 +166,7 @@ public:
 	void AppendQuaternion(const Quaternion& v);
 	void AppendMatrix3(const Matrix3& v);
 	void AppendMatrix4(const Matrix4& v);
-	void AppendColourValue(const ColourValue& v);
+	void AppendColourValue(const Colour& v);
 
     /// generic append
     template<typename T> void Append(const T& t);
@@ -183,7 +183,7 @@ public:
 	Quaternion		AsQuaternion() const;
 	Matrix3			AsMatrix3() const;
 	Matrix4			AsMatrix4() const;
-	ColourValue		AsColourValue() const;
+	Colour		AsColourValue() const;
 
 
     /// convert to "anything"
@@ -219,7 +219,7 @@ public:
 	static String	FromQuaternion(const Quaternion& v);
 	static String	FromMatrix3(const Matrix3& v);
 	static String	FromMatrix4(const Matrix4& v);
-	static String	FromColourValue(const ColourValue& v);
+	static String	FromColourValue(const Colour& v);
 
     /// convert from "anything"
     template<typename T> static String From(const T& t);
@@ -501,7 +501,7 @@ String::SetMatrix4(const Matrix4& val)
 }
 
 inline void
-String::SetColourValue(const ColourValue& v)
+String::SetColourValue(const Colour& v)
 {
 	this->Format("%.6f %.6f %.6f %.6f",v.r,v.g,v.b,v.a);
 }
@@ -1050,7 +1050,7 @@ String::FromMatrix4(const Matrix4& v)
 }
 
 inline String
-String::FromColourValue(const ColourValue& v)
+String::FromColourValue(const Colour& v)
 {
 	String str;
 	str.SetColourValue(v);
@@ -1123,7 +1123,7 @@ String::AppendMatrix4(const Matrix4& v)
 }
 
 inline void
-String::AppendColourValue(const ColourValue& v)
+String::AppendColourValue(const Colour& v)
 {
 	this->Append(FromColourValue(v));
 }

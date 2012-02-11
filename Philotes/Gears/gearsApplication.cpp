@@ -5,7 +5,6 @@
 #include "gearsComandLine.h"
 
 #include "render.h"
-#include "renderDesc.h"
 #include "renderMemoryMacros.h"
 
 _NAMESPACE_BEGIN
@@ -68,18 +67,7 @@ void GearApplication::onOpen( void )
 	Matrix4 eye = Matrix4::IDENTITY;
 	m_worldToView = eye.inverse();
 
-	RenderDesc renDesc;
-
-	// default renderer drivers for various platforms...
-	m_platform->setupRenderDescription(renDesc);
-
-	// check to see if the user wants to override the renderer driver...
-	if(m_cmdline.hasSwitch("ogl"))        renDesc.driver = Render::DRIVER_OPENGL;
-	else if(m_cmdline.hasSwitch("d3d9"))  renDesc.driver = Render::DRIVER_DIRECT3D9;
-	else if(m_cmdline.hasSwitch("d3d10")) renDesc.driver = Render::DRIVER_DIRECT3D10;
-	else if(m_cmdline.hasSwitch("gcm"))   renDesc.driver = Render::DRIVER_LIBGCM;
-
-	m_renderer = Render::createRender(renDesc);
+	m_renderer = Render::createRender(m_platform->getWindowHandle());
 	m_platform->postRenderSetup();
 
 	m_timeCounter = m_time.getCurrentCounterValue();

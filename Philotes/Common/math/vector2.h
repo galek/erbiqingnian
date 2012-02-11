@@ -470,7 +470,7 @@ namespace Philo
             scalar angle) const
         {
 
-            angle *=  Math::UnitRandom() * N_PI_DOUBLE;
+            angle *=  Math::UnitRandom() * Math::HALF_PI;
             scalar cosa = cos(angle);
             scalar sina = sin(angle);
             return  Vector2(cosa * x - sina * y,

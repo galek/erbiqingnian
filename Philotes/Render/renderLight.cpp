@@ -7,7 +7,7 @@ _NAMESPACE_BEGIN
 RenderLight::RenderLight(const RenderLightDesc &desc) :
 	m_type(desc.type)
 {
-	RenderProjection::makeProjectionMatrix(Radian(Degree(45)),1,0.1f,100.0f,m_shadowProjection);
+	Math::makeProjectionMatrix(Radian(Degree(45)),1,0.1f,100.0f,m_shadowProjection);
 
 	m_renderer = 0;
 	setColor(desc.color);
@@ -40,12 +40,12 @@ RenderMaterial::Pass RenderLight::getPass(void) const
 	return pass;
 }
 
-const RenderColor &RenderLight::getColor(void) const
+const Colour &RenderLight::getColor(void) const
 {
 	return m_color;
 }
 
-void RenderLight::setColor(const RenderColor &color)
+void RenderLight::setColor(const Colour &color)
 {
 	m_color = color;
 }
