@@ -12,24 +12,24 @@ namespace Philo {
 	typedef uint32 BGRA;
 
 
-    class _PhiloCommonExport ColourValue
+    class _PhiloCommonExport Colour
     {
     public:
-        static const ColourValue ZERO;
-        static const ColourValue Black;
-        static const ColourValue White;
-        static const ColourValue Red;
-        static const ColourValue Green;
-        static const ColourValue Blue;
+        static const Colour ZERO;
+        static const Colour Black;
+        static const Colour White;
+        static const Colour Red;
+        static const Colour Green;
+        static const Colour Blue;
 
-	    explicit ColourValue( float red = 1.0f,
+	    explicit Colour( float red = 1.0f,
 				    float green = 1.0f,
 				    float blue = 1.0f,
 				    float alpha = 1.0f ) : r(red), g(green), b(blue), a(alpha)
         { }
 
-	    bool operator==(const ColourValue& rhs) const;
-	    bool operator!=(const ColourValue& rhs) const;
+	    bool operator==(const Colour& rhs) const;
+	    bool operator!=(const Colour& rhs) const;
 
         float r,g,b,a;
 
@@ -91,9 +91,9 @@ namespace Philo {
 
         /** As saturate, except that this colour value is unaffected and
             the saturated colour value is returned as a copy. */
-        ColourValue saturateCopy(void) const
+        Colour saturateCopy(void) const
         {
-            ColourValue ret = *this;
+            Colour ret = *this;
             ret.saturate();
             return ret;
         }
@@ -127,9 +127,9 @@ namespace Philo {
 
 		
 		// arithmetic operations
-        inline ColourValue operator + ( const ColourValue& rkVector ) const
+        inline Colour operator + ( const Colour& rkVector ) const
         {
-            ColourValue kSum;
+            Colour kSum;
 
             kSum.r = r + rkVector.r;
             kSum.g = g + rkVector.g;
@@ -139,9 +139,9 @@ namespace Philo {
             return kSum;
         }
 
-        inline ColourValue operator - ( const ColourValue& rkVector ) const
+        inline Colour operator - ( const Colour& rkVector ) const
         {
-            ColourValue kDiff;
+            Colour kDiff;
 
             kDiff.r = r - rkVector.r;
             kDiff.g = g - rkVector.g;
@@ -151,9 +151,9 @@ namespace Philo {
             return kDiff;
         }
 
-        inline ColourValue operator * (const float fScalar ) const
+        inline Colour operator * (const float fScalar ) const
         {
-            ColourValue kProd;
+            Colour kProd;
 
             kProd.r = fScalar*r;
             kProd.g = fScalar*g;
@@ -163,9 +163,9 @@ namespace Philo {
             return kProd;
         }
 
-        inline ColourValue operator * ( const ColourValue& rhs) const
+        inline Colour operator * ( const Colour& rhs) const
         {
-            ColourValue kProd;
+            Colour kProd;
 
             kProd.r = rhs.r * r;
             kProd.g = rhs.g * g;
@@ -175,9 +175,9 @@ namespace Philo {
             return kProd;
         }
 
-        inline ColourValue operator / ( const ColourValue& rhs) const
+        inline Colour operator / ( const Colour& rhs) const
         {
-            ColourValue kProd;
+            Colour kProd;
 
             kProd.r = rhs.r / r;
             kProd.g = rhs.g / g;
@@ -187,11 +187,11 @@ namespace Philo {
             return kProd;
         }
 
-        inline ColourValue operator / (const float fScalar ) const
+        inline Colour operator / (const float fScalar ) const
         {
             ph_assert( fScalar != 0.0 );
 
-            ColourValue kDiv;
+            Colour kDiv;
 
             float fInv = 1.0f / fScalar;
             kDiv.r = r * fInv;
@@ -202,9 +202,9 @@ namespace Philo {
             return kDiv;
         }
 
-        inline _PhiloCommonExport friend ColourValue operator * (const float fScalar, const ColourValue& rkVector )
+        inline _PhiloCommonExport friend Colour operator * (const float fScalar, const Colour& rkVector )
         {
-            ColourValue kProd;
+            Colour kProd;
 
             kProd.r = fScalar * rkVector.r;
             kProd.g = fScalar * rkVector.g;
@@ -215,7 +215,7 @@ namespace Philo {
         }
 
         // arithmetic updates
-        inline ColourValue& operator += ( const ColourValue& rkVector )
+        inline Colour& operator += ( const Colour& rkVector )
         {
             r += rkVector.r;
             g += rkVector.g;
@@ -225,7 +225,7 @@ namespace Philo {
             return *this;
         }
 
-        inline ColourValue& operator -= ( const ColourValue& rkVector )
+        inline Colour& operator -= ( const Colour& rkVector )
         {
             r -= rkVector.r;
             g -= rkVector.g;
@@ -235,7 +235,7 @@ namespace Philo {
             return *this;
         }
 
-        inline ColourValue& operator *= (const float fScalar )
+        inline Colour& operator *= (const float fScalar )
         {
             r *= fScalar;
             g *= fScalar;
@@ -244,7 +244,7 @@ namespace Philo {
             return *this;
         }
 
-        inline ColourValue& operator /= (const float fScalar )
+        inline Colour& operator /= (const float fScalar )
         {
             ph_assert( fScalar != 0.0 );
 
@@ -277,7 +277,7 @@ namespace Philo {
 		/** Function for writing to a stream.
 		*/
 		inline friend std::ostream& operator <<
-			( std::ostream& o, const ColourValue& c )
+			( std::ostream& o, const Colour& c )
 		{
 			o << "ColourValue(" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")";
 			return o;

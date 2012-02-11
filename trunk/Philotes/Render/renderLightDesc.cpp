@@ -4,12 +4,12 @@
 RenderLightDesc::RenderLightDesc(RenderLight::Type _type) :
 	type(_type)
 {
-	color			= RenderColor(0,0,0,0);
+	color			= Colour(0,0,0,0);
 	intensity		= 0;
 	shadowMap		= 0;
 	shadowTransform = Matrix4::IDENTITY;
 
-	RenderProjection::makeProjectionMatrix(Radian(Degree(45)),1,0.1f,100.0f,shadowProjection);
+	Math::makeProjectionMatrix(Radian(Degree(45)),1,0.1f,100.0f,shadowProjection);
 }
 
 bool RenderLightDesc::isValid(void) const

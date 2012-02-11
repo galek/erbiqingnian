@@ -25,5 +25,6 @@
 #include "util/dictionary.h"
 #include "util/list.h"
 #include "util/hashtable.h"
+#include "util/colourValue.h"
 
 #include "core/exception.h"

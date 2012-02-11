@@ -81,8 +81,6 @@ public:
 	
 	virtual void						postRenderSetup();
 	
-	virtual void						setupRenderDescription(RenderDesc& renDesc);
-	
 	// Input
 	virtual void						doInput();
 	

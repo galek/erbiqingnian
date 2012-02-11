@@ -379,7 +379,7 @@ namespace Philo
 		Radian angle = Math::ACos(fCos);
 
 		return (fabs(angle.valueRadians()) <= tolerance.valueRadians())
-			|| Math::RealEqual(angle.valueRadians(), N_PI, tolerance.valueRadians());
+			|| Math::RealEqual(angle.valueRadians(), Math::PI, tolerance.valueRadians());
 
 
 	}
@@ -436,7 +436,7 @@ namespace Philo
 			return rkP;
 
 		scalar fSin = Math::Sin(fAngle);
-		Radian fPhase ( N_PI*iExtraSpins*fT );
+		Radian fPhase ( Math::PI*iExtraSpins*fT );
 		scalar fInvSin = 1.0f/fSin;
 		scalar fCoeff0 = Math::Sin((1.0f-fT)*fAngle - fPhase)*fInvSin;
 		scalar fCoeff1 = Math::Sin(fT*fAngle + fPhase)*fInvSin;

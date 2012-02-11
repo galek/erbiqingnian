@@ -60,7 +60,7 @@ RenderDebugLine::~RenderDebugLine( void )
 	m_transfrom = NULL;
 }
 
-void RenderDebugLine::addLine( const Vector3 &p0, const Vector3 &p1, const RenderColor &color )
+void RenderDebugLine::addLine( const Vector3 &p0, const Vector3 &p1, const Colour &color )
 {
 	checkResizeLine(m_numVerts+2);
 	addVert(p0, color);
@@ -102,7 +102,7 @@ void RenderDebugLine::checkResizeLine( uint32 maxVerts )
 						for(uint32 i=0; i<m_numVerts; i++)
 						{
 							memcpy(((uint8*)positions) + (positionStride*i), ((uint8*)m_lockedPositions) + (m_positionStride*i), sizeof(Vector3));
-							memcpy(((uint8*)colors)    + (colorStride*i),    ((uint8*)m_lockedColors)    + (m_colorStride*i),    sizeof(RenderColor));
+							memcpy(((uint8*)colors)    + (colorStride*i),    ((uint8*)m_lockedColors)    + (m_colorStride*i),    sizeof(uint32));
 						}
 					}
 					m_vertexbuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_COLOR);
@@ -191,7 +191,7 @@ void RenderDebugLine::checkUnlock( void )
 	}
 }
 
-void RenderDebugLine::addVert( const Vector3 &p, const RenderColor &color )
+void RenderDebugLine::addVert( const Vector3 &p, const Colour &color )
 {
 	ph_assert(m_maxVerts > m_numVerts);
 	{
@@ -199,7 +199,9 @@ void RenderDebugLine::addVert( const Vector3 &p, const RenderColor &color )
 		if(m_lockedPositions && m_lockedColors)
 		{
 			memcpy(((uint8*)m_lockedPositions) + (m_positionStride*m_numVerts), &p,     sizeof(Vector3));
-			memcpy(((uint8*)m_lockedColors)    + (m_colorStride*m_numVerts),    &color, sizeof(RenderColor));
+
+ 			uint32 c = color.getAsARGB();
+			memcpy(((uint8*)m_lockedColors)    + (m_colorStride*m_numVerts),    &c,		sizeof(uint32));
 			m_numVerts++;
 		}
 	}
@@ -207,4 +209,3 @@ void RenderDebugLine::addVert( const Vector3 &p, const RenderColor &color )
 
 
 _NAMESPACE_END
-

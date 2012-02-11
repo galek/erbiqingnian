@@ -31,7 +31,7 @@ void D3D9RenderSpotLight::bind(void) const
 	shaderEnv.lightInnerCone   = m_innerCone;
 	shaderEnv.lightOuterCone   = m_outerCone;
 	shaderEnv.lightShadowMap   = m_shadowMap ? static_cast<D3D9RenderTexture2D*>(m_shadowMap)->m_d3dTexture : 0;
-	RenderProjection::buildProjectMatrix(shaderEnv.lightShadowMatrix, m_shadowProjection, m_shadowTransform);
+	Math::buildProjectMatrix(shaderEnv.lightShadowMatrix, m_shadowProjection, m_shadowTransform);
 }
 
 _NAMESPACE_END

@@ -3,9 +3,7 @@
 #define RENDERER_LIGHT_H
 
 #include <renderConfig.h>
-#include <renderColor.h>
 #include <renderMaterial.h>
-#include <renderProjection.h>
 
 _NAMESPACE_BEGIN
 
@@ -35,8 +33,8 @@ class RenderLight
 		
 		RenderMaterial::Pass		getPass(void) const;
 		
-		const RenderColor&		getColor(void) const;
-		void						setColor(const RenderColor &color);
+		const Colour&				getColor(void) const;
+		void						setColor(const Colour &color);
 		
 		float						getIntensity(void) const;
 		void						setIntensity(float intensity);
@@ -60,7 +58,7 @@ class RenderLight
 	protected:
 		const Type					m_type;
 		
-		RenderColor				m_color;
+		Colour						m_color;
 		float						m_intensity;
 		
 		RenderTexture2D*			m_shadowMap;
@@ -68,7 +66,7 @@ class RenderLight
 		Matrix4						m_shadowProjection;
 	
 	private:
-		Render*					m_renderer;
+		Render*						m_renderer;
 };
 
 _NAMESPACE_END

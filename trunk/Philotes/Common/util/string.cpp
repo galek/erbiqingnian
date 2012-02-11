@@ -847,7 +847,7 @@ String::AsMatrix4() const
 	return v;
 }
 
-ColourValue 
+Colour 
 String::AsColourValue() const
 {
 	Array<String> tokens(4, 0); 
@@ -855,7 +855,7 @@ String::AsColourValue() const
 
 	ph_assert (tokens.Size() == 4);
 
-	ColourValue v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat());
+	Colour v(tokens[0].AsFloat(),  tokens[1].AsFloat(),  tokens[2].AsFloat(),  tokens[3].AsFloat());
 	
 	return v;
 } 

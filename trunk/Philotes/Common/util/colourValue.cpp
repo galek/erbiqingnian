@@ -6,15 +6,15 @@
 
 namespace Philo {
 
-    const ColourValue ColourValue::ZERO = ColourValue(0.0,0.0,0.0,0.0);
-    const ColourValue ColourValue::Black = ColourValue(0.0,0.0,0.0);
-    const ColourValue ColourValue::White = ColourValue(1.0,1.0,1.0);
-    const ColourValue ColourValue::Red = ColourValue(1.0,0.0,0.0);
-    const ColourValue ColourValue::Green = ColourValue(0.0,1.0,0.0);
-    const ColourValue ColourValue::Blue = ColourValue(0.0,0.0,1.0);
+    const Colour Colour::ZERO = Colour(0.0,0.0,0.0,0.0);
+    const Colour Colour::Black = Colour(0.0,0.0,0.0);
+    const Colour Colour::White = Colour(1.0,1.0,1.0);
+    const Colour Colour::Red = Colour(1.0,0.0,0.0);
+    const Colour Colour::Green = Colour(0.0,1.0,0.0);
+    const Colour Colour::Blue = Colour(0.0,0.0,1.0);
 
     //---------------------------------------------------------------------
-    RGBA ColourValue::getAsRGBA(void) const
+    RGBA Colour::getAsRGBA(void) const
     {
         uint8 val8;
         uint32 val32 = 0;
@@ -41,7 +41,7 @@ namespace Philo {
         return val32;
     }
     //---------------------------------------------------------------------
-    ARGB ColourValue::getAsARGB(void) const
+    ARGB Colour::getAsARGB(void) const
     {
         uint8 val8;
         uint32 val32 = 0;
@@ -70,7 +70,7 @@ namespace Philo {
     }
 	//---------------------------------------------------------------------
 
-	BGRA ColourValue::getAsBGRA(void) const
+	BGRA Colour::getAsBGRA(void) const
 	{
 		uint8 val8;
 		uint32 val32 = 0;
@@ -98,7 +98,7 @@ namespace Philo {
 		return val32;
 	}
     //---------------------------------------------------------------------
-    ABGR ColourValue::getAsABGR(void) const
+    ABGR Colour::getAsABGR(void) const
     {
         uint8 val8;
         uint32 val32 = 0;
@@ -126,7 +126,7 @@ namespace Philo {
         return val32;
     }
     //---------------------------------------------------------------------
-    void ColourValue::setAsRGBA(const RGBA val)
+    void Colour::setAsRGBA(const RGBA val)
     {
         uint32 val32 = val;
 
@@ -146,7 +146,7 @@ namespace Philo {
         a = (val32 & 0xFF) / 255.0f;
     }
     //---------------------------------------------------------------------
-    void ColourValue::setAsARGB(const ARGB val)
+    void Colour::setAsARGB(const ARGB val)
 
     {
         uint32 val32 = val;
@@ -167,7 +167,7 @@ namespace Philo {
         b = (val32 & 0xFF) / 255.0f;
     }
 	//---------------------------------------------------------------------
-	void ColourValue::setAsBGRA(const BGRA val)
+	void Colour::setAsBGRA(const BGRA val)
 	{
 		uint32 val32 = val;
 
@@ -187,7 +187,7 @@ namespace Philo {
 		a = (val32 & 0xFF) / 255.0f;
 	}
     //---------------------------------------------------------------------
-    void ColourValue::setAsABGR(const ABGR val)
+    void Colour::setAsABGR(const ABGR val)
     {
         uint32 val32 = val;
 
@@ -207,7 +207,7 @@ namespace Philo {
         r = (val32 & 0xFF) / 255.0f;
     }
     //---------------------------------------------------------------------
-    bool ColourValue::operator==(const ColourValue& rhs) const
+    bool Colour::operator==(const Colour& rhs) const
     {
         return (r == rhs.r &&
             g == rhs.g &&
@@ -215,12 +215,12 @@ namespace Philo {
             a == rhs.a);
     }
     //---------------------------------------------------------------------
-    bool ColourValue::operator!=(const ColourValue& rhs) const
+    bool Colour::operator!=(const Colour& rhs) const
     {
         return !(*this == rhs);
     }
 	//---------------------------------------------------------------------
-	void ColourValue::setHSB(float hue, float saturation, float brightness)
+	void Colour::setHSB(float hue, float saturation, float brightness)
 	{
 		using namespace Philo;
 		// wrap hue
@@ -308,7 +308,7 @@ namespace Philo {
 
 	}
 	//---------------------------------------------------------------------
-	void ColourValue::getHSB(float* hue, float* saturation, float* brightness) const
+	void Colour::getHSB(float* hue, float* saturation, float* brightness) const
 	{
 		using namespace Philo;
 

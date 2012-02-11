@@ -26,13 +26,9 @@
 
 _NAMESPACE_BEGIN
 
-class RenderDesc;
-class RenderColor;
-
-void convertToD3D9(D3DCOLOR &dxcolor, const RenderColor &color);
+void convertToD3D9(D3DCOLOR &dxcolor, const Colour &color);
 void convertToD3D9(float *dxvec, const Vector3 &vec);
 void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat);
-void convertToD3D9(D3DMATRIX &dxmat, const RenderProjection &mat);
 
 class D3D9RenderResource;
 
@@ -101,7 +97,7 @@ class D3D9Render : public Render
 		};
 		
 	public:
-		D3D9Render(const RenderDesc &desc);
+		D3D9Render(uint64 windowHandle);
 		virtual ~D3D9Render(void);
 		
 		IDirect3DDevice9        *getD3DDevice(void)               { return m_d3dDevice; }
@@ -142,7 +138,7 @@ class D3D9Render : public Render
 		virtual bool beginRender(void);
 		virtual void endRender(void);
 		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj);
-		virtual void bindAmbientState(const RenderColor &ambientColor);
+		virtual void bindAmbientState(const Colour &ambientColor);
 		virtual void bindDeferredState(void);
 		virtual void bindMeshContext(const RenderElement &context);
 		virtual void beginMultiPass(void);

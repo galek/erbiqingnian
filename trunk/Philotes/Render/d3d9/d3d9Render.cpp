@@ -3,10 +3,6 @@
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <renderDesc.h>
-
-#include <renderProjection.h>
-
 #include <renderVertexBufferDesc.h>
 #include "D3D9RenderVertexBuffer.h"
 
@@ -40,12 +36,6 @@
 
 _NAMESPACE_BEGIN
 
-void convertToD3D9(D3DCOLOR &dxcolor, const RenderColor &color)
-{
-	const float inv255 = 1.0f / 255.0f;
-	dxcolor = D3DXCOLOR(color.r*inv255, color.g*inv255, color.b*inv255, color.a*inv255);
-}
-
 void convertToD3D9(float *dxvec, const Vector3 &vec)
 {
 	dxvec[0] = vec.x;
@@ -60,6 +50,11 @@ void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat)
 		mat[1][0], mat[1][1], mat[1][2], mat[1][3],
 		mat[2][0], mat[2][1], mat[2][2], mat[2][3],
 		mat[3][0], mat[3][1], mat[3][2], mat[3][3]);
+}
+
+void convertToD3D9( D3DCOLOR &dxcolor, const Colour &color )
+{
+	dxcolor = D3DXCOLOR(color.r, color.g, color.b, color.a);
 }
 
 /******************************
@@ -151,7 +146,7 @@ D3D9Render::ShaderEnvironment::ShaderEnvironment(void)
 * D3D9Render *
 ***************/ 
 
-D3D9Render::D3D9Render(const RenderDesc &desc) :
+D3D9Render::D3D9Render(uint64 windowHandle) :
 	Render	(DRIVER_DIRECT3D9)
 {
 	m_textVDecl				= NULL;
@@ -176,6 +171,7 @@ D3D9Render::D3D9Render(const RenderDesc &desc) :
 		m_d3dPresentParams.EnableAutoDepthStencil = 0;
 		m_d3dPresentParams.AutoDepthStencilFormat = D3DFMT_D24S8;
 		m_d3dPresentParams.PresentationInterval   = D3DPRESENT_INTERVAL_IMMEDIATE; // turns off V-sync;
+		m_d3dPresentParams.hDeviceWindow		  = (HWND)windowHandle;
 
 		HRESULT res = m_platform->initializeD3D9Display(&m_d3dPresentParams, 
 														m_deviceName, 
@@ -322,7 +318,7 @@ void D3D9Render::clearBuffers(void)
 	if(m_d3dDevice)
 	{
 		const DWORD flags = D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL;
-		m_d3dDevice->Clear(0, NULL, flags, D3DCOLOR_RGBA(getClearColor().r, getClearColor().g, getClearColor().b, getClearColor().a), 1.0f, 0);
+		m_d3dDevice->Clear(0, NULL, flags, getClearColor().getAsARGB(), 1.0f, 0);
 	}
 }
 
@@ -510,7 +506,7 @@ void D3D9Render::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 	memcpy(m_environment.eyeDirection, &eyeDirection.x, sizeof(scalar)*3);
 }
 
-void D3D9Render::bindAmbientState(const RenderColor &ambientColor)
+void D3D9Render::bindAmbientState(const Colour &ambientColor)
 {
 	convertToD3D9(m_environment.ambientColor, ambientColor);
 }
