@@ -38,7 +38,7 @@ class Render
 		{
 			DRIVER_OPENGL   = 0, // Supports Windows, Linux, MacOSX and PS3.
 			DRIVER_DIRECT3D9,    // Supports Windows, XBOX360.
-			DRIVER_DIRECT3D10,   // Supports Windows Vista.
+			DRIVER_DIRECT3D10,   // Supports Windows Vista & 7.
 			DRIVER_LIBGCM        // Supports PS3.
 		};
 		
