@@ -29,7 +29,6 @@ class RenderMesh
 			NUM_PRIMITIVES
 		};
 	
-	protected:
 		RenderMesh(const RenderMeshDesc &desc);
 		virtual ~RenderMesh(void);
 		

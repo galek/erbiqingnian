@@ -13,7 +13,7 @@
 #include "D3D9RenderInstanceBuffer.h"
 
 #include <renderMeshDesc.h>
-#include <renderMeshContext.h>
+#include <renderElement.h>
 #include "D3D9RenderMesh.h"
 
 #include <renderMaterialDesc.h>
@@ -527,33 +527,17 @@ void D3D9Render::bindMeshContext(const RenderElement &context)
 	convertToD3D9(m_environment.modelViewMatrix, modelView);
 
 	// it appears that D3D winding is backwards, so reverse them...
-    DWORD cullMode = D3DCULL_CCW;
-    switch(context.cullMode)
-    {
-    case RenderElement::CLOCKWISE: 
-       cullMode = D3DCULL_CCW;
-        break;
-    case RenderElement::COUNTER_CLOCKWISE: 
-        cullMode = D3DCULL_CW;
-        break;
-    case RenderElement::NONE: 
-        cullMode = D3DCULL_NONE;
-        break;
-    default:
-        ph_assert2(0, "Invalid Cull Mode");
-    }
 
-    m_d3dDevice->SetRenderState(D3DRS_CULLMODE, cullMode);
-
-    ph_assert2(context.numBones <= RENDERER_MAX_BONES, "Too many bones.");
-	if(context.boneMatrices && context.numBones>0 && context.numBones <= RENDERER_MAX_BONES)
-	{
-		for(uint32 i=0; i<context.numBones; i++)
-		{
-			convertToD3D9(m_environment.boneMatrices[i], context.boneMatrices[i]);
-		}
-		m_environment.numBones = context.numBones;
-	}
+	// ¹Ç÷À¾ØÕó ×öÓ²¼þÃÉÆ¤
+//     ph_assert2(context.numBones <= RENDERER_MAX_BONES, "Too many bones.");
+// 	if(context.boneMatrices && context.numBones>0 && context.numBones <= RENDERER_MAX_BONES)
+// 	{
+// 		for(uint32 i=0; i<context.numBones; i++)
+// 		{
+// 			convertToD3D9(m_environment.boneMatrices[i], context.boneMatrices[i]);
+// 		}
+// 		m_environment.numBones = context.numBones;
+// 	}
 }
 
 void D3D9Render::beginMultiPass(void)
@@ -643,6 +627,17 @@ void D3D9Render::notifyResourcesResetDevice(void)
 	{
 		m_resources[i]->onDeviceReset();
 	}
+}
+
+void D3D9Render::convertProjectionMatrix( const Matrix4& matrix,Matrix4& dest )
+{
+	dest = matrix;
+
+	// Convert depth range from [-1,+1] to [0,1]
+	dest[2][0] = (dest[2][0] + dest[3][0]) / 2;
+	dest[2][1] = (dest[2][1] + dest[3][1]) / 2;
+	dest[2][2] = (dest[2][2] + dest[3][2]) / 2;
+	dest[2][3] = (dest[2][3] + dest[3][3]) / 2;
 }
 
 _NAMESPACE_END

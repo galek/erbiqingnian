@@ -1,6 +1,7 @@
 
 #include "testApplication.h"
 #include "render.h"
+#include "renderCamera.h"
 
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
@@ -37,6 +38,9 @@ void TestApplication::onInit( void )
 	}
 
 	m_debugGrid = new RenderGridShape(*m_renderer,100,40);
+
+	m_camera->setNearClipDistance(0.1f);
+	m_camera->setFarClipDistance(10000.0f);
 }
 
 void TestApplication::onShutdown( void )
@@ -70,10 +74,8 @@ void TestApplication::onRender( void )
 
 			m_debugLine->queueForRenderLine();
 
-			//renderer->queueMeshForRender(m_debugGrid->getMesh()->)
-
 			// äÖÈ¾³¡¾°
-			renderer->render(getEyeTransform(), m_projection);
+			renderer->render(m_camera);
 
 			m_rewriteBuffers = renderer->swapBuffers();
 		}

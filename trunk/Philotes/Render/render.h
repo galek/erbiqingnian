@@ -70,7 +70,7 @@ class Render
 		void queueLightForRender(RenderLight &light);
 		
 		// renders the current scene to the offscreen buffers. empties the render queue when done.
-		void render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *target=0, bool depthOnly=false);
+		void render(RenderCamera* camera, RenderTarget *target=0, bool depthOnly=false);
 		
 		// sets the ambient lighting color.
 		void setAmbientColor(const Colour &ambientColor);
@@ -104,6 +104,8 @@ public:
 		// Disable this performance optimization when CUDA/Graphics Interop is in use
 		void setVertexBufferDeferredUnlocking( bool enabled );
 		bool getVertexBufferDeferredUnlocking() const;
+
+		virtual void convertProjectionMatrix(const Matrix4& matrix,Matrix4& dest) = 0;
 	
 	private:
 		void renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass);
@@ -112,13 +114,13 @@ public:
 	private:
 		virtual bool beginRender(void) { return true;}
 		virtual void endRender(void) {}
-		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj)    = 0;
-		virtual void bindAmbientState(const Colour &ambientColor)                 = 0;
-		virtual void bindDeferredState(void)                                             = 0;
-		virtual void bindMeshContext(const RenderElement &context)                 = 0;
-		virtual void beginMultiPass(void)                                                = 0;
-		virtual void endMultiPass(void)                                                  = 0;
-		virtual void renderDeferredLight(const RenderLight &light)                     = 0;
+		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj)		= 0;
+		virtual void bindAmbientState(const RenderColor &ambientColor)			= 0;
+		virtual void bindDeferredState(void)									= 0;
+		virtual void bindMeshContext(const RenderElement &context)				= 0;
+		virtual void beginMultiPass(void)										= 0;
+		virtual void endMultiPass(void)											= 0;
+		virtual void renderDeferredLight(const RenderLight &light)				= 0;
 		
 		virtual bool isOk(void) const = 0;
 
@@ -130,7 +132,6 @@ public:
 		
 		std::vector<RenderElement*>	m_visibleLitMeshes;
 		std::vector<RenderElement*>	m_visibleUnlitMeshes;
-		std::vector<RenderElement*>	m_screenSpaceMeshes;
 		std::vector<RenderLight*>			m_visibleLights;
 		
 		Colour								m_ambientColor;

@@ -86,6 +86,9 @@ public:
 	
 	virtual void						processGamepads();
 
+
+	Render*								getRender();
+
 protected:
 
 	RenderWindow*						m_app;

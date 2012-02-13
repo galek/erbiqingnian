@@ -87,7 +87,4 @@ namespace Philo {
         _PhiloCommonExport friend std::ostream& operator<< (std::ostream& o, const Plane& p);
     };
 
-	typedef std::vector<Plane> PlaneList;
-
-
 } // namespace Philo

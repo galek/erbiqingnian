@@ -450,7 +450,10 @@ D3D9RenderMaterial::~D3D9RenderMaterial(void)
 	for(uint32 i=0; i<NUM_PASSES; i++)
 	{
 		IDirect3DPixelShader9 *fp = m_fragmentPrograms[i];
-		if(fp) fp->Release();
+		if(fp) 
+		{
+			fp->Release();
+		}
 	}
 }
 
@@ -481,6 +484,25 @@ void D3D9RenderMaterial::bind(RenderMaterial::Pass pass, RenderMaterialInstance 
 			d3dDevice->SetRenderState(D3DRS_SRCBLEND,         (DWORD)m_d3dSrcBlendFunc);
 			d3dDevice->SetRenderState(D3DRS_DESTBLEND,        (DWORD)m_d3dDstBlendFunc);
 		}
+
+		// µ¥Ë«Ãæ
+		DWORD cullMode = D3DCULL_CCW;
+		switch(m_cullMode)
+		{
+		case RenderMaterial::CLOCKWISE: 
+			cullMode = D3DCULL_CCW;
+			break;
+		case RenderMaterial::COUNTER_CLOCKWISE: 
+			cullMode = D3DCULL_CW;
+			break;
+		case RenderMaterial::NONE: 
+			cullMode = D3DCULL_NONE;
+			break;
+		default:
+			ph_assert2(0, "Invalid Cull Mode");
+		}
+
+		d3dDevice->SetRenderState(D3DRS_CULLMODE, cullMode);
 
 		if(instanced)
 		{

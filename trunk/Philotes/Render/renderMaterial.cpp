@@ -83,9 +83,10 @@ RenderMaterial::RenderMaterial(const RenderMaterialDesc &desc) :
 	m_srcBlendFunc(desc.srcBlendFunc),
 	m_dstBlendFunc(desc.dstBlendFunc)
 {
-	m_alphaTestRef       = desc.alphaTestRef;
-	m_blending           = desc.blending;
-	m_variableBufferSize = 0;
+	m_alphaTestRef			= desc.alphaTestRef;
+	m_blending				= desc.blending;
+	m_variableBufferSize	= 0;
+	m_cullMode				= CLOCKWISE;
 }
 
 RenderMaterial::~RenderMaterial(void)

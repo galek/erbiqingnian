@@ -1214,4 +1214,5 @@ String::find( const char* ptr, size_type offset, size_type n ) const
 	return (npos);	// no match
 }
 
+
 } // namespace System
