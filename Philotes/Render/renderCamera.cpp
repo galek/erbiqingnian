@@ -19,7 +19,7 @@ RenderCamera::RenderCamera( const String& name)
 {
 
 	// Reasonable defaults to camera params
-	mFOVy = Radian(float(PI)/4.0f);
+	mFOVy = Radian(Math::PI/4.0f);
 	mNearDist = 100.0f;
 	mFarDist = 100000.0f;
 	mAspect = 1.33333333333333f;
@@ -139,7 +139,7 @@ void RenderCamera::setDirection(const Vector3& vec)
 		{
 			// Oops, a 180 degree turn (infinite possible rotation axes)
 			// Default to yaw i.e. use current UP
-			rotQuat.FromAngleAxis(Radian(float(PI)), axes[1]);
+			rotQuat.FromAngleAxis(Radian(Math::PI), axes[1]);
 		}
 		else
 		{

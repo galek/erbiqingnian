@@ -18,7 +18,6 @@ bool mainImpl()
 	bool ok = true;
 	while (app.isOpen())
 	{
-		app.doInput();
 		app.update();
 	}
 	app.close();

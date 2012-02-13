@@ -139,6 +139,7 @@ public:
     void				Set(const char* ptr, SizeT length);		// set as char ptr, with explicit length
 	const char*	AsCharPtr() const;							// return contents as character pointer
     
+	void		SetInt64(int64 val);		// set as int value
     void		SetInt(int val);		// set as int value
     void		SetFloat(float val);	// set as float value
     void		SetBool(bool val);		// set as bool value
@@ -407,6 +408,13 @@ inline void
 String::SetInt(int val)
 {
     this->Format("%d", val);
+}
+
+//------------------------------------------------------------------------------
+inline void
+String::SetInt64(int64 val)
+{
+	this->Format("%d", val);
 }
 
 //------------------------------------------------------------------------------

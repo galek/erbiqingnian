@@ -60,6 +60,8 @@ namespace Philo
 			return "Network Error";
 		case ERR_UNKNOW:
 			return "Unknow Error";
+		case ERR_INPUT:
+			return "Input Error";
 		default:
 			return "Unknow Error";
 		}

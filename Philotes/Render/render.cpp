@@ -1,11 +1,12 @@
 
-#include <render.h>
-#include <renderMesh.h>
-#include <renderMeshContext.h>
-#include <renderMaterial.h>
-#include <renderMaterialInstance.h>
-#include <renderTarget.h>
-#include <renderLight.h>
+#include "render.h"
+#include "renderCamera.h"
+#include "renderMesh.h"
+#include "renderElement.h"
+#include "renderMaterial.h"
+#include "renderMaterialInstance.h"
+#include "renderTarget.h"
+#include "renderLight.h"
 #include <algorithm>
 
 #include "d3d9/D3D9Render.h"

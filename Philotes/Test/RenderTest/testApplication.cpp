@@ -6,6 +6,8 @@
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
 
+#include "testCamera.h"
+
 _NAMESPACE_BEGIN
 
 TestApplication::TestApplication( const GearCommandLine& cmdline )
@@ -22,8 +24,10 @@ TestApplication::~TestApplication()
 }
 
 void TestApplication::onInit( void )
-{
+{	
 	srand(::GetTickCount());
+
+	m_cameraMgr = new TestCameraManager(m_camera);
 
 	// »æÖÆline²âÊÔ
 	m_debugLine = new RenderDebugLine(*m_renderer,*m_assetManager);
@@ -45,6 +49,9 @@ void TestApplication::onInit( void )
 
 void TestApplication::onShutdown( void )
 {
+	delete m_cameraMgr;
+	m_cameraMgr = NULL;
+
 	delete m_debugLine;
 	m_debugLine = NULL;
 
@@ -95,6 +102,36 @@ int TestApplication::getDisplayWidth( void )
 int TestApplication::getDisplayHeight( void )
 {
 	return 600;
+}
+
+bool TestApplication::keyPressed( const KeyEvent &arg )
+{
+	m_cameraMgr->injectKeyDown(arg);
+	return true;
+}
+
+bool TestApplication::keyReleased( const KeyEvent &arg )
+{
+	m_cameraMgr->injectKeyUp(arg);
+	return true;
+}
+
+bool TestApplication::mouseMoved( const MouseEvent &arg )
+{
+	m_cameraMgr->injectMouseMove(arg);
+	return true;
+}
+
+bool TestApplication::mousePressed( const MouseEvent &arg, MouseButtonID id )
+{
+	m_cameraMgr->injectMouseDown(arg,id);
+	return true;
+}
+
+bool TestApplication::mouseReleased( const MouseEvent &arg, MouseButtonID id )
+{
+	m_cameraMgr->injectMouseUp(arg,id);
+	return true;
 }
 
 _NAMESPACE_END

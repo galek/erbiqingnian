@@ -6,7 +6,6 @@
 
 #include "render.h"
 #include "renderCamera.h"
-#include "renderDesc.h"
 #include "renderMemoryMacros.h"
 
 _NAMESPACE_BEGIN
@@ -14,7 +13,7 @@ _NAMESPACE_BEGIN
 char gShadersDir[1024];
 char gAssetDir[1024];
 
-GearApplication::GearApplication(const GearCommandLine &cmdline, const char *assetPathPrefix, MouseButton camMoveButton) :
+GearApplication::GearApplication(const GearCommandLine &cmdline, const char *assetPathPrefix) :
 	m_cmdline(cmdline)
 {
 	m_platform->correctCurrentDir();
@@ -36,14 +35,12 @@ GearApplication::GearApplication(const GearCommandLine &cmdline, const char *ass
 	m_renderer     = 0;
 	m_sceneSize    = 1.0f;
 	m_assetManager = 0;
-	m_mouseX       = 0;
-	m_mouseY       = 0;
 	m_timeCounter  = 0;
-	memset(m_mouseButtonState, 0, sizeof(m_mouseButtonState));
-	memset(m_keyState,         0, sizeof(m_keyState));
-	m_camMoveButton = camMoveButton;
-
 	m_camera = new RenderCamera("maincam");
+
+	m_inputManager = 0;
+	m_keyboard = 0;
+	m_mouse = 0;
 }
 
 GearApplication::~GearApplication(void)
@@ -56,9 +53,6 @@ GearApplication::~GearApplication(void)
 void GearApplication::onOpen( void )
 {
 	m_platform->preRenderSetup();
-
-	memset(m_mouseButtonState, 0, sizeof(m_mouseButtonState));
-	memset(m_keyState,         0, sizeof(m_keyState));
 
 	char rendererdir[1024];
 	strcpy_s(rendererdir, sizeof(rendererdir), m_assetPathPrefix);
@@ -77,15 +71,20 @@ void GearApplication::onOpen( void )
 	m_assetManager->addSearchPath(m_assetPathPrefix);
 	m_assetManager->addSearchPath(rendererdir);
 
+	setupInput();
+
 	onInit();
 }
 
 bool GearApplication::onClose( void )
 {
 	onShutdown();
-	DELETESINGLE(m_assetManager);
 
+	shutdownInput();
+
+	DELETESINGLE(m_assetManager);
 	SAFE_RELEASE(m_renderer);
+
 	m_platform->postRenderRelease();
 
 	return true;
@@ -99,6 +98,9 @@ void GearApplication::onDraw( void )
 	ph_assert(dtime >= 0);
 	if(dtime > 0)
 	{
+		// ¸üÐÂÊäÈë
+		captureInput();
+
 		onTickPreRender(dtime);
 		
 		if(m_renderer)
@@ -107,79 +109,44 @@ void GearApplication::onDraw( void )
 		}
 		
 		onTickPostRender(dtime);
-
-		// update scene...
-		if(m_keyState[KEY_W]) 
-		{
-			m_camera->moveRelative(Vector3(0,0,0.01f));
-		}
-		if(m_keyState[KEY_A]) 
-		{
-			m_camera->moveRelative(Vector3(-0.01f,0,0));
-		}
-		if(m_keyState[KEY_S]) 
-		{
-			m_camera->moveRelative(Vector3(0,0,-0.01f));
-		}
-		if(m_keyState[KEY_D]) 
-		{
-			m_camera->moveRelative(Vector3(0.01f,0,0));
-		}
 	}
 }
 
-void GearApplication::rotateCamera( scalar dx, scalar dy )
+void GearApplication::setupInput()
 {
-	const float eyeCap      = 1.5f;
+	ParamList pl;
+	size_t winHandle = 0;
 
-	const float eyeRotSpeed = 0.005f;
-	m_eyeRot.x -= dy * eyeRotSpeed;
-	m_eyeRot.y += dx * eyeRotSpeed;
-	if(m_eyeRot.x >  eyeCap) 
+	String hwnd;
+	hwnd.SetInt64(m_platform->getWindowHandle());
+	pl.insert(std::make_pair("WINDOW", hwnd.c_str()));
+
+	m_inputManager = GearInputManager::createInputSystem(pl);
+
+	GearInputObject* obj = m_inputManager->createInputObject(PI_Keyboard, true);
+	m_keyboard = static_cast<GearKeyboard*>(obj);
+	m_mouse = static_cast<GearMouse*>(m_inputManager->createInputObject(PI_Mouse, true));
+
+	m_keyboard->setEventCallback(this);
+	m_mouse->setEventCallback(this);
+}
+
+void GearApplication::shutdownInput()
+{
+	if (m_inputManager)
 	{
-		m_eyeRot.x =  eyeCap;
+		m_inputManager->destroyInputObject(m_keyboard);
+		m_inputManager->destroyInputObject(m_mouse);
+
+		GearInputManager::destroyInputSystem(m_inputManager);
+		m_inputManager = NULL;
 	}
-	if(m_eyeRot.x < -eyeCap)
-	{
-		m_eyeRot.x = -eyeCap;
-	}
 }
 
-void GearApplication::doInput( void )
+void GearApplication::captureInput()
 {
-	m_platform->doInput();
-}
-
-void GearApplication::onMouseMove( uint32 x, uint32 y )
-{
-	if(m_mouseButtonState[m_camMoveButton])
-	{
-		uint32 dx = ((uint32)x)-(uint32)m_mouseX;
-		uint32 dy = ((uint32)y)-(uint32)m_mouseY;
-		rotateCamera((scalar)dx, (scalar)dy);
-	}
-	m_mouseX = x;
-	m_mouseY = y;
-}
-
-void GearApplication::onMouseDown( uint32 /*x*/, uint32 /*y*/, MouseButton button )
-{
-	m_mouseButtonState[button] = true;
-}
-
-void GearApplication::onMouseUp( uint32 /*x*/, uint32 /*y*/, MouseButton button )
-{
-	m_mouseButtonState[button] = false;
-}
-
-void GearApplication::onKeyDown( KeyCode keyCode )
-{
-	m_keyState[keyCode] = true;
-}
-
-void GearApplication::onKeyUp( KeyCode keyCode )
-{
-	m_keyState[keyCode] = false;
+	m_mouse->capture();
+	m_keyboard->capture();
 }
 
 _NAMESPACE_END
