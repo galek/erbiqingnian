@@ -51,8 +51,6 @@ m_assetManager(assetManager)
 {
 
 	std::vector<const char*> mVertexShaderPaths;
-	//m_material         = 0;
-	//m_materialInstance = 0;
 
 	Render &renderer = assetManager.getRender();
 
@@ -172,7 +170,7 @@ m_assetManager(assetManager)
 						ph_assert(textureAsset);
 						if(textureAsset)
 						{
-							m_assets.push_back(textureAsset);
+							m_assets.Append(textureAsset);
 							const RenderMaterial::Variable *var = materialStruct.m_materialInstance->findVariable(varname, RenderMaterial::VARIABLE_SAMPLER2D);
 							ph_assert(var);
 							if(var)
@@ -186,19 +184,19 @@ m_assetManager(assetManager)
 				}
 			}
 
-			m_vertexShaders.push_back(materialStruct);
+			m_vertexShaders.Append(materialStruct);
 		}
 	}
 }
 
 GearMaterialAsset::~GearMaterialAsset(void)
 {
-	uint32 numAssets = (uint32)m_assets.size();
+	uint32 numAssets = (uint32)m_assets.Size();
 	for(uint32 i=0; i<numAssets; i++)
 	{
 		m_assetManager.returnAsset(*m_assets[i]);
 	}
-	for (size_t index = 0; index < m_vertexShaders.size(); index++)
+	for (SizeT index = 0; index < m_vertexShaders.Size(); index++)
 	{
 		if(m_vertexShaders[index].m_materialInstance) delete m_vertexShaders[index].m_materialInstance;
 		if(m_vertexShaders[index].m_material)         m_vertexShaders[index].m_material->release();
@@ -207,7 +205,7 @@ GearMaterialAsset::~GearMaterialAsset(void)
 
 size_t GearMaterialAsset::getNumVertexShaders() const
 {
-	return m_vertexShaders.size();
+	return m_vertexShaders.Size();
 }
 
 RenderMaterial *GearMaterialAsset::getMaterial(size_t vertexShaderIndex)
@@ -222,7 +220,7 @@ RenderMaterialInstance *GearMaterialAsset::getMaterialInstance(size_t vertexShad
 
 bool GearMaterialAsset::isOk(void) const
 {
-	return !m_vertexShaders.empty();
+	return !m_vertexShaders.IsEmpty();
 }
 
 unsigned int GearMaterialAsset::getMaxBones(size_t vertexShaderIndex) const
@@ -230,6 +228,33 @@ unsigned int GearMaterialAsset::getMaxBones(size_t vertexShaderIndex) const
 	return m_vertexShaders[vertexShaderIndex].m_maxBones;
 }
 
+GearMaterialAsset* GearMaterialAsset::getPrefabAsset( PrefabMaterial type )
+{
+	switch (type)
+	{
+	case PM_LIGHT:
+		{
+			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
+				)->getAsset("materials/simple_lit.xml", GearAsset::ASSET_MATERIAL));
+			break;
+		}
 
+	case PM_LIGHT_COLOR:
+		{
+			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
+				)->getAsset("materials/simple_lit_color.xml", GearAsset::ASSET_MATERIAL));
+			break;
+		}
+
+	case PM_UNLIGHT:
+		{
+			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
+				)->getAsset("materials/simple_unlit.xml", GearAsset::ASSET_MATERIAL));
+			break;
+		}
+	default:
+		return NULL;
+	}
+}
 
 _NAMESPACE_END

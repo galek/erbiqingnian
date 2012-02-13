@@ -1,8 +1,9 @@
 
 #include "renderDebugGrid.h"
-
+#include "gearsApplication.h"
 #include "gearsAsset.h"
 #include "gearsMaterialAsset.h"
+#include "renderMaterialInstance.h"
 #include "gearsAssetManager.h"
 #include "render.h"
 #include "renderMesh.h"
@@ -13,8 +14,8 @@
 
 _NAMESPACE_BEGIN
 
-RenderGridShape::RenderGridShape( Render &renderer, uint32 size, float cellSize ):
-	RenderShape(renderer)
+RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
+	RenderElement()
 {
 	m_vertexBuffer = 0;
 
@@ -27,7 +28,7 @@ RenderGridShape::RenderGridShape( Render &renderer, uint32 size, float cellSize 
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION] = RenderVertexBuffer::FORMAT_FLOAT3;
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_COLOR]    = RenderVertexBuffer::FORMAT_COLOR;
 	vbdesc.maxVertices                                              = numVerts;
-	m_vertexBuffer = m_renderer.createVertexBuffer(vbdesc);
+	m_vertexBuffer = GearApplication::getApp()->getRender()->createVertexBuffer(vbdesc);
 	if(m_vertexBuffer)
 	{
 		RenderMeshDesc meshdesc;
@@ -36,7 +37,7 @@ RenderGridShape::RenderGridShape( Render &renderer, uint32 size, float cellSize 
 		meshdesc.numVertexBuffers	= 1;
 		meshdesc.firstVertex		= 0;
 		meshdesc.numVertices		= numVerts;
-		m_mesh						= m_renderer.createMesh(meshdesc);
+		m_mesh						= GearApplication::getApp()->getRender()->createMesh(meshdesc);
 	}
 	if(m_vertexBuffer && m_mesh)
 	{
@@ -113,9 +114,13 @@ RenderGridShape::RenderGridShape( Render &renderer, uint32 size, float cellSize 
 		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_COLOR);
 		m_vertexBuffer->unlockSemantic(RenderVertexBuffer::SEMANTIC_POSITION);
 	}
+
+	m_materialAsset = GearMaterialAsset::getPrefabAsset(PM_UNLIGHT);
+
+	setMaterialInstance(m_materialAsset ? new RenderMaterialInstance(*m_materialAsset->getMaterial(0)) : 0);
 }
 
-RenderGridShape::~RenderGridShape( void )
+RenderGridElement::~RenderGridElement( void )
 {
 	if(m_vertexBuffer) 
 	{
@@ -126,6 +131,11 @@ RenderGridShape::~RenderGridShape( void )
 	{
 		m_mesh->release();
 		m_mesh = 0;
+	}
+
+	if(m_materialAsset)
+	{
+		GearAssetManager::getSingleton()->returnAsset(*m_materialAsset);
 	}
 }
 

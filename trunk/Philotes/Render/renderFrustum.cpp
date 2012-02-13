@@ -5,7 +5,7 @@
 #include "math/planeBoundedVolume.h"
 
 #include "render.h"
-#include "gearsPlatformUtil.h"
+#include "gearsApplication.h"
 
 _NAMESPACE_BEGIN
 
@@ -483,7 +483,7 @@ void RenderFrustum::updateFrustumImpl(void) const
 		} // ortho            
 	} // !mCustomProjMatrix
 
-	Render* renderSystem = GearPlatformUtil::getSingleton()->getRender();
+	Render* renderSystem = GearApplication::getApp()->getRender();
 	if (renderSystem)
 	{
 		renderSystem->convertProjectionMatrix(mProjMatrix, mProjMatrixRS);

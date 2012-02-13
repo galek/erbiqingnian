@@ -91,7 +91,7 @@ RenderMaterial::RenderMaterial(const RenderMaterialDesc &desc) :
 
 RenderMaterial::~RenderMaterial(void)
 {
-	uint32 numVariables = (uint32)m_variables.size();
+	uint32 numVariables = (uint32)m_variables.Size();
 	for(uint32 i=0; i<numVariables; i++)
 	{
 		delete m_variables[i];
@@ -102,7 +102,7 @@ void RenderMaterial::bind(RenderMaterial::Pass pass, RenderMaterialInstance *mat
 {
 	if(materialInstance)
 	{
-		uint32 numVariables = (uint32)m_variables.size();
+		uint32 numVariables = (uint32)m_variables.Size();
 		for(uint32 i=0; i<numVariables; i++)
 		{
 			const Variable &variable = *m_variables[i];

@@ -6,16 +6,18 @@
 
 _NAMESPACE_BEGIN
 
-class RenderGridShape : RenderShape
+class RenderGridElement : public RenderElement
 {
 public:
-	RenderGridShape(Render &renderer, uint32 size, float cellSize);
+	RenderGridElement(uint32 size, float cellSize);
 
-	virtual ~RenderGridShape(void);
+	virtual ~RenderGridElement(void);
 
 private:
 
-	RenderVertexBuffer *m_vertexBuffer;
+	RenderVertexBuffer	*m_vertexBuffer;
+
+	GearMaterialAsset	*m_materialAsset;
 };
 
 _NAMESPACE_END

@@ -11,8 +11,10 @@ class RenderMaterialInstance
 {
 	friend class RenderMaterial;
 	public:
+
 		RenderMaterialInstance(RenderMaterial &material);
-		~RenderMaterialInstance(void);
+		
+		virtual ~RenderMaterialInstance(void);
 		
 		RenderMaterial &getMaterial(void) { return m_material; }
 		
@@ -23,8 +25,10 @@ class RenderMaterialInstance
 		RenderMaterialInstance &operator=(const RenderMaterialInstance&);
 		
 	private:
-		RenderMaterial &m_material;
-		uint8             *m_data;
+
+		RenderMaterial&		m_material;
+
+		uint8*				m_data;
 		
 };
 

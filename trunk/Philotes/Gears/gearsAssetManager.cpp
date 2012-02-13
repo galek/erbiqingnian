@@ -12,9 +12,9 @@
 
 namespace rapidxml
 {
-	void parse_error_handler(const char * /*what*/, void * /*where*/)
+	void parse_error_handler(const char * what, void * /*where*/)
 	{
-		ph_assert(0);
+		ph_error("xml error : %s",what);
 	}
 }
 
@@ -23,7 +23,7 @@ _NAMESPACE_BEGIN
 _IMPLEMENT_SINGLETON(GearAssetManager);
 
 GearAssetManager::GearAssetManager(Render &renderer) :
-m_renderer(renderer)
+	m_renderer(renderer)
 {
 }
 
@@ -144,8 +144,6 @@ GearAsset *GearAssetManager::loadAsset(const char *path)
 
 		ph_assert(file);
 
-		// printf("Path: %s   (%s)\n", path, extension);
-
 		if(file)
 		{
 			if(!strcmp(extension, "xml"))      asset = loadXMLAsset(*file, path);
@@ -180,7 +178,7 @@ GearAsset *GearAssetManager::loadAsset(const char *path)
 			}
 		}
 	}
-	//ph_assert(asset && asset->isOk());
+	
 	if(asset && !asset->isOk())
 	{
 		delete asset;

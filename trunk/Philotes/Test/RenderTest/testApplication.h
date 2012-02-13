@@ -37,10 +37,9 @@ public:
 protected:
 
 	bool				m_rewriteBuffers;    // flag for rewriting static buffers on device reset
-	Matrix4				m_projection;
 
-	RenderDebugLine*	m_debugLine;
-	RenderGridShape*	m_debugGrid;
+	RenderLineElement*	m_debugLine;
+	RenderGridElement*	m_debugGrid;
 	
 	TestCameraManager*	m_cameraMgr;
 };

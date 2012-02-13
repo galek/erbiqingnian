@@ -48,7 +48,9 @@ class Render
 		static const char *getDriverTypeName(DriverType type);
 		
 	protected:
+
 		Render(DriverType driver);
+
 		virtual ~Render(void);
 		
 	public:

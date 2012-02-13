@@ -36,7 +36,7 @@ public:
 
 	virtual void				_notifyAttached(RenderNode* parent);
 
-	bool						isLocked(void) const;
+	virtual bool				preQueuedToRender(){return true;}
 
 protected:
 
@@ -44,8 +44,6 @@ protected:
 	
 	RenderMaterialInstance		*m_materialInstance;
 	
-	Render*						m_renderer;
-
 	RenderNode*					m_parentNode;
 
 	String						m_name;

@@ -30,18 +30,20 @@ void TestApplication::onInit( void )
 	m_cameraMgr = new TestCameraManager(m_camera);
 
 	// »æÖÆline²âÊÔ
-	m_debugLine = new RenderDebugLine(*m_renderer,*m_assetManager);
+	m_debugLine = new RenderLineElement("dbg_line");
+
+	Vector3 ptLast(Math::RangeRandom(-30,30),Math::RangeRandom(-30,30),Math::RangeRandom(-30,30));
 
 	m_debugLine->clearLine();
 	for (size_t i=0; i<100; i++)
 	{
-		Vector3 vec0 = Vector3(-(float)(rand()%10),-(float)(rand()%10),-(float)(rand()%10));
-		Vector3 vec1 = Vector3((float)(rand()%10),(float)(rand()%10),(float)(rand()%10));
-
-		m_debugLine->addLine(vec0,vec1,Colour(1,0,0,1));
+		Vector3 pt1(Math::RangeRandom(-30,30),Math::RangeRandom(-30,30),Math::RangeRandom(-30,30));
+		
+		m_debugLine->addLine(ptLast,pt1,Colour(1,0,0,1));
+		ptLast = pt1;
 	}
 
-	m_debugGrid = new RenderGridShape(*m_renderer,100,40);
+	m_debugGrid = new RenderGridElement(100,40);
 
 	m_camera->setNearClipDistance(0.1f);
 	m_camera->setFarClipDistance(10000.0f);
@@ -76,10 +78,9 @@ void TestApplication::onRender( void )
 		if (windowWidth > 0 && windowHeight > 0)
 		{
 			renderer->clearBuffers();
-
-			Math::makeProjectionMatrix(Radian(Degree(45)),windowWidth / (float)windowHeight, 0.1f, 10000.0f,m_projection);
-
-			m_debugLine->queueForRenderLine();
+			
+			renderer->queueMeshForRender(*m_debugLine);
+			renderer->queueMeshForRender(*m_debugGrid);
 
 			// äÖÈ¾³¡¾°
 			renderer->render(m_camera);

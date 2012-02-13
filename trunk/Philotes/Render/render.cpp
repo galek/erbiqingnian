@@ -92,10 +92,8 @@ const char *Render::getDeviceName(void) const
 // adds a mesh to the render queue.
 void Render::queueMeshForRender(RenderElement &mesh)
 {
-	ph_assert2(!mesh.isLocked(), "Mesh Context is already locked to a Render.");
-	if(!mesh.isLocked())
+	if (mesh.preQueuedToRender())
 	{
-		mesh.m_renderer = this;
 		switch (mesh.getMaterial()->getType())
 		{
 		case  RenderMaterial::TYPE_LIT:
@@ -103,7 +101,7 @@ void Render::queueMeshForRender(RenderElement &mesh)
 			break;
 		default: //case RenderMaterial::TYPE_UNLIT:
 			m_visibleUnlitMeshes.Append(&mesh);
-		//	break;
+			//	break;
 		}
 	}
 }
@@ -239,7 +237,6 @@ void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass p
 			if(lastMesh) lastMesh->bind();
 		}
 		if(lastMesh) context.m_mesh->render(context.getMaterial());
-		context.m_renderer = 0;
 	}
 	if(lastMesh)     lastMesh->unbind();
 	if(lastMaterial) lastMaterial->unbind();
