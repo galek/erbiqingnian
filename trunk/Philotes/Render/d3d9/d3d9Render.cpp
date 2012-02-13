@@ -32,7 +32,7 @@
 #include <renderTargetDesc.h>
 #include "D3D9RenderTarget.h"
 
-#include "gearsPlatform.h"
+#include "gearsPlatformUtil.h"
 
 _NAMESPACE_BEGIN
 
@@ -159,7 +159,7 @@ D3D9Render::D3D9Render(uint64 windowHandle) :
 	
 	m_viewMatrix = Matrix4::IDENTITY;
 	
-	GearPlatform* m_platform = GearPlatform::getSingleton();
+	GearPlatformUtil* m_platform = GearPlatformUtil::getSingleton();
 	m_d3d = static_cast<IDirect3D9*>(m_platform->initializeD3D9());
 	ph_assert2(m_d3d, "Could not create Direct3D9 Interface.");
 	if(m_d3d)
@@ -190,7 +190,7 @@ D3D9Render::D3D9Render(uint64 windowHandle) :
 D3D9Render::~D3D9Render(void)
 {
 	assert(!m_textVDecl);
-	GearPlatform* m_platform = GearPlatform::getSingleton();
+	GearPlatformUtil* m_platform = GearPlatformUtil::getSingleton();
 
 	if(m_d3dDepthStencilSurface)
 	{
@@ -207,11 +207,11 @@ bool D3D9Render::checkResize(bool isDeviceLost)
 {
 	bool isDeviceReset = false;
 #if defined(RENDERER_WINDOWS)
-	if(GearPlatform::getSingleton()->getWindowHandle() && m_d3dDevice)
+	if(GearPlatformUtil::getSingleton()->getWindowHandle() && m_d3dDevice)
 	{
 		uint32 width  = 0;
 		uint32 height = 0;
-		GearPlatform::getSingleton()->getWindowSize(width, height);
+		GearPlatformUtil::getSingleton()->getWindowSize(width, height);
 		if(width && height && (width != m_displayWidth || height != m_displayHeight) || isDeviceLost)
 		{
 			bool needsReset = (m_displayWidth&&m_displayHeight ? true : false);
@@ -329,7 +329,7 @@ bool D3D9Render::swapBuffers(void)
 	bool isDeviceReset = false;
 	if(m_d3dDevice)
 	{
-		HRESULT result = GearPlatform::getSingleton()->D3D9Present();
+		HRESULT result = GearPlatformUtil::getSingleton()->D3D9Present();
 		ph_assert2(result == D3D_OK || result == D3DERR_DEVICELOST, "Unknown Direct3D9 error when swapping buffers.");
 		if(result == D3D_OK || result == D3DERR_DEVICELOST)
 		{
@@ -570,7 +570,7 @@ bool D3D9Render::isOk(void) const
 	if(!m_d3d)            ok = false;
 	if(!m_d3dDevice)      ok = false;
 #if defined(RENDERER_WINDOWS)
-	ok = GearPlatform::getSingleton()->isD3D9ok();
+	ok = GearPlatformUtil::getSingleton()->isD3D9ok();
 	if(!m_d3dx.m_library) ok = false;
 #endif
 	return ok;

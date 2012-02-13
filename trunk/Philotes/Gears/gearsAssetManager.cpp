@@ -20,6 +20,8 @@ namespace rapidxml
 
 _NAMESPACE_BEGIN
 
+_IMPLEMENT_SINGLETON(GearAssetManager);
+
 GearAssetManager::GearAssetManager(Render &renderer) :
 m_renderer(renderer)
 {

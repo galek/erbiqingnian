@@ -47,8 +47,6 @@ public:
 
 public:
 
-	virtual bool	isValid(void) const {return true;}
-	
 	virtual void setFOVy(const Radian& fovy);
 
 	/** Retrieves the frustums Y-dimension Field Of View (FOV).

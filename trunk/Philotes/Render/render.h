@@ -108,7 +108,7 @@ public:
 		virtual void convertProjectionMatrix(const Matrix4& matrix,Matrix4& dest) = 0;
 	
 	private:
-		void renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass);
+		void renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass pass);
 		void renderDeferredLights(void);
 	
 	private:
@@ -130,9 +130,9 @@ public:
 	private:
 		const DriverType					m_driver;
 		
-		std::vector<RenderElement*>	m_visibleLitMeshes;
-		std::vector<RenderElement*>	m_visibleUnlitMeshes;
-		std::vector<RenderLight*>			m_visibleLights;
+		Array<RenderElement*>				m_visibleLitMeshes;
+		Array<RenderElement*>				m_visibleUnlitMeshes;
+		Array<RenderLight*>					m_visibleLights;
 		
 		Colour								m_ambientColor;
 		Colour								m_clearColor;

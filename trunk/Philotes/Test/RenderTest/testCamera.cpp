@@ -104,8 +104,5 @@ bool TestCameraManager::update( float elapsed )
 	return true;
 }
 
-
-
-
 _NAMESPACE_END
 

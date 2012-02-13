@@ -465,7 +465,7 @@ Variant::Copy(const Variant& rhs)
             this->blobArray = ph_new(Array<Blob>(*rhs.blobArray));
             break;
         default:
-            n_error("Variant::Copy(): invalid type!");
+            ph_error("Variant::Copy(): invalid type!");
             break;
     }
 }
@@ -1066,7 +1066,7 @@ Variant::operator==(const Variant& rhs) const
             case Matrix44:
                 return this->m == rhs.m;
             default:
-                n_error("Variant::operator==(): invalid variant type!");
+                ph_error("Variant::operator==(): invalid variant type!");
                 return false;
         }
     }
@@ -1105,7 +1105,7 @@ Variant::operator>(const Variant& rhs) const
         case Object:
             return (this->object > rhs.object);
         default:
-            n_error("Variant::operator>(): invalid variant type!");
+            ph_error("Variant::operator>(): invalid variant type!");
             return false;
         }
     }
@@ -1144,7 +1144,7 @@ Variant::operator<(const Variant& rhs) const
         case Object:
             return (this->object < rhs.object);
         default:
-            n_error("Variant::operator<(): invalid variant type!");
+            ph_error("Variant::operator<(): invalid variant type!");
             return false;
         }
     }
@@ -1184,7 +1184,7 @@ Variant::operator>=(const Variant& rhs) const
         case Object:
             return (this->object >= rhs.object);
         default:
-            n_error("Variant::operator>(): invalid variant type!");
+            ph_error("Variant::operator>(): invalid variant type!");
             return false;
         }
     }
@@ -1223,7 +1223,7 @@ Variant::operator<=(const Variant& rhs) const
         case Object:
             return (this->object <= rhs.object);
         default:
-            n_error("Variant::operator<(): invalid variant type!");
+            ph_error("Variant::operator<(): invalid variant type!");
             return false;
         }
     }
@@ -1753,7 +1753,7 @@ Variant::TypeToString(Type t)
         case GuidArray:     return "guidarray";
         case BlobArray:     return "blobarray";
         default:
-            n_error("Variant::TypeToString(): invalid type enum '%d'!", t);
+            ph_error("Variant::TypeToString(): invalid type enum '%d'!", t);
             return 0;
     }
 }
@@ -1785,7 +1785,7 @@ Variant::StringToType(const String& str)
     else if ("blobarray" == str)        return BlobArray;
     else
     {
-        n_error("Variant::StringToType(): invalid type string '%s'!", str.AsCharPtr());
+        ph_error("Variant::StringToType(): invalid type string '%s'!", str.AsCharPtr());
         return Void;
     }
 }

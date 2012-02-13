@@ -733,7 +733,7 @@ Set<TYPE>::Insert(const TYPE& elm)
         }
     }
     // can't happen
-    n_error("Set::Insert : Can't happen!");
+    ph_error("Set::Insert : Can't happen!");
     return this->elements + this->size;
 }
 

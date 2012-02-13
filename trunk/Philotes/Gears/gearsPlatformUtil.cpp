@@ -3,7 +3,7 @@
 
 #include <cg/cg.h>
 
-#include "gearsPlatform.h"
+#include "gearsPlatformUtil.h"
 #include "gearsApplication.h"
 
 #include "render.h"
@@ -12,7 +12,7 @@ _NAMESPACE_BEGIN
 
 extern char gShadersDir[];
 
-_IMPLEMENT_SINGLETON(GearPlatform);
+_IMPLEMENT_SINGLETON(GearPlatformUtil);
 
 static const char *g_windowClassName = "phwndclass";
 static const DWORD g_windowStyle     = WS_OVERLAPPEDWINDOW;
@@ -111,7 +111,7 @@ static ATOM registerWindowClass(HINSTANCE hInstance)
 
 //////////////////////////////////////////////////////////////////////////
 
-GearPlatform::GearPlatform( RenderWindow* _app ) :  m_app(_app)
+GearPlatformUtil::GearPlatformUtil( RenderWindow* _app ) :  m_app(_app)
 {
 	m_sf_app = static_cast<GearApplication*>(m_app);
 
@@ -121,7 +121,7 @@ GearPlatform::GearPlatform( RenderWindow* _app ) :  m_app(_app)
 	m_hwnd = 0;
 }
 
-GearPlatform::~GearPlatform()
+GearPlatformUtil::~GearPlatformUtil()
 {
 	ph_assert2(m_hwnd==0, "RenderWindow was not closed before being destroyed.");
 	if(m_library) 
@@ -131,7 +131,7 @@ GearPlatform::~GearPlatform()
 	}
 }
 
-void GearPlatform::correctCurrentDir( void )
+void GearPlatformUtil::correctCurrentDir( void )
 {
 	char exepath[1024] = {0};
 	GetModuleFileNameA(0, exepath, sizeof(exepath));
@@ -143,7 +143,7 @@ void GearPlatform::correctCurrentDir( void )
 	}
 }
 
-void GearPlatform::popPathSpec( char *path )
+void GearPlatformUtil::popPathSpec( char *path )
 {
 	char *ls = 0;
 	while(*path)
@@ -160,7 +160,7 @@ void GearPlatform::popPathSpec( char *path )
 	}
 }
 
-bool GearPlatform::openWindow( uint32& width, uint32& height, 
+bool GearPlatformUtil::openWindow( uint32& width, uint32& height, 
 							  const char* title,bool fullscreen )
 {
 	bool ok = false;
@@ -209,7 +209,7 @@ bool GearPlatform::openWindow( uint32& width, uint32& height,
 	return ok;
 }
 
-void GearPlatform::update()
+void GearPlatformUtil::update()
 {
 	ph_assert2(m_hwnd, "Tried to update a window that was not opened.");
 	if(m_app->isOpen())
@@ -235,7 +235,7 @@ void GearPlatform::update()
 	}
 }
 
-bool GearPlatform::closeWindow()
+bool GearPlatformUtil::closeWindow()
 {
 	if(m_hwnd)
 	{
@@ -253,17 +253,17 @@ bool GearPlatform::closeWindow()
 	return true;
 }
 
-bool GearPlatform::hasFocus() const
+bool GearPlatformUtil::hasFocus() const
 {
 	return m_hasFocus;
 }
 
-void GearPlatform::setFocus( bool b )
+void GearPlatformUtil::setFocus( bool b )
 {
 	m_hasFocus = b;
 }
 
-bool GearPlatform::isOpen()
+bool GearPlatformUtil::isOpen()
 {
 	if(m_hwnd) 
 	{
@@ -272,12 +272,12 @@ bool GearPlatform::isOpen()
 	return false;
 }
 
-uint64 GearPlatform::getWindowHandle()
+uint64 GearPlatformUtil::getWindowHandle()
 {
 	return reinterpret_cast<uint64>(m_hwnd);
 }
 
-void GearPlatform::setWindowSize( uint32 width, uint32 height )
+void GearPlatformUtil::setWindowSize( uint32 width, uint32 height )
 {
 	bool fullscreen = false;
 	ph_assert2(m_hwnd, "Tried to resize a window that was not opened.");
@@ -294,7 +294,7 @@ void GearPlatform::setWindowSize( uint32 width, uint32 height )
 	}
 }
 
-void GearPlatform::getWindowSize( uint32& width, uint32& height )
+void GearPlatformUtil::getWindowSize( uint32& width, uint32& height )
 {
 	if(m_hwnd)
 	{
@@ -305,7 +305,7 @@ void GearPlatform::getWindowSize( uint32& width, uint32& height )
 	}
 }
 
-void GearPlatform::getTitle( char *title, uint32 maxLength ) const
+void GearPlatformUtil::getTitle( char *title, uint32 maxLength ) const
 {
 	ph_assert2(m_hwnd, "Tried to get the title of a window that was not opened.");
 	if(m_hwnd)
@@ -314,7 +314,7 @@ void GearPlatform::getTitle( char *title, uint32 maxLength ) const
 	}
 }
 
-void GearPlatform::setTitle( const char *title )
+void GearPlatformUtil::setTitle( const char *title )
 {
 	ph_assert2(m_hwnd, "Tried to set the title of a window that was not opened.");
 	if(m_hwnd)
@@ -323,28 +323,12 @@ void GearPlatform::setTitle( const char *title )
 	}
 }
 
-void GearPlatform::recenterCursor( scalar& deltaMouseX, scalar& deltaMouseY )
+void GearPlatformUtil::recenterCursor( scalar& deltaMouseX, scalar& deltaMouseY )
 {
 
 }
 
-void GearPlatform::showMessage( const char* title, const char* message )
-{
-	printf("%s: %s\n", title, message);
-}
-
-void* GearPlatform::compileProgram( void * context, const char *programPath, 
-								   uint64 profile, const char *entry, const char **args )
-{
-	char fullpath[1024];
-	strcpy_s(fullpath, 1024, gShadersDir);
-	strcat_s(fullpath, 1024, programPath);
-	CGprogram program = cgCreateProgramFromFile(static_cast<CGcontext>(context), CG_SOURCE, fullpath, static_cast<CGprofile>(profile), entry, args);
-
-	return program;
-}
-
-void* GearPlatform::initializeD3D9()
+void* GearPlatformUtil::initializeD3D9()
 {
 	m_library   = 0;
 	if(m_hwnd)
@@ -358,7 +342,8 @@ void* GearPlatform::initializeD3D9()
 		ph_assert2(m_library, "Could not load " D3D9_DLL ".");
 		if(!m_library)
 		{
-			MessageBoxA(0, "Could not load " D3D9_DLL ". Please install the latest DirectX End User Runtime available at www.microsoft.com/directx.", "Render Error.", MB_OK);
+			MessageBoxA(0, "Could not load " D3D9_DLL ". Please install the latest DirectX End User Runtime available at www.microsoft.com/directx.",
+				"Render Error.", MB_OK);
 		}
 #undef D3D9_DLL
 		if(m_library)
@@ -375,7 +360,7 @@ void* GearPlatform::initializeD3D9()
 	return m_d3d;
 }
 
-bool GearPlatform::isD3D9ok()
+bool GearPlatformUtil::isD3D9ok()
 {
 	if(m_library) 
 	{
@@ -384,12 +369,7 @@ bool GearPlatform::isD3D9ok()
 	return false;
 }
 
-void GearPlatform::initializeCGRuntimeCompiler()
-{
-	// TODO : cg
-}
-
-uint32 GearPlatform::initializeD3D9Display( void * d3dPresentParameters, char* m_deviceName,
+uint32 GearPlatformUtil::initializeD3D9Display( void * d3dPresentParameters, char* m_deviceName,
 										   uint32& width, uint32& height,void * m_d3dDevice_out )
 {
 	D3DPRESENT_PARAMETERS* m_d3dPresentParams = static_cast<D3DPRESENT_PARAMETERS*>(d3dPresentParameters);
@@ -469,22 +449,22 @@ uint32 GearPlatform::initializeD3D9Display( void * d3dPresentParameters, char* m
 	return res;
 }
 
-uint32 GearPlatform::D3D9Present()
+uint32 GearPlatformUtil::D3D9Present()
 {
 	return m_d3dDevice->Present(0, 0, m_hwnd, 0);
 }
 
-void GearPlatform::D3D9BlockUntilNotBusy( void * resource )
+void GearPlatformUtil::D3D9BlockUntilNotBusy( void * resource )
 {
 
 }
 
-void GearPlatform::D3D9DeviceBlockUntilIdle()
+void GearPlatformUtil::D3D9DeviceBlockUntilIdle()
 {
 
 }
 
-uint64 GearPlatform::getD3D9TextureFormat( RenderTexture2D::Format format )
+uint64 GearPlatformUtil::getD3D9TextureFormat( RenderTexture2D::Format format )
 {
 	D3DFORMAT d3dFormat = D3DFMT_UNKNOWN;
 	switch(format)
@@ -501,17 +481,17 @@ uint64 GearPlatform::getD3D9TextureFormat( RenderTexture2D::Format format )
 	return static_cast<uint64>(d3dFormat);
 }
 
-void GearPlatform::postRenderRelease()
+void GearPlatformUtil::postRenderRelease()
 {
 
 }
 
-void GearPlatform::preRenderSetup()
+void GearPlatformUtil::preRenderSetup()
 {
 
 }
 
-void GearPlatform::postRenderSetup()
+void GearPlatformUtil::postRenderSetup()
 {
 	if(!m_sf_app->getRender())
 	{
@@ -525,7 +505,7 @@ void GearPlatform::postRenderSetup()
 	m_app->setTitle(windowTitle);
 }
 
-Render* GearPlatform::getRender()
+Render* GearPlatformUtil::getRender()
 {
 	return m_sf_app->getRender();
 }

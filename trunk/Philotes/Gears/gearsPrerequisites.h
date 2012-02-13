@@ -22,6 +22,6 @@ class GearAssetManager;
 class GearCommandLine;
 class GearTextureAsset;
 class GearMaterialAsset;
-class GearPlatform;
+class GearPlatformUtil;
 
 _NAMESPACE_END

@@ -1085,7 +1085,7 @@ Array<TYPE>::InsertSorted(const TYPE& elm)
         }
     }
     // can't happen
-    n_error("Array::InsertSorted: Can't happen!");
+    ph_error("Array::InsertSorted: Can't happen!");
     return InvalidIndex;
 }
 

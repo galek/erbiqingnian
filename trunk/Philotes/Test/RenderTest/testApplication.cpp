@@ -94,16 +94,6 @@ void TestApplication::onTickPostRender( float dtime )
 
 }
 
-int TestApplication::getDisplayWidth( void )
-{
-	return 800;
-}
-
-int TestApplication::getDisplayHeight( void )
-{
-	return 600;
-}
-
 bool TestApplication::keyPressed( const KeyEvent &arg )
 {
 	m_cameraMgr->injectKeyDown(arg);

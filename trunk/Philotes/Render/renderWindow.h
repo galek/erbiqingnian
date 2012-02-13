@@ -4,7 +4,7 @@
 
 _NAMESPACE_BEGIN
 
-class GearPlatform;
+class GearPlatformUtil;
 
 class RenderWindow
 {
@@ -14,6 +14,7 @@ class RenderWindow
 		virtual ~RenderWindow(void);
 		
 		bool open(uint32 width, uint32 height, const char *title, bool fullscreen=false);
+
 		void close(void);
 		
 		bool isOpen(void) const;
@@ -23,10 +24,12 @@ class RenderWindow
 		
 		// get/set the size of the window...
 		void getSize(uint32 &width, uint32 &height) const;
+
 		void setSize(uint32 width, uint32 height);
 		
 		// get/set the window's title...
 		void getTitle(char *title, uint32 maxLength) const;
+
 		void setTitle(const char *title);
 		
 	public:
@@ -42,11 +45,8 @@ class RenderWindow
 		// called when the window's contents needs to be redrawn.
 		virtual void onDraw(void) = 0;
 
-	protected:
-		GearPlatform*				m_platform;
-
 	private:
-		bool						m_isOpen;
+		bool					m_isOpen;
 };
 
 _NAMESPACE_END

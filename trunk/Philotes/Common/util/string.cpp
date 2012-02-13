@@ -1061,7 +1061,7 @@ String::AsBool() const
         }
         i++;
     }
-    n_error("Invalid string value for bool!");
+    ph_error("Invalid string value for bool!");
     return false;
 }
 

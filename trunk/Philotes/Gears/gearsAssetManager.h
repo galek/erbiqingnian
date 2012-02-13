@@ -2,24 +2,29 @@
 #pragma once
 
 #include "gearsTextureAsset.h"
+#include "core/singleton.h"
 
 _NAMESPACE_BEGIN
 
-class GearAssetManager
+class GearAssetManager : public Singleton<GearAssetManager>
 {
 	public:
+		
 		GearAssetManager(Render &renderer);
-		~GearAssetManager(void);
+
+		virtual ~GearAssetManager(void);
+
+		_DECLARE_SINGLETON(GearAssetManager);
 		
-		Render    &getRender(void) { return m_renderer; }
+		Render&			getRender(void) { return m_renderer; }
 		
-		GearAsset *getAsset(const char *path, GearAsset::Type type);
-		void         returnAsset(GearAsset &asset);
+		GearAsset*		getAsset(const char *path, GearAsset::Type type);
+		void			returnAsset(GearAsset &asset);
 		
-		void         addSearchPath(const char *path);
-		void         clearSearchPaths(void);
-		FILE*		 findFile(const char* path);
-		const char*	 findPath(const char* path);
+		void         	addSearchPath(const char *path);
+		void         	clearSearchPaths(void);
+		FILE*		 	findFile(const char* path);
+		const char*	 	findPath(const char* path);
 
 		/**
 		Search for the speficied path in the current directory. If not found, move up in the folder hierarchy

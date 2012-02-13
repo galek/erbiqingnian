@@ -92,18 +92,17 @@ const char *Render::getDeviceName(void) const
 // adds a mesh to the render queue.
 void Render::queueMeshForRender(RenderElement &mesh)
 {
-	ph_assert2( mesh.isValid(),  "Mesh Context is invalid.");
 	ph_assert2(!mesh.isLocked(), "Mesh Context is already locked to a Render.");
-	if(mesh.isValid() && !mesh.isLocked())
+	if(!mesh.isLocked())
 	{
 		mesh.m_renderer = this;
 		switch (mesh.getMaterial()->getType())
 		{
 		case  RenderMaterial::TYPE_LIT:
-			m_visibleLitMeshes.push_back(&mesh);
+			m_visibleLitMeshes.Append(&mesh);
 			break;
 		default: //case RenderMaterial::TYPE_UNLIT:
-			m_visibleUnlitMeshes.push_back(&mesh);
+			m_visibleUnlitMeshes.Append(&mesh);
 		//	break;
 		}
 	}
@@ -116,7 +115,7 @@ void Render::queueLightForRender(RenderLight &light)
 	if(!light.isLocked())
 	{
 		light.m_renderer = this;
-		m_visibleLights.push_back(&light);
+		m_visibleLights.Append(&light);
 	}
 }
 
@@ -124,7 +123,7 @@ void Render::queueLightForRender(RenderLight &light)
 void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 {
 	RENDERER_PERFZONE(Render_render);
-	const uint32 numLights = (uint32)m_visibleLights.size();
+	const uint32 numLights = (uint32)m_visibleLights.Size();
 	if(target)
 	{
 		target->bind();
@@ -143,7 +142,7 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_DEPTH);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_DEPTH);
 		}
-		else  if(numLights > RENDERER_DEFERRED_THRESHOLD)
+		else if(numLights > RENDERER_DEFERRED_THRESHOLD)
 		{
 			RENDERER_PERFZONE(Render_render_deferred);
 			bindDeferredState();
@@ -185,9 +184,9 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		endRender();
 	}
 	if(target) target->unbind();
-	m_visibleLitMeshes.clear();
-	m_visibleUnlitMeshes.clear();
-	m_visibleLights.clear();
+	m_visibleLitMeshes.Reset();
+	m_visibleUnlitMeshes.Reset();
+	m_visibleLights.Reset();
 }
 
 // sets the ambient lighting color.
@@ -202,7 +201,7 @@ void Render::setClearColor(const Colour &clearColor)
 	m_clearColor   = clearColor;
 }
 
-void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::Pass pass)
+void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass pass)
 {
 	RENDERER_PERFZONE(Render_renderMeshes);
 	
@@ -210,7 +209,7 @@ void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::
 	RenderMaterialInstance *lastMaterialInstance = 0;
 	const RenderMesh       *lastMesh             = 0;
 	
-	const uint32 numMeshes = (uint32)meshes.size();
+	const uint32 numMeshes = (uint32)meshes.Size();
 	for(uint32 i=0; i<numMeshes; i++)
 	{
 		RenderElement &context = *meshes[i];
@@ -251,7 +250,7 @@ void Render::renderDeferredLights(void)
 {
 	RENDERER_PERFZONE(Render_renderDeferredLights);
 	
-	const uint32 numLights = (uint32)m_visibleLights.size();
+	const uint32 numLights = (uint32)m_visibleLights.Size();
 	for(uint32 i=0; i<numLights; i++)
 	{
 		renderDeferredLight(*m_visibleLights[i]);

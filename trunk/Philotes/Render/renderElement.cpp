@@ -28,20 +28,6 @@ RenderElement::~RenderElement(void)
 	ph_assert2(isLocked()==false, "Mesh Context still locked to a Render instance during destruction!");
 }
 
-bool RenderElement::isValid(void) const
-{
-	bool ok = true;
-	if(!m_mesh)     
-	{
-		ok = false;
-	}
-	if (!m_materialInstance)
-	{
-		ok = false;
-	}
-	return ok;
-}
-
 bool RenderElement::isLocked(void) const
 {
 	return m_renderer ? true : false;

@@ -9,19 +9,21 @@ bool mainImpl()
 {
 	GearCommandLine cl(GetCommandLineA());
 
-	int width, height;
-	TestApplication app(cl);
-	width = app.getDisplayWidth();
-	height = app.getDisplayHeight();
-
-	app.open(width, height, "Philo Render Test");
-	bool ok = true;
-	while (app.isOpen())
+	try
 	{
-		app.update();
+		TestApplication app(cl);
+		app.open(800, 600, "Philo Render Test");
+
+		while (app.isOpen())
+		{
+			app.update();
+		}
+		app.close();
 	}
-	app.close();
-	return ok;
+	catch(std::exception& e)
+	{
+		ph_error("%s",e.what());
+	}
 
 	return true;
 }
