@@ -134,6 +134,8 @@ class D3D9Render : public Render
 		virtual RenderMesh           *createMesh(          const RenderMeshDesc           &desc);
 		virtual RenderLight          *createLight(         const RenderLightDesc          &desc);
 
+		virtual void convertProjectionMatrix(const Matrix4& matrix,Matrix4& dest);
+
 	private:
 		virtual bool beginRender(void);
 		virtual void endRender(void);

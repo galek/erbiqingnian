@@ -53,6 +53,13 @@ class RenderMaterial
 			BLEND_ONE_MINUS_DST_COLOR,
 			BLEND_SRC_ALPHA_SATURATE,
 		};
+
+		typedef enum CullMode
+		{
+			CLOCKWISE = 0,
+			COUNTER_CLOCKWISE,
+			NONE
+		};
 		
 		typedef enum Pass
 		{
@@ -124,6 +131,9 @@ class RenderMaterial
 		__forceinline	BlendFunc		getSrcBlendFunc(void)				const { return m_srcBlendFunc; }
 		__forceinline	BlendFunc		getDstBlendFunc(void)				const { return m_dstBlendFunc; }
 		__forceinline	uint32			getMaterialInstanceDataSize(void)	const { return m_variableBufferSize; }
+
+		__forceinline	CullMode		getCullMode() const { return m_cullMode; }
+		__forceinline	void			setCullMode(CullMode val) { m_cullMode = val; }
 		
 	protected:
 		virtual void bind(RenderMaterial::Pass pass, RenderMaterialInstance *materialInstance, bool instanced) const;
@@ -142,7 +152,9 @@ class RenderMaterial
 		bool                m_blending;
 		const BlendFunc     m_srcBlendFunc;
 		const BlendFunc     m_dstBlendFunc;
-		
+
+		CullMode			m_cullMode;
+
 		std::vector<Variable*> m_variables;
 		uint32               m_variableBufferSize;
 };

@@ -22,7 +22,7 @@ RenderDebugLine::RenderDebugLine( Render &renderer, GearAssetManager &assetmanag
 	ph_assert(m_material);
 	ph_assert(m_material->getNumVertexShaders() == 1);
 
-	m_meshContext.materialInstance = m_material ? new RenderMaterialInstance(*m_material->getMaterial(0)) : 0;
+	m_meshContext.setMaterialInstance(m_material ? new RenderMaterialInstance(*m_material->getMaterial(0)) : 0);
 
 	m_maxVerts        = 0;
 	m_numVerts        = 0;
@@ -138,13 +138,13 @@ void RenderDebugLine::checkResizeLine( uint32 maxVerts )
 			m_mesh = m_renderer.createMesh(meshdesc);
 			ph_assert(m_mesh);
 		}
-		m_meshContext.mesh = m_mesh;
+		m_meshContext.setMesh(m_mesh);
 	}
 }
 
 void RenderDebugLine::queueForRenderLine( void )
 {
-	if(m_meshContext.mesh)
+	if(m_meshContext.getMesh())
 	{
 		checkUnlock();
 		m_mesh->setVertexBufferRange(0, m_numVerts);

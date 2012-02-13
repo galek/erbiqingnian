@@ -96,11 +96,7 @@ void Render::queueMeshForRender(RenderElement &mesh)
 	if(mesh.isValid() && !mesh.isLocked())
 	{
 		mesh.m_renderer = this;
-		if (mesh.screenSpace)
-		{
-			m_screenSpaceMeshes.push_back(&mesh);
-		}
-		else switch (mesh.getMaterial()->getType())
+		switch (mesh.getMaterial()->getType())
 		{
 		case  RenderMaterial::TYPE_LIT:
 			m_visibleLitMeshes.push_back(&mesh);
@@ -124,7 +120,7 @@ void Render::queueLightForRender(RenderLight &light)
 }
 
 // renders the current scene to the offscreen buffers. empties the render queue when done.
-void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *target, bool depthOnly)
+void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 {
 	RENDERER_PERFZONE(Render_render);
 	const uint32 numLights = (uint32)m_visibleLights.size();
@@ -136,21 +132,8 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 	// TODO: Sort meshes by material..
 	if(beginRender())
 	{
-		if(!depthOnly)
-		{
-			// What the hell is this? Why is there specialized code in here for a projection matrix...
-			// YOU CAN PASS THE PROJECTION MATIX RIGHT INTO THIS FUNCTION!
-			// TODO: Get rid of this.
-			if (m_screenSpaceMeshes.size())
-			{
-				Matrix4 id = Matrix4::IDENTITY;
-				Matrix4 pj;
-				Math::makeProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f,pj);
-				bindViewProj(id, pj);	//TODO: pass screen space matrices
-				renderMeshes(m_screenSpaceMeshes, RenderMaterial::PASS_UNLIT);	//render screen space stuff first so stuff we occlude doesn't waste time on shading.
-			}
-		}
-		
+		Matrix4 proj	= camera->getProjectionMatrixRS();
+		Matrix4 eye		= camera->getViewMatrix();
 		if(depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_depthOnly);
@@ -203,7 +186,6 @@ void Render::render(const Matrix4 &eye, const Matrix4 &proj, RenderTarget *targe
 	if(target) target->unbind();
 	m_visibleLitMeshes.clear();
 	m_visibleUnlitMeshes.clear();
-	m_screenSpaceMeshes.clear();
 	m_visibleLights.clear();
 }
 
@@ -232,13 +214,13 @@ void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::
 	{
 		RenderElement &context = *meshes[i];
 		bindMeshContext(context);
-		bool instanced = context.mesh->getInstanceBuffer()?true:false;
+		bool instanced = context.m_mesh->getInstanceBuffer()?true:false;
 		
-		if(context.materialInstance && context.materialInstance != lastMaterialInstance)
+		if(context.m_materialInstance && context.m_materialInstance != lastMaterialInstance)
 		{
 			if(lastMaterial) lastMaterial->unbind();
-			lastMaterialInstance =  context.materialInstance;
-			lastMaterial         = &context.materialInstance->getMaterial();
+			lastMaterialInstance =  context.m_materialInstance;
+			lastMaterial         = &context.m_materialInstance->getMaterial();
 			lastMaterial->bind(pass, lastMaterialInstance, instanced);
 		}
 		else if(context.getMaterial() != lastMaterial)
@@ -250,13 +232,13 @@ void Render::renderMeshes(std::vector<RenderElement*> & meshes, RenderMaterial::
 		}
 		
 		if(lastMaterial) lastMaterial->bindMeshState(instanced);
-		if(context.mesh != lastMesh)
+		if(context.m_mesh != lastMesh)
 		{
 			if(lastMesh) lastMesh->unbind();
-			lastMesh = context.mesh;
+			lastMesh = context.m_mesh;
 			if(lastMesh) lastMesh->bind();
 		}
-		if(lastMesh) context.mesh->render(context.getMaterial());
+		if(lastMesh) context.m_mesh->render(context.getMaterial());
 		context.m_renderer = 0;
 	}
 	if(lastMesh)     lastMesh->unbind();

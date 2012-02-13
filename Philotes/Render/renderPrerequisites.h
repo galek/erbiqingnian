@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "renderCommon.h"
+
 _NAMESPACE_BEGIN
 
 class Render;

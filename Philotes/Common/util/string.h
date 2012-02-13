@@ -130,6 +130,7 @@ public:
 	static bool		MatchPatternEx(const String& str, const String& pattern, bool caseSensitive = true);				// pattern matching extended   Added by Li
 	static bool		StartsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string begins with the pattern passed in    Added by Li
 	static bool		EndsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string ends with the pattern passed in   Added by Li
+	static String	BLANK;
 
     IndexT	HashCode() const;					// return a 32-bit hash code for the string
 	size_t		hash_code_std_style() const;	//computes a hash code for the string by pseudorandomizing transform in std style. (std::hash xhash hash_compare)      Added by Li
@@ -283,11 +284,6 @@ public:
 	size_type		find( char ch, size_type offset = 0) const { return ( FindCharIndex(ch, offset) ); }
 	size_type		find( const String& right, size_type offset = 0) const { return ( find(right.AsCharPtr(), offset, right.size()) ); }
 	size_type		find_first_of( char ch, size_type offset = 0) const { return FindCharIndex(ch, offset); }
-
-
-	//--------------------------------------------------------------------------------------------------------------------------------------------
-	static String BLANK;	//TODO: Ogre uses it
-
 
 private:
     

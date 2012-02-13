@@ -13,14 +13,9 @@ public:
 
 	virtual						~GearApplication(void);
 
-	Render*						getRender(void)								{ return m_renderer; }
+	Render*						getRender(void)									{ return m_renderer; }
 	GearAssetManager*			getAssetManager(void)							{ return m_assetManager; }
 	inline const char*			getAssetPathPrefix(void)				const	{ return m_assetPathPrefix; }
-	Matrix4						getEyeTransform(void)					const	{ return m_worldToView.inverse(); }
-	void						setEyeTransform(const Matrix4& eyeTransform);
-	void						setEyeTransform(const Vector3& pos, const Vector3& rot);
-	void						setViewTransform(const Matrix4& viewTransform);
-	const Matrix4&				getViewTransform(void)					const;
 	bool						isKeyDown(KeyCode keyCode)				const	{ return m_keyState[keyCode];			}
 	bool						isMouseButtonDown(MouseButton button)	const	{ return m_mouseButtonState[button];	}
 
@@ -50,14 +45,14 @@ protected:
 
 	scalar						m_sceneSize;
 
-	Render*					m_renderer;
+	Render*						m_renderer;
+
+	RenderCamera*				m_camera;
 
 	char						m_assetPathPrefix[256];
 	GearAssetManager*			m_assetManager;
 
 	Vector3						m_eyeRot;
-	Matrix4						m_worldToView;
-
 	uint32						m_mouseX, m_mouseY;
 	bool						m_mouseButtonState[NUM_MOUSE_BUTTONS];
 	bool						m_keyState[NUM_KEY_CODES];

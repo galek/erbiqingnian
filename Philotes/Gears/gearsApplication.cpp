@@ -5,6 +5,8 @@
 #include "gearsComandLine.h"
 
 #include "render.h"
+#include "renderCamera.h"
+#include "renderDesc.h"
 #include "renderMemoryMacros.h"
 
 _NAMESPACE_BEGIN
@@ -40,10 +42,13 @@ GearApplication::GearApplication(const GearCommandLine &cmdline, const char *ass
 	memset(m_mouseButtonState, 0, sizeof(m_mouseButtonState));
 	memset(m_keyState,         0, sizeof(m_keyState));
 	m_camMoveButton = camMoveButton;
+
+	m_camera = new RenderCamera("maincam");
 }
 
 GearApplication::~GearApplication(void)
 {
+	delete m_camera;
 	ph_assert2(!m_renderer, "Render was not released prior to window closure.");
 	ph_assert2(!m_assetManager, "Asset Manager was not released prior to window closure.");
 }
@@ -62,10 +67,6 @@ void GearApplication::onOpen( void )
 
 	strcpy_s(gShadersDir, sizeof(gShadersDir), rendererdir);
 	strcat_s(gShadersDir, sizeof(gShadersDir), "shaders/");
-
-	m_eyeRot = Vector3(0,0,0);
-	Matrix4 eye = Matrix4::IDENTITY;
-	m_worldToView = eye.inverse();
 
 	m_renderer = Render::createRender(m_platform->getWindowHandle());
 	m_platform->postRenderSetup();
@@ -108,34 +109,22 @@ void GearApplication::onDraw( void )
 		onTickPostRender(dtime);
 
 		// update scene...
-
-		Matrix4 eye = m_worldToView.inverse();
-		Matrix3 m;
-		m.FromEulerAnglesXYZ(Radian(m_eyeRot.x),Radian(m_eyeRot.y),Radian(m_eyeRot.z));
-		Vector3 targetParam = eye.getTrans();
-
-		const float eyeSpeed = m_sceneSize * 4.0f * dtime * (isKeyDown(KEY_SHIFT) ? 4.0f : 1.0f);
-
 		if(m_keyState[KEY_W]) 
 		{
-			targetParam += m.GetColumn(2) * eyeSpeed;
+			m_camera->moveRelative(Vector3(0,0,0.01f));
 		}
 		if(m_keyState[KEY_A]) 
 		{
-			targetParam += m.GetColumn(0) * eyeSpeed;
+			m_camera->moveRelative(Vector3(-0.01f,0,0));
 		}
 		if(m_keyState[KEY_S]) 
 		{
-			targetParam -= m.GetColumn(2) * eyeSpeed;
+			m_camera->moveRelative(Vector3(0,0,-0.01f));
 		}
 		if(m_keyState[KEY_D]) 
 		{
-			targetParam -= m.GetColumn(0) * eyeSpeed;
+			m_camera->moveRelative(Vector3(0.01f,0,0));
 		}
-
-		eye = m;
-		eye.setTrans(targetParam);
-		m_worldToView = eye.inverse();
 	}
 }
 

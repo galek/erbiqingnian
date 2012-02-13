@@ -584,4 +584,9 @@ void GearPlatform::processGamepads()
 	// ÔÝÊ±²»¹Ü
 }
 
+Render* GearPlatform::getRender()
+{
+	return m_sf_app->getRender();
+}
+
 _NAMESPACE_END

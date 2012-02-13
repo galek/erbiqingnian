@@ -1,32 +1,25 @@
 
-#include "renderMeshContext.h"
+#include "renderElement.h"
 #include "renderMaterialInstance.h"
 #include "renderNode.h"
+#include "renderMesh.h"
 
 _NAMESPACE_BEGIN
 
 RenderElement::RenderElement(void)
 {
 	m_parentNode		= 0;
-	mesh				= 0;
-	materialInstance	= 0;
-	boneMatrices		= 0;
-	numBones			= 0;
+	m_mesh				= 0;
+	m_materialInstance	= 0;
 	m_renderer			= 0;
-    cullMode			= CLOCKWISE;
-	screenSpace			= false;
 }
 
 RenderElement::RenderElement( const String& name )
 {
 	m_parentNode		= 0;
-	mesh				= 0;
-	materialInstance	= 0;
-	boneMatrices		= 0;
-	numBones			= 0;
+	m_mesh				= 0;
+	m_materialInstance	= 0;
 	m_renderer			= 0;
-	cullMode			= CLOCKWISE;
-	screenSpace			= false;
 	m_name				= name;
 }
 
@@ -38,11 +31,11 @@ RenderElement::~RenderElement(void)
 bool RenderElement::isValid(void) const
 {
 	bool ok = true;
-	if(!mesh)     
+	if(!m_mesh)     
 	{
 		ok = false;
 	}
-	if (!materialInstance)
+	if (!m_materialInstance)
 	{
 		ok = false;
 	}
@@ -56,7 +49,7 @@ bool RenderElement::isLocked(void) const
 
 RenderMaterial* RenderElement::getMaterial()
 {
-	return &materialInstance->getMaterial();
+	return &m_materialInstance->getMaterial();
 }
 
 const Matrix4& RenderElement::getTransform( void ) const
@@ -74,6 +67,24 @@ const Matrix4& RenderElement::getTransform( void ) const
 void RenderElement::_notifyAttached( RenderNode* parent )
 {
 	m_parentNode = parent;
+}
+
+void RenderElement::setMaterialInstance( RenderMaterialInstance * val )
+{
+	if (m_materialInstance)
+	{
+		delete m_materialInstance;
+	}
+	m_materialInstance = val;
+}
+
+void RenderElement::setMesh( RenderMesh * val )
+{
+// 	if (m_mesh)
+// 	{
+// 		delete m_mesh;
+// 	}
+	m_mesh = val;
 }
 
 _NAMESPACE_END
