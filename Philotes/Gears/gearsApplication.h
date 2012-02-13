@@ -6,6 +6,7 @@
 
 _NAMESPACE_BEGIN
 
+// 视为单件
 class GearApplication : public	RenderWindow,
 								GearKeyListener,
 								GearMouseListener
@@ -15,6 +16,8 @@ public:
 	GearApplication(const GearCommandLine& cmdline, const char* assetPathPrefix="media");
 
 	virtual						~GearApplication(void);
+
+	static  GearApplication*	getApp();
 
 	Render*						getRender(void)									{ return m_renderer; }
 	GearAssetManager*			getAssetManager(void)							{ return m_assetManager; }
@@ -42,6 +45,8 @@ public:
 
 protected:
 
+	static GearApplication*		m_sApp;
+
 	const GearCommandLine&		m_cmdline;
 
 	scalar						m_sceneSize;
@@ -63,6 +68,7 @@ protected:
 private:
 
 	uint64						m_timeCounter;
+
 	Timer						m_time;
 
 	void						operator=(const GearApplication&);

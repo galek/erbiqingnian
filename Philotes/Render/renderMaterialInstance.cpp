@@ -24,7 +24,7 @@ RenderMaterialInstance::~RenderMaterialInstance(void)
 const RenderMaterial::Variable *RenderMaterialInstance::findVariable(const char *name, RenderMaterial::VariableType varType)
 {
 	RenderMaterial::Variable *var = 0;
-	uint32 numVariables = (uint32)m_material.m_variables.size();
+	uint32 numVariables = (uint32)m_material.m_variables.Size();
 	for(uint32 i=0; i<numVariables; i++)
 	{
 		RenderMaterial::Variable &v = *m_material.m_variables[i];

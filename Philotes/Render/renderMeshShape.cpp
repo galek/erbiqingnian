@@ -12,14 +12,16 @@
 #include <renderMesh.h>
 #include <renderMeshDesc.h>
 
+#include "gearsApplication.h"
+
 _NAMESPACE_BEGIN
 
-RenderMeshShape::RenderMeshShape(	Render& renderer, 
-										const Vector3* verts, uint32 numVerts, 
-										const Vector3* normals,
-										const scalar* uvs,
-										const uint16* faces, uint32 numFaces, bool flipWinding) :
-	RenderShape(renderer)
+RenderMeshShape::RenderMeshShape(	const String& name,
+									const Vector3* verts, uint32 numVerts, 
+									const Vector3* normals,
+									const scalar* uvs,
+									const uint16* faces, uint32 numFaces, bool flipWinding) :
+	RenderElement(name)
 {
 	Philo::RenderVertexBufferDesc vbdesc;
 	vbdesc.hint = RenderVertexBuffer::HINT_STATIC;
@@ -27,7 +29,7 @@ RenderMeshShape::RenderMeshShape(	Render& renderer,
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_NORMAL]    = RenderVertexBuffer::FORMAT_FLOAT3;
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_TEXCOORD0] = RenderVertexBuffer::FORMAT_FLOAT2;
 	vbdesc.maxVertices = numVerts;
-	m_vertexBuffer = m_renderer.createVertexBuffer(vbdesc);
+	m_vertexBuffer = GearApplication::getApp()->getRender()->createVertexBuffer(vbdesc);
 	ph_assert2(m_vertexBuffer, "Failed to create Vertex Buffer.");
 	if(m_vertexBuffer)
 	{
@@ -71,7 +73,7 @@ RenderMeshShape::RenderMeshShape(	Render& renderer,
 	ibdesc.hint       = RenderIndexBuffer::HINT_STATIC;
 	ibdesc.format     = RenderIndexBuffer::FORMAT_UINT16;
 	ibdesc.maxIndices = numIndices;
-	m_indexBuffer = m_renderer.createIndexBuffer(ibdesc);
+	m_indexBuffer = GearApplication::getApp()->getRender()->createIndexBuffer(ibdesc);
 	ph_assert2(m_indexBuffer, "Failed to create Index Buffer.");
 	if(m_indexBuffer)
 	{
@@ -103,7 +105,7 @@ RenderMeshShape::RenderMeshShape(	Render& renderer,
 		meshdesc.indexBuffer      = m_indexBuffer;
 		meshdesc.firstIndex       = 0;
 		meshdesc.numIndices       = numIndices;
-		m_mesh = m_renderer.createMesh(meshdesc);
+		m_mesh = GearApplication::getApp()->getRender()->createMesh(meshdesc);
 		ph_assert2(m_mesh, "Failed to create Mesh.");
 	}
 }

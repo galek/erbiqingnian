@@ -111,10 +111,8 @@ static ATOM registerWindowClass(HINSTANCE hInstance)
 
 //////////////////////////////////////////////////////////////////////////
 
-GearPlatformUtil::GearPlatformUtil( RenderWindow* _app ) :  m_app(_app)
+GearPlatformUtil::GearPlatformUtil( )
 {
-	m_sf_app = static_cast<GearApplication*>(m_app);
-
 	m_isHandlingMessages = false;
 	m_destroyWindow = false;
 	m_hasFocus = true;
@@ -186,8 +184,8 @@ bool GearPlatformUtil::openWindow( uint32& width, uint32& height,
 			ok = true;
 			ShowWindow(m_hwnd, SW_SHOWNORMAL);
 			SetFocus(m_hwnd);              
-			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, PtrToLong(m_app));
-			m_app->onOpen();
+			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, PtrToLong(GearApplication::getApp()));
+			GearApplication::getApp()->onOpen();
 		}
 	}
 
@@ -212,12 +210,12 @@ bool GearPlatformUtil::openWindow( uint32& width, uint32& height,
 void GearPlatformUtil::update()
 {
 	ph_assert2(m_hwnd, "Tried to update a window that was not opened.");
-	if(m_app->isOpen())
+	if(GearApplication::getApp()->isOpen())
 	{
 		m_isHandlingMessages = true;
 		MSG	msg;
 
-		while(m_app->isOpen() && ::PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		while(GearApplication::getApp()->isOpen() && ::PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			::TranslateMessage(&msg);
 			::DispatchMessage(&msg);
@@ -225,7 +223,7 @@ void GearPlatformUtil::update()
 		m_isHandlingMessages = false;
 		if(m_hwnd && m_destroyWindow)
 		{
-			if(m_app->onClose())
+			if(GearApplication::getApp()->onClose())
 			{
 				::DestroyWindow(m_hwnd);
 				m_hwnd = 0;
@@ -243,7 +241,7 @@ bool GearPlatformUtil::closeWindow()
 		{
 			m_destroyWindow = true;
 		}
-		else if(m_app->onClose())
+		else if(GearApplication::getApp()->onClose())
 		{
 			::DestroyWindow(m_hwnd);
 			m_hwnd = 0;
@@ -493,21 +491,16 @@ void GearPlatformUtil::preRenderSetup()
 
 void GearPlatformUtil::postRenderSetup()
 {
-	if(!m_sf_app->getRender())
+	if(!GearApplication::getApp()->getRender())
 	{
 		exit(1);
 	}
 	char windowTitle[1024] = {0};
-	m_app->getTitle(windowTitle, 1024);
+	GearApplication::getApp()->getTitle(windowTitle, 1024);
 	strcat_s(windowTitle, 1024, " : ");
 	strcat_s(windowTitle, 1024, Render::getDriverTypeName(
-		m_sf_app->getRender()->getDriverType()));
-	m_app->setTitle(windowTitle);
-}
-
-Render* GearPlatformUtil::getRender()
-{
-	return m_sf_app->getRender();
+		GearApplication::getApp()->getRender()->getDriverType()));
+	GearApplication::getApp()->setTitle(windowTitle);
 }
 
 _NAMESPACE_END

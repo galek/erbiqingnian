@@ -16,7 +16,9 @@ public:
 	};
 
 protected:
+
 	GearAsset(Type type, const char *path);
+
 	virtual ~GearAsset(void);
 
 	virtual void release(void) { delete this; }
@@ -25,7 +27,9 @@ public:
 	virtual bool isOk(void) const = 0;
 
 public:
+
 	Type        getType(void) const { return m_type; }
+
 	const char *getPath(void) const { return m_path; }
 
 private:

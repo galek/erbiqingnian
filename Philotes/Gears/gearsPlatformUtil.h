@@ -16,7 +16,7 @@ public:
 
 public:
 
-	explicit							GearPlatformUtil(RenderWindow* rw);
+	explicit							GearPlatformUtil();
 
 	virtual								~GearPlatformUtil();
 
@@ -72,13 +72,7 @@ public:
 	
 	virtual void						postRenderSetup();
 
-	Render*								getRender();
-
 protected:
-
-	RenderWindow*						m_app;
-
-	GearApplication*					m_sf_app;
 
 	IDirect3D9*							m_d3d;
 	

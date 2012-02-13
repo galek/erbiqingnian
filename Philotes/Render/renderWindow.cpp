@@ -11,7 +11,7 @@ RenderWindow::RenderWindow(void)
 	GearPlatformUtil* platform = GearPlatformUtil::getSingleton();
 	if (!platform)
 	{
-		platform = new GearPlatformUtil(this);
+		platform = new GearPlatformUtil();
 	}
 
 	m_isOpen = false;

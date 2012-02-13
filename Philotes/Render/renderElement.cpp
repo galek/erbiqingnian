@@ -11,7 +11,6 @@ RenderElement::RenderElement(void)
 	m_parentNode		= 0;
 	m_mesh				= 0;
 	m_materialInstance	= 0;
-	m_renderer			= 0;
 }
 
 RenderElement::RenderElement( const String& name )
@@ -19,18 +18,11 @@ RenderElement::RenderElement( const String& name )
 	m_parentNode		= 0;
 	m_mesh				= 0;
 	m_materialInstance	= 0;
-	m_renderer			= 0;
 	m_name				= name;
 }
 
 RenderElement::~RenderElement(void)
 {
-	ph_assert2(isLocked()==false, "Mesh Context still locked to a Render instance during destruction!");
-}
-
-bool RenderElement::isLocked(void) const
-{
-	return m_renderer ? true : false;
 }
 
 RenderMaterial* RenderElement::getMaterial()

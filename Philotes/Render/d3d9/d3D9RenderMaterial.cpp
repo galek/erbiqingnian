@@ -653,7 +653,7 @@ void D3D9RenderMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pas
 				{
 					D3D9Variable *var = 0;
 					// search to see if the variable already exists...
-					uint32 numVariables = (uint32)m_variables.size();
+					uint32 numVariables = (uint32)m_variables.Size();
 					for(uint32 i=0; i<numVariables; i++)
 					{
 						if(!strcmp(m_variables[i]->getName(), cdesc.Name))
@@ -671,7 +671,7 @@ void D3D9RenderMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pas
 					if(!var)
 					{
 						var = new D3D9Variable(cdesc.Name, type, m_variableBufferSize);
-						m_variables.push_back(var);
+						m_variables.Append(var);
 						m_variableBufferSize += var->getDataSize();
 					}
 					// add the handle to the variable...

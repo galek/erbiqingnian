@@ -13,9 +13,14 @@ _NAMESPACE_BEGIN
 char gShadersDir[1024];
 char gAssetDir[1024];
 
+GearApplication* GearApplication::m_sApp = NULL;
+
 GearApplication::GearApplication(const GearCommandLine &cmdline, const char *assetPathPrefix) :
 	m_cmdline(cmdline)
 {
+	ph_assert2(!m_sApp,"m_sApp != NULL");
+	m_sApp = this;
+
 	GearPlatformUtil::getSingleton()->correctCurrentDir();
 
 	if (assetPathPrefix)
@@ -148,5 +153,11 @@ void GearApplication::captureInput()
 	m_mouse->capture();
 	m_keyboard->capture();
 }
+
+GearApplication* GearApplication::getApp()
+{
+	return m_sApp;
+}
+
 
 _NAMESPACE_END

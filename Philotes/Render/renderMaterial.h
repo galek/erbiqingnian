@@ -118,7 +118,9 @@ class RenderMaterial
 		virtual void setModelMatrix(const scalar *matrix) = 0;
 		
 	protected:
+
 		RenderMaterial(const RenderMaterialDesc &desc);
+
 		virtual ~RenderMaterial(void);
 	
 	public:
@@ -155,8 +157,8 @@ class RenderMaterial
 
 		CullMode			m_cullMode;
 
-		std::vector<Variable*> m_variables;
-		uint32               m_variableBufferSize;
+		Array<Variable*>	m_variables;
+		uint32				m_variableBufferSize;
 };
 
 _NAMESPACE_END

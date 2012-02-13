@@ -19,11 +19,15 @@ class GearAssetManager : public Singleton<GearAssetManager>
 		Render&			getRender(void) { return m_renderer; }
 		
 		GearAsset*		getAsset(const char *path, GearAsset::Type type);
+
 		void			returnAsset(GearAsset &asset);
 		
 		void         	addSearchPath(const char *path);
+
 		void         	clearSearchPaths(void);
+
 		FILE*		 	findFile(const char* path);
+
 		const char*	 	findPath(const char* path);
 
 		/**
@@ -38,15 +42,18 @@ class GearAssetManager : public Singleton<GearAssetManager>
 		\param	[in] maxRecursion Maximum number steps to move up in the folder hierarchy
 		return	true if path was found
 		*/
-		static bool searchForPath(const char* path, char* buffer, int bufferSize, int maxRecursion);
+		static bool 	searchForPath(const char* path, char* buffer, int bufferSize, int maxRecursion);
 	
 	protected:
-		GearAsset *findAsset(const char *path);
-		GearAsset *loadAsset(const char *path);
-		void         releaseAsset(GearAsset &asset);
+		GearAsset*		findAsset(const char *path);
+
+		GearAsset*		loadAsset(const char *path);
+
+		void			releaseAsset(GearAsset &asset);
 		
-		GearAsset *loadXMLAsset(FILE &file, const char *path);
-		GearAsset *loadTextureAsset(FILE &file, const char *path, GearTextureAsset::Type texType);
+		GearAsset*		loadXMLAsset(FILE &file, const char *path);
+
+		GearAsset*		loadTextureAsset(FILE &file, const char *path, GearTextureAsset::Type texType);
 	
 	private:
 		GearAssetManager &operator=(const GearAssetManager&) { return *this; }

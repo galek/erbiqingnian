@@ -9,6 +9,15 @@ namespace rapidxml
 
 _NAMESPACE_BEGIN
 
+enum PrefabMaterial
+{
+	PM_LIGHT,
+	PM_LIGHT_COLOR,
+	PM_UNLIGHT
+};
+
+//////////////////////////////////////////////////////////////////////////
+
 class GearMaterialAsset : public GearAsset
 {
 	friend class GearAssetManager;
@@ -21,26 +30,31 @@ protected:
 
 public:
 	size_t						getNumVertexShaders() const;
-	RenderMaterial*			getMaterial(size_t vertexShaderIndex = 0);
-	RenderMaterialInstance*	getMaterialInstance(size_t vertexShaderIndex = 0);
+
+	RenderMaterial*				getMaterial(size_t vertexShaderIndex = 0);
+
+	RenderMaterialInstance*		getMaterialInstance(size_t vertexShaderIndex = 0);
+
 	unsigned int				getMaxBones(size_t vertexShaderIndex) const;
 
-public:
 	virtual bool				isOk(void) const;
 
+	static GearMaterialAsset*	getPrefabAsset(PrefabMaterial type);
+
 private:
+
 	GearAssetManager			&m_assetManager;
 
 	struct MaterialStruct
 	{
 		RenderMaterial         *m_material;
 		RenderMaterialInstance *m_materialInstance;
-		unsigned int              m_maxBones;
+		unsigned int			m_maxBones;
 	};
 
-	std::vector<MaterialStruct> m_vertexShaders;
+	Array<MaterialStruct>		m_vertexShaders;
 
-	std::vector<GearAsset*> m_assets;
+	Array<GearAsset*>			m_assets;
 };
 
 _NAMESPACE_END
