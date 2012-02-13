@@ -28,15 +28,11 @@ public:
 	virtual	void		onRender(void);
 	virtual	void		onTickPostRender(float dtime);
 
-	virtual int			getDisplayWidth(void);
-	virtual int			getDisplayHeight(void);
-
 	virtual bool		keyPressed( const KeyEvent &arg );
 	virtual bool		keyReleased( const KeyEvent &arg );
 	virtual bool 		mouseMoved( const MouseEvent &arg );
 	virtual bool 		mousePressed( const MouseEvent &arg, MouseButtonID id );
 	virtual bool 		mouseReleased( const MouseEvent &arg, MouseButtonID id );
-
 
 protected:
 

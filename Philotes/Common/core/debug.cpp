@@ -18,7 +18,7 @@ static void Error(const char* error)
     This function is called by ph_assert() when the assertion fails.
 */
 void 
-n_barf(const char* exp, const char* file, int line)
+ph_barf(const char* exp, const char* file, int line)
 {
 	String msg;
 	msg.Format("*** PHILOTES ASSERTION ***\nexpression: %s\nfile: %s\nline: %d\n", exp, file, line);
@@ -30,7 +30,7 @@ n_barf(const char* exp, const char* file, int line)
     This function is called by ph_assert2() when the assertion fails.
 */
 void
-n_barf2(const char* exp, const char* msg, const char* file, int line)
+ph_barf2(const char* exp, const char* msg, const char* file, int line)
 {
 	String m;
 	m.Format("*** PHILOTES ASSERTION ***\nexpression: %s\nfile: %s\nline: %d\n", exp, file, line);
@@ -43,7 +43,7 @@ n_barf2(const char* exp, const char* msg, const char* file, int line)
     requires abortion of the application.
 */
 void __cdecl
-n_error(const char* msg, ...)
+ph_error(const char* msg, ...)
 {
     va_list argList;
     va_start(argList, msg);
@@ -61,7 +61,7 @@ n_error(const char* msg, ...)
     require abortion of the application.
 */
 void __cdecl
-n_warning(const char* msg, ...)
+ph_warning(const char* msg, ...)
 {
     va_list argList;
     va_start(argList, msg);
@@ -79,7 +79,7 @@ n_warning(const char* msg, ...)
     user which requires a confirmation (usually displayed as a MessageBox).
 */
 void __cdecl
-n_confirm(const char* msg, ...)
+ph_confirm(const char* msg, ...)
 {
 	va_list argList;
 	va_start(argList, msg);
@@ -99,7 +99,7 @@ n_confirm(const char* msg, ...)
      - 27-Nov-98   floh    created
 */
 void __cdecl
-n_printf(const char *msg, ...)
+ph_printf(const char *msg, ...)
 {
     va_list argList;
     va_start(argList, msg);
@@ -119,7 +119,7 @@ n_printf(const char *msg, ...)
     - 26-Mar-05    kims    created
 */
 void __cdecl
-n_dbgout(const char *msg, ...)
+ph_dbgout(const char *msg, ...)
 {
     va_list argList;
     va_start(argList,msg);
@@ -139,7 +139,7 @@ n_dbgout(const char *msg, ...)
      - 21-Dec-98   floh    created
 */
 void 
-n_sleep(double sec)
+ph_sleep(double sec)
 {
 	int milliSecs = int(sec * 1000.0);
 	::Sleep(milliSecs);

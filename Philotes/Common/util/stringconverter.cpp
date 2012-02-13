@@ -40,7 +40,7 @@ SizeT StringConverter::UTF8ToWide(const char* src, ushort* dst, SizeT dstMaxByte
             case ERROR_NO_UNICODE_TRANSLATION: errMessage.Format("ERROR_NO_UNICODE_TRANSLATION... should never happen."); break;
             default: errMessage = "Unknown Error";
         }
-        n_error("Win32StringConverter::UTF8ToWide() failed to convert string '%s' to wide char! Error '%s'", src, errMessage.AsCharPtr());
+        ph_error("Win32StringConverter::UTF8ToWide() failed to convert string '%s' to wide char! Error '%s'", src, errMessage.AsCharPtr());
         return 0;
     }
 }
@@ -62,7 +62,7 @@ String StringConverter::WideToUTF8(ushort* src)
     }
     else
     {
-        n_error("Win32StringConverter::WideToUTF8(): failed to convert string!");
+        ph_error("Win32StringConverter::WideToUTF8(): failed to convert string!");
         return 0;
     }
 }

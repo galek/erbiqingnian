@@ -36,9 +36,6 @@ public:
 
 	virtual void				_notifyAttached(RenderNode* parent);
 
-	// 默认需要材质和模型
-	virtual bool				isValid(void) const;
-
 	bool						isLocked(void) const;
 
 protected:

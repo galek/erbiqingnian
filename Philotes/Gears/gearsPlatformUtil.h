@@ -8,17 +8,17 @@
 
 _NAMESPACE_BEGIN
 
-class GearPlatform : public Singleton<GearPlatform>
+class GearPlatformUtil : public Singleton<GearPlatformUtil>
 {
 public:
 
-	_DECLARE_SINGLETON(GearPlatform);
+	_DECLARE_SINGLETON(GearPlatformUtil);
 
 public:
 
-	explicit							GearPlatform(RenderWindow* rw);
+	explicit							GearPlatformUtil(RenderWindow* rw);
 
-	virtual								~GearPlatform();
+	virtual								~GearPlatformUtil();
 
 	// System
 	virtual void						correctCurrentDir(void);
@@ -50,18 +50,9 @@ public:
 	
 	virtual void						recenterCursor(scalar& deltaMouseX, scalar& deltaMouseY);
 	
-	virtual void						showMessage(const char* title, const char* message);
-	
-	virtual void*						compileProgram(void * context, 
-											const char *programPath, uint64 profile, 
-											const char *entry, const char **args);
-	
 	virtual void*						initializeD3D9();
 	
 	virtual bool						isD3D9ok();
-	
-	// Rendering
-	virtual void						initializeCGRuntimeCompiler();
 	
 	virtual uint32						initializeD3D9Display(void * presentParameters, 
 											char* m_deviceName, uint32& width, 

@@ -94,7 +94,7 @@ StringBuffer::AddString(const char* str)
         #if NEBULA3_ENABLE_GLOBAL_STRINGBUFFER_GROWTH
         this->AllocNewChunk();
         #else
-        n_error("String buffer full when adding string '%s' (string buffer growth is disabled)!\n", str);
+        ph_error("String buffer full when adding string '%s' (string buffer growth is disabled)!\n", str);
         #endif
     }
 

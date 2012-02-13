@@ -65,7 +65,6 @@ private:
 	uint64						m_timeCounter;
 	Timer						m_time;
 
-	// get rid of stupid C4512
 	void						operator=(const GearApplication&);
 
 };	

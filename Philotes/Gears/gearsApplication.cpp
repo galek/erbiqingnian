@@ -1,6 +1,6 @@
 
 #include "gearsApplication.h"
-#include "gearsPlatform.h"
+#include "gearsPlatformUtil.h"
 #include "gearsAssetManager.h"
 #include "gearsComandLine.h"
 
@@ -16,7 +16,7 @@ char gAssetDir[1024];
 GearApplication::GearApplication(const GearCommandLine &cmdline, const char *assetPathPrefix) :
 	m_cmdline(cmdline)
 {
-	m_platform->correctCurrentDir();
+	GearPlatformUtil::getSingleton()->correctCurrentDir();
 
 	if (assetPathPrefix)
 	{
@@ -52,7 +52,7 @@ GearApplication::~GearApplication(void)
 
 void GearApplication::onOpen( void )
 {
-	m_platform->preRenderSetup();
+	GearPlatformUtil::getSingleton()->preRenderSetup();
 
 	char rendererdir[1024];
 	strcpy_s(rendererdir, sizeof(rendererdir), m_assetPathPrefix);
@@ -62,8 +62,8 @@ void GearApplication::onOpen( void )
 	strcpy_s(gShadersDir, sizeof(gShadersDir), rendererdir);
 	strcat_s(gShadersDir, sizeof(gShadersDir), "shaders/");
 
-	m_renderer = Render::createRender(m_platform->getWindowHandle());
-	m_platform->postRenderSetup();
+	m_renderer = Render::createRender(GearPlatformUtil::getSingleton()->getWindowHandle());
+	GearPlatformUtil::getSingleton()->postRenderSetup();
 
 	m_timeCounter = m_time.getCurrentCounterValue();
 
@@ -85,7 +85,7 @@ bool GearApplication::onClose( void )
 	DELETESINGLE(m_assetManager);
 	SAFE_RELEASE(m_renderer);
 
-	m_platform->postRenderRelease();
+	GearPlatformUtil::getSingleton()->postRenderRelease();
 
 	return true;
 }
@@ -118,7 +118,7 @@ void GearApplication::setupInput()
 	size_t winHandle = 0;
 
 	String hwnd;
-	hwnd.SetInt64(m_platform->getWindowHandle());
+	hwnd.SetInt64(GearPlatformUtil::getSingleton()->getWindowHandle());
 	pl.insert(std::make_pair("WINDOW", hwnd.c_str()));
 
 	m_inputManager = GearInputManager::createInputSystem(pl);
