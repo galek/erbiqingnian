@@ -495,8 +495,7 @@ void D3D9Render::endRender(void)
 
 void D3D9Render::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 {
-	// TODO : 可能有问题
-	m_viewMatrix = eye.transpose();
+	m_viewMatrix = eye;
 	convertToD3D9(m_environment.viewMatrix, m_viewMatrix);
 	convertToD3D9(m_environment.projMatrix, proj);
 	

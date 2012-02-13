@@ -80,12 +80,6 @@ public:
 	virtual void						preRenderSetup();
 	
 	virtual void						postRenderSetup();
-	
-	// Input
-	virtual void						doInput();
-	
-	virtual void						processGamepads();
-
 
 	Render*								getRender();
 

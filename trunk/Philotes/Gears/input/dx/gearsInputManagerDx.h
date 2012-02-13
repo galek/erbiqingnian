@@ -1,0 +1,89 @@
+#pragma once
+
+#include "../gearsInputManager.h"
+#include "../gearsInputFactoryCreator.h"
+#include "gearsInputPrereqsDx.h"
+
+namespace Philo
+{
+	/**	Win32InputManager specialization - Using DirectInput8 */
+	class Win32InputManager : public GearInputManager, public GearInputFactoryCreator
+	{
+	public:
+		Win32InputManager();
+		virtual ~Win32InputManager();
+
+		//InputManager Overrides
+		/** @copydoc InputManager::_initialize */
+		void _initialize( ParamList &paramList );
+
+		//FactoryCreator Overrides
+		/** @copydoc FactoryCreator::deviceList */
+		DeviceList freeDeviceList();
+
+		/** @copydoc FactoryCreator::totalDevices */
+		int totalDevices(Type iType);
+
+		/** @copydoc FactoryCreator::freeDevices */
+		int freeDevices(Type iType);
+
+		/** @copydoc FactoryCreator::vendorExist */
+		bool vendorExist(Type iType, const std::string & vendor);
+
+		/** @copydoc FactoryCreator::createObject */
+		GearInputObject* createObject(GearInputManager* creator, Type iType, bool bufferMode, const std::string & vendor = "");
+
+		/** @copydoc FactoryCreator::destroyObject */
+		void destroyObject(GearInputObject* obj);
+
+		//Internal Items
+		//! Internal method, used for flaggin keyboard as available/unavailable for creation
+		void _setKeyboardUsed(bool used) {keyboardUsed = used; }
+
+		//! Internal method, used for flaggin mouse as available/unavailable for creation
+		void _setMouseUsed(bool used) { mouseUsed = used; }
+		
+		//! Internal method, return unused joystick to queue
+		void _returnJoyStick(const JoyStickInfo& joystick);
+
+		//! Returns HWND needed by DirectInput Device Object
+		HWND getWindowHandle() { return hWnd; }
+
+	protected:
+		//! internal class method for dealing with param list
+		void _parseConfigSettings( ParamList &paramList );
+		
+		//! internal class method for finding attached devices
+		void _enumerateDevices();
+
+		//! Used during device enumeration
+		static BOOL CALLBACK _DIEnumKbdCallback(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+
+		//! Keep a list of all joysticks enumerated, but not in use
+		JoyStickInfoList unusedJoyStickList;
+
+		//! The window handle we are using
+		HWND hWnd;
+
+		//! Direct Input Interface
+		IDirectInput8* mDirectInput;
+
+		//! Used for keyboard device settings
+		DWORD kbSettings;
+
+		//! Used for mouse device settings
+		DWORD mouseSettings;
+
+		//! Used for joystick device settings
+		DWORD joySettings;
+
+		//! Number of total joysticks (inuse or not)
+		char joySticks;
+
+		//! Used to know if we used up keyboard
+		bool keyboardUsed;
+
+		//! Used to know if we used up mouse
+		bool mouseUsed;
+	};
+}

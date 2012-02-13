@@ -13,6 +13,7 @@ namespace Philo
 		ERR_RENDER,
 		ERR_LOGIC,
 		ERR_NETWORK,
+		ERR_INPUT,
 		ERR_UNKNOW
 	};
 

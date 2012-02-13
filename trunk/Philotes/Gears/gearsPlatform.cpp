@@ -18,42 +18,6 @@ static const char *g_windowClassName = "phwndclass";
 static const DWORD g_windowStyle     = WS_OVERLAPPEDWINDOW;
 static const DWORD g_fullscreenStyle = WS_POPUP;
 
-static void doOnMouseDown(HWND m_hwnd, RenderWindow &window, LPARAM lParam, RenderWindow::MouseButton button)
-{
-	RECT rect;
-	GetClientRect(m_hwnd, &rect);
-	const uint32 height = (uint32)(rect.bottom-rect.top);
-	window.onMouseDown((uint32)LOWORD(lParam), height-(uint32)HIWORD(lParam), button);
-}
-
-static void doOnMouseUp(HWND m_hwnd, RenderWindow &window, LPARAM lParam, RenderWindow::MouseButton button)
-{
-	RECT rect;
-	GetClientRect(m_hwnd, &rect);
-	const uint32 height = (uint32)(rect.bottom-rect.top);
-	window.onMouseUp((uint32)LOWORD(lParam), height-(uint32)HIWORD(lParam), button);
-}
-
-static RenderWindow::KeyCode getKeyCode(WPARAM wParam)
-{
-	RenderWindow::KeyCode keyCode = RenderWindow::KEY_UNKNOWN;
-	const int keyparam = (int)wParam;
-
-	if(keyparam >= 'A' && keyparam <= 'Z') keyCode = (RenderWindow::KeyCode)((keyparam - 'A')+RenderWindow::KEY_A);
-	else if(keyparam >= '0' && keyparam <= '9') keyCode = (RenderWindow::KeyCode)((keyparam - '0')+RenderWindow::KEY_0);
-	else if(keyparam >= VK_NUMPAD0 && keyparam <= VK_DIVIDE) keyCode = (RenderWindow::KeyCode)((keyparam - VK_NUMPAD0)+RenderWindow::KEY_NUMPAD0);
-	else if(keyparam == VK_SHIFT) keyCode = RenderWindow::KEY_SHIFT;
-	else if(keyparam == VK_CONTROL) keyCode = RenderWindow::KEY_CONTROL;
-	else if(keyparam == VK_SPACE) keyCode = RenderWindow::KEY_SPACE;
-	else if(keyparam == VK_ESCAPE) keyCode = RenderWindow::KEY_ESCAPE;
-	else if(keyparam == VK_OEM_COMMA) keyCode = RenderWindow::KEY_COMMA;
-	else if(keyparam == VK_OEM_2) keyCode = RenderWindow::KEY_DIVIDE;
-	else if(keyparam == VK_OEM_MINUS) keyCode = RenderWindow::KEY_SUBTRACT;
-	else if(keyparam == VK_OEM_PLUS) keyCode = RenderWindow::KEY_ADD;
-
-	return keyCode;
-}
-
 static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 #if defined(RENDERER_64BIT)
@@ -91,37 +55,24 @@ static INT_PTR CALLBACK windowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			break;
 
 		case WM_MOUSEMOVE:
-			if(window)
-			{
-				RECT rect;
-				GetClientRect(hwnd, &rect);
-				uint32 height = (uint32)(rect.bottom-rect.top);
-				window->onMouseMove((uint32)LOWORD(lParam), height-(uint32)HIWORD(lParam));
-			}
 			break;
 
 		case WM_LBUTTONDOWN:
-			if(window) doOnMouseDown(hwnd, *window, lParam, RenderWindow::MOUSE_LEFT);
 			break;
 
 		case WM_LBUTTONUP:
-			if(window) doOnMouseUp(hwnd, *window, lParam, RenderWindow::MOUSE_LEFT);
 			break;
 
 		case WM_RBUTTONDOWN:
-			if(window) doOnMouseDown(hwnd, *window, lParam, RenderWindow::MOUSE_RIGHT);
 			break;
 
 		case WM_RBUTTONUP:
-			if(window) doOnMouseUp(hwnd, *window, lParam, RenderWindow::MOUSE_RIGHT);
 			break;
 
 		case WM_KEYDOWN:
-			if(window) window->onKeyDown(getKeyCode(wParam));
 			break;
 
 		case WM_KEYUP:
-			if(window) window->onKeyUp(getKeyCode(wParam));
 			break;
 
 		case WM_PAINT:
@@ -572,16 +523,6 @@ void GearPlatform::postRenderSetup()
 	strcat_s(windowTitle, 1024, Render::getDriverTypeName(
 		m_sf_app->getRender()->getDriverType()));
 	m_app->setTitle(windowTitle);
-}
-
-void GearPlatform::doInput()
-{
-	processGamepads();
-}
-
-void GearPlatform::processGamepads()
-{
-	// ÔÝÊ±²»¹Ü
 }
 
 Render* GearPlatform::getRender()

@@ -2,22 +2,23 @@
 
 #include "renderWindow.h"
 #include "util/timer.h"
+#include "input/gearsInput.h"
 
 _NAMESPACE_BEGIN
 
-class GearApplication : public RenderWindow
+class GearApplication : public	RenderWindow,
+								GearKeyListener,
+								GearMouseListener
 {
 public:
 
-	GearApplication(const GearCommandLine& cmdline, const char* assetPathPrefix="media", MouseButton camMoveButton = MOUSE_LEFT);
+	GearApplication(const GearCommandLine& cmdline, const char* assetPathPrefix="media");
 
 	virtual						~GearApplication(void);
 
 	Render*						getRender(void)									{ return m_renderer; }
 	GearAssetManager*			getAssetManager(void)							{ return m_assetManager; }
 	inline const char*			getAssetPathPrefix(void)				const	{ return m_assetPathPrefix; }
-	bool						isKeyDown(KeyCode keyCode)				const	{ return m_keyState[keyCode];			}
-	bool						isMouseButtonDown(MouseButton button)	const	{ return m_mouseButtonState[button];	}
 
 	virtual	void				onInit(void)					= 0;
 	virtual	void				onShutdown(void)				= 0;
@@ -29,15 +30,15 @@ public:
 	virtual	bool				onClose(void);
 	virtual	void				onDraw(void);
 
-	virtual	void				onMouseMove(uint32 x, uint32 y);
-	virtual	void				onMouseDown(uint32 /*x*/, uint32 /*y*/, MouseButton button);
-	virtual	void				onMouseUp(uint32 /*x*/, uint32 /*y*/, MouseButton button);
+	void						setupInput();
+	void						shutdownInput();
+	void						captureInput();
 
-	virtual	void				onKeyDown(KeyCode keyCode);
-	virtual	void				onKeyUp(KeyCode keyCode);
-
-	void						rotateCamera(scalar dx, scalar dy);
-	virtual	void				doInput(void);
+	virtual bool				keyPressed( const KeyEvent &arg )							= 0;
+	virtual bool				keyReleased( const KeyEvent &arg )							= 0;
+	virtual bool 				mouseMoved( const MouseEvent &arg )							= 0;
+	virtual bool 				mousePressed( const MouseEvent &arg, MouseButtonID id )		= 0;
+	virtual bool 				mouseReleased( const MouseEvent &arg, MouseButtonID id )	= 0;
 
 protected:
 
@@ -50,14 +51,14 @@ protected:
 	RenderCamera*				m_camera;
 
 	char						m_assetPathPrefix[256];
+
 	GearAssetManager*			m_assetManager;
 
-	Vector3						m_eyeRot;
-	uint32						m_mouseX, m_mouseY;
-	bool						m_mouseButtonState[NUM_MOUSE_BUTTONS];
-	bool						m_keyState[NUM_KEY_CODES];
+	GearInputManager*			m_inputManager;
 
-	MouseButton					m_camMoveButton;
+	GearKeyboard*				m_keyboard;
+
+	GearMouse*					m_mouse;
 
 private:
 
