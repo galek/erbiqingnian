@@ -77,115 +77,115 @@ public:
 	_PhiloCommonExport friend bool operator <=(const String& a, const String& b);
 	_PhiloCommonExport friend bool operator >=(const String& a, const String& b);
 
-    void		Reserve(SizeT newSize);																		// reserve internal buffer size to prevent heap allocs
-    SizeT		Length() const;																					// return length of string
-    void		Clear();																								// clear the string
-    bool		IsEmpty() const;																					// return true if string object is empty
-    bool		IsValid() const;																					// return true if string object is not empty
-    bool		CopyToBuffer(char* buf, SizeT bufSize) const;											// copy to char buffer (return false if buffer is too small)
+    void				Reserve(SizeT newSize);																		// reserve internal buffer size to prevent heap allocs
+    SizeT				Length() const;																					// return length of string
+    void				Clear();																								// clear the string
+    bool				IsEmpty() const;																					// return true if string object is empty
+    bool				IsValid() const;																					// return true if string object is not empty
+    bool				CopyToBuffer(char* buf, SizeT bufSize) const;											// copy to char buffer (return false if buffer is too small)
 
-	void		AppendRange(const char* str, SizeT numChars);										// append a range of characters
-    void		Append(const String& str);																	// append string
-    void		Append(const char* str);																		// append c-string
+	void				AppendRange(const char* str, SizeT numChars);										// append a range of characters
+    void				Append(const String& str);																	// append string
+    void				Append(const char* str);																		// append c-string
 
-	void		ToLower();																							// convert string to lower case
-	void		ToUpper();																							// convert string to upper case
-    void		FirstCharToUpper();																				// convert first char of string to upper case
+	void				ToLower();																							// convert string to lower case
+	void				ToUpper();																							// convert string to upper case
+    void				FirstCharToUpper();																				// convert first char of string to upper case
 
-	String		SubString(IndexT offset = 0, SizeT n = InvalidIndex) const;							// this substring is the character sequence that starts at character position pos and has a length of n characters   by  Li
-	String		ExtractRange(IndexT fromIndex, SizeT numChars) const;								// extract substring, the same as SubString  by  Li
-	String		ExtractToEnd(IndexT fromIndex) const;													// extract substring to end of this string
-	void		Strip(const String& charSet);																	// terminate string at first occurence of character in set
+	String				SubString(IndexT offset = 0, SizeT n = InvalidIndex) const;							// this substring is the character sequence that starts at character position pos and has a length of n characters   by  Li
+	String				ExtractRange(IndexT fromIndex, SizeT numChars) const;								// extract substring, the same as SubString  by  Li
+	String				ExtractToEnd(IndexT fromIndex) const;													// extract substring to end of this string
+	void				Strip(const String& charSet);																	// terminate string at first occurence of character in set
 
-	IndexT	FindStringIndex(const String& s, IndexT startIndex = 0) const;						// return start index of substring, or InvalidIndex if not found   Modified  by  Li
-	IndexT	FindStringIndex(const char* s, IndexT startIndex = 0) const;						// return start index of substring of c-style, or InvalidIndex if not found   Added  by  Li
-	IndexT	FindCharIndex(char c, IndexT startIndex = 0) const;									// return index(first occurrence) of character in string, or InvalidIndex if not found
-	IndexT	FindCharIndexFromSet(const String& charSet, IndexT startIndex = 0) const;	// return index of the first occurrence in the string of any character from charSet searched for    Added  by  Li
-	IndexT	FindCharLastIndex(char c) const;															// return index(last occurrence) of character in string, or InvalidIndex if not found     Added  by  Li
+	IndexT				FindStringIndex(const String& s, IndexT startIndex = 0) const;						// return start index of substring, or InvalidIndex if not found   Modified  by  Li
+	IndexT				FindStringIndex(const char* s, IndexT startIndex = 0) const;						// return start index of substring of c-style, or InvalidIndex if not found   Added  by  Li
+	IndexT				FindCharIndex(char c, IndexT startIndex = 0) const;									// return index(first occurrence) of character in string, or InvalidIndex if not found
+	IndexT				FindCharIndexFromSet(const String& charSet, IndexT startIndex = 0) const;	// return index of the first occurrence in the string of any character from charSet searched for    Added  by  Li
+	IndexT				FindCharLastIndex(char c) const;															// return index(last occurrence) of character in string, or InvalidIndex if not found     Added  by  Li
 
-	void		TerminateAtIndex(IndexT index);																// terminate string at given index
-	bool		ContainsCharFromSet(const String& charSet) const;									// returns true if string contains any character from set
-	void		TrimLeft(const String& charSet);																// delete characters from charset at left side of string
-	void		TrimRight(const String& charSet);															// delete characters from charset at right side of string
-	void		Trim(const String& charSet);																	// trim characters from charset at both sides of string
+	void				TerminateAtIndex(IndexT index);																// terminate string at given index
+	bool				ContainsCharFromSet(const String& charSet) const;									// returns true if string contains any character from set
+	void				TrimLeft(const String& charSet);																// delete characters from charset at left side of string
+	void				TrimRight(const String& charSet);															// delete characters from charset at right side of string
+	void				Trim(const String& charSet);																	// trim characters from charset at both sides of string
 
-	void		SubstituteString(const char* matchStr, const char* substStr);					// substitute every occurance of a string with another string  TODO: needs optimization
-	void		SubstituteString(const String& matchStr, const String& substStr);				// substitute every occurance of a string with another string
-	void		SubstituteChar(char c, char subst);															// substiture every occurance of a character with another character
-	bool		CheckValidCharSet(const String& charSet) const;										// return true if string only contains characters from charSet argument
-	void		ReplaceChars(const String& charSet, char replacement);								// replace any char set character within a srtring with the replacement character
+	void				SubstituteString(const char* matchStr, const char* substStr);					// substitute every occurance of a string with another string  TODO: needs optimization
+	void				SubstituteString(const String& matchStr, const String& substStr);				// substitute every occurance of a string with another string
+	void				SubstituteChar(char c, char subst);															// substiture every occurance of a character with another character
+	bool				CheckValidCharSet(const String& charSet) const;										// return true if string only contains characters from charSet argument
+	void				ReplaceChars(const String& charSet, char replacement);								// replace any char set character within a srtring with the replacement character
 
-    SizeT					Tokenize(const String& whiteSpace, Array<String>& outTokens) const;												// tokenize string into a provided String array (faster if tokens array can be reused)   
+    SizeT				Tokenize(const String& whiteSpace, Array<String>& outTokens) const;												// tokenize string into a provided String array (faster if tokens array can be reused)   
     Array<String>		Tokenize(const String& whiteSpace) const;																					// tokenize string into a provided String array, SLOW since new array will be constructed
-	SizeT					TokenizeEx(const String& whiteSpace, Array<String>& outTokens, unsigned int maxSplits = 0) const;		// tokenize string into a provided String array (faster if tokens array can be reused)   Added by Li
+	SizeT				TokenizeEx(const String& whiteSpace, Array<String>& outTokens, unsigned int maxSplits = 0) const;		// tokenize string into a provided String array (faster if tokens array can be reused)   Added by Li
 	Array<String>		TokenizeEx(const String& whiteSpace, unsigned int maxSplits = 0) const;											// tokenize string into a provided String array, SLOW since new array will be constructed    Added by Li
-    SizeT					Tokenize(const String& whiteSpace, char fence, Array<String>& outTokens) const;								// tokenize string, keep strings within fence characters intact (faster if tokens array can be reused)
+    SizeT				Tokenize(const String& whiteSpace, char fence, Array<String>& outTokens) const;								// tokenize string, keep strings within fence characters intact (faster if tokens array can be reused)
     Array<String>		Tokenize(const String& whiteSpace, char fence) const;																	// tokenize string, keep strings within fence characters intact, SLOW since new array will be constructed
-   
+
 	void __cdecl		Format(const char* fmtString, ...);																								// format string printf-style
 	void __cdecl		FormatArgList(const char* fmtString, va_list argList);																		// format string printf-style with varargs list
 
-    static String	Concatenate(const Array<String>& strArray, const String& whiteSpace);								// concatenate array of strings into new string
-    static bool		MatchPattern(const String& str, const String& pattern);														// pattern matching, case sensitive true
-	static bool		MatchPatternEx(const String& str, const String& pattern, bool caseSensitive = true);				// pattern matching extended   Added by Li
-	static bool		StartsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string begins with the pattern passed in    Added by Li
-	static bool		EndsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string ends with the pattern passed in   Added by Li
-	static String	BLANK;
+    static String		Concatenate(const Array<String>& strArray, const String& whiteSpace);								// concatenate array of strings into new string
+    static bool			MatchPattern(const String& str, const String& pattern);														// pattern matching, case sensitive true
+	static bool			MatchPatternEx(const String& str, const String& pattern, bool caseSensitive = true);				// pattern matching extended   Added by Li
+	static bool			StartsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string begins with the pattern passed in    Added by Li
+	static bool			EndsWith(const String& str, const String& pattern, bool caseSensitive = true);						// returns whether the string ends with the pattern passed in   Added by Li
+	static String		BLANK;
 
-    IndexT	HashCode() const;					// return a 32-bit hash code for the string
-	size_t		hash_code_std_style() const;	//computes a hash code for the string by pseudorandomizing transform in std style. (std::hash xhash hash_compare)      Added by Li
+    IndexT				HashCode() const;					// return a 32-bit hash code for the string
+	size_t				hash_code_std_style() const;	//computes a hash code for the string by pseudorandomizing transform in std style. (std::hash xhash hash_compare)      Added by Li
 
     void				SetCharPtr(const char* s);				// set content to char ptr
     void				Set(const char* ptr, SizeT length);		// set as char ptr, with explicit length
-	const char*	AsCharPtr() const;							// return contents as character pointer
+	const char*			AsCharPtr() const;							// return contents as character pointer
     
-	void		SetInt64(int64 val);		// set as int value
-    void		SetInt(int val);		// set as int value
-    void		SetFloat(float val);	// set as float value
-    void		SetBool(bool val);		// set as bool value
+	void				SetInt64(int64 val);		// set as int value
+    void				SetInt(int val);		// set as int value
+    void				SetFloat(float val);	// set as float value
+    void				SetBool(bool val);		// set as bool value
     
 
-	void SetVector2(const Vector2& v);
-	void SetVector3(const Vector3& v);
-	void SetVector4(const Vector4& v);
-	void SetQuaternion(const Quaternion& v);
-	void SetMatrix3(const Matrix3& v);
-	void SetMatrix4(const Matrix4& v);
-	void SetColourValue(const Colour& v);
+	void 				SetVector2(const Vector2& v);
+	void 				SetVector3(const Vector3& v);
+	void 				SetVector4(const Vector4& v);
+	void 				SetQuaternion(const Quaternion& v);
+	void 				SetMatrix3(const Matrix3& v);
+	void 				SetMatrix4(const Matrix4& v);
+	void 				SetColourValue(const Colour& v);
 
 
     /// generic setter
     template<typename T> void Set(const T& t);
 
 
-    void AppendInt(int val);
-    void AppendFloat(float val);
-    void AppendBool(bool val);
+    void 				AppendInt(int val);
+    void 				AppendFloat(float val);
+    void 				AppendBool(bool val);
 
-	void AppendVector2(const Vector2& v);
-	void AppendVector3(const Vector3& v);
-	void AppendVector4(const Vector4& v);
-	void AppendQuaternion(const Quaternion& v);
-	void AppendMatrix3(const Matrix3& v);
-	void AppendMatrix4(const Matrix4& v);
-	void AppendColourValue(const Colour& v);
+	void 				AppendVector2(const Vector2& v);
+	void 				AppendVector3(const Vector3& v);
+	void 				AppendVector4(const Vector4& v);
+	void 				AppendQuaternion(const Quaternion& v);
+	void 				AppendMatrix3(const Matrix3& v);
+	void 				AppendMatrix4(const Matrix4& v);
+	void 				AppendColourValue(const Colour& v);
 
     /// generic append
     template<typename T> void Append(const T& t);
 
     
     int					AsInt() const;			// return contents as integer
-    unsigned long	AsUint32() const;		// return contents as unsigned long integer     added by Li
+    unsigned long		AsUint32() const;		// return contents as unsigned long integer     added by Li
     float				AsFloat() const;		// return contents as float
     bool				AsBool() const;		// return contents as bool
 
-	Vector2			AsVector2() const;
-	Vector3			AsVector3() const;
-	Vector4			AsVector4() const;
-	Quaternion		AsQuaternion() const;
-	Matrix3			AsMatrix3() const;
-	Matrix4			AsMatrix4() const;
-	Colour		AsColourValue() const;
+	Vector2				AsVector2() const;
+	Vector3				AsVector3() const;
+	Vector4				AsVector4() const;
+	Quaternion			AsQuaternion(bool wFirst = true) const;//ÊÇw x y z»¹ÊÇ x y z w
+	Matrix3				AsMatrix3() const;
+	Matrix4				AsMatrix4() const;
+	Colour				AsColourValue() const;
 
 
     /// convert to "anything"

@@ -80,7 +80,7 @@ public:
 
 	virtual void				importConvexHull(const char *collision_rep,
 													const char *boneName,
-													const scalar *transform,
+													const Matrix4& transform,
 													uint32 vertex_count,
 													const scalar *vertices,
 													uint32 tri_count,
@@ -88,18 +88,18 @@ public:
 
 	virtual void				importSphere(const char *collision_rep,
 													const char *boneName,
-													const scalar *transform,
+													const Matrix4& transform,
 													scalar radius) = 0;
 
 	virtual void				importCapsule(const char *collision_rep,
 													const char *boneName,
-													const scalar *transform,
+													const Matrix4& transform,
 													scalar radius,
 													scalar height) = 0;
 
 	virtual void				importOBB(const char *collision_rep,
 													const char *boneName,
-													const scalar *transform,
+													const Matrix4& transform,
 													const scalar *sides) = 0;
 
 	virtual int32				getSerializeFrame(void) = 0;
@@ -129,7 +129,7 @@ public:
 
 	virtual const char *		getDescription(int32 index=0) = 0;	
 
-	virtual bool				importMesh(const char *meshName,const void *data,int32 dlen,MeshImportInterface *callback,
+	virtual bool				importMesh(const char *meshName,const void *data,uint32 dlen,MeshImportInterface *callback,
 										const char *options,MeshImportApplicationResource *appResource) = 0;
 };
 
