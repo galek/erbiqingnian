@@ -23,7 +23,7 @@
 */
 
 #ifdef _DEBUG
-#define NEBULA3_DEBUG (1)
+#define PH_DEBUG (1)
 #endif
 
 /// max size of a data slice is 16 kByte - 1 byte
@@ -38,115 +38,115 @@ static const int JobMaxSliceSize = 0x3FFF;
 #endif
 
 // define whether a platform comes with archive support built into the OS
-#define NEBULA3_NATIVE_ARCHIVE_SUPPORT (0)
+#define PH_NATIVE_ARCHIVE_SUPPORT (0)
 
 // enable/disable Nebula3 memory stats
-#if NEBULA3_DEBUG
-#define NEBULA3_MEMORY_STATS (1)
-#define NEBULA3_MEMORY_ADVANCED_DEBUGGING (0)
+#if PH_DEBUG
+#define PH_MEMORY_STATS (1)
+#define PH_MEMORY_ADVANCED_DEBUGGING (0)
 #else
-#define NEBULA3_MEMORY_STATS (0) // not useable on xbox360 in release mode cause of HeapWalk
-#define NEBULA3_MEMORY_ADVANCED_DEBUGGING (0)
+#define PH_MEMORY_STATS (0) // not useable on xbox360 in release mode cause of HeapWalk
+#define PH_MEMORY_ADVANCED_DEBUGGING (0)
 #endif
 
 // enable/disable memory pool allocation for refcounted object
 // FIXME -> memory pool is disabled for all platforms, cause it causes crashes (reproducable on xbox360)
 #if (__WII__ || __MAYA__ || __WIN32__ || __PS3__)
-#define NEBULA3_OBJECTS_USE_MEMORYPOOL (0)
+#define PH_OBJECTS_USE_MEMORYPOOL (0)
 #else
-#define NEBULA3_OBJECTS_USE_MEMORYPOOL (0)
+#define PH_OBJECTS_USE_MEMORYPOOL (0)
 #endif
 
 // Enable/disable serial job system (ONLY SET FOR DEBUGGING!)
 // You'll also need to fix the foundation_*.epk file to use the jobs/serial source files
 // instead of jobs/tp!
 // On the Wii, the serial job system is always active.
-#define NEBULA3_USE_SERIAL_JOBSYSTEM (0)
+#define PH_USE_SERIAL_JOBSYSTEM (0)
 
 // enable/disable thread-local StringAtom tables
-#define NEBULA3_ENABLE_THREADLOCAL_STRINGATOM_TABLES (0)
+#define PH_ENABLE_THREADLOCAL_STRINGATOM_TABLES (0)
 
 // enable/disable growth of StringAtom buffer
-#define NEBULA3_ENABLE_GLOBAL_STRINGBUFFER_GROWTH (1)
+#define PH_ENABLE_GLOBAL_STRINGBUFFER_GROWTH (1)
 
 // size of of a chunk of the global string buffer for StringAtoms
-#define NEBULA3_GLOBAL_STRINGBUFFER_CHUNKSIZE (32 * 1024)
+#define PH_GLOBAL_STRINGBUFFER_CHUNKSIZE (32 * 1024)
 
 // enable/disable Nebula3 animation system log messages
-#define NEBULA3_ANIMATIONSYSTEM_VERBOSELOG (0)
-#define NEBULA3_ANIMATIONSYSTEM_FRAMEDUMP (0)
+#define PH_ANIMATIONSYSTEM_VERBOSELOG (0)
+#define PH_ANIMATIONSYSTEM_FRAMEDUMP (0)
 
 // override SQLite filesystem functions with Nebula functions?
 // only useful on consoles
 // win32 doesn't work without !!!
-#define NEBULA3_OVERRIDE_SQLITE_FILEFUNCTIONS (1)
+#define PH_OVERRIDE_SQLITE_FILEFUNCTIONS (1)
 
 // enable/disable bounds checking in the container util classes
-#if NEBULA3_DEBUG
-#define NEBULA3_BOUNDSCHECKS (1)
+#if PH_DEBUG
+#define PH_BOUNDSCHECKS (1)
 #else
-#define NEBULA3_BOUNDSCHECKS (1)
+#define PH_BOUNDSCHECKS (1)
 #endif
          
 // enable/disable the builtin HTTP server
 #if PUBLIC_BUILD || __WII_PROFILING__
-#define __NEBULA3_HTTP__ (0)
+#define __PH_HTTP__ (0)
 #else
-#define __NEBULA3_HTTP__ (1)
+#define __PH_HTTP__ (1)
 #endif
 
 // enable/disable the transparent web filesystem
 #if __WIN32__
-#define __NEBULA3_HTTP_FILESYSTEM__ (1)
+#define __PH_HTTP_FILESYSTEM__ (1)
 #else
-#define __NEBULA3_HTTP_FILESYSTEM__ (0)
+#define __PH_HTTP_FILESYSTEM__ (0)
 #endif
 
 // enable/disable profiling (see Debug::DebugTimer, Debug::DebugCounter)
 #if PUBLIC_BUILD
-#define NEBULA3_ENABLE_PROFILING (0)
-#elif __NEBULA3_HTTP__
+#define PH_ENABLE_PROFILING (0)
+#elif __PH_HTTP__
 // profiling needs http
-#define NEBULA3_ENABLE_PROFILING (1)
+#define PH_ENABLE_PROFILING (1)
 #else 
-#define NEBULA3_ENABLE_PROFILING (0)
+#define PH_ENABLE_PROFILING (0)
 #endif
 
 // max length of a path name
-#define NEBULA3_MAXPATH (512)
+#define PH_MAXPATH (512)
 
 // enable/disable support for Nebula2 file formats and concepts
-#define NEBULA3_LEGACY_SUPPORT (1)
+#define PH_LEGACY_SUPPORT (1)
 
 // enable/disable mini dumps
-#define NEBULA3_ENABLE_MINIDUMPS (1)
+#define PH_ENABLE_MINIDUMPS (1)
 
 // enable/disable debug messages in fmod coreaudio
-#define NEBULA3_FMOD_COREAUDIO_VERBOSE_ENABLED  (0)
+#define PH_FMOD_COREAUDIO_VERBOSE_ENABLED  (0)
 
 // enable fmod profiling feature
-#define NEBULA3_FMOD_ENABLE_PROFILING (0)
+#define PH_FMOD_ENABLE_PROFILING (0)
 
 // Nebula3's main window class
-#define NEBULA3_WINDOW_CLASS "Nebula3::MainWindow"
+#define PH_WINDOW_CLASS "Nebula3::MainWindow"
 
 // number of lines in the IO::HistoryConsoleHandler ring buffer
-#define NEBULA3_CONSOLE_HISTORY_SIZE (256)
+#define PH_CONSOLE_HISTORY_SIZE (256)
 
 // maximum number of local players for local coop games
-#define NEBULA3_MAX_LOCAL_PLAYERS (4)
+#define PH_MAX_LOCAL_PLAYERS (4)
 
 // use raknet on xbox360 platform?
 #define XBOX360_USE_RAKNET    (0)
 
 // enable legacy support for database vectors (vector3/vector4 stuff)
-#define NEBULA3_DATABASE_LEGACY_VECTORS (1)
+#define PH_DATABASE_LEGACY_VECTORS (1)
 
 // enable legacy support for 3-component vectors in XML files
-#define NEBULA3_XMLREADER_LEGACY_VECTORS (1)
+#define PH_XMLREADER_LEGACY_VECTORS (1)
 
 // enable/disable scriping (NOTE: scripting support has been moved into an Addon)
-#define __NEBULA3_SCRIPTING__ (1)
+#define __PH_SCRIPTING__ (1)
 
 // define the standard IO scheme for the platform
 #define DEFAULT_IO_SCHEME "file"
@@ -157,14 +157,7 @@ static const int JobMaxSliceSize = 0x3FFF;
 #   define _ARCHITECTURE_32
 #endif
 
-// default resource names
-#define NEBULA3_PLACEHOLDER_TEXTURENAME "systex:system/placeholder.dds"
-#define NEBULA3_PLACEHOLDER_MESHNAME  "sysmsh:system/placeholder_s_0.nvx2"
-#define NEBULA3_DEFAULT_FRAMESHADER_NAME "dx9default"
-#define NEBULA3_TEXTURE_EXTENSION ".dds"
-#define NEBULA3_MESH_EXTENSION ".nvx2"
-
-#define NEBULA3_LITTLE_ENDIAN
+#define PH_LITTLE_ENDIAN
 
 // VisualStudio settings
 #ifdef _MSC_VER

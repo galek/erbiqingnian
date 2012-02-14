@@ -202,6 +202,10 @@ namespace Philo
 			// However NaN always fails this next test, no other number does.
 			return f != f;
 		}
+		static inline bool isFinite(scalar f)
+		{
+			return (0 == ((_FPCLASS_SNAN | _FPCLASS_QNAN | _FPCLASS_NINF | _FPCLASS_PINF) & _fpclass(f) ));
+		}
 
 		static inline scalar Max(scalar a, scalar b)
 		{

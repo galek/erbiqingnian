@@ -127,7 +127,7 @@ Dictionary<KEYTYPE, VALUETYPE>::Dictionary(const Dictionary<KEYTYPE, VALUETYPE>&
     keyValuePairs(rhs.keyValuePairs),
     inBulkInsert(false)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!rhs.inBulkInsert);
     #endif
 }
@@ -138,7 +138,7 @@ Dictionary<KEYTYPE, VALUETYPE>::Dictionary(const Dictionary<KEYTYPE, VALUETYPE>&
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::operator=(const Dictionary<KEYTYPE, VALUETYPE>& rhs)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     ph_assert(!rhs.inBulkInsert);
     #endif
@@ -151,7 +151,7 @@ Dictionary<KEYTYPE, VALUETYPE>::operator=(const Dictionary<KEYTYPE, VALUETYPE>& 
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::Clear()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     this->keyValuePairs.Clear();
@@ -206,7 +206,7 @@ Dictionary<KEYTYPE, VALUETYPE>::Reserve(SizeT numElements)
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::BeginBulkAdd()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     this->inBulkInsert = true;
@@ -218,7 +218,7 @@ Dictionary<KEYTYPE, VALUETYPE>::BeginBulkAdd()
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::EndBulkAdd()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->inBulkInsert);
     #endif
     this->keyValuePairs.Sort();
@@ -249,11 +249,11 @@ Dictionary<KEYTYPE, VALUETYPE>::Add(const KEYTYPE& key, const VALUETYPE& value)
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::Erase(const KEYTYPE& key)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     IndexT eraseIndex = this->keyValuePairs.BinarySearchIndex(key);
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(InvalidIndex != eraseIndex);
     #endif
     this->keyValuePairs.EraseIndex(eraseIndex);
@@ -265,7 +265,7 @@ Dictionary<KEYTYPE, VALUETYPE>::Erase(const KEYTYPE& key)
 template<class KEYTYPE, class VALUETYPE> void
 Dictionary<KEYTYPE, VALUETYPE>::EraseAtIndex(IndexT index)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     this->keyValuePairs.EraseIndex(index);
@@ -277,7 +277,7 @@ Dictionary<KEYTYPE, VALUETYPE>::EraseAtIndex(IndexT index)
 template<class KEYTYPE, class VALUETYPE> IndexT
 Dictionary<KEYTYPE, VALUETYPE>::FindIndex(const KEYTYPE& key) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return this->keyValuePairs.BinarySearchIndex(key);
@@ -289,7 +289,7 @@ Dictionary<KEYTYPE, VALUETYPE>::FindIndex(const KEYTYPE& key) const
 template<class KEYTYPE, class VALUETYPE> bool
 Dictionary<KEYTYPE, VALUETYPE>::Contains(const KEYTYPE& key) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return (InvalidIndex != this->keyValuePairs.BinarySearchIndex(key));
@@ -301,7 +301,7 @@ Dictionary<KEYTYPE, VALUETYPE>::Contains(const KEYTYPE& key) const
 template<class KEYTYPE, class VALUETYPE> const KEYTYPE&
 Dictionary<KEYTYPE, VALUETYPE>::KeyAtIndex(IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return this->keyValuePairs[index].Key();
@@ -313,7 +313,7 @@ Dictionary<KEYTYPE, VALUETYPE>::KeyAtIndex(IndexT index) const
 template<class KEYTYPE, class VALUETYPE> VALUETYPE&
 Dictionary<KEYTYPE, VALUETYPE>::ValueAtIndex(IndexT index)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return this->keyValuePairs[index].Value();
@@ -325,7 +325,7 @@ Dictionary<KEYTYPE, VALUETYPE>::ValueAtIndex(IndexT index)
 template<class KEYTYPE, class VALUETYPE> const VALUETYPE&
 Dictionary<KEYTYPE, VALUETYPE>::ValueAtIndex(IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return this->keyValuePairs[index].Value();
@@ -337,7 +337,7 @@ Dictionary<KEYTYPE, VALUETYPE>::ValueAtIndex(IndexT index) const
 template<class KEYTYPE, class VALUETYPE> KeyValuePair<KEYTYPE, VALUETYPE>&
 Dictionary<KEYTYPE, VALUETYPE>::KeyValuePairAtIndex(IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     return this->keyValuePairs[index];
@@ -352,7 +352,7 @@ VALUETYPE&
 Dictionary<KEYTYPE, VALUETYPE>::operator[](const KEYTYPE& key)
 {
     int keyValuePairIndex = this->keyValuePairs.BinarySearchIndex(key);
-//     #if NEBULA3_BOUNDSCHECKS
+//     #if PH_BOUNDSCHECKS
 //     ph_assert(InvalidIndex != keyValuePairIndex);
 //     #endif   
 	if (InvalidIndex == keyValuePairIndex)
@@ -378,7 +378,7 @@ template<class KEYTYPE, class VALUETYPE> const VALUETYPE&
 Dictionary<KEYTYPE, VALUETYPE>::operator[](const KEYTYPE& key) const
 {
     int keyValuePairIndex = this->FindIndex(key);
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(InvalidIndex != keyValuePairIndex);
     #endif
     return this->keyValuePairs[keyValuePairIndex].Value();
@@ -392,7 +392,7 @@ template<class RETURNTYPE>
 RETURNTYPE
 Dictionary<KEYTYPE, VALUETYPE>::ValuesAs() const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->inBulkInsert);
     #endif
     RETURNTYPE result(this->Size(),this->Size());
@@ -422,7 +422,7 @@ template<class RETURNTYPE>
 RETURNTYPE
 Dictionary<KEYTYPE, VALUETYPE>::KeysAs() const
 {
-    #if NEBULA3_BOUNDSCHECKS    
+    #if PH_BOUNDSCHECKS    
     ph_assert(!this->inBulkInsert);
     #endif
     RETURNTYPE result(this->Size(),this->Size());

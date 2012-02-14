@@ -192,7 +192,7 @@ HashTable<KEYTYPE, VALUETYPE>::operator[](const KEYTYPE& key) const
     IndexT hashIndex = key.HashCode() % this->hashArray.Size();
     const Array<KeyValuePair<KEYTYPE, VALUETYPE> >& hashElements = this->hashArray[hashIndex];
     int numHashElements = hashElements.Size();
-    #if NEBULA3_BOUNDSCHECKS    
+    #if PH_BOUNDSCHECKS    
     ph_assert(0 != numHashElements); // element with key doesn't exist
     #endif
     if (1 == numHashElements)
@@ -205,7 +205,7 @@ HashTable<KEYTYPE, VALUETYPE>::operator[](const KEYTYPE& key) const
         // here's a hash collision, find the right key
         // with a binary search
         IndexT hashElementIndex = hashElements.BinarySearchIndex(key);
-        #if NEBULA3_BOUNDSCHECKS
+        #if PH_BOUNDSCHECKS
         ph_assert(InvalidIndex != hashElementIndex);
         #endif
         return hashElements[hashElementIndex].Value();
@@ -245,7 +245,7 @@ template<class KEYTYPE, class VALUETYPE>
 void
 HashTable<KEYTYPE, VALUETYPE>::Add(const KeyValuePair<KEYTYPE, VALUETYPE>& kvp)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(!this->Contains(kvp.Key()));
     #endif
     IndexT hashIndex = kvp.Key().HashCode() % this->hashArray.Size();
@@ -271,13 +271,13 @@ template<class KEYTYPE, class VALUETYPE>
 void
 HashTable<KEYTYPE, VALUETYPE>::Erase(const KEYTYPE& key)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->size > 0);
     #endif
     IndexT hashIndex = key.HashCode() % this->hashArray.Size();
     Array<KeyValuePair<KEYTYPE, VALUETYPE> >& hashElements = this->hashArray[hashIndex];
     IndexT hashElementIndex = hashElements.BinarySearchIndex(key);
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(InvalidIndex != hashElementIndex); // key doesn't exist
     #endif
     hashElements.EraseIndex(hashElementIndex);
@@ -540,7 +540,7 @@ template<class KEYTYPE, class VALUETYPE>
 const typename HashTable<KEYTYPE, VALUETYPE>::Iterator&
 HashTable<KEYTYPE, VALUETYPE>::Iterator::operator++()
 {
-	#if NEBULA3_BOUNDSCHECKS    
+	#if PH_BOUNDSCHECKS    
 		ph_assert(0 != this->hash_array_ptr);
 	#endif
 
@@ -578,7 +578,7 @@ template<class KEYTYPE, class VALUETYPE>
 const typename HashTable<KEYTYPE, VALUETYPE>::Iterator&
 HashTable<KEYTYPE, VALUETYPE>::Iterator::operator--()
 {
-#if NEBULA3_BOUNDSCHECKS    
+#if PH_BOUNDSCHECKS    
 	ph_assert(0 != this->hash_array_ptr);
 #endif
 
@@ -613,7 +613,7 @@ template<class KEYTYPE, class VALUETYPE>
 KeyValuePair<KEYTYPE, VALUETYPE>*
 HashTable<KEYTYPE, VALUETYPE>::Iterator::operator->() const
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(this->hash_array_ptr);
 	#endif
 	return &((*(this->hash_array_ptr))[this->idx_1][this->idx_2]);
@@ -627,7 +627,7 @@ template<class KEYTYPE, class VALUETYPE>
 KeyValuePair<KEYTYPE, VALUETYPE>&
 HashTable<KEYTYPE, VALUETYPE>::Iterator::operator*() const
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(this->hash_array_ptr);
 	#endif
 	return (*(this->hash_array_ptr))[this->idx_1][this->idx_2];

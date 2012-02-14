@@ -48,7 +48,9 @@ class MeshVertex
 public:
 	MeshVertex(void);
 
-	bool  operator == (const MeshVertex &v) const;
+	bool	operator == (const MeshVertex &v) const;
+
+	void	validate();
 
 	Vector3			mPos;
 	Vector3			mNormal;
@@ -85,16 +87,16 @@ class MeshBone
 public:
 	MeshBone(void);
 
-	void				Set(const char* name,int32 parentIndex,const Vector3& pos,const Quaternion& rot,const Vector3& scale);
+	void				Set(const String& name,int32 parentIndex,const Vector3& pos,const Quaternion& rot,const Vector3& scale);
 
 	void				Identity(void);
 
-	void				SetName(const char *name)
+	void				SetName(const String& name)
 	{
 		mName = name;
 	}
 
-	const char*			GetName(void) const { return mName; };
+	const String		GetName(void) const { return mName; };
 
 	int32				GetParentIndex(void) const { return mParentIndex; };
 	
@@ -114,7 +116,7 @@ public:
 		mOrientation.FromAngleAxis(angle,axis);
 	}
 
-	const char*		mName;
+	String			mName;
 
 	int32           mParentIndex;
 
@@ -154,7 +156,7 @@ public:
 		mBones = 0;
 	}
 
-	void SetName(const char *name)
+	void SetName(const String& name)
 	{
 		mName = name;
 	}
@@ -165,17 +167,17 @@ public:
 		mBones     = bones;
 	}
 
-	int32			GetBoneCount(void) const { return mBoneCount; };
+	int32			GetBoneCount(void) const { return mBoneCount; }
 
-	const MeshBone& GetBone(int32 index) const { return mBones[index]; };
+	const MeshBone& GetBone(int32 index) const { return mBones[index]; }
 
-	MeshBone*		GetBonePtr(int32 index) const { return &mBones[index]; };
+	MeshBone*		GetBonePtr(int32 index) const { return &mBones[index]; }
 
-	void			SetBone(int32 index,const MeshBone &b) { mBones[index] = b; };
+	void			SetBone(int32 index,const MeshBone &b) { mBones[index] = b; }
 
-	const char*		GetName(void) const { return mName; };
+	const String&	GetName(void) const { return mName; }
 
-	const char*		mName;
+	String			mName;
 
 	int32			mBoneCount;
 
@@ -210,11 +212,11 @@ public:
 
 	MeshAnimTrack(void);
 
-	void			SetName(const char *name);
+	void			SetName(const String& name) { mName = name;}
 
 	void			SetPose(int32 frame,const Vector3& pos,const Quaternion& quat,const Vector3& scale);
 
-	const char *	GetName(void) const { return mName; };
+	const String&	GetName(void) const { return mName; };
 
 	void			SampleAnimation(int32 frame,Vector3& pos,Quaternion& quat,Vector3& scale) const;
 
@@ -222,7 +224,7 @@ public:
 
 	MeshAnimPose *	GetPose(int32 index) { return &mPose[index]; };
 
-	const char*		mName;
+	String			mName;
 
 	int32			mFrameCount;
 
@@ -241,7 +243,7 @@ public:
 
 	MeshAnimation(void);
 
-	void					SetName(const char *name)
+	void					SetName(const String& name)
 	{
 		mName = name;
 	}
@@ -250,9 +252,9 @@ public:
 
 	void					SetTrackPose(int32 track,int32 frame,const Vector3& pos,const Quaternion& quat,const Vector3& scale);
 
-	const char*				GetName(void) const { return mName; }
+	const String&			GetName(void) const { return mName; }
 
-	const MeshAnimTrack*	LocateTrack(const char *name) const;
+	const MeshAnimTrack*	LocateTrack(const String& name) const;
 
 	int32					GetFrameIndex(scalar t) const;
 
@@ -266,7 +268,7 @@ public:
 
 	scalar					GetDtime(void) const { return mDtime; }
 
-	const char*				mName;
+	String					mName;
 
 	int32					mTrackCount;
 
@@ -286,11 +288,10 @@ class MeshMaterial
 public:
 	MeshMaterial(void)
 	{
-		mName = 0;
-		mMetaData = 0;
 	}
-	const char *mName;
-	const char *mMetaData;
+
+	String		mName;
+	String		mMetaData;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -307,7 +308,7 @@ public:
 		mIndices      = 0;
 	}
 
-	const char          *mMaterialName;
+	String				mMaterialName;
 	MeshMaterial        *mMaterial;
 	AxisAlignedBox		mAABB;
 	uint32				mVertexFlags;
@@ -322,7 +323,7 @@ class Mesh
 public:
 	Mesh(void)
 	{
-		mName         = 0;
+		mName         = "";
 		mSkeletonName = 0;
 		mSkeleton     = 0;
 		mSubMeshCount = 0;
@@ -332,9 +333,9 @@ public:
 		mVertices     = 0;
 
 	}
-	const char*			mName;
+	String				mName;
 
-	const char*			mSkeletonName;
+	String				mSkeletonName;
 
 	MeshSkeleton*		mSkeleton;
 
@@ -359,13 +360,13 @@ class MeshRawTexture
 public:
 	MeshRawTexture(void)
 	{
-		mName = 0;
+		mName = "";
 		mData = 0;
 		mWidth = 0;
 		mHeight = 0;
 	}
 
-	const char*	mName;
+	String		mName;
 
 	uint8*		mData;
 
@@ -381,14 +382,14 @@ class MeshInstance
 public:
 	MeshInstance(void)
 	{
-		mMeshName = 0;
+		mMeshName = "";
 		mMesh     = 0;
 		mPosition = Vector3::ZERO;
 		mRotation = Quaternion::ZERO;
 		mScale	  = Vector3::ZERO;
 	}
 
-	const char  *mMeshName;
+	String		mMeshName;
 
 	Mesh        *mMesh;
 
@@ -420,11 +421,11 @@ class MeshUserBinaryData
 public:
 	MeshUserBinaryData(void)
 	{
-		mName     = 0;
+		mName     = "";
 		mUserData = 0;
 		mUserLen  = 0;
 	}
-	const char*	mName;
+	String		mName;
 	uint32		mUserLen;
 	uint8*		mUserData;
 };
@@ -437,16 +438,16 @@ class MeshTetra
 public:
 	MeshTetra(void)
 	{
-		mTetraName  = 0;
-		mMeshName   = 0; // 与四面体关联的模型
+		mTetraName  = "";
+		mMeshName   = ""; // 与四面体关联的模型
 		mMesh       = 0;
 		mTetraCount = 0;
 		mTetraData  = 0;
 	}
 
-	const char*			mTetraName;
+	String				mTetraName;
 
-	const char*			mMeshName;
+	String				mMeshName;
 
 	AxisAlignedBox		mAABB;
 
@@ -478,7 +479,6 @@ public:
 	MeshCollision(void)
 	{
 		mType = MCT_LAST;
-		mName = 0;
 		mTransform.setIdentity();
 	}
 
@@ -486,7 +486,7 @@ public:
 
 	MeshCollisionType	mType;
 
-	const char*			mName;
+	String				mName;
 
 	Matrix4				mTransform;
 };
@@ -569,15 +569,15 @@ public:
 
 	MeshCollisionRepresentation(void)
 	{
-		mName = 0;
-		mInfo = 0;
+		mName = "";
+		mInfo = "";
 		mCollisionCount = 0;
 		mCollisionGeometry = 0;
 	}
 
-	const char*		mName;
+	String			mName;
 
-	const char*		mInfo;
+	String			mInfo;
 
 	uint32			mCollisionCount;
 
@@ -621,9 +621,8 @@ public:
 		mPlane[3] = 0;
 	}
 
-
-	const char           *mAssetName;
-	const char           *mAssetInfo;
+	String				mAssetName;
+	String				mAssetInfo;
 	int32				mMeshSystemVersion;
 	int32				mAssetVersion;
 	AxisAlignedBox		mAABB;
@@ -715,5 +714,18 @@ public:
 
 	virtual uint32			getVcount(void) const = 0;
 };
+
+//////////////////////////////////////////////////////////////////////////
+
+typedef Array<MeshMaterial>					MeshMaterialVector;
+typedef Array<MeshInstance>					MeshInstanceVector;
+typedef Array<MeshCollision*>				MeshCollisionVector;
+typedef Array<MeshVertex>					MeshVertexVector;
+typedef Array<uint32>						MeshIndexVector;
+typedef Array<SubMesh*>						SubMeshVector;
+typedef Array<Mesh*>						MeshVector;
+typedef Array<MeshAnimation*>				MeshAnimationVector;
+typedef Array<MeshSkeleton*>				MeshSkeletonVector;
+typedef Array<MeshCollisionRepresentation*> MeshCollisionRepresentationVector;
 
 _NAMESPACE_END

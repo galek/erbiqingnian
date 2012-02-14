@@ -157,7 +157,7 @@ Set<TYPE>::Set(const Set<TYPE>& rhs) :
 template<class TYPE> void
 Set<TYPE>::Copy(const Set<TYPE>& src)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 == this->elements);
     #endif
 
@@ -301,7 +301,7 @@ Set<TYPE>::Grow()
 template<class TYPE> void
 Set<TYPE>::Move(IndexT fromIndex, IndexT toIndex)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements);
     ph_assert(fromIndex < this->size);
     #endif
@@ -368,7 +368,7 @@ Set<TYPE>::Append(const TYPE& elm)
     {
         this->Grow();
     }
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements);
     #endif
     this->elements[this->size++] = elm;
@@ -400,7 +400,7 @@ Set<TYPE>::Capacity() const
 template<class TYPE> TYPE&
 Set<TYPE>::operator[](IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
     return this->elements[index];
@@ -459,7 +459,7 @@ Set<TYPE>::IsEmpty() const
 template<class TYPE> void
 Set<TYPE>::EraseAtIndex(IndexT index)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
     if (index == (this->size - 1))
@@ -481,7 +481,7 @@ template<class TYPE>
 typename Set<TYPE>::Iterator
 Set<TYPE>::Erase(typename Set<TYPE>::Iterator iter)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
 		ph_assert(!this->inBulkInsert && this->elements && (iter >= this->elements) && (iter < (this->elements + this->size)));
     #endif
 
@@ -496,7 +496,7 @@ template<class TYPE>
 void
 Set<TYPE>::Erase(const TYPE& elm)
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(!this->inBulkInsert);
 	#endif
 
@@ -513,7 +513,7 @@ Set<TYPE>::Erase(const TYPE& elm)
 template<class TYPE> void
 Set<TYPE>::InsertBefore(IndexT index, const TYPE& elm)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(index <= this->size);
     #endif
     if (index == this->size)
@@ -550,7 +550,7 @@ Set<TYPE>::Clear()
 template<class TYPE> typename Set<TYPE>::Iterator
 Set<TYPE>::Begin() const
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(!this->inBulkInsert);
 	#endif
 
@@ -575,7 +575,7 @@ template<class TYPE>
 typename Set<TYPE>::Iterator
 Set<TYPE>::Find(const TYPE& elm) const
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(!this->inBulkInsert);
 	#endif
 
@@ -643,7 +643,7 @@ template<class TYPE>
 void
 Set<TYPE>::BeginBulkInsert()
 {
-#if NEBULA3_BOUNDSCHECKS
+#if PH_BOUNDSCHECKS
 	ph_assert(!this->inBulkInsert);
 #endif
 	this->inBulkInsert = true;
@@ -710,7 +710,7 @@ Set<TYPE>::Insert(const TYPE& elm)
             } 
             else 
             {
-                #if NEBULA3_BOUNDSCHECKS
+                #if PH_BOUNDSCHECKS
                 ph_assert(0 == lo);
                 #endif
                 this->InsertBefore(lo, elm);
@@ -744,7 +744,7 @@ template<class TYPE>
 void
 Set<TYPE>::EndBulkInsert()
 {
-#if NEBULA3_BOUNDSCHECKS
+#if PH_BOUNDSCHECKS
 	ph_assert(this->inBulkInsert);
 #endif
 
