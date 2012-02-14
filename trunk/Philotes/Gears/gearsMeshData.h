@@ -5,7 +5,7 @@
 
 _NAMESPACE_BEGIN
 
-// 定点语义
+// 顶点语义
 enum MeshVertexFlag
 {
 	MIVF_POSITION       = (1<<0),
@@ -27,7 +27,8 @@ enum MeshVertexFlag
 	MIVF_INTERP6        = (1<<16),
 	MIVF_INTERP7        = (1<<17),
 	MIVF_INTERP8        = (1<<18),
-	MIVF_ALL = (MIVF_POSITION | MIVF_NORMAL | MIVF_COLOR | MIVF_TEXEL1 | MIVF_TEXEL2 | MIVF_TEXEL3 | MIVF_TEXEL4 | MIVF_TANGENT | MIVF_BINORMAL | MIVF_BONE_WEIGHTING )
+	MIVF_ALL = (MIVF_POSITION | MIVF_NORMAL | MIVF_COLOR | MIVF_TEXEL1 | MIVF_TEXEL2 | 
+			MIVF_TEXEL3 | MIVF_TEXEL4 | MIVF_TANGENT | MIVF_BINORMAL | MIVF_BONE_WEIGHTING )
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -39,7 +40,6 @@ enum MeshSerializeFormat
 
 	MSF_LAST
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 
