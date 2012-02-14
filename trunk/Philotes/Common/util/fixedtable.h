@@ -94,7 +94,7 @@ template<class TYPE>
 void
 FixedTable<TYPE>::Allocate(SizeT w, SizeT h)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 == this->elements);
     #endif
     if ((w > 0) && (h > 0))
@@ -285,7 +285,7 @@ template<class TYPE>
 void
 FixedTable<TYPE>::Set(IndexT x, IndexT y, const TYPE& val)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert((x >= 0) && (x < this->width));
     ph_assert(y < this->height);
     ph_assert(0 != this->elements);    
@@ -301,7 +301,7 @@ template<class TYPE>
 TYPE&
 FixedTable<TYPE>::At(IndexT x, IndexT y) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert((x >= 0) && (x < this->width));
     ph_assert(y < this->height);
     ph_assert(0 != this->elements);

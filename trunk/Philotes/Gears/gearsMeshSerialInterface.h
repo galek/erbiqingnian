@@ -196,5 +196,16 @@ protected:
 
 };
 
+//////////////////////////////////////////////////////////////////////////
+
+class MeshBuilder : public MeshSystem, public MeshImportInterface
+{
+public:
+	virtual void gather	(void) = 0;
+
+	virtual void scale	(scalar s) = 0;
+
+	virtual void rotate	(scalar rotX,scalar rotY,scalar rotZ) = 0;
+};
 
 _NAMESPACE_END

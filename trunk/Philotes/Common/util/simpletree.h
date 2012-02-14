@@ -105,7 +105,7 @@ SimpleTree<VALUETYPE>::Node::Node(const Node& p, const VALUETYPE& val) :
     parent(const_cast<Node*>(&p)),
     value(val)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 != this->parent);
     #endif
 }
@@ -116,7 +116,7 @@ SimpleTree<VALUETYPE>::Node::Node(const Node& p, const VALUETYPE& val) :
 template<class VALUETYPE>
 SimpleTree<VALUETYPE>::Node::~Node()
 {
-    #if NEBULA3_BOUNDSCHECKS    
+    #if PH_BOUNDSCHECKS    
     ph_assert(0 == this->refCount);
     #endif
 }
@@ -138,7 +138,7 @@ template<class VALUETYPE>
 void
 SimpleTree<VALUETYPE>::Node::Release()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->refCount > 0);
     #endif
     --this->refCount;
@@ -205,7 +205,7 @@ template<class VALUETYPE>
 const typename SimpleTree<VALUETYPE>::Node&
 SimpleTree<VALUETYPE>::Node::Parent() const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 != this->parent);
     #endif   
     return *this->parent;
@@ -218,7 +218,7 @@ template<class VALUETYPE>
 typename SimpleTree<VALUETYPE>::Node&
 SimpleTree<VALUETYPE>::Node::Parent()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 != this->parent);
     #endif
     return *this->parent;

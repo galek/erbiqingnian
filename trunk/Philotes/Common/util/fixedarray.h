@@ -110,7 +110,7 @@ FixedArray<TYPE>::Delete()
 template<class TYPE> void
 FixedArray<TYPE>::Alloc(SizeT s)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 == this->elements) 
     #endif
     if (s > 0)
@@ -197,7 +197,7 @@ FixedArray<TYPE>::operator=(const FixedArray<TYPE>& rhs)
 template<class TYPE> TYPE&
 FixedArray<TYPE>::operator[](IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
     return this->elements[index];
@@ -215,7 +215,7 @@ FixedArray<TYPE>::operator==(const FixedArray<TYPE>& rhs) const
     }
     else
     {
-        #if NEBULA3_BOUNDSCHECKS
+        #if PH_BOUNDSCHECKS
         ph_assert(this->elements && rhs.elements);
         #endif
         IndexT i;
@@ -315,7 +315,7 @@ FixedArray<TYPE>::Fill(const TYPE& val)
 template<class TYPE> void
 FixedArray<TYPE>::Fill(IndexT first, SizeT num, const TYPE& val)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert((first + num) < this->size);
     ph_assert(0 != this->elements);
     #endif

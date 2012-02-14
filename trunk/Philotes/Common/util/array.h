@@ -245,7 +245,7 @@ Array<TYPE>::Array(SizeT initialSize, SizeT _grow, const TYPE& initialValue) :
 template<class TYPE> void
 Array<TYPE>::Copy(const Array<TYPE>& src)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(0 == this->elements);
     #endif
 
@@ -394,7 +394,7 @@ Array<TYPE>::GrowTo(SizeT newCapacity)
 template<class TYPE> void
 Array<TYPE>::Grow()
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->grow > 0);
     #endif
 
@@ -428,7 +428,7 @@ Array<TYPE>::Grow()
 template<class TYPE> void
 Array<TYPE>::Move(IndexT fromIndex, IndexT toIndex)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements);
     ph_assert(fromIndex < this->size);
     #endif
@@ -495,7 +495,7 @@ Array<TYPE>::Append(const TYPE& elm)
     {
         this->Grow();
     }
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements);
     #endif
     this->elements[this->size++] = elm;
@@ -528,7 +528,7 @@ Array<TYPE>::AppendArray(const Array<TYPE>& rhs)
 template<class TYPE> void
 Array<TYPE>::Reserve(SizeT num)
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(num > 0);
 	#endif
     SizeT neededCapacity = this->size + num;
@@ -545,7 +545,7 @@ Array<TYPE>::Reserve(SizeT num)
 template<class TYPE> void
 Array<TYPE>::Resize(SizeT num)
 {
-	#if NEBULA3_BOUNDSCHECKS
+	#if PH_BOUNDSCHECKS
 		ph_assert(num > 0);
 	#endif
 	if (num > this->size)
@@ -570,7 +570,7 @@ Array<TYPE>::Resize(SizeT num)
 template<class TYPE> TYPE&
 Array<TYPE>::operator[](IndexT index) const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
     return this->elements[index];
@@ -620,7 +620,7 @@ Array<TYPE>::operator!=(const Array<TYPE>& rhs) const
 template<class TYPE> TYPE&
 Array<TYPE>::Front() const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (this->size > 0));
     #endif
     return this->elements[0];
@@ -632,7 +632,7 @@ Array<TYPE>::Front() const
 template<class TYPE> TYPE&
 Array<TYPE>::Back() const
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (this->size > 0));
     #endif
     return this->elements[this->size - 1];
@@ -662,7 +662,7 @@ Array<TYPE>::IsEmpty() const
 template<class TYPE> void
 Array<TYPE>::EraseIndex(IndexT index)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
     if (index == (this->size - 1))
@@ -684,7 +684,7 @@ Array<TYPE>::EraseIndex(IndexT index)
 template<class TYPE> void
 Array<TYPE>::EraseIndexSwap(IndexT index)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (index < this->size));
     #endif
 
@@ -704,7 +704,7 @@ Array<TYPE>::EraseIndexSwap(IndexT index)
 template<class TYPE> typename Array<TYPE>::Iterator
 Array<TYPE>::Erase(typename Array<TYPE>::Iterator iter)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (iter >= this->elements) && (iter < (this->elements + this->size)));
     #endif
     this->EraseIndex(IndexT(iter - this->elements));
@@ -718,7 +718,7 @@ Array<TYPE>::Erase(typename Array<TYPE>::Iterator iter)
 template<class TYPE> typename Array<TYPE>::Iterator
 Array<TYPE>::EraseSwap(typename Array<TYPE>::Iterator iter)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(this->elements && (iter >= this->elements) && (iter < (this->elements + this->size)));
     #endif
     this->EraseIndexSwap(IndexT(iter - this->elements));
@@ -731,7 +731,7 @@ Array<TYPE>::EraseSwap(typename Array<TYPE>::Iterator iter)
 template<class TYPE> void
 Array<TYPE>::Insert(IndexT index, const TYPE& elm)
 {
-    #if NEBULA3_BOUNDSCHECKS
+    #if PH_BOUNDSCHECKS
     ph_assert(index <= this->size);
     #endif
     if (index == this->size)
@@ -1062,7 +1062,7 @@ Array<TYPE>::InsertSorted(const TYPE& elm)
             } 
             else 
             {
-                #if NEBULA3_BOUNDSCHECKS
+                #if PH_BOUNDSCHECKS
                 ph_assert(0 == lo);
                 #endif
                 this->Insert(lo, elm);

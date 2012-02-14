@@ -132,6 +132,16 @@ namespace Philo {
 			return mMaximum;
 		}
 
+		inline void setVector(const Vector3& pos)
+		{
+			if ( pos.x < mMinimum.x ) mMinimum.x = pos.x;
+			if ( pos.y < mMinimum.y ) mMinimum.y = pos.y;
+			if ( pos.z < mMinimum.z ) mMinimum.z = pos.z;
+
+			if ( pos.x > mMaximum.x ) mMaximum.x = pos.x;
+			if ( pos.y > mMaximum.y ) mMaximum.y = pos.y;
+			if ( pos.z > mMaximum.z ) mMaximum.z = pos.z;
+		}
 
 		/** Sets the minimum corner of the box.
 		*/
