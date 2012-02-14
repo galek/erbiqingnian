@@ -806,15 +806,23 @@ String::AsVector4() const
 }
 
 Quaternion 
-String::AsQuaternion() const
+String::AsQuaternion(bool wFirst) const
 {
 	Array<String> tokens(4, 0); 
 	this->Tokenize(", \t\n", tokens);
 
 	ph_assert (tokens.Size() == 4);
 
-	Quaternion v(tokens[0].AsFloat(),  tokens[1].AsFloat(),
-					   tokens[2].AsFloat(),  tokens[3].AsFloat());
+	Quaternion v;
+	if (wFirst)
+	{
+		v = Quaternion(tokens[0].AsFloat(),  tokens[1].AsFloat(),tokens[2].AsFloat(),  tokens[3].AsFloat());
+	}
+	else
+	{
+		v = Quaternion(tokens[3].AsFloat(),  tokens[1].AsFloat(),tokens[2].AsFloat(),  tokens[0].AsFloat());
+	}
+
 	return v;
 }
 
@@ -1213,6 +1221,5 @@ String::find( const char* ptr, size_type offset, size_type n ) const
 
 	return (npos);	// no match
 }
-
 
 } // namespace System

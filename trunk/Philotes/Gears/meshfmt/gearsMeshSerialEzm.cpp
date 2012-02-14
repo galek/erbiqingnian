@@ -1,9 +1,10 @@
 
 #include "gearsMeshSerialEzm.h"
 #include "gearsMeshSerialInterface.h"
-
-#define RAPIDXML_NO_EXCEPTIONS
-#include <rapidxml.hpp>
+#include "parser/inParser.h"
+#include "asc2bin.h"
+#include "FastXml.h"
+#include "filebuf.h"
 
 _NAMESPACE_BEGIN
 
@@ -72,7 +73,7 @@ enum AttributeType
 
 //////////////////////////////////////////////////////////////////////////
 
-class MeshImportEZM : public MeshImporter
+class MeshImportEZM : public MeshImporter,FastXml::Callback
 {
 public:
 	MeshImportEZM(void)
@@ -164,13 +165,6 @@ public:
 
 	virtual ~MeshImportEZM(void)
 	{
-
-	}
-
-	bool loadXml(rapidxml::xml_node<char>& root)
-	{
-
-		return true;
 	}
 
 	const uint8 * getVertex(const uint8 *src,MeshVertex &v,const char **types,int32 tcount)
@@ -524,39 +518,36 @@ public:
 
 		if ( data && mCallback )
 		{
-			rapidxml::xml_document<char>* xmldoc = new rapidxml::xml_document<char>;
-			xmldoc->parse<0>(data);
-			rapidxml::xml_node<char> *rootnode = xmldoc->first_node();
-			ph_assert(rootnode);
-			if(rootnode)
+			FastXml *f = createFastXml(this);
+			PxMemoryBuffer mb(data,dlen);
+			bool ok = f->processXml(mb);
+			if ( ok )
 			{
-				if ( true )
+				mCallback->importAssetName(mAssetName.c_str(), mAssetInfo.c_str());
+				ret = true;
+			}
+			if ( mAnimation )
+			{
+				mCallback->importAnimation(*mAnimation);
+				for (int32 i=0; i<mAnimation->mTrackCount; i++)
 				{
-					mCallback->importAssetName(mAssetName.Get(), mAssetInfo.Get());
-					ret = true;
+					MeshAnimTrack *t = mAnimation->mTracks[i];
+					delete []t->mPose;
+					delete t;
 				}
-				if ( mAnimation )
-				{
-					mCallback->importAnimation(*mAnimation);
-					for (int32 i=0; i<mAnimation->mTrackCount; i++)
-					{
-						MeshAnimTrack *t = mAnimation->mTracks[i];
-						delete []t->mPose;
-						delete t;
-					}
-					free(mAnimation->mTracks);
-					delete mAnimation;
-					mAnimation = 0;
-				}
+				free(mAnimation->mTracks);
+				delete mAnimation;
+				mAnimation = 0;
 			}
 			
-			delete xmldoc;
 			delete mMeshCollisionRepresentation;
 			delete mMeshCollision;
 			delete mMeshCollisionConvex;
 			mMeshCollisionRepresentation = 0;
 			mMeshCollision = 0;
 			mMeshCollisionConvex = 0;
+
+			f->release();
 		}
 		return ret;
 	}
@@ -585,8 +576,9 @@ public:
 		case NT_MESH_COLLISION:
 			if ( mMeshCollisionRepresentation )
 			{
-				mCallback->importCollisionRepresentation( mMeshCollisionRepresentation->mName, mMeshCollisionRepresentation->mInfo );
-				mCollisionRepName = SGET(mMeshCollisionRepresentation->mName);
+				mCallback->importCollisionRepresentation( mMeshCollisionRepresentation->mName.c_str(),
+					mMeshCollisionRepresentation->mInfo.c_str() );
+				mCollisionRepName = mMeshCollisionRepresentation->mName;
 				delete mMeshCollisionRepresentation;
 				mMeshCollisionRepresentation = 0;
 			}
@@ -614,7 +606,7 @@ public:
 				delete mAnimation;
 				mAnimation = 0;
 			}
-			mName       = 0;
+			mName       = "";
 			mFrameCount = 0;
 			mDuration   = 0;
 			mTrackCount = 0;
@@ -625,7 +617,7 @@ public:
 		case NT_ANIM_TRACK:
 			if ( mAnimation == 0 )
 			{
-				if ( mName && mFrameCount && mDuration && mTrackCount && mDtime )
+				if ( !mName.IsEmpty() && mFrameCount && mDuration && mTrackCount && mDtime )
 				{
 					int32 framecount = atoi( mFrameCount );
 					scalar duration = (scalar) atof( mDuration );
@@ -682,7 +674,7 @@ public:
 			case NT_ANIM_TRACK:
 				if ( mAnimTrack )
 				{
-					mAnimTrack->SetName(mStrings.Get(mName).Get());
+					mAnimTrack->SetName(mName);
 					int32 count = atoi( mCount );
 					if ( count == mAnimTrack->GetFrameCount() )
 					{
@@ -736,22 +728,6 @@ public:
 				}
 				break;
 			case NT_NODE_INSTANCE:
-#if 0 // TODO TODO
-				if ( mName )
-				{
-					scalar transform[4*4];
-					Asc2Bin(svalue, 4, "ffff", transform );
-					MeshBone b;
-					b.SetTransform(transform);
-					scalar pos[3];
-					scalar quat[3];
-					scalar scale[3] = { 1, 1, 1 };
-					b.ExtractOrientation(quat);
-					b.GetPos(pos);
-					mCallback->importMeshInstance(mName,pos,quat,scale);
-					mName = 0;
-				}
-#endif
 				break;
 			case NT_NODE_TRIANGLE:
 				if ( mCtype && mSemantic )
@@ -773,7 +749,7 @@ public:
 							temp = getVertex(temp,vtx[0],a2,c2);
 							temp = getVertex(temp,vtx[1],a2,c2);
 							temp = getVertex(temp,vtx[2],a2,c2);
-							mCallback->importTriangle(mCurrentMesh.Get(),mCurrentMaterial.Get(),mVertexFlags,vtx[0],vtx[1],vtx[2]);
+							mCallback->importTriangle(mCurrentMesh.c_str(),mCurrentMaterial.c_str(),mVertexFlags,vtx[0],vtx[1],vtx[2]);
 							free((void *)temp);
 						}
 					}
@@ -853,8 +829,8 @@ public:
 							dest+=3;
 						}
 
-						mCallback->importConvexHull(mCollisionRepName.Get(),
-							mMeshCollisionConvex->mName,
+						mCallback->importConvexHull(mCollisionRepName.c_str(),
+							mMeshCollisionConvex->mName.c_str(),
 							mMeshCollisionConvex->mTransform,
 							mVertexCount,
 							vertices,
@@ -867,7 +843,7 @@ public:
 					}
 					else
 					{
-						mCallback->importIndexedTriangleList(mCurrentMesh.Get(),mCurrentMaterial.Get(),mVertexFlags,
+						mCallback->importIndexedTriangleList(mCurrentMesh.c_str(),mCurrentMaterial.c_str(),mVertexFlags,
 							mVertexCount,mVertices,mIndexCount,(const uint32 *)mIndexBuffer );
 					}
 				}
@@ -882,7 +858,14 @@ public:
 
 	void ProcessAttribute(const char *aname, const char *savalue) 
 	{
-		AttributeType attrib = (AttributeType) mToAttribute.Get(aname);
+		if (!mToElement.Contains(aname))
+		{
+			ph_warning("no such attribute:%s",aname);
+			return;
+		}
+
+		AttributeType attrib = (AttributeType)mToElement[aname];
+
 		switch ( attrib )
 		{
 		case AT_NONE:
@@ -895,21 +878,21 @@ public:
 			mMeshSystemAssetVersion = atoi(savalue);
 			break;
 		case AT_ASSET_NAME:
-			mAssetName = mStrings.Get(savalue);
+			mAssetName = savalue;
 			break;
 		case AT_ASSET_INFO:
-			mAssetInfo = mStrings.Get(savalue);
+			mAssetInfo = savalue;
 			break;
 		case AT_SCALE:
 			if ( mType == NT_BONE && mBone )
 			{
-				Asc2Bin(savalue,1,"fff", mBone->mScale );
+				mBone->mScale = String(savalue).AsVector3();
 			}
 			break;
 		case AT_POSITION:
 			if ( mType == NT_BONE && mBone )
 			{
-				Asc2Bin(savalue,1,"fff", mBone->mPosition );
+				mBone->mPosition = String(savalue).AsVector3();
 				mBoneIndex++;
 				if ( mBoneIndex == mSkeleton->GetBoneCount() )
 				{
@@ -923,11 +906,11 @@ public:
 		case AT_ORIENTATION:
 			if ( mType == NT_BONE && mBone )
 			{
-				Asc2Bin(savalue,1,"ffff", mBone->mOrientation );
+				mBone->mOrientation = String(savalue).AsQuaternion(false);
 			}
 			break;
 		case AT_HAS_SCALE:
-			mHasScale = getBool(savalue);
+			mHasScale = String(savalue).AsBool();
 			break;
 		case AT_DURATION:
 			mDuration = savalue;
@@ -951,7 +934,7 @@ public:
 				ph_assert(mMeshCollisionRepresentation);
 				if ( mMeshCollisionRepresentation )
 				{
-					mMeshCollisionRepresentation->mInfo = mStrings.Get(savalue).Get();
+					mMeshCollisionRepresentation->mInfo = savalue;
 				}
 				break;
 			}
@@ -962,7 +945,7 @@ public:
 				ph_assert( mMeshCollision );
 				if ( mMeshCollision )
 				{
-					Asc2Bin(savalue,4,"ffff", mMeshCollision->mTransform );
+					mMeshCollision->mTransform = String(savalue).AsMatrix4();
 				}
 			}
 			break;
@@ -976,30 +959,30 @@ public:
 				ph_assert( mMeshCollision );
 				if ( mMeshCollision )
 				{
-					mMeshCollision->mName = mStrings.Get(savalue).Get();
+					mMeshCollision->mName = savalue;
 				}
 				break;
 			case NT_MESH_COLLISION_REPRESENTATION:
 				ph_assert(mMeshCollisionRepresentation);
 				if ( mMeshCollisionRepresentation )
 				{
-					mMeshCollisionRepresentation->mName = mStrings.Get(savalue).Get();
+					mMeshCollisionRepresentation->mName = savalue;
 				}
 				break;
 			case NT_MESH:
-				mCurrentMesh = mStrings.Get(savalue);
+				mCurrentMesh = savalue;
 				mCallback->importMesh(savalue,0);
 				break;
 			case NT_SKELETON:
 				if ( mSkeleton )
 				{
-					mSkeleton->SetName(mStrings.Get(savalue).Get());
+					mSkeleton->SetName(savalue);
 				}
 				break;
 			case NT_BONE:
 				if ( mBone )
 				{
-					mBone->SetName(mStrings.Get(savalue).Get());
+					mBone->SetName(savalue);
 				}
 				break;
 			}
@@ -1031,7 +1014,7 @@ public:
 				for (int32 i=0; i<mBoneIndex; i++)
 				{
 					const MeshBone &b = mSkeleton->GetBone(i);
-					if ( strcmp(mParent,b.mName) == 0 )
+					if ( mParent == b.mName )
 					{
 						mBone->mParentIndex = i;
 						break;
@@ -1043,7 +1026,7 @@ public:
 			if ( mType == NT_MESH_SECTION )
 			{
 				mCallback->importMaterial(savalue,0);
-				mCurrentMaterial = mStrings.Get(savalue);
+				mCurrentMaterial = savalue;
 			}
 			break;
 		case AT_CTYPE:
@@ -1093,57 +1076,56 @@ public:
 		return true;
 	}
 private:
-	MeshImportInterface     *mCallback;
 
-	bool                   mHasScale;
+	MeshImportInterface*		mCallback;
+	bool						mHasScale;
 
 	
 	Dictionary<String,uint32>	mToElement;
 	Dictionary<String,uint32>	mToAttribute;
 	NodeType					mType;
 
-	InPlaceParser mParser1;
-	InPlaceParser mParser2;
+	InPlaceParser 				mParser1;
+	InPlaceParser 				mParser2;
 
-	const char* mName;
-	const char* mCount;
-	const char* mParent;
-	const char* mCtype;
-	const char* mSemantic;
+	String		 				mName;
+	const char* 				mCount;
+	String		 				mParent;
+	const char* 				mCtype;
+	const char* 				mSemantic;
 
-	const char* mFrameCount;
-	const char* mDuration;
-	const char* mTrackCount;
-	const char* mDtime;
+	const char* 				mFrameCount;
+	const char* 				mDuration;
+	const char* 				mTrackCount;
+	const char* 				mDtime;
 
-	int32          mTrackIndex;
-	int32          mBoneIndex;
-	MeshBone       * mBone;
+	int32          				mTrackIndex;
+	int32          				mBoneIndex;
+	MeshBone*					mBone;
 
-	MeshAnimation  * mAnimation;
-	MeshAnimTrack  * mAnimTrack;
-	MeshSkeleton   * mSkeleton;
-	int32          mVertexCount;
-	int32          mIndexCount;
-	void       * mVertexBuffer;
-	void       * mIndexBuffer;
+	MeshAnimation*				mAnimation;
+	MeshAnimTrack*				mAnimTrack;
+	MeshSkeleton*				mSkeleton;
+	int32						mVertexCount;
+	int32						mIndexCount;
+	void*						mVertexBuffer;
+	void*						mIndexBuffer;
 
-	int32          mMeshSystemVersion;
-	int32          mMeshSystemAssetVersion;
+	int32						mMeshSystemVersion;
+	int32						mMeshSystemAssetVersion;
 
-	StringRef    mCurrentMesh;
-	StringRef    mCurrentMaterial;
-	StringDict   mStrings;
-	StringRef    mAssetName;
-	StringRef    mAssetInfo;
+	String						mCurrentMesh;
+	String						mCurrentMaterial;
+	String						mAssetName;
+	String						mAssetInfo;
 
-	uint32 mVertexFlags;
-	MeshVertex  *mVertices;
+	uint32						mVertexFlags;
+	MeshVertex*					mVertices;
 
-	StringRef                    mCollisionRepName;
-	MeshCollisionRepresentation *mMeshCollisionRepresentation;
-	MeshCollision               *mMeshCollision;
-	MeshCollisionConvex         *mMeshCollisionConvex;
+	String						mCollisionRepName;
+	MeshCollisionRepresentation*mMeshCollisionRepresentation;
+	MeshCollision*				mMeshCollision;
+	MeshCollisionConvex*		mMeshCollisionConvex;
 
 
 };
