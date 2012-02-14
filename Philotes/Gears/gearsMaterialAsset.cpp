@@ -49,7 +49,6 @@ GearMaterialAsset::GearMaterialAsset(GearAssetManager &assetManager, rapidxml::x
 	GearAsset(ASSET_MATERIAL, path),
 m_assetManager(assetManager)
 {
-
 	std::vector<const char*> mVertexShaderPaths;
 
 	Render &renderer = assetManager.getRender();
