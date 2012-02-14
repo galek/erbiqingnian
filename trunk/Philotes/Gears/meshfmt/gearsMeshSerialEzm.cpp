@@ -506,7 +506,6 @@ public:
 		return flags;
 	}
 
-
 	virtual const char * getExtension(int32 index)
 	{
 		return ".ezm";
