@@ -22,33 +22,36 @@ _NAMESPACE_BEGIN
 
 _IMPLEMENT_SINGLETON(GearAssetManager);
 
-GearAssetManager::GearAssetManager(Render &renderer) :
-	m_renderer(renderer)
+GearAssetManager::GearAssetManager()
 {
 }
 
 GearAssetManager::~GearAssetManager(void)
 {
-	ph_assert(m_assets.size() == 0);
+	ph_assert(m_assets.Size() == 0);
 	clearSearchPaths();
 }
 
 GearAsset *GearAssetManager::getAsset(const char *path, GearAsset::Type type)
 {	
 	GearAsset *asset = findAsset(path);
+
 	if(!asset)
 	{
 		asset = loadAsset(path);
 	}
+
 	if(asset && asset->getType() != type)
 	{
 		releaseAsset(*asset);
 		asset = 0;
 	}
+
 	if(asset)
 	{
 		asset->m_numUsers++;
 	}
+
 	return asset;
 }
 
@@ -65,39 +68,35 @@ void GearAssetManager::returnAsset(GearAsset &asset)
 	}
 }
 
-void GearAssetManager::addSearchPath(const char *path)
+void GearAssetManager::addSearchPath(const String& path)
 {
-	const uint32 len = path && *path ? (uint32)strlen(path) : 0;
+	const uint32 len = path.Length();
 	if(len)
 	{
 		const uint32 len2 = len+2;
 		char *searchPath = new char[len2];
-		strncpy_s(searchPath, len2, path, len2);
+		strncpy_s(searchPath, len2, path.c_str(), len2);
 		if(path[len-1] != '/' && path[len-1] != '\\')
 		{
 			strncat_s(searchPath, len2, "/", len2);
 		}
-		m_searchPaths.push_back(searchPath);
+		m_searchPaths.Append(searchPath);
 	}
 }
 
 void GearAssetManager::clearSearchPaths()
 {
-	const uint32 numSearchPaths = (uint32)m_searchPaths.size();
-	for(uint32 i=0; i<numSearchPaths; i++)
-	{
-		delete [] m_searchPaths[i];
-	}
-	m_searchPaths.clear();
+	const uint32 numSearchPaths = (uint32)m_searchPaths.Size();
+	m_searchPaths.Reset();
 }
 
-GearAsset *GearAssetManager::findAsset(const char *path)
+GearAsset *GearAssetManager::findAsset(const String& path)
 {
 	GearAsset *asset = 0;
-	uint32 numAssets = (uint32)m_assets.size();
+	uint32 numAssets = (uint32)m_assets.Size();
 	for(uint32 i=0; i<numAssets; i++)
 	{
-		if(!strcmp(m_assets[i]->getPath(), path))
+		if(m_assets[i]->getPath() != path)
 		{
 			asset = m_assets[i];
 			break;
@@ -106,61 +105,47 @@ GearAsset *GearAssetManager::findAsset(const char *path)
 	return asset;
 }
 
-static const char *strext(const char *str)
-{
-	const char *ext = str;
-	while(str)
-	{
-		str = strchr(str, '.');
-		if(str)
-		{
-			str++;
-			ext = str;
-		}
-	}
-	return ext;
-}
-
-GearAsset *GearAssetManager::loadAsset(const char *path)
+GearAsset *GearAssetManager::loadAsset(const String& path)
 {
 	GearAsset *asset = 0;
-	const char *extension = strext(path);
-	if(extension && *extension)
+	const String extension = path.GetFileExtension();
+
+	if(!extension.IsEmpty())
 	{
 		FILE *file = 0;
-		const uint32 numSearchPaths = (uint32)m_searchPaths.size();
+		const uint32 numSearchPaths = (uint32)m_searchPaths.Size();
 		for(uint32 i=0; i<numSearchPaths; i++)
 		{
-			const char *prefix = m_searchPaths[i];
+			const char *prefix = m_searchPaths[i].c_str();
 			char fullPath[512];
 			strncpy_s(fullPath, 512, prefix, 512);
-			strncat_s(fullPath, 512, path,   512);
+			strncat_s(fullPath, 512, path.c_str(),   512);
 			fopen_s(&file, fullPath, "rb");
 			if(file) break;
 		}
 
 		if(!file)
-			fopen_s(&file, path, "rb");
+			fopen_s(&file, path.c_str(), "rb");
 
 		ph_assert(file);
 
 		if(file)
 		{
-			if(!strcmp(extension, "xml"))      asset = loadXMLAsset(*file, path);
-			else if(!strcmp(extension, "dds")) asset = loadTextureAsset(*file, path, GearTextureAsset::DDS);
-			else if(!strcmp(extension, "tga")) asset = loadTextureAsset(*file, path, GearTextureAsset::TGA);
+			if(extension == "xml")      asset = loadXMLAsset(*file, path);
+			else if(extension == "dds") asset = loadTextureAsset(*file, path, GearTextureAsset::DDS);
+			else if(extension == "tga") asset = loadTextureAsset(*file, path, GearTextureAsset::TGA);
 
 			fclose(file);
 		}
 		else
 		{
+
 #define SAM_DEFAULT_MATERIAL "materials/simple_lit.xml"
 #define SAM_DEFAULT_TEXTURE "textures/test.dds"
 
-			// report the missing asset
 			char msg[1024];
 
-			if( !strcmp(extension, "xml") && strcmp(path, SAM_DEFAULT_MATERIAL) )  // Avoid infinite recursion
+			if( !strcmp(extension.c_str(), "xml") && strcmp(path.c_str(), SAM_DEFAULT_MATERIAL) )  // Avoid infinite recursion
 			{
 				sprintf_s(msg, sizeof(msg), "Could not find material: %s, loading default material: %s", 
 					path, SAM_DEFAULT_MATERIAL);
@@ -168,7 +153,7 @@ GearAsset *GearAssetManager::loadAsset(const char *path)
 
 				return loadAsset(SAM_DEFAULT_MATERIAL);  // Try to use the default asset
 			}
-			else if(!strcmp(extension, "dds"))
+			else if(!strcmp(extension.c_str(), "dds"))
 			{
 				sprintf_s(msg, sizeof(msg), "Could not find texture: %s, loading default texture: %s", 
 					path, SAM_DEFAULT_TEXTURE);
@@ -186,14 +171,14 @@ GearAsset *GearAssetManager::loadAsset(const char *path)
 	}
 	if(asset)
 	{
-		m_assets.push_back(asset);
+		m_assets.Append(asset);
 	}
 	return asset;
 }
 
 void GearAssetManager::releaseAsset(GearAsset &asset)
 {
-	uint32 numAssets = (uint32)m_assets.size();
+	uint32 numAssets = (uint32)m_assets.Size();
 	uint32 found     = numAssets;
 	for(uint32 i=0; i<numAssets; i++)
 	{
@@ -206,13 +191,13 @@ void GearAssetManager::releaseAsset(GearAsset &asset)
 	ph_assert(found < numAssets);
 	if(found < numAssets)
 	{
-		m_assets[found] = m_assets.back();
-		m_assets.pop_back();
+		m_assets[found] = m_assets.Back();
+		m_assets.PopBack();
 		asset.release();
 	}
 }
 
-GearAsset *GearAssetManager::loadXMLAsset(FILE &file, const char *path)
+GearAsset *GearAssetManager::loadXMLAsset(FILE &file, const String& path)
 {
 	GearAsset *asset = 0;
 	fseek(&file, 0, SEEK_END);
@@ -241,10 +226,10 @@ GearAsset *GearAssetManager::loadXMLAsset(FILE &file, const char *path)
 	return asset;
 }
 
-GearAsset *GearAssetManager::loadTextureAsset(FILE &file, const char *path, GearTextureAsset::Type texType)
+GearAsset *GearAssetManager::loadTextureAsset(FILE &file, const String& path, GearTextureAsset::Type texType)
 {
 	GearTextureAsset *asset = 0;
-	asset = new GearTextureAsset(getRender(), file, path, texType);
+	asset = new GearTextureAsset(file, path, texType);
 	return asset;
 }
 

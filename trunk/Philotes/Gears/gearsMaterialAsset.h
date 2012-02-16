@@ -24,7 +24,7 @@ class GearMaterialAsset : public GearAsset
 
 protected:
 
-	GearMaterialAsset(GearAssetManager &assetManager, rapidxml::xml_node<char> &xmlroot, const char *path);
+	GearMaterialAsset(GearAssetManager &assetManager, rapidxml::xml_node<char> &xmlroot, const String& path);
 
 	virtual ~GearMaterialAsset(void);
 

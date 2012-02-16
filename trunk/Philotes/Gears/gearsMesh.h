@@ -31,31 +31,33 @@ class GearMesh : public Mesh
 public:
 	GearMesh(const String& meshName,const String& skeletonName);
 
-	virtual ~GearMesh(void);
+	virtual						~GearMesh(void);
 
-	void release(void);
+	void						release(void);
 
-	bool isSame(const String& meshName) const;
+	bool						isSame(const String& meshName) const;
 
-	void getCurrent(const char *materialName,uint32 vertexFlags);
+	void						getCurrent(const char *materialName,uint32 vertexFlags);
 
-	virtual void importTriangle(const char *materialName,
-				uint32 vertexFlags,
-				const MeshVertex &_v1,
-				const MeshVertex &_v2,
-				const MeshVertex &_v3);
+	virtual void				importTriangle(const char *materialName,
+									uint32 vertexFlags,
+									const MeshVertex &_v1,
+									const MeshVertex &_v2,
+									const MeshVertex &_v3);
 
-	virtual void importIndexedTriangleList(const char *materialName,
-				uint32 vertexFlags,
-				uint32 vcount,
-				const MeshVertex *vertices,
-				uint32 tcount,
-				const uint32 *indices);
+	virtual void				importIndexedTriangleList(const char *materialName,
+									uint32 vertexFlags,
+									uint32 vcount,
+									const MeshVertex *vertices,
+									uint32 tcount,
+									const uint32 *indices);
 
-	void gather(int32 bone_count);
+	void						gather(int32 bone_count);
 
 	VertexPool< MeshVertex >	mVertexPool;
+
 	GearSubMesh*				mCurrent;
+
 	SubMeshVector				mMySubMeshes;
 };
 
@@ -74,7 +76,7 @@ public:
 	MeshCollisionVector mGeometries;
 };
 
-typedef Array<GearMesh*>	GearMeshVector;
+typedef Array<GearMesh*> GearMeshVector;
 
 
 _NAMESPACE_END

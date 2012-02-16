@@ -10,14 +10,16 @@ _NAMESPACE_BEGIN
 
 RenderMesh::RenderMesh(const RenderMeshDesc &desc)
 {
-	m_primitives = desc.primitives;
+	m_primitiveType = desc.primitives;
 	
 	m_numVertexBuffers = desc.numVertexBuffers;
 	m_vertexBuffers = new RenderVertexBuffer*[m_numVertexBuffers];
+
 	for(uint32 i=0; i<m_numVertexBuffers; i++)
 	{
 		m_vertexBuffers[i] = desc.vertexBuffers[i];
 	}
+
 	m_firstVertex    = desc.firstVertex;
 	m_numVertices    = desc.numVertices;
 	
@@ -37,7 +39,7 @@ RenderMesh::~RenderMesh(void)
 
 RenderMesh::Primitive RenderMesh::getPrimitives(void) const
 {
-	return m_primitives;
+	return m_primitiveType;
 }
 
 uint32 RenderMesh::getNumVertices(void) const

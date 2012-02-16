@@ -10,14 +10,17 @@ class GearTextureAsset : public GearAsset
 	friend class GearAssetManager;
 
 public:
+	
 	enum Type
 	{
 		DDS,
 		TGA,
 		TEXTURE_FILE_TYPE_COUNT,
 	};
+
 protected:
-	GearTextureAsset(Render &renderer, FILE &file, const char *path, Type texType);
+	GearTextureAsset(FILE &file, const String& path, Type texType);
+
 	virtual ~GearTextureAsset(void);
 
 public:
@@ -27,8 +30,10 @@ public:
 	virtual bool isOk(void) const;
 
 private:
-	void loadDDS(Render &renderer, FILE &file);
-	void loadTGA(Render &renderer, FILE &file);
+
+	void loadDDS(FILE &file);
+
+	void loadTGA(FILE &file);
 
 	RenderTexture2D *m_texture;
 };
