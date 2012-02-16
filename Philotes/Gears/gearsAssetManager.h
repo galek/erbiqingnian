@@ -10,25 +10,23 @@ class GearAssetManager : public Singleton<GearAssetManager>
 {
 	public:
 		
-		GearAssetManager(Render &renderer);
+		GearAssetManager();
 
 		virtual ~GearAssetManager(void);
 
 		_DECLARE_SINGLETON(GearAssetManager);
 		
-		Render&			getRender(void) { return m_renderer; }
-		
 		GearAsset*		getAsset(const char *path, GearAsset::Type type);
 
 		void			returnAsset(GearAsset &asset);
 		
-		void         	addSearchPath(const char *path);
+		void         	addSearchPath(const String& path);
 
 		void         	clearSearchPaths(void);
 
-		FILE*		 	findFile(const char* path);
+		FILE*		 	findFile(const String& path);
 
-		const char*	 	findPath(const char* path);
+		const String&	findPath(const String& path);
 
 		/**
 		Search for the speficied path in the current directory. If not found, move up in the folder hierarchy
@@ -45,23 +43,24 @@ class GearAssetManager : public Singleton<GearAssetManager>
 		static bool 	searchForPath(const char* path, char* buffer, int bufferSize, int maxRecursion);
 	
 	protected:
-		GearAsset*		findAsset(const char *path);
+		GearAsset*		findAsset(const String& path);
 
-		GearAsset*		loadAsset(const char *path);
+		GearAsset*		loadAsset(const String& path);
 
 		void			releaseAsset(GearAsset &asset);
 		
-		GearAsset*		loadXMLAsset(FILE &file, const char *path);
+		GearAsset*		loadXMLAsset(FILE &file, const String& path);
 
-		GearAsset*		loadTextureAsset(FILE &file, const char *path, GearTextureAsset::Type texType);
+		GearAsset*		loadTextureAsset(FILE &file, const String& path, GearTextureAsset::Type texType);
 	
 	private:
 		GearAssetManager &operator=(const GearAssetManager&) { return *this; }
 		
 	protected:
-		Render&	m_renderer;
-		std::vector<char *>    m_searchPaths;
-		std::vector<GearAsset*>	m_assets;
+
+		StringArray		m_searchPaths;
+
+		AssetArray		m_assets;
 };
 
 _NAMESPACE_END

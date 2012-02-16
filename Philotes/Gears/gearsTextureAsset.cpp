@@ -1,6 +1,6 @@
 
 #include "gearsTextureAsset.h"
-
+#include "gearsApplication.h"
 #include "render.h"
 #include "renderTexture2D.h"
 #include "renderTexture2DDesc.h"
@@ -12,15 +12,15 @@
 _NAMESPACE_BEGIN
 
 
-GearTextureAsset::GearTextureAsset(Render &renderer, FILE &file, const char *path, Type texType) :
+GearTextureAsset::GearTextureAsset(FILE &file, const String& path, Type texType) :
 GearAsset(ASSET_TEXTURE, path)
 {
 	m_texture = 0;
 
 	switch(texType)
 	{
-	case DDS: loadDDS(renderer, file); break;
-	case TGA: loadTGA(renderer, file); break;
+	case DDS: loadDDS(file); break;
+	case TGA: loadTGA(file); break;
 	default: ph_assert(0 && "Invalid texture type requested"); break;
 	}
 }
@@ -30,7 +30,7 @@ GearTextureAsset::~GearTextureAsset(void)
 	if(m_texture) m_texture->release();
 }
 
-void GearTextureAsset::loadDDS(Render &renderer, FILE &file) 
+void GearTextureAsset::loadDDS(FILE &file) 
 {
 	nv_dds::CDDSImage ddsimage;
 	bool ok = ddsimage.load(&file, false);
@@ -51,7 +51,7 @@ void GearTextureAsset::loadDDS(Render &renderer, FILE &file)
 		// if there is 1 mipmap, nv_dds reports 0
 		tdesc.numLevels = ddsimage.get_num_mipmaps()+1;
 		ph_assert(tdesc.isValid());
-		m_texture = renderer.createTexture2D(tdesc);
+		m_texture = GearApplication::getApp()->getRender()->createTexture2D(tdesc);
 		ph_assert(m_texture);
 		if(m_texture)
 		{
@@ -105,7 +105,7 @@ void GearTextureAsset::loadDDS(Render &renderer, FILE &file)
 	}
 }
 
-void GearTextureAsset::loadTGA(Render &renderer, FILE &file)
+void GearTextureAsset::loadTGA(FILE &file)
 {
 #ifdef RENDERER_ENABLE_TGA_SUPPORT
 
@@ -129,7 +129,7 @@ void GearTextureAsset::loadTGA(Render &renderer, FILE &file)
 
 			tdesc.numLevels = 1;
 			ph_assert(tdesc.isValid());
-			m_texture = renderer.createTexture2D(tdesc);
+			m_texture = GearApplication::getApp()->getRender()->createTexture2D(tdesc);
 			ph_assert(m_texture);
 
 			if(m_texture)

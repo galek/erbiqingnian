@@ -1,5 +1,6 @@
 
 #include "gearsMaterialAsset.h"
+#include "gearsApplication.h"
 
 #include "render.h"
 #include "renderMaterial.h"
@@ -45,13 +46,13 @@ static void readFloats(const char *str, float *floats, unsigned int numFloats)
 
 //////////////////////////////////////////////////////////////////////////
 
-GearMaterialAsset::GearMaterialAsset(GearAssetManager &assetManager, rapidxml::xml_node<char> &xmlroot, const char *path) :
+GearMaterialAsset::GearMaterialAsset(GearAssetManager &assetManager, rapidxml::xml_node<char> &xmlroot, const String& path) :
 	GearAsset(ASSET_MATERIAL, path),
 m_assetManager(assetManager)
 {
-	std::vector<const char*> mVertexShaderPaths;
+	std::vector<const char*> vertexShaderPaths;
 
-	Render &renderer = assetManager.getRender();
+	Render &renderer = *GearApplication::getApp()->getRender();
 
 	RenderMaterialDesc matdesc;
 	const char *materialTypeName = getXMLAttribute(xmlroot, "type");
@@ -76,7 +77,7 @@ m_assetManager(assetManager)
 				if(name && !strcmp(name, "vertex"))
 				{
 					//matdesc.vertexShaderPath = nodeValue;
-					mVertexShaderPaths.push_back(nodeValue);
+					vertexShaderPaths.push_back(nodeValue);
 				}
 				else if(name && !strcmp(name, "fragment"))
 				{
@@ -107,15 +108,15 @@ m_assetManager(assetManager)
 		}
 	}
 
-	for (size_t materialIndex = 0; materialIndex < mVertexShaderPaths.size(); materialIndex++)
+	for (size_t materialIndex = 0; materialIndex < vertexShaderPaths.size(); materialIndex++)
 	{
 		MaterialStruct materialStruct;
 
-		matdesc.vertexShaderPath = mVertexShaderPaths[materialIndex];
+		matdesc.vertexShaderPath = vertexShaderPaths[materialIndex];
 		materialStruct.m_material = NULL;
 		materialStruct.m_materialInstance = NULL;
 		materialStruct.m_maxBones = 0;
-		if (strstr(mVertexShaderPaths[materialIndex], "skeletalmesh") != NULL)
+		if (strstr(vertexShaderPaths[materialIndex], "skeletalmesh") != NULL)
 			materialStruct.m_maxBones = RENDERER_MAX_BONES;
 
 		materialStruct.m_material = renderer.createMaterial(matdesc);

@@ -72,7 +72,7 @@ void GearApplication::onOpen( void )
 
 	m_timeCounter = m_time.getCurrentCounterValue();
 
-	m_assetManager = new GearAssetManager(*m_renderer);
+	m_assetManager = new GearAssetManager();
 	m_assetManager->addSearchPath(m_assetPathPrefix);
 	m_assetManager->addSearchPath(rendererdir);
 

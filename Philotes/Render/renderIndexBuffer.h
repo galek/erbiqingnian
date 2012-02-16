@@ -11,6 +11,7 @@ class RenderIndexBufferDesc;
 class RenderIndexBuffer
 {
 	friend class RenderMesh;
+
 	public:
 		typedef enum Format
 		{
@@ -27,34 +28,42 @@ class RenderIndexBuffer
 		};
 	
 	public:
-		static uint32 getFormatByteSize(Format format);
+		static uint32	getFormatByteSize(Format format);
 	
 	protected:
+
 		RenderIndexBuffer(const RenderIndexBufferDesc &desc);
 		
-		virtual ~RenderIndexBuffer(void);
+		virtual			~RenderIndexBuffer(void);
 		
 	public:
-		void release(void) { delete this; }
+
+		void			release(void) { delete this; }
 		
-		Hint   getHint(void) const;
-		Format getFormat(void) const;
-		uint32  getMaxIndices(void) const;
+		Hint			getHint(void) const;
+
+		Format			getFormat(void) const;
+
+		uint32			getMaxIndices(void) const;
 		
 	public:
-		virtual void *lock(void) = 0;
-		virtual void  unlock(void) = 0;
+		virtual void*	lock(void)			= 0;
+
+		virtual void	unlock(void)		= 0;
 
 	private:
-		virtual void bind(void) const = 0;
-		virtual void unbind(void) const = 0;
+		virtual void	bind(void) const	= 0;
+
+		virtual void	unbind(void) const	= 0;
 		
 		RenderIndexBuffer &operator=(const RenderIndexBuffer &) { return *this; }
 		
 	protected:
-		const Hint   m_hint;
-		const Format m_format;
-		uint32        m_maxIndices;
+		const Hint		m_hint;
+
+		const Format	m_format;
+
+		uint32			m_maxIndices;
 };
 
 _NAMESPACE_END

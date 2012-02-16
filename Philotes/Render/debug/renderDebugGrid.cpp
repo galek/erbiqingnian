@@ -25,8 +25,8 @@ RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
 
 	RenderVertexBufferDesc vbdesc;
 	vbdesc.hint                                                     = RenderVertexBuffer::HINT_STATIC;
-	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION] = RenderVertexBuffer::FORMAT_FLOAT3;
-	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_COLOR]    = RenderVertexBuffer::FORMAT_COLOR;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION]	= RenderVertexBuffer::FORMAT_FLOAT3;
+	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_COLOR]		= RenderVertexBuffer::FORMAT_COLOR;
 	vbdesc.maxVertices                                              = numVerts;
 	m_vertexBuffer = GearApplication::getApp()->getRender()->createVertexBuffer(vbdesc);
 	if(m_vertexBuffer)
@@ -44,24 +44,25 @@ RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
 		uint32 color2 = 0xFF788AA3;
 		uint32 color1 = 0xFF5E6C7F;
 
-		uint32 positionStride = 0;
-		void *positions = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_POSITION, positionStride);
-		uint32 colorStride = 0;
-		void *colors = m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_COLOR, colorStride);
+		uint32 positionStride	= 0;
+		void *positions			= m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_POSITION, positionStride);
+		uint32 colorStride		= 0;
+		void *colors			= m_vertexBuffer->lockSemantic(RenderVertexBuffer::SEMANTIC_COLOR, colorStride);
+
 		if(positions && colors)
 		{
 			const float radius   = size*cellSize;
 			const float diameter = radius*2;
-			for(uint32 c=0; c<numColLines; c++)
+			for(uint32 c = 0; c<numColLines; c++)
 			{
-				float *p0 = (float*)positions;
-				uint8  *c0 = (uint8*)colors;
-				positions = ((uint8*)positions)+positionStride;
-				colors    = ((uint8*)colors)+colorStride;
-				float *p1 = (float*)positions;
-				uint8  *c1 = (uint8*)colors;
-				positions = ((uint8*)positions)+positionStride;
-				colors    = ((uint8*)colors)+colorStride;
+				float *p0	= (float*)positions;
+				uint8  *c0	= (uint8*)colors;
+				positions	= ((uint8*)positions)+positionStride;
+				colors		= ((uint8*)colors)+colorStride;
+				float *p1	= (float*)positions;
+				uint8  *c1	= (uint8*)colors;
+				positions	= ((uint8*)positions)+positionStride;
+				colors		= ((uint8*)colors)+colorStride;
 
 				const float t = c / (float)(numColLines-1);
 				const float d = diameter*t - radius;
