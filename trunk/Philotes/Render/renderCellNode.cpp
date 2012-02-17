@@ -1,8 +1,22 @@
 #include "renderCellNode.h"
 #include "renderTransform.h"
 #include "renderSceneManager.h"
+#include "renderElement.h"
+#include "render.h"
+#include "renderTransformElement.h"
+#include "gearsApplication.h"
 
 _NAMESPACE_BEGIN
+
+class SimpleRenderVisitor : public RenderVisitor
+{
+	virtual void visit(RenderElement* rend,Any* pAny = 0)
+	{
+		GearApplication::getApp()->getRender()->queueMeshForRender(*rend);
+	}
+};
+
+//////////////////////////////////////////////////////////////////////////
 
 RenderCellNode::RenderCellNode(RenderSceneManager* sm)
 	:RenderNode(),m_sceneManager(sm)
@@ -69,7 +83,27 @@ RenderTransform* RenderCellNode::createChildTransformNode( const String& name, c
 
 void RenderCellNode::tickVisible( const RenderCamera* camera )
 {
-	
+	ChildNodeIterator it;
+	ChildNodeIterator itend = mChildren.End();
+	for (it = mChildren.Begin(); it!=itend; ++it)
+	{
+		if(it->Value()->getNodeType() == NT_TRANSFORM)
+		{
+			RenderTransform* tn = static_cast<RenderTransform*>(it->Value());
+			// TODO : Ð§ÂÊÌáÉý
+			size_t at = tn->numAttachedObjects();
+			for (size_t i=0; i<at; i++)
+			{
+				SimpleRenderVisitor sv;
+				tn->getAttachedObject(i)->visitRenderElement(&sv);
+			}
+		}
+		else if (it->Value()->getNodeType() == NT_CULL_CELL)
+		{
+			RenderCellNode* cn = static_cast<RenderCellNode*>(it->Value());
+			cn->tickVisible(camera);
+		}
+	}
 }
 
 _NAMESPACE_END

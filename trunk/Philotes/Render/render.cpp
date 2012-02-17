@@ -101,7 +101,6 @@ void Render::queueMeshForRender(RenderElement &mesh)
 			break;
 		default: //case RenderMaterial::TYPE_UNLIT:
 			m_visibleUnlitMeshes.Append(&mesh);
-			//	break;
 		}
 	}
 }
@@ -242,7 +241,10 @@ void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass p
 			lastMesh = context.m_mesh;
 			if(lastMesh) lastMesh->bind();
 		}
-		if(lastMesh) context.m_mesh->render(context.getMaterial());
+		if(lastMesh)
+		{
+			context.m_mesh->render(context.getMaterial());
+		}
 	}
 	if(lastMesh)     
 	{

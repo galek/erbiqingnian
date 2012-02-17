@@ -24,6 +24,7 @@ RenderSceneManager::~RenderSceneManager()
 void RenderSceneManager::tickVisible( const RenderCamera* camera )
 {
 	// 不进行裁剪，全部渲染
+	getRootCellNode();
 	if (m_rootNode)
 	{
 		m_rootNode->tickVisible(camera);

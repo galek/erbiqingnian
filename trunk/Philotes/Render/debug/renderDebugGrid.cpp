@@ -140,6 +140,11 @@ RenderGridElement::~RenderGridElement( void )
 	}
 }
 
+void RenderGridElement::getWorldTransforms( Matrix4* xform ) const
+{
+	xform[0] = Matrix4::IDENTITY;
+}
+
 
 _NAMESPACE_END
 

@@ -30,6 +30,10 @@ public:
 
 	virtual scalar getBoundingRadius(void) const;
 
+	virtual void getWorldTransforms(Matrix4* xform) const;
+
+	virtual void visitRenderElement(RenderVisitor* visitor);
+
 private:
 
 	void init();
