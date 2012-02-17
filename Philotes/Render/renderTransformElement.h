@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include "math/sphere.h"
+#include "math/axisAlignedBox.h"
+
 _NAMESPACE_BEGIN
 
 class RenderTransformElement
@@ -27,11 +30,23 @@ public:
 
 	bool						isAttached()const {return m_parentNode!=NULL;}
 
+	virtual const AxisAlignedBox& getBoundingBox(void) const = 0;
+
+	virtual scalar				getBoundingRadius(void) const = 0;
+
+	virtual const AxisAlignedBox& getWorldBoundingBox(bool derive = false) const;
+
+	virtual const Sphere&		getWorldBoundingSphere(bool derive = false) const;
+
 protected:
 
 	RenderNode*					m_parentNode;
 
 	String						m_name;
+
+	mutable AxisAlignedBox		mWorldAABB;
+	
+	mutable Sphere				mWorldBoundingSphere;
 };
 
 _NAMESPACE_END

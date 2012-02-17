@@ -7,12 +7,14 @@ _NAMESPACE_BEGIN
 RenderTransform::RenderTransform()
 	:RenderNode()
 {
+	mNodeType = NT_TRANSFORM;
 	needUpdate();
 }
 
 RenderTransform::RenderTransform( const String& name )
 	:RenderNode(name)
 {
+	mNodeType = NT_TRANSFORM;
 	needUpdate();
 }
 
@@ -162,6 +164,28 @@ void RenderTransform::detachAllObjects( void )
 	mObjectsByName.Clear();
 
 	needUpdate();
+}
+
+const AxisAlignedBox& RenderTransform::_updateBounds()
+{
+	mWorldAABB.setNull();
+
+	ObjectMap::Iterator itr;
+	RenderTransformElement* ret;
+	for ( itr = mObjectsByName.Begin(); itr != mObjectsByName.End(); ++itr )
+	{
+		ret = itr->Value();
+		mWorldAABB.merge(ret->getWorldBoundingBox(true));
+	}
+
+	ChildNodeMap::Iterator child;
+	for (child = mChildren.Begin(); child != mChildren.End(); ++child)
+	{
+		RenderTransform* sceneChild = static_cast<RenderTransform*>(child->Value());
+		mWorldAABB.merge(sceneChild->mWorldAABB);
+	}
+
+	return mWorldAABB;
 }
 
 _NAMESPACE_END

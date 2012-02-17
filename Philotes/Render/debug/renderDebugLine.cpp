@@ -216,4 +216,16 @@ void RenderLineElement::addLine( const Vector3 &p0,const Vector3 &p1,const Colou
 	addPoint(p1,color);
 }
 
+Philo::scalar RenderLineElement::getBoundingRadius( void ) const
+{
+	return Math::POS_INFINITY;
+}
+
+const AxisAlignedBox& RenderLineElement::getBoundingBox( void ) const
+{
+	static AxisAlignedBox aabb;
+	aabb.setInfinite();
+	return aabb;
+}
+
 _NAMESPACE_END

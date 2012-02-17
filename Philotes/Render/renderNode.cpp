@@ -7,24 +7,25 @@ NameGenerator				RenderNode::msNameGenerator("nd_");
 RenderNode::QueuedUpdates	RenderNode::msQueuedUpdates;
 
 RenderNode::RenderNode()
-:mParent(0),
-mNeedParentUpdate(false),
-mNeedChildUpdate(false),
-mParentNotified(false),
-mQueuedForUpdate(false),
-mOrientation(Quaternion::IDENTITY),
-mPosition(Vector3::ZERO),
-mScale(Vector3::UNIT_SCALE),
-mInheritOrientation(true),
-mInheritScale(true),
-mDerivedOrientation(Quaternion::IDENTITY),
-mDerivedPosition(Vector3::ZERO),
-mDerivedScale(Vector3::UNIT_SCALE),
-mInitialPosition(Vector3::ZERO),
-mInitialOrientation(Quaternion::IDENTITY),
-mInitialScale(Vector3::UNIT_SCALE),
-mCachedTransformOutOfDate(true),
-mListener(0)
+	:mParent(0),
+	mNeedParentUpdate(false),
+	mNeedChildUpdate(false),
+	mParentNotified(false),
+	mQueuedForUpdate(false),
+	mOrientation(Quaternion::IDENTITY),
+	mPosition(Vector3::ZERO),
+	mScale(Vector3::UNIT_SCALE),
+	mInheritOrientation(true),
+	mInheritScale(true),
+	mDerivedOrientation(Quaternion::IDENTITY),
+	mDerivedPosition(Vector3::ZERO),
+	mDerivedScale(Vector3::UNIT_SCALE),
+	mInitialPosition(Vector3::ZERO),
+	mInitialOrientation(Quaternion::IDENTITY),
+	mInitialScale(Vector3::UNIT_SCALE),
+	mCachedTransformOutOfDate(true),
+	mListener(0),
+	mNodeType(NT_UNKNOW)
 {
 	// Generate a name
 	mName = msNameGenerator.generate();
@@ -34,27 +35,27 @@ mListener(0)
 }
 //-----------------------------------------------------------------------
 RenderNode::RenderNode(const String& name)
-:
-mParent(0),
-mNeedParentUpdate(false),
-mNeedChildUpdate(false),
-mParentNotified(false),
-mQueuedForUpdate(false),
-mName(name),
-mOrientation(Quaternion::IDENTITY),
-mPosition(Vector3::ZERO),
-mScale(Vector3::UNIT_SCALE),
-mInheritOrientation(true),
-mInheritScale(true),
-mDerivedOrientation(Quaternion::IDENTITY),
-mDerivedPosition(Vector3::ZERO),
-mDerivedScale(Vector3::UNIT_SCALE),
-mInitialPosition(Vector3::ZERO),
-mInitialOrientation(Quaternion::IDENTITY),
-mInitialScale(Vector3::UNIT_SCALE),
-mCachedTransformOutOfDate(true),
-mListener(0)
-
+	:
+	mParent(0),
+	mNeedParentUpdate(false),
+	mNeedChildUpdate(false),
+	mParentNotified(false),
+	mQueuedForUpdate(false),
+	mName(name),
+	mOrientation(Quaternion::IDENTITY),
+	mPosition(Vector3::ZERO),
+	mScale(Vector3::UNIT_SCALE),
+	mInheritOrientation(true),
+	mInheritScale(true),
+	mDerivedOrientation(Quaternion::IDENTITY),
+	mDerivedPosition(Vector3::ZERO),
+	mDerivedScale(Vector3::UNIT_SCALE),
+	mInitialPosition(Vector3::ZERO),
+	mInitialOrientation(Quaternion::IDENTITY),
+	mInitialScale(Vector3::UNIT_SCALE),
+	mCachedTransformOutOfDate(true),
+	mListener(0),
+	mNodeType(NT_UNKNOW)
 {
 	needUpdate();
 }
@@ -340,7 +341,7 @@ const Quaternion& RenderNode::getOrientation() const
 //-----------------------------------------------------------------------
 void RenderNode::setOrientation( const Quaternion & q )
 {
-	assert(!q.isNaN() && "Invalid orientation supplied as parameter");
+	ph_assert(!q.isNaN() && "Invalid orientation supplied as parameter");
 	mOrientation = q;
 	mOrientation.normalise();
 	needUpdate();

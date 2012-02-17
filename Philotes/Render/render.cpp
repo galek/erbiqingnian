@@ -127,7 +127,7 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		target->bind();
 	}
 
-	// TODO: Sort meshes by material..
+	// TODO: ²ÄÖÊ·Ö×é
 	if(beginRender())
 	{
 		Matrix4 proj	= camera->getProjectionMatrixRS();
@@ -181,7 +181,10 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		}
 		endRender();
 	}
-	if(target) target->unbind();
+	if(target) 
+	{
+		target->unbind();
+	}
 	m_visibleLitMeshes.Reset();
 	m_visibleUnlitMeshes.Reset();
 	m_visibleLights.Reset();
@@ -229,7 +232,10 @@ void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass p
 			lastMaterial->bind(pass, lastMaterialInstance, instanced);
 		}
 		
-		if(lastMaterial) lastMaterial->bindMeshState(instanced);
+		if(lastMaterial) 
+		{
+			lastMaterial->bindMeshState(instanced);
+		}
 		if(context.m_mesh != lastMesh)
 		{
 			if(lastMesh) lastMesh->unbind();
@@ -238,8 +244,14 @@ void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass p
 		}
 		if(lastMesh) context.m_mesh->render(context.getMaterial());
 	}
-	if(lastMesh)     lastMesh->unbind();
-	if(lastMaterial) lastMaterial->unbind();
+	if(lastMesh)     
+	{
+		lastMesh->unbind();
+	}
+	if(lastMaterial)
+	{
+		lastMaterial->unbind();
+	}
 }
 
 

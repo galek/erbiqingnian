@@ -6,6 +6,7 @@
 
 #include "render.h"
 #include "renderCamera.h"
+#include "renderSceneManager.h"
 #include "renderMemoryMacros.h"
 
 _NAMESPACE_BEGIN
@@ -41,7 +42,6 @@ GearApplication::GearApplication(const GearCommandLine &cmdline, const char *ass
 	m_sceneSize    = 1.0f;
 	m_assetManager = 0;
 	m_timeCounter  = 0;
-	m_camera = new RenderCamera("maincam");
 
 	m_inputManager = 0;
 	m_keyboard = 0;
@@ -50,7 +50,7 @@ GearApplication::GearApplication(const GearCommandLine &cmdline, const char *ass
 
 GearApplication::~GearApplication(void)
 {
-	delete m_camera;
+	ph_delete(m_sceneManager);
 	ph_assert2(!m_renderer, "Render was not released prior to window closure.");
 	ph_assert2(!m_assetManager, "Asset Manager was not released prior to window closure.");
 }
@@ -75,6 +75,8 @@ void GearApplication::onOpen( void )
 	m_assetManager = new GearAssetManager();
 	m_assetManager->addSearchPath(m_assetPathPrefix);
 	m_assetManager->addSearchPath(rendererdir);
+
+	m_sceneManager = ph_new(RenderSceneManager);
 
 	setupInput();
 

@@ -6,6 +6,14 @@
 
 _NAMESPACE_BEGIN
 
+enum NodeType
+{
+	NT_TRANSFORM,	//变换节点
+	NT_CULL_CELL,	//裁剪节点
+
+	NT_UNKNOW
+};
+
 class RenderNode
 {
 	 public:
@@ -67,6 +75,8 @@ class RenderNode
 
         /// Friendly name of this node, can be automatically generated if you don't care
         String mName;
+
+		NodeType mNodeType;
 
         /// Incremented count for next name extension
         static NameGenerator msNameGenerator;
@@ -453,6 +463,11 @@ class RenderNode
         virtual RenderNode* createChild(const String& name, const Vector3& translate = Vector3::ZERO,
 			const Quaternion& rotate = Quaternion::IDENTITY);
 
+		virtual SizeT getChildrenNum() const
+		{
+			return mChildren.Size();
+		}
+
         /** Adds a (precreated) child scene node to this node. If it is attached to another node,
             it must be detached first.
         @param child The Node which is to become a child node of this one
@@ -500,6 +515,8 @@ class RenderNode
             this parent, potentially to be reattached elsewhere.
         */
         virtual void removeAllChildren(void);
+
+		NodeType	getNodeType() const {return mNodeType;}
 		
 		/** Sets the final world position of the node directly.
 		@remarks 

@@ -26,6 +26,10 @@ public:
 
 	bool preQueuedToRender();
 
+	virtual const AxisAlignedBox& getBoundingBox(void) const;
+
+	virtual scalar getBoundingRadius(void) const;
+
 private:
 
 	void init();
