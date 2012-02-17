@@ -32,7 +32,7 @@ GearAssetManager::~GearAssetManager(void)
 	clearSearchPaths();
 }
 
-GearAsset *GearAssetManager::getAsset(const char *path, GearAsset::Type type)
+GearAsset *GearAssetManager::getAsset(const String& path, GearAsset::Type type)
 {	
 	GearAsset *asset = findAsset(path);
 
@@ -44,7 +44,7 @@ GearAsset *GearAssetManager::getAsset(const char *path, GearAsset::Type type)
 	if(asset && asset->getType() != type)
 	{
 		releaseAsset(*asset);
-		asset = 0;
+		asset = NULL;
 	}
 
 	if(asset)

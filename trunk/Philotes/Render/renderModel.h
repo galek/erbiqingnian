@@ -1,10 +1,18 @@
 
 #pragma once
 
+#include "renderTransformElement.h"
+
 _NAMESPACE_BEGIN
 
-class RenderModel 
+class RenderModel : RenderTransformElement
 {
+public:
+
+	RenderModel(const String& name);
+
+	virtual ~RenderModel();
+
 public:
 
 	

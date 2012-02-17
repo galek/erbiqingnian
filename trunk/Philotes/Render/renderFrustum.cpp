@@ -12,7 +12,7 @@ _NAMESPACE_BEGIN
 const scalar RenderFrustum::INFINITE_FAR_PLANE_ADJUST = 0.00001f;
 //-----------------------------------------------------------------------
 RenderFrustum::RenderFrustum(const String& name) : 
-	RenderElement(name),
+	RenderTransformElement(name),
 	mProjType(PT_PERSPECTIVE), 
 	mFOVy(Radian(Math::PI/4.0f)), 
 	mFarDist(10000.0f), 

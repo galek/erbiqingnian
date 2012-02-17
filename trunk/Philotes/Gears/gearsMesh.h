@@ -20,7 +20,7 @@ public:
 	void add(const MeshVertex &v1,const MeshVertex &v2,const MeshVertex &v3,
 		VertexPool< MeshVertex > &vpool);
 
-	MeshIndexVector          mMyIndices;
+	MeshIndexVector          mIndices;
 	VertexPool< MeshVertex > mVertexPool;
 };
 
@@ -37,15 +37,16 @@ public:
 
 	bool						isSame(const String& meshName) const;
 
-	void						getCurrent(const char *materialName,uint32 vertexFlags);
+	// 获取，如没有则新建
+	void						getCurrent(const String& materialName,uint32 vertexFlags);
 
-	virtual void				importTriangle(const char *materialName,
+	virtual void				importTriangle(const String& materialName,
 									uint32 vertexFlags,
 									const MeshVertex &_v1,
 									const MeshVertex &_v2,
 									const MeshVertex &_v3);
 
-	virtual void				importIndexedTriangleList(const char *materialName,
+	virtual void				importIndexedTriangleList(const String& materialName,
 									uint32 vertexFlags,
 									uint32 vcount,
 									const MeshVertex *vertices,
@@ -58,7 +59,7 @@ public:
 
 	GearSubMesh*				mCurrent;
 
-	SubMeshVector				mMySubMeshes;
+	SubMeshVector				mSubMeshes;
 };
 
 //////////////////////////////////////////////////////////////////////////

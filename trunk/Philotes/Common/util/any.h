@@ -1,9 +1,6 @@
 
 #pragma once
 
-#include "OgrePrerequisites.h"
-#include "OgreException.h"
-#include "OgreString.h"
 #include <algorithm>
 #include <typeinfo>
 
@@ -211,7 +208,7 @@ namespace Philo
 			virtual placeholder* add(placeholder* rhs) = 0;
 			virtual placeholder* subtract(placeholder* rhs) = 0;
 			virtual placeholder* multiply(placeholder* rhs) = 0;
-			virtual placeholder* multiply(Real factor) = 0;
+			virtual placeholder* multiply(scalar factor) = 0;
 			virtual placeholder* divide(placeholder* rhs) = 0;
 		};
 
@@ -234,28 +231,28 @@ namespace Philo
 
 			virtual placeholder * clone() const
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held);
+				return ph_new(numholder)(held);
 			}
 
 			virtual placeholder* add(placeholder* rhs)
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held + static_cast<numholder*>(rhs)->held);
+				return ph_new(numholder)(held + static_cast<numholder*>(rhs)->held);
 			}
 			virtual placeholder* subtract(placeholder* rhs)
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held - static_cast<numholder*>(rhs)->held);
+				return ph_new(numholder)(held - static_cast<numholder*>(rhs)->held);
 			}
 			virtual placeholder* multiply(placeholder* rhs)
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held * static_cast<numholder*>(rhs)->held);
+				return ph_new(numholder)(held * static_cast<numholder*>(rhs)->held);
 			}
-			virtual placeholder* multiply(Real factor)
+			virtual placeholder* multiply(scalar factor)
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held * factor);
+				return ph_new(numholder)(held * factor);
 			}
 			virtual placeholder* divide(placeholder* rhs)
 			{
-				return PH_NEW_T(numholder, Memory::ObjectHeap)(held / static_cast<numholder*>(rhs)->held);
+				return ph_new(numholder)(held / static_cast<numholder*>(rhs)->held);
 			}
 			virtual void writeToStream(std::ostream& o)
 			{
@@ -295,7 +292,7 @@ namespace Philo
 			return AnyNumeric(
 				static_cast<numplaceholder*>(mContent)->multiply(rhs.mContent));
 		}
-		AnyNumeric operator*(Real factor) const
+		AnyNumeric operator*(scalar factor) const
 		{
 			return AnyNumeric(
 				static_cast<numplaceholder*>(mContent)->multiply(factor));
@@ -352,14 +349,7 @@ namespace Philo
         const ValueType * result = any_cast<ValueType>(&operand);
         if(!result)
 		{
-			StringUtil::StrStreamType str;
-			str << "Bad cast from type '" << operand.getType().name() << "' "
-				<< "to '" << typeid(ValueType).name() << "'";
-			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-				str.str(), 
-				"Ogre::any_cast");
-
-			ph_assert
+			PH_EXCEPT(ERR_DATASTRUCT,"Bad cast : any_cast")
 		}
         return *result;
     }

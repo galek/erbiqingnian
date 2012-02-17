@@ -48,9 +48,11 @@ class MeshVertex
 public:
 	MeshVertex(void);
 
-	bool	operator == (const MeshVertex &v) const;
+	bool			operator == (const MeshVertex &v) const;
 
-	void	validate();
+	void			validate();
+
+public:
 
 	Vector3			mPos;
 	Vector3			mNormal;
@@ -301,7 +303,6 @@ class SubMesh
 public:
 	SubMesh(void)
 	{
-		mMaterialName = 0;
 		mMaterial     = 0;
 		mVertexFlags  = 0;
 		mTriCount     = 0;

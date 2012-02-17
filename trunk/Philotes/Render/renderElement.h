@@ -1,7 +1,20 @@
 
 #pragma once
 
+#include "util/any.h"
+
 _NAMESPACE_BEGIN
+
+class RenderVisitor
+{
+public:
+
+	virtual ~RenderVisitor() {}
+
+	virtual void visit(RenderElement* rend,Any* pAny = 0) = 0;
+};
+
+//////////////////////////////////////////////////////////////////////////
 
 class RenderElement
 {
@@ -10,21 +23,11 @@ public:
 
 	RenderElement(void);
 
-	RenderElement(const String& name);
-
-	virtual ~RenderElement(void);
+	virtual						~RenderElement(void);
 
 public:
 
 	RenderMaterial*				getMaterial();
-
-	virtual const Matrix4&		getTransform(void) const;
-
-	RenderNode*					getParentNode() const { return m_parentNode; }
-	
-	bool						isAttached()const{return m_parentNode!=NULL;}
-
-	virtual const String&		getName(void) const { return m_name; }
 
 	RenderMaterialInstance *	getMaterialInstance() const { return m_materialInstance; }
 
@@ -34,19 +37,17 @@ public:
 
 	virtual void				setMesh(RenderMesh * val);
 
-	virtual void				_notifyAttached(RenderNode* parent);
-
 	virtual bool				preQueuedToRender(){return true;}
+
+	virtual bool				postQueuedToRender(){return true;}
 
 protected:
 
-	RenderMesh					*m_mesh;
+	// äÖÈ¾Íø¸ñ
+	RenderMesh*					m_mesh;
 	
-	RenderMaterialInstance		*m_materialInstance;
-	
-	RenderNode*					m_parentNode;
-
-	String						m_name;
+	// ²ÄÖÊÊµÀý
+	RenderMaterialInstance*		m_materialInstance;
 };
 
 _NAMESPACE_END

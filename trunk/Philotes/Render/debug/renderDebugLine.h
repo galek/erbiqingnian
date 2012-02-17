@@ -2,10 +2,11 @@
 #pragma once
 
 #include "renderElement.h"
+#include "renderTransformElement.h"
 
 _NAMESPACE_BEGIN
 
-class RenderLineElement : public RenderElement
+class RenderLineElement : public RenderElement, public RenderTransformElement
 {
 public:
 

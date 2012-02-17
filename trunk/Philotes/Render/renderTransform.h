@@ -24,26 +24,27 @@ public:
 
 	virtual RenderNode*		createChildImpl(const String& name);
 
-	typedef HashTable<String, RenderElement*>	ObjectMap;
-	typedef ObjectMap::Iterator					ObjectIterator;
+	typedef HashTable<String, RenderTransformElement*>	ObjectMap;
+
+	typedef ObjectMap::Iterator ObjectIterator;
 
 public:
 
-	virtual void			attachObject(RenderElement* obj);
+	virtual void					attachObject(RenderTransformElement* obj);
 
-    virtual unsigned short	numAttachedObjects(void) const;
+    virtual unsigned short			numAttachedObjects(void) const;
 
-    virtual RenderElement*	getAttachedObject(unsigned short index);
+    virtual RenderTransformElement*	getAttachedObject(unsigned short index);
 
-    virtual RenderElement*	getAttachedObject(const String& name);
+    virtual RenderTransformElement*	getAttachedObject(const String& name);
 
-    virtual RenderElement*	detachObject(unsigned short index);
+    virtual RenderTransformElement*	detachObject(unsigned short index);
     
-    virtual void			detachObject(RenderElement* obj);
+    virtual void					detachObject(RenderTransformElement* obj);
 
-    virtual RenderElement*	detachObject(const String& name);
+    virtual RenderTransformElement*	detachObject(const String& name);
 
-    virtual void			detachAllObjects(void);
+    virtual void					detachAllObjects(void);
 
 protected:
 
