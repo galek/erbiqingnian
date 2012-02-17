@@ -11,6 +11,7 @@ class RenderFrustum;
 class RenderCamera;
 class RenderNode;
 class RenderTransform;
+class RenderTransformElement;
 class RenderGridElement;
 class RenderLineElement;
 class RenderWindow;
@@ -32,5 +33,6 @@ class RenderMesh;
 class RenderMeshDesc;
 class RenderLight;
 class RenderLightDesc;
+class RenderVisitor;
 
 _NAMESPACE_END

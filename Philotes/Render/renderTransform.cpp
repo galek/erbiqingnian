@@ -1,6 +1,6 @@
 
 #include "renderTransform.h"
-#include "renderElement.h"
+#include "renderTransformElement.h"
 
 _NAMESPACE_BEGIN
 
@@ -19,7 +19,7 @@ RenderTransform::RenderTransform( const String& name )
 RenderTransform::~RenderTransform()
 {
 	ObjectMap::Iterator itr;
-	RenderElement* ret;
+	RenderTransformElement* ret;
 	for ( itr = mObjectsByName.Begin(); itr != mObjectsByName.End(); ++itr )
 	{
 		ret = itr->Value();
@@ -38,7 +38,7 @@ RenderNode* RenderTransform::createChildImpl( const String& name )
 	return new RenderTransform(name);
 }
 
-void RenderTransform::attachObject( RenderElement* obj )
+void RenderTransform::attachObject( RenderTransformElement* obj )
 {
 	if (obj->isAttached())
 	{
@@ -63,7 +63,7 @@ unsigned short RenderTransform::numAttachedObjects( void ) const
 	return static_cast< unsigned short >( mObjectsByName.Size() );
 }
 
-RenderElement* RenderTransform::getAttachedObject( unsigned short index )
+RenderTransformElement* RenderTransform::getAttachedObject( unsigned short index )
 {
 	if (index < mObjectsByName.Size())
 	{
@@ -79,7 +79,7 @@ RenderElement* RenderTransform::getAttachedObject( unsigned short index )
 	}
 }
 
-RenderElement* RenderTransform::getAttachedObject( const String& name )
+RenderTransformElement* RenderTransform::getAttachedObject( const String& name )
 {
 	ObjectMap::Iterator i = mObjectsByName.Find(name);
 
@@ -91,9 +91,9 @@ RenderElement* RenderTransform::getAttachedObject( const String& name )
 	return i->Value();
 }
 
-RenderElement* RenderTransform::detachObject( unsigned short index )
+RenderTransformElement* RenderTransform::detachObject( unsigned short index )
 {
-	RenderElement* ret;
+	RenderTransformElement* ret;
 	if (index < mObjectsByName.Size())
 	{
 
@@ -117,7 +117,7 @@ RenderElement* RenderTransform::detachObject( unsigned short index )
 	}
 }
 
-void RenderTransform::detachObject( RenderElement* obj )
+void RenderTransform::detachObject( RenderTransformElement* obj )
 {
 	ObjectMap::Iterator i, iend;
 	iend = mObjectsByName.End();
@@ -134,14 +134,14 @@ void RenderTransform::detachObject( RenderElement* obj )
 	needUpdate();
 }
 
-RenderElement* RenderTransform::detachObject( const String& name )
+RenderTransformElement* RenderTransform::detachObject( const String& name )
 {
 	ObjectMap::Iterator it = mObjectsByName.Find(name);
 	if (it == mObjectsByName.End())
 	{
 		PH_EXCEPT(ERR_RENDER, "Object " + name + " is not attached to this node.");
 	}
-	RenderElement* ret = it->Value();
+	RenderTransformElement* ret = it->Value();
 	mObjectsByName.Erase(it);
 	ret->_notifyAttached(NULL);
 
@@ -153,7 +153,7 @@ RenderElement* RenderTransform::detachObject( const String& name )
 void RenderTransform::detachAllObjects( void )
 {
 	ObjectMap::Iterator itr;
-	RenderElement* ret;
+	RenderTransformElement* ret;
 	for ( itr = mObjectsByName.Begin(); itr != mObjectsByName.End(); ++itr )
 	{
 		ret = itr->Value();

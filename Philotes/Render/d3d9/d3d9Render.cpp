@@ -517,7 +517,8 @@ void D3D9Render::bindDeferredState(void)
 
 void D3D9Render::bindMeshContext(const RenderElement &context)
 {
-	Matrix4 model = context.getTransform();
+	Matrix4 model/* = context.getTransform()*/;
+	model.setIdentity();
 	Matrix4 modelView;
 
 	modelView = m_viewMatrix * model;

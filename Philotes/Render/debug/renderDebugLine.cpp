@@ -16,12 +16,14 @@
 
 _NAMESPACE_BEGIN
 
-RenderLineElement::RenderLineElement() : RenderElement()
+RenderLineElement::RenderLineElement() : 
+	RenderElement(), RenderTransformElement()
 {
 	init();
 }
 
-RenderLineElement::RenderLineElement( const String& name ) : RenderElement(name)
+RenderLineElement::RenderLineElement( const String& name ) : 
+	RenderElement(), RenderTransformElement(name)
 {
 	init();
 }
@@ -64,12 +66,6 @@ void RenderLineElement::init()
 	m_lockedColors    = 0;
 	m_colorStride     = 0;
 }
-// 
-// void RenderLineElement::addLine( const Vector3 &p0, const Vector3 &p1, const Colour &color )
-// {
-// 	addVert(p0, color);
-// 	addVert(p1, color);
-// }
 
 void RenderLineElement::checkResizeLine( uint32 maxVerts )
 {

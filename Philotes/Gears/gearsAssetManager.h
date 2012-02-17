@@ -16,7 +16,7 @@ class GearAssetManager : public Singleton<GearAssetManager>
 
 		_DECLARE_SINGLETON(GearAssetManager);
 		
-		GearAsset*		getAsset(const char *path, GearAsset::Type type);
+		GearAsset*		getAsset(const String& path, GearAsset::Type type);
 
 		void			returnAsset(GearAsset &asset);
 		

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "renderElement.h"
+#include "renderTransformElement.h"
 #include "math/axisAlignedBox.h"
 #include "math/plane.h"
 
@@ -37,7 +37,7 @@ enum FrustumPlane
 
 //////////////////////////////////////////////////////////////////////////
 
-class RenderFrustum : public RenderElement
+class RenderFrustum : public RenderTransformElement
 {
 public:
 

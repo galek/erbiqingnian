@@ -21,8 +21,7 @@ bool GearSubMesh::isSame( const String& mat,uint32 vertexFlags ) const
 
 void GearSubMesh::gather( void )
 {
-	mTriCount = (uint32)mMyIndices.Size()/3;
-	mIndices  = &mMyIndices[0];
+	mTriCount = (uint32)mIndices.Size()/3;
 }
 
 void GearSubMesh::add( const MeshVertex &v1,const MeshVertex &v2,const MeshVertex &v3,
@@ -36,16 +35,16 @@ void GearSubMesh::add( const MeshVertex &v1,const MeshVertex &v2,const MeshVerte
 	uint32 i2 = vpool.GetVertex(v2);
 	uint32 i3 = vpool.GetVertex(v3);
 
-	mMyIndices.Append(i1);
-	mMyIndices.Append(i2);
-	mMyIndices.Append(i3);
+	mIndices.Append(i1);
+	mIndices.Append(i2);
+	mIndices.Append(i3);
 }
 
 GearMesh::GearMesh( const String& meshName,const String& skeletonName )
 {
 	mName = meshName;
 	mSkeletonName = skeletonName;
-	mCurrent = 0;
+	mCurrent = NULL;
 }
 
 GearMesh::~GearMesh( void )
@@ -55,15 +54,14 @@ GearMesh::~GearMesh( void )
 
 void GearMesh::release( void )
 {
-	mSubMeshes = 0;
 	mSubMeshCount = 0;
 	SubMeshVector::Iterator i;
-	for (i=mMySubMeshes.Begin(); i!=mMySubMeshes.End(); ++i)
+	for (i=mSubMeshes.Begin(); i!=mSubMeshes.End(); ++i)
 	{
 		GearSubMesh *s = static_cast<GearSubMesh *>((*i));
 		delete s;
 	}
-	mMySubMeshes.Reset();
+	mSubMeshes.Reset();
 }
 
 bool GearMesh::isSame( const String& meshName ) const
@@ -71,36 +69,42 @@ bool GearMesh::isSame( const String& meshName ) const
 	return mName == meshName;
 }
 
-void GearMesh::getCurrent( const char *materialName,uint32 vertexFlags )
+void GearMesh::getCurrent( const String& materialName,uint32 vertexFlags )
 {
-	if ( materialName == 0 ) materialName = "default_material";
-	if ( mCurrent == 0 || !mCurrent->isSame(materialName,vertexFlags) )
+	String mat = materialName;
+	if ( mat.IsEmpty() ) 
 	{
-		mCurrent =0;
+		mat = "default_material";
+	}
+
+	if ( mCurrent == NULL || !mCurrent->isSame(mat,vertexFlags) )
+	{
+		mCurrent = NULL;
 		SubMeshVector::Iterator i;
-		for (i=mMySubMeshes.Begin(); i!=mMySubMeshes.End(); ++i)
+		for (i=mSubMeshes.Begin(); i!=mSubMeshes.End(); ++i)
 		{
 			GearSubMesh *s = static_cast< GearSubMesh *>((*i));
-			if ( s->isSame(materialName,vertexFlags) )
+			if ( s->isSame(mat,vertexFlags) )
 			{
 				mCurrent = s;
 				break;
 			}
 		}
-		if ( mCurrent == 0 )
+		if ( mCurrent == NULL )
 		{
-			mCurrent = ph_new(GearSubMesh)(materialName,vertexFlags);
-			mMySubMeshes.Append(mCurrent);
+			mCurrent = ph_new(GearSubMesh)(mat,vertexFlags);
+			mSubMeshes.Append(mCurrent);
 		}
 	}
 }
 
-void GearMesh::importTriangle( const char *materialName, uint32 vertexFlags,
+void GearMesh::importTriangle( const String& materialName, uint32 vertexFlags,
 							  const MeshVertex &_v1, const MeshVertex &_v2, const MeshVertex &_v3 )
 {
 	MeshVertex v1 = _v1;
 	MeshVertex v2 = _v2;
 	MeshVertex v3 = _v3;
+
 	v1.mNormal.normalise();
 	v1.mBiNormal.normalise();
 	v1.mTangent.normalise();
@@ -128,7 +132,7 @@ void GearMesh::importTriangle( const char *materialName, uint32 vertexFlags,
 	mCurrent->add(v1,v2,v3,mVertexPool);
 }
 
-void GearMesh::importIndexedTriangleList( const char *materialName, uint32 vertexFlags, uint32 vcount,
+void GearMesh::importIndexedTriangleList( const String& materialName, uint32 vertexFlags, uint32 vcount,
 										 const MeshVertex *vertices, uint32 tcount, const uint32 *indices )
 {
 	for (uint32 i=0; i<tcount; i++)
@@ -145,12 +149,10 @@ void GearMesh::importIndexedTriangleList( const char *materialName, uint32 verte
 
 void GearMesh::gather( int32 bone_count )
 {
-	mSubMeshes = 0;
 	mSubMeshCount = 0;
-	if ( !mMySubMeshes.IsEmpty() )
+	if ( !mSubMeshes.IsEmpty() )
 	{
-		mSubMeshCount = (uint32)mMySubMeshes.Size();
-		mSubMeshes    = &mMySubMeshes[0];
+		mSubMeshCount = (uint32)mSubMeshes.Size();
 		for (uint32 i=0; i<mSubMeshCount; i++)
 		{
 			GearSubMesh *m = static_cast<GearSubMesh *>(mSubMeshes[i]);
