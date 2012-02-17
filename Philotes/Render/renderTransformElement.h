@@ -22,7 +22,7 @@ public:
 
 	virtual void				_notifyAttached(RenderNode* parent);
 
-	virtual void				visitRenderElement(RenderVisitor* visitor){}
+	virtual void				visitRenderElement(RenderVisitor* visitor) = 0;
 
 	RenderNode*					getParentNode() const { return m_parentNode; }
 

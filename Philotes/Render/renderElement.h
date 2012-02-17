@@ -41,6 +41,8 @@ public:
 
 	virtual bool				postQueuedToRender(){return true;}
 
+	virtual void				getWorldTransforms(Matrix4* xform) const = 0;
+
 protected:
 
 	// äÖÈ¾Íø¸ñ

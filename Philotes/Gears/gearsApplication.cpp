@@ -112,6 +112,7 @@ void GearApplication::onDraw( void )
 		
 		if(m_renderer)
 		{
+			m_sceneManager->tickVisible(m_sceneManager->getCamera());
 			onRender();
 		}
 		

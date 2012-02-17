@@ -3,6 +3,8 @@
 #include "render.h"
 #include "renderCamera.h"
 #include "renderSceneManager.h"
+#include "renderCellNode.h"
+#include "renderTransform.h"
 
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
@@ -44,6 +46,12 @@ void TestApplication::onInit( void )
 		ptLast = pt1;
 	}
 
+	RenderCellNode* cell = m_sceneManager->createCellNode("_dbgCell");
+	m_sceneManager->getRootCellNode()->addChild(cell);
+	RenderTransform* tn = cell->createChildTransformNode("line");
+	tn->attachObject(m_debugLine);
+	tn->setPosition(0,30,0);
+
 	m_debugGrid = new RenderGridElement(100,40);
 }
 
@@ -76,10 +84,7 @@ void TestApplication::onRender( void )
 		if (windowWidth > 0 && windowHeight > 0)
 		{
 			renderer->clearBuffers();
-			
-			renderer->queueMeshForRender(*m_debugLine);
 			renderer->queueMeshForRender(*m_debugGrid);
-
 			// äÖÈ¾³¡¾°
 			renderer->render(m_sceneManager->getCamera());
 

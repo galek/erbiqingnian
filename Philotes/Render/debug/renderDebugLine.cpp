@@ -228,4 +228,14 @@ const AxisAlignedBox& RenderLineElement::getBoundingBox( void ) const
 	return aabb;
 }
 
+void RenderLineElement::getWorldTransforms( Matrix4* xform ) const
+{
+	xform[0] = getTransform();
+}
+
+void RenderLineElement::visitRenderElement( RenderVisitor* visitor )
+{
+	visitor->visit(this);
+}
+
 _NAMESPACE_END

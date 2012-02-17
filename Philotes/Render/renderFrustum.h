@@ -184,6 +184,8 @@ public:
 	void setOrientationMode(OrientationMode orientationMode);
 
 	OrientationMode getOrientationMode() const;
+	
+	virtual void visitRenderElement(RenderVisitor* visitor){}
 
 protected:
 	/// Orthographic or perspective?

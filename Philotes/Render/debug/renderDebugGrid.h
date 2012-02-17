@@ -13,6 +13,8 @@ public:
 
 	virtual ~RenderGridElement(void);
 
+	virtual void getWorldTransforms(Matrix4* xform) const;
+
 private:
 
 	RenderVertexBuffer	*m_vertexBuffer;
