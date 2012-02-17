@@ -53,7 +53,7 @@ protected:
 
 	Render*						m_renderer;
 
-	RenderCamera*				m_camera;
+	RenderSceneManager*			m_sceneManager;
 
 	char						m_assetPathPrefix[256];
 

@@ -37,6 +37,28 @@ void RenderTransformElement::_notifyAttached( RenderNode* parent )
 	m_parentNode = parent;
 }
 
+const Sphere& RenderTransformElement::getWorldBoundingSphere( bool derive /*= false*/ ) const
+{
+	if (derive)
+	{
+		const Vector3& scl = m_parentNode->_getDerivedScale();
+		scalar factor = Math::Max(Math::Max(scl.x, scl.y), scl.z);
+		mWorldBoundingSphere.setRadius(getBoundingRadius() * factor);
+		mWorldBoundingSphere.setCenter(m_parentNode->_getDerivedPosition());
+	}
+	return mWorldBoundingSphere;
+}
+
+const AxisAlignedBox& RenderTransformElement::getWorldBoundingBox( bool derive /*= false*/ ) const
+{
+	if (derive)
+	{
+		mWorldAABB = this->getBoundingBox();
+		mWorldAABB.transformAffine(getTransform());
+	}
+
+	return mWorldAABB;
+}
 
 _NAMESPACE_END
 

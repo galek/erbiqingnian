@@ -121,10 +121,8 @@ public:
 
 	virtual bool isVisible(const Vector3& vert, FrustumPlane* culledBy = 0) const;
 
-	/** Overridden from MovableObject */
 	const AxisAlignedBox& getBoundingBox(void) const;
 
-	/** Overridden from MovableObject */
 	scalar getBoundingRadius(void) const;
 
 	virtual const Vector3* getWorldSpaceCorners(void) const;

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "math/axisAlignedBox.h"
 #include "renderNode.h"
 
 /// 负责渲染物体矩阵变换的节点，但不负责场景管理的裁剪
@@ -46,10 +47,13 @@ public:
 
     virtual void					detachAllObjects(void);
 
+	const AxisAlignedBox&			_updateBounds();
+
 protected:
 
-	ObjectMap mObjectsByName;
+	ObjectMap						mObjectsByName;
 
+	AxisAlignedBox					mWorldAABB;
 };
 
 _NAMESPACE_END

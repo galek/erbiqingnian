@@ -12,19 +12,13 @@ class RenderCellNode : public RenderNode
 {
 public:
 
-	RenderCellNode();
+	RenderCellNode(RenderSceneManager* sm);
 
-	RenderCellNode(const String& name);
+	RenderCellNode(RenderSceneManager* sm,const String& name);
 
 	virtual ~RenderCellNode();
 
 public:
-
-	// CellNode的子节点均为Transform类型
-	
-	virtual RenderNode* createChildImpl(void);
-
-	virtual RenderNode* createChildImpl(const String& name);
 
 	virtual void _updateBounds(void);
 
@@ -32,9 +26,28 @@ public:
 
 	virtual const AxisAlignedBox& _getWorldAABB(void) const;
 
+	virtual RenderTransform* createChildTransformNode(
+		const Vector3& translate = Vector3::ZERO, 
+		const Quaternion& rotate = Quaternion::IDENTITY );
+
+	virtual RenderTransform* createChildTransformNode(const String& name, 
+		const Vector3& translate = Vector3::ZERO, 
+		const Quaternion& rotate = Quaternion::IDENTITY);
+
+	// CellNode的子节点均为Transform类型
+	virtual RenderNode* createChildImpl(void);
+
+	virtual RenderNode* createChildImpl(const String& name);
+
+	RenderSceneManager* getCreator(){return m_sceneManager;}
+
+	virtual void tickVisible(const RenderCamera* camera);
+
 protected:
 
-	AxisAlignedBox mWorldAABB;
+	AxisAlignedBox m_worldAABB;
+
+	RenderSceneManager* m_sceneManager;
 };
 
 _NAMESPACE_END

@@ -285,7 +285,7 @@ Array<TYPE>::Delete()
 template<class TYPE> void
 Array<TYPE>::Destroy(TYPE* elm)
 {
-    elm->~TYPE();
+    //elm->~TYPE();
 }
 
 //------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 #include "testApplication.h"
 #include "render.h"
 #include "renderCamera.h"
+#include "renderSceneManager.h"
 
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
@@ -27,7 +28,7 @@ void TestApplication::onInit( void )
 {	
 	srand(::GetTickCount());
 
-	m_cameraMgr = new TestCameraManager(m_camera);
+	m_cameraMgr = new TestCameraManager(m_sceneManager->getCamera());
 
 	// »æÖÆline²âÊÔ
 	m_debugLine = new RenderLineElement("dbg_line");
@@ -44,9 +45,6 @@ void TestApplication::onInit( void )
 	}
 
 	m_debugGrid = new RenderGridElement(100,40);
-
-	m_camera->setNearClipDistance(0.1f);
-	m_camera->setFarClipDistance(10000.0f);
 }
 
 void TestApplication::onShutdown( void )
@@ -83,7 +81,7 @@ void TestApplication::onRender( void )
 			renderer->queueMeshForRender(*m_debugGrid);
 
 			// äÖÈ¾³¡¾°
-			renderer->render(m_camera);
+			renderer->render(m_sceneManager->getCamera());
 
 			m_rewriteBuffers = renderer->swapBuffers();
 		}
