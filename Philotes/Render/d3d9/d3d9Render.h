@@ -131,7 +131,7 @@ class D3D9Render : public Render
 		virtual RenderTexture2D      *createTexture2D(     const RenderTexture2DDesc      &desc);
 		virtual RenderTarget         *createTarget(        const Philo::RenderTargetDesc         &desc);
 		virtual RenderMaterial       *createMaterial(      const RenderMaterialDesc       &desc);
-		virtual RenderMesh           *createMesh(          const RenderMeshDesc           &desc);
+		virtual RenderBase           *createMesh(          const RenderMeshDesc           &desc);
 		virtual RenderLight          *createLight(         const RenderLightDesc          &desc);
 
 		virtual void convertProjectionMatrix(const Matrix4& matrix,Matrix4& dest);

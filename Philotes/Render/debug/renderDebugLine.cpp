@@ -130,7 +130,7 @@ void RenderLineElement::checkResizeLine( uint32 maxVerts )
 		{
 			m_vertexbuffer = vertexbuffer;
 			RenderMeshDesc meshdesc;
-			meshdesc.primitives       = RenderMesh::PRIMITIVE_LINES;
+			meshdesc.primitives       = RenderBase::PRIMITIVE_LINES;
 			meshdesc.vertexBuffers    = &m_vertexbuffer;
 			meshdesc.numVertexBuffers = 1;
 			meshdesc.firstVertex      = 0;

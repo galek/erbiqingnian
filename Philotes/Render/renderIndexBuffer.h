@@ -10,7 +10,7 @@ class RenderIndexBufferDesc;
 
 class RenderIndexBuffer
 {
-	friend class RenderMesh;
+	friend class RenderBase;
 
 	public:
 		typedef enum Format

@@ -100,7 +100,7 @@ public:
 		virtual RenderTexture2D      *createTexture2D(     const RenderTexture2DDesc      &desc) = 0;
 		virtual RenderTarget         *createTarget(        const RenderTargetDesc         &desc) = 0;
 		virtual RenderMaterial       *createMaterial(      const RenderMaterialDesc       &desc) = 0;
-		virtual RenderMesh           *createMesh(          const RenderMeshDesc           &desc) = 0;
+		virtual RenderBase           *createMesh(          const RenderMeshDesc           &desc) = 0;
 		virtual RenderLight          *createLight(         const RenderLightDesc          &desc) = 0;
 
 		// Disable this performance optimization when CUDA/Graphics Interop is in use

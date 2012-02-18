@@ -11,7 +11,7 @@ class GearSubMesh : public SubMesh
 public:
 	GearSubMesh(const String& mat,uint32 vertexFlags);
 
-	~GearSubMesh(void){}
+	virtual ~GearSubMesh(void){}
 
 	bool isSame(const String& mat,uint32 vertexFlags) const;
 
@@ -21,6 +21,7 @@ public:
 		VertexPool< MeshVertex > &vpool);
 
 	MeshIndexVector          mIndices;
+
 	VertexPool< MeshVertex > mVertexPool;
 };
 
@@ -37,7 +38,7 @@ public:
 
 	bool						isSame(const String& meshName) const;
 
-	// 获取，如没有则新建
+	// 获取subMesh，如没有则新建
 	void						getCurrent(const String& materialName,uint32 vertexFlags);
 
 	virtual void				importTriangle(const String& materialName,

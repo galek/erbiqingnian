@@ -9,11 +9,15 @@ class RenderModel : RenderTransformElement
 {
 public:
 
+	RenderModel();
+
 	RenderModel(const String& name);
 
 	virtual ~RenderModel();
 
 public:
+
+protected:
 
 	
 };

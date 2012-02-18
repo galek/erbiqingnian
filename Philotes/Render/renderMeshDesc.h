@@ -2,7 +2,7 @@
 #ifndef RENDERER_MESH_DESC_H
 #define RENDERER_MESH_DESC_H
 
-#include <renderMesh.h>
+#include "renderBase.h"
 
 _NAMESPACE_BEGIN
 
@@ -13,7 +13,7 @@ class RenderInstanceBuffer;
 class RenderMeshDesc
 {
 	public:
-		RenderMesh::Primitive primitives;
+		RenderBase::Primitive primitives;
 		
 		RenderVertexBuffer  **vertexBuffers;
 		uint32                   numVertexBuffers;

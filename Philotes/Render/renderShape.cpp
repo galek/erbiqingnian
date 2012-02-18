@@ -17,7 +17,7 @@ RenderShape::~RenderShape(void)
 	ph_assert2(m_mesh==0, "Mesh was not properly released before Shape destruction.");
 }
 	
-RenderMesh *RenderShape::getMesh(void)
+RenderBase *RenderShape::getMesh(void)
 {
 	return m_mesh;
 }

@@ -7,7 +7,7 @@
 _NAMESPACE_BEGIN
 
 class Render;
-class RenderMesh;
+class RenderBase;
 
 class RenderShape
 {
@@ -17,7 +17,7 @@ class RenderShape
 	public:
 		virtual ~RenderShape(void);
 		
-		RenderMesh *getMesh(void);
+		RenderBase *getMesh(void);
 	
 	private:
 
@@ -25,7 +25,7 @@ class RenderShape
 		
 	protected:
 		Render     &m_renderer;
-		RenderMesh *m_mesh;
+		RenderBase *m_mesh;
 };
 
 _NAMESPACE_END

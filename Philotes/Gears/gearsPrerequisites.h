@@ -9,6 +9,7 @@ class GearInputObject;
 class GearKeyboard;
 class GearMouse;
 class GearMesh;
+class GearSubMesh;
 class GearJoyStick;
 class GearKeyListener;
 class GearMouseListener;

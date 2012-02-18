@@ -33,9 +33,9 @@ public:
 
 	void						setMaterialInstance(RenderMaterialInstance * val);
 
-	RenderMesh*					getMesh() const { return m_mesh; }
+	RenderBase*					getMesh() const { return m_mesh; }
 
-	virtual void				setMesh(RenderMesh * val);
+	virtual void				setMesh(RenderBase * val);
 
 	virtual bool				preQueuedToRender(){return true;}
 
@@ -46,7 +46,7 @@ public:
 protected:
 
 	// äÖÈ¾Íø¸ñ
-	RenderMesh*					m_mesh;
+	RenderBase*					m_mesh;
 	
 	// ²ÄÖÊÊµÀı
 	RenderMaterialInstance*		m_materialInstance;
