@@ -30,7 +30,7 @@ void RenderElement::setMaterialInstance( RenderMaterialInstance * val )
 	m_materialInstance = val;
 }
 
-void RenderElement::setMesh( RenderMesh * val )
+void RenderElement::setMesh( RenderBase * val )
 {
 // 	if (m_mesh)
 // 	{

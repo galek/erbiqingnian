@@ -5,7 +5,7 @@ _NAMESPACE_BEGIN
 
 RenderMeshDesc::RenderMeshDesc(void)
 {
-	primitives = RenderMesh::PRIMITIVE_POINTS;
+	primitives = RenderBase::PRIMITIVE_POINTS;
 	
 	vertexBuffers    = 0;
 	numVertexBuffers = 0;

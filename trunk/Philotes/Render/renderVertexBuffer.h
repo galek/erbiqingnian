@@ -10,7 +10,7 @@ class RenderVertexBufferDesc;
 
 class RenderVertexBuffer
 {
-	friend class RenderMesh;
+	friend class RenderBase;
 	public:
 		typedef enum Semantic
 		{

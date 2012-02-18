@@ -28,17 +28,20 @@ RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION]	= RenderVertexBuffer::FORMAT_FLOAT3;
 	vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_COLOR]		= RenderVertexBuffer::FORMAT_COLOR;
 	vbdesc.maxVertices                                              = numVerts;
+
 	m_vertexBuffer = GearApplication::getApp()->getRender()->createVertexBuffer(vbdesc);
+
 	if(m_vertexBuffer)
 	{
 		RenderMeshDesc meshdesc;
-		meshdesc.primitives			= RenderMesh::PRIMITIVE_LINES;
+		meshdesc.primitives			= RenderBase::PRIMITIVE_LINES;
 		meshdesc.vertexBuffers		= &m_vertexBuffer;
 		meshdesc.numVertexBuffers	= 1;
 		meshdesc.firstVertex		= 0;
 		meshdesc.numVertices		= numVerts;
 		m_mesh						= GearApplication::getApp()->getRender()->createMesh(meshdesc);
 	}
+
 	if(m_vertexBuffer && m_mesh)
 	{
 		uint32 color2 = 0xFF788AA3;

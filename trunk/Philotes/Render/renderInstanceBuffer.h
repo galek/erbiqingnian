@@ -10,7 +10,7 @@ class RenderInstanceBufferDesc;
 
 class RenderInstanceBuffer
 {
-	friend class RenderMesh;
+	friend class RenderBase;
 	public:
 		typedef enum Semantic
 		{

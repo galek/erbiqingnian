@@ -438,14 +438,14 @@ RenderMaterial *D3D9Render::createMaterial(const RenderMaterialDesc &desc)
 	return mat;
 }
 
-RenderMesh *D3D9Render::createMesh(const RenderMeshDesc &desc)
+RenderBase *D3D9Render::createMesh(const RenderMeshDesc &desc)
 {
 	RENDERER_PERFZONE(D3D9Render_createMesh);
-	D3D9RenderMesh *mesh = 0;
+	D3D9RenderBase *mesh = 0;
 	ph_assert2(desc.isValid(), "Invalid Mesh Descriptor.");
 	if(desc.isValid())
 	{
-		mesh = new D3D9RenderMesh(*this, desc);
+		mesh = new D3D9RenderBase(*this, desc);
 	}
 	return mesh;
 }

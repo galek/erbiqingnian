@@ -1,12 +1,13 @@
 
 #include "render.h"
 #include "renderCamera.h"
-#include "renderMesh.h"
+#include "renderBase.h"
 #include "renderElement.h"
 #include "renderMaterial.h"
 #include "renderMaterialInstance.h"
 #include "renderTarget.h"
 #include "renderLight.h"
+
 #include <algorithm>
 
 #include "d3d9/D3D9Render.h"
@@ -207,7 +208,7 @@ void Render::renderMeshes(Array<RenderElement*> & meshes, RenderMaterial::Pass p
 	
 	RenderMaterial         *lastMaterial         = 0;
 	RenderMaterialInstance *lastMaterialInstance = 0;
-	const RenderMesh       *lastMesh             = 0;
+	const RenderBase       *lastMesh             = 0;
 	
 	const uint32 numMeshes = (uint32)meshes.Size();
 	for(uint32 i=0; i<numMeshes; i++)
