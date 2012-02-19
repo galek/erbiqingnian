@@ -14,7 +14,7 @@
 
 #include <renderMeshDesc.h>
 #include <renderElement.h>
-#include "D3D9RenderMesh.h"
+#include "D3D9RenderBase.h"
 
 #include <renderMaterialDesc.h>
 #include <renderMaterialInstance.h>
@@ -438,15 +438,10 @@ RenderMaterial *D3D9Render::createMaterial(const RenderMaterialDesc &desc)
 	return mat;
 }
 
-RenderBase *D3D9Render::createMesh(const RenderMeshDesc &desc)
+RenderBase *D3D9Render::createMesh()
 {
 	RENDERER_PERFZONE(D3D9Render_createMesh);
-	D3D9RenderBase *mesh = 0;
-	ph_assert2(desc.isValid(), "Invalid Mesh Descriptor.");
-	if(desc.isValid())
-	{
-		mesh = new D3D9RenderBase(*this, desc);
-	}
+	D3D9RenderBase *mesh = new D3D9RenderBase(*this);
 	return mesh;
 }
 
