@@ -8,33 +8,25 @@
 
 _NAMESPACE_BEGIN
 
-RenderBase::RenderBase(const RenderMeshDesc &desc)
+RenderBase::RenderBase()
 {
-	m_primitiveType = desc.primitives;
+	m_firstVertex    = 0;
+	m_numVertices    = 0;
 
-	m_numVertexBuffers = desc.numVertexBuffers;
-	m_vertexBuffers = new RenderVertexBuffer*[m_numVertexBuffers];
+	m_indexBuffer    = NULL;
+	m_firstIndex     = 0;
+	m_numIndices     = 0;
 
-	for(uint32 i=0; i<m_numVertexBuffers; i++)
-	{
-		m_vertexBuffers[i] = desc.vertexBuffers[i];
-	}
+	m_instanceBuffer = NULL;
+	m_firstInstance  = 0;
+	m_numInstances   = 0;
 
-	m_firstVertex    = desc.firstVertex;
-	m_numVertices    = desc.numVertices;
-
-	m_indexBuffer    = desc.indexBuffer;
-	m_firstIndex     = desc.firstIndex;
-	m_numIndices     = desc.numIndices;
-
-	m_instanceBuffer = desc.instanceBuffer;
-	m_firstInstance  = desc.firstInstance;
-	m_numInstances   = desc.numInstances;
+	m_primitiveType  = PRIMITIVE_TRIANGLES;
 }
 
 RenderBase::~RenderBase(void)
 {
-	delete [] m_vertexBuffers;
+	m_vertexBuffers.Reset();
 }
 
 RenderBase::Primitive RenderBase::getPrimitives(void) const
@@ -78,17 +70,17 @@ void RenderBase::setInstanceBufferRange(uint32 firstInstance, uint32 numInstance
 	m_numInstances  = numInstances;
 }
 
-uint32 RenderBase::getNumVertexBuffers(void) const
+SizeT RenderBase::getNumVertexBuffers(void) const
 {
-	return m_numVertexBuffers;
-}
-
-const RenderVertexBuffer *const*RenderBase::getVertexBuffers(void) const
-{
-	return m_vertexBuffers;
+	return m_vertexBuffers.Size();
 }
 
 const RenderIndexBuffer *RenderBase::getIndexBuffer(void) const
+{
+	return m_indexBuffer;
+}
+
+RenderIndexBuffer* RenderBase::getIndexBuffer( void )
 {
 	return m_indexBuffer;
 }
@@ -98,17 +90,25 @@ const RenderInstanceBuffer *RenderBase::getInstanceBuffer(void) const
 	return m_instanceBuffer;
 }
 
+RenderInstanceBuffer* RenderBase::getInstanceBuffer( void )
+{
+	return m_instanceBuffer;
+}
+
 void RenderBase::bind(void) const
 {
-	for(uint32 i=0; i<m_numVertexBuffers; i++)
+	SizeT vbNum = m_vertexBuffers.Size();
+	for(SizeT i=0; i<vbNum; i++)
 	{
 		ph_assert2(m_vertexBuffers[i]->checkBufferWritten(), "Vertex buffer is empty!");
 		m_vertexBuffers[i]->bind(i, m_firstVertex);
 	}
+
 	if(m_instanceBuffer)
 	{
-		m_instanceBuffer->bind(m_numVertexBuffers, m_firstInstance);
+		m_instanceBuffer->bind(vbNum, m_firstInstance);
 	}
+	
 	if(m_indexBuffer)
 	{
 		m_indexBuffer->bind();
@@ -143,18 +143,50 @@ void RenderBase::render(RenderMaterial *material) const
 
 void RenderBase::unbind(void) const
 {
+	SizeT vbNum = m_vertexBuffers.Size();
+
 	if(m_indexBuffer)
 	{
 		m_indexBuffer->unbind();
 	}
 	if(m_instanceBuffer)
 	{
-		m_instanceBuffer->unbind(m_numVertexBuffers);
+		m_instanceBuffer->unbind(vbNum);
 	}
-	for(uint32 i=0; i<m_numVertexBuffers; i++)
+	for(SizeT i=0; i<vbNum; i++)
 	{
 		m_vertexBuffers[i]->unbind(i);
 	}
+}
+
+const RenderVertexBuffer* RenderBase::getVertexBuffer( SizeT index ) const
+{
+	if (index >= m_vertexBuffers.Size())
+	{
+		PH_EXCEPT(ERR_RENDER,"invalid vertex buffer index : RenderBase::getVertexBuffer");
+	}
+
+	return m_vertexBuffers[index];
+}
+
+RenderVertexBuffer* RenderBase::getVertexBuffer( SizeT index )
+{
+	if (index >= m_vertexBuffers.Size())
+	{
+		PH_EXCEPT(ERR_RENDER,"invalid vertex buffer index : RenderBase::getVertexBuffer");
+	}
+
+	return m_vertexBuffers[index];
+}
+
+void RenderBase::setPrimitives( Primitive pt )
+{
+	m_primitiveType = pt;
+}
+
+void RenderBase::appendVertexBuffer( RenderVertexBuffer* vb )
+{
+	m_vertexBuffers.Append(vb);
 }
 
 _NAMESPACE_END

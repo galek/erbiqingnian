@@ -13,7 +13,7 @@ _NAMESPACE_BEGIN
 class D3D9RenderBase : public RenderBase
 {
 	public:
-		D3D9RenderBase(D3D9Render &renderer, const RenderMeshDesc &desc);
+		D3D9RenderBase(D3D9Render &renderer);
 
 		virtual ~D3D9RenderBase(void);
 	

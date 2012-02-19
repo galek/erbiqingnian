@@ -9,19 +9,19 @@ class RenderSubModel : RenderElement
 {
 public:
 
-	RenderSubModel(RenderModel* parent, GearSubMesh* mesh);
+	RenderSubModel(RenderModel* parent);
 
 	virtual ~RenderSubModel();
 
 public:
 
-	
+	RenderSubMesh* getSubMesh() const;
+
+	void getWorldTransforms(Matrix4* xform) const;
 
 protected:
 
-	RenderModel*	mParentModel;
-
-	GearSubMesh*	mSubMesh;
+	RenderModel*	m_parentModel;
 };
 
 _NAMESPACE_END

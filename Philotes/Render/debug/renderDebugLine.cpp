@@ -115,7 +115,7 @@ void RenderLineElement::checkResizeLine( uint32 maxVerts )
 		if(m_vertexbuffer)
 		{
 			m_vertexbuffer->release();
-			m_vertexbuffer    = 0;
+			m_vertexbuffer    = NULL;
 			m_lockedPositions = 0;
 			m_positionStride  = 0;
 			m_lockedColors    = 0;
@@ -129,14 +129,11 @@ void RenderLineElement::checkResizeLine( uint32 maxVerts )
 		if(vertexbuffer)
 		{
 			m_vertexbuffer = vertexbuffer;
-			RenderMeshDesc meshdesc;
-			meshdesc.primitives       = RenderBase::PRIMITIVE_LINES;
-			meshdesc.vertexBuffers    = &m_vertexbuffer;
-			meshdesc.numVertexBuffers = 1;
-			meshdesc.firstVertex      = 0;
-			meshdesc.numVertices      = m_numVerts;
-			m_mesh = GearApplication::getApp()->getRender()->createMesh(meshdesc);
+			m_mesh = GearApplication::getApp()->getRender()->createMesh();
 			ph_assert(m_mesh);
+			m_mesh->setPrimitives(RenderBase::PRIMITIVE_LINES);
+			m_mesh->setVertexBufferRange(0,m_numVerts);
+			m_mesh->appendVertexBuffer(m_vertexbuffer);
 		}
 		setMesh(m_mesh);
 	}

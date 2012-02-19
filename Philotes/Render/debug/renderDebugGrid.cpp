@@ -33,13 +33,10 @@ RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
 
 	if(m_vertexBuffer)
 	{
-		RenderMeshDesc meshdesc;
-		meshdesc.primitives			= RenderBase::PRIMITIVE_LINES;
-		meshdesc.vertexBuffers		= &m_vertexBuffer;
-		meshdesc.numVertexBuffers	= 1;
-		meshdesc.firstVertex		= 0;
-		meshdesc.numVertices		= numVerts;
-		m_mesh						= GearApplication::getApp()->getRender()->createMesh(meshdesc);
+		m_mesh = GearApplication::getApp()->getRender()->createMesh();
+		m_mesh->appendVertexBuffer(m_vertexBuffer);
+		m_mesh->setPrimitives(RenderBase::PRIMITIVE_LINES);
+		m_mesh->setVertexBufferRange(0,numVerts);
 	}
 
 	if(m_vertexBuffer && m_mesh)

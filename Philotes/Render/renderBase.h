@@ -6,16 +6,12 @@
 
 _NAMESPACE_BEGIN
 
-class RenderMeshDesc;
-class RenderVertexBuffer;
-class RenderIndexBuffer;
-class RenderInstanceBuffer;
-class RenderMaterial;
-
 class RenderBase
 {
 	friend class Render;
+
 public:
+
 	typedef enum Primitive
 	{
 		PRIMITIVE_POINTS = 0,
@@ -28,7 +24,7 @@ public:
 		NUM_PRIMITIVES
 	};
 
-	RenderBase(const RenderMeshDesc &desc);
+	RenderBase();
 
 	virtual								~RenderBase(void);
 
@@ -37,6 +33,8 @@ public:
 	void								release(void) { delete this; }
 
 	Primitive							getPrimitives(void) const;
+
+	void								setPrimitives(Primitive pt);
 
 	uint32								getNumVertices(void) const;
 
@@ -50,13 +48,21 @@ public:
 
 	void								setInstanceBufferRange(uint32 firstInstance, uint32 numInstances);
 
-	uint32								getNumVertexBuffers(void) const;
+	SizeT								getNumVertexBuffers(void) const;
 
-	const RenderVertexBuffer* const*	getVertexBuffers(void) const;
+	void								appendVertexBuffer(RenderVertexBuffer* vb);
+
+	const RenderVertexBuffer*			getVertexBuffer(SizeT index) const;
+
+	RenderVertexBuffer*					getVertexBuffer(SizeT index);
 
 	const RenderIndexBuffer*			getIndexBuffer(void) const;
 
+	RenderIndexBuffer*					getIndexBuffer(void);
+
 	const RenderInstanceBuffer*			getInstanceBuffer(void) const;
+
+	RenderInstanceBuffer*				getInstanceBuffer(void);
 
 private:
 
@@ -67,12 +73,12 @@ private:
 	void         						unbind(void) const;
 
 	virtual void 						renderIndices(uint32 numVertices, uint32 firstIndex, uint32 numIndices,
-		RenderIndexBuffer::Format indexFormat) const = 0;
+											RenderIndexBuffer::Format indexFormat) const = 0;
 
 	virtual void 						renderVertices(uint32 numVertices) const = 0;
 
 	virtual void 						renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, 
-		RenderIndexBuffer::Format indexFormat,RenderMaterial *material) const = 0;
+											RenderIndexBuffer::Format indexFormat,RenderMaterial *material) const = 0;
 
 	virtual void 						renderVerticesInstanced(uint32 numVertices,RenderMaterial *material) const = 0;
 
@@ -80,9 +86,7 @@ protected:
 
 	Primitive               			m_primitiveType;
 
-	RenderVertexBuffer**				m_vertexBuffers;
-
-	uint32                  			m_numVertexBuffers;
+	Array<RenderVertexBuffer*>			m_vertexBuffers;
 
 	uint32                  			m_firstVertex;
 

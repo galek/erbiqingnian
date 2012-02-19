@@ -23,6 +23,7 @@ class RenderIndexBufferDesc;
 class RenderInstanceBuffer;
 class RenderInstanceBufferDesc;
 class RenderSceneManager;
+class RenderSubMesh;
 class RenderSubModel;
 class RenderShape;
 class RenderTexture2D;
