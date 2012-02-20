@@ -6,8 +6,7 @@
 #include "gearsApplication.h"
 
 #include "render.h"
-#include "renderMesh.h"
-#include "renderMeshDesc.h"
+#include "renderBase.h"
 #include "renderVertexBuffer.h"
 #include "renderVertexBufferDesc.h"
 #include "renderIndexBuffer.h"

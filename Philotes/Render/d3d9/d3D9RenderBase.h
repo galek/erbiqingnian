@@ -25,6 +25,8 @@ class D3D9RenderBase : public RenderBase
 		virtual void renderIndicesInstanced(uint32 numVertices, uint32 firstIndex, uint32 numIndices, RenderIndexBuffer::Format indexFormat,RenderMaterial *material) const;
 
 		virtual void renderVerticesInstanced(uint32 numVertices,RenderMaterial *material) const;
+
+		virtual void appendVertexBuffer(RenderVertexBuffer* vb);
 	
 	private:
 		D3D9RenderBase &operator=(const D3D9RenderBase &) { return *this; }
