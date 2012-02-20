@@ -1,0 +1,566 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\Editor.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英语(美国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "< Cannot change standard MFC resources! >\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Editor.ico"
+IDR_EditorTYPE          ICON                    "res\\EditorDoc.ico"
+IDI_UP_ARROW            ICON                    "res\\up_arrow.ico"
+IDI_DOWN_ARROW          ICON                    "res\\down_arrow.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDB_BITMAP_ICONS        BITMAP                  "res\\PaneIcons.bmp"
+IDB_TABPANEL            BITMAP                  "res\\TabPanel.bmp"
+AFX_IDB_MINIFRAME_MENU  BITMAP                  "res\\minifwnd.bmp"
+AFX_IDB_CHECKLISTBOX_95 BITMAP                  "res\\95check.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars"
+        BEGIN
+            MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+            MENUITEM SEPARATOR
+            MENUITEM "&Customize...",               35001
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Editor...",            ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Editor"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Editor Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2012",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Editor.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "Editor.exe"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+AFX_IDC_CONTEXTHELP     CURSOR                  "res\\help.cur"
+AFX_IDC_MOUSE_PAN_N     CURSOR                  "res\\im_pann.cur"
+AFX_IDC_MOUSE_PAN_S     CURSOR                  "res\\im_pans.cur"
+AFX_IDC_MOUSE_PAN_E     CURSOR                  "res\\im_pane.cur"
+AFX_IDC_MOUSE_PAN_W     CURSOR                  "res\\im_panw.cur"
+AFX_IDC_MOUSE_PAN_NE    CURSOR                  "res\\im_panne.cur"
+AFX_IDC_MOUSE_PAN_NW    CURSOR                  "res\\im_pannw.cur"
+AFX_IDC_MOUSE_PAN_SE    CURSOR                  "res\\im_panse.cur"
+AFX_IDC_MOUSE_PAN_SW    CURSOR                  "res\\im_pansw.cur"
+AFX_IDC_MOUSE_PAN_HORZ  CURSOR                  "res\\im_panh.cur"
+AFX_IDC_MOUSE_PAN_VERT  CURSOR                  "res\\im_panv.cur"
+AFX_IDC_MOUSE_PAN_HV    CURSOR                  "res\\im_panhv.cur"
+AFX_IDC_MOUSE_ORG_HORZ  CURSOR                  "res\\im_orgh.cur"
+AFX_IDC_MOUSE_ORG_VERT  CURSOR                  "res\\im_orgv.cur"
+AFX_IDC_MOUSE_ORG_HV    CURSOR                  "res\\im_orghv.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "Editor\n\nEditor\n\n\nEditor.Document\nEditor.Document"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "Editor"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_OPENFILE        "Open"
+    AFX_IDS_SAVEFILE        "Save As"
+    AFX_IDS_ALLFILTER       "All Files (*.*)"
+    AFX_IDS_UNTITLED        "Untitled"
+    AFX_IDS_UNNAMED_FILE    "an unnamed file"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_HIDE            "&Hide"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_NO_ERROR_AVAILABLE "No error message is available."
+    AFX_IDS_NOT_SUPPORTED_EXCEPTION "Attempted an unsupported operation."
+    AFX_IDS_RESOURCE_EXCEPTION "A required resource was unavailable."
+    AFX_IDS_MEMORY_EXCEPTION "Out of memory."
+    AFX_IDS_USER_EXCEPTION  "An unknown error has occurred."
+    AFX_IDS_INVALID_ARG_EXCEPTION "Encountered an improper argument."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_INVALID_FILENAME "Incorrect filename."
+    AFX_IDP_FAILED_TO_OPEN_DOC "Failed to open document."
+    AFX_IDP_FAILED_TO_SAVE_DOC "Failed to save document."
+    AFX_IDP_ASK_TO_SAVE     "Save changes to %1?"
+    AFX_IDP_FAILED_TO_CREATE_DOC "Failed to create empty document."
+    AFX_IDP_FILE_TOO_LARGE  "The file is too large to open."
+    AFX_IDP_FAILED_TO_START_PRINT "Could not start print job."
+    AFX_IDP_FAILED_TO_LAUNCH_HELP "Failed to launch help."
+    AFX_IDP_INTERNAL_FAILURE "Internal application error."
+    AFX_IDP_COMMAND_FAILURE "Command failed."
+    AFX_IDP_FAILED_MEMORY_ALLOC "Insufficient memory to perform operation."
+    AFX_IDP_UNREG_DONE      "System registry entries have been removed and the INI file (if any) was deleted."
+    AFX_IDP_UNREG_FAILURE   "Not all of the system registry entries (or INI file) were removed."
+    AFX_IDP_DLL_LOAD_FAILED "This program requires the file %s, which was not found on this system."
+    AFX_IDP_DLL_BAD_VERSION "This program is linked to the missing export %s in the file %s. This machine may have an incompatible version of %s."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_GET_NOT_SUPPORTED "Unable to read write-only property."
+    AFX_IDP_SET_NOT_SUPPORTED "Unable to write read-only property."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_FAILED_INVALID_FORMAT "Unexpected file format."
+    AFX_IDP_FAILED_INVALID_PATH 
+                            "%1\nCannot find this file.\nVerify that the correct path and file name are given."
+    AFX_IDP_FAILED_DISK_FULL "Destination disk drive is full."
+    AFX_IDP_FAILED_ACCESS_READ 
+                            "Unable to read from %1, it is opened by someone else."
+    AFX_IDP_FAILED_ACCESS_WRITE 
+                            "Unable to write to %1, it is read-only or opened by someone else."
+    AFX_IDP_FAILED_IO_ERROR_READ 
+                            "Encountered an unexpected error while reading %1."
+    AFX_IDP_FAILED_IO_ERROR_WRITE 
+                            "Encountered an unexpected error while writing %1."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_PARSE_INT       "Enter an integer."
+    AFX_IDP_PARSE_REAL      "Enter a number."
+    AFX_IDP_PARSE_INT_RANGE "Enter an integer between %1 and %2."
+    AFX_IDP_PARSE_REAL_RANGE "Enter a number between %1 and %2."
+    AFX_IDP_PARSE_STRING_SIZE "Enter no more than %1 characters."
+    AFX_IDP_PARSE_RADIO_BUTTON "Select a button."
+    AFX_IDP_PARSE_BYTE      "Enter an integer between 0 and 255."
+    AFX_IDP_PARSE_UINT      "Enter a positive integer."
+    AFX_IDP_PARSE_DATETIME  "Enter a date and/or time."
+    AFX_IDP_PARSE_CURRENCY  "Enter a currency."
+    AFX_IDP_PARSE_GUID      "Enter a GUID."
+    AFX_IDP_PARSE_TIME      "Enter a time."
+    AFX_IDP_PARSE_DATE      "Enter a date."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_FILE_NONE       "No error occurred."
+    AFX_IDP_FILE_GENERIC    "An unknown error occurred while accessing %1."
+    AFX_IDP_FILE_NOT_FOUND  "%1 was not found."
+    AFX_IDP_FILE_BAD_PATH   "%1 contains an incorrect path."
+    AFX_IDP_FILE_TOO_MANY_OPEN 
+                            "Could not open %1 because there are too many open files."
+    AFX_IDP_FILE_ACCESS_DENIED "Access to %1 was denied."
+    AFX_IDP_FILE_INVALID_FILE 
+                            "An incorrect file handle was associated with %1."
+    AFX_IDP_FILE_REMOVE_CURRENT 
+                            "Could not remove %1 because it is the current directory."
+    AFX_IDP_FILE_DIR_FULL   "Could not create %1 because the directory is full."
+    AFX_IDP_FILE_BAD_SEEK   "Seek failed on %1"
+    AFX_IDP_FILE_HARD_IO    "Encountered a hardware I/O error while accessing %1."
+    AFX_IDP_FILE_SHARING    "Encountered a sharing violation while accessing %1."
+    AFX_IDP_FILE_LOCKING    "Encountered a locking violation while accessing %1."
+    AFX_IDP_FILE_DISKFULL   "Disk full while accessing %1."
+    AFX_IDP_FILE_EOF        "Attempted to access %1 past its end."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_ARCH_NONE       "No error occurred."
+    AFX_IDP_ARCH_GENERIC    "An unknown error occurred while accessing %1."
+    AFX_IDP_ARCH_READONLY   "Attempted to write to the reading %1."
+    AFX_IDP_ARCH_ENDOFFILE  "Attempted to access %1 past its end."
+    AFX_IDP_ARCH_WRITEONLY  "Attempted to read from the writing %1."
+    AFX_IDP_ARCH_BADINDEX   "%1 has a bad format."
+    AFX_IDP_ARCH_BADCLASS   "%1 contained an unexpected object."
+    AFX_IDP_ARCH_BADSCHEMA  "%1 contains an incorrect schema."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_FAILED_MAPI_LOAD "Unable to load mail system support."
+    AFX_IDP_INVALID_MAPI_DLL "Mail system DLL is invalid."
+    AFX_IDP_FAILED_MAPI_SEND "Send Mail failed to send message."
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_OCC_SCALEUNITS_PIXELS "pixels"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDP_SCRIPT_ERROR    "%1: %2\nContinue running script?"
+    AFX_IDP_SCRIPT_DISPATCH_EXCEPTION "Dispatch exception: %1"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_CHECKLISTBOX_UNCHECK "Uncheck"
+    AFX_IDS_CHECKLISTBOX_CHECK "Check"
+    AFX_IDS_CHECKLISTBOX_MIXED "Mixed"
+END
+
+#endif    // 英语(美国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\Editor.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
