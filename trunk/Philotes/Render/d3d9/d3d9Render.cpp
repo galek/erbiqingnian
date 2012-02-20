@@ -12,7 +12,6 @@
 #include <renderInstanceBufferDesc.h>
 #include "D3D9RenderInstanceBuffer.h"
 
-#include <renderMeshDesc.h>
 #include <renderElement.h>
 #include "D3D9RenderBase.h"
 

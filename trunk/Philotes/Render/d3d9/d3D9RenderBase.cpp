@@ -6,8 +6,6 @@
 #include "D3D9RenderVertexBuffer.h"
 #include "D3D9RenderInstanceBuffer.h"
 
-#include <renderMeshDesc.h>
-
 #pragma warning(disable:4702 4189)
 
 _NAMESPACE_BEGIN
@@ -33,36 +31,6 @@ D3D9RenderBase::D3D9RenderBase(D3D9Render &renderer) :
 	m_renderer(renderer)
 {
 	m_d3dVertexDecl = 0;
-	
-	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
-	ph_assert2(d3dDevice, "Render's D3D Device not found!");
-	if(d3dDevice)
-	{
-		uint32 numVertexBuffers = getNumVertexBuffers();
-		SizeT vbNum = m_vertexBuffers.Size();
-
-		std::vector<D3DVERTEXELEMENT9> vertexElements;
-		for(SizeT i=0; i<vbNum; i++)
-		{
-			const RenderVertexBuffer *vb = m_vertexBuffers[i];
-			if(vb)
-			{
-				const D3D9RenderVertexBuffer &d3dVb = *static_cast<const D3D9RenderVertexBuffer*>(vb);
-				d3dVb.addVertexElements(i, vertexElements);
-			}
-		}
-
-#if RENDERER_INSTANCING
-		if(m_instanceBuffer)
-		{
-			static_cast<const D3D9RenderInstanceBuffer*>(m_instanceBuffer)->addVertexElements(numVertexBuffers, vertexElements);
-		}
-#endif
-		vertexElements.push_back(buildVertexElement(0xFF, 0, D3DDECLTYPE_UNUSED, 0, 0, 0));
-		
-		d3dDevice->CreateVertexDeclaration(&vertexElements[0], &m_d3dVertexDecl);
-		ph_assert2(m_d3dVertexDecl, "Failed to create Direct3D9 Vertex Declaration.");
-	}
 }
 
 D3D9RenderBase::~D3D9RenderBase(void)
@@ -303,6 +271,46 @@ void D3D9RenderBase::renderVerticesInstanced(uint32 numVertices,RenderMaterial *
 		{
 			d3dDevice->SetRenderState(D3DRS_POINTSPRITEENABLE, 0);
 		}
+	}
+}
+
+void D3D9RenderBase::appendVertexBuffer( RenderVertexBuffer* vb )
+{
+	RenderBase::appendVertexBuffer(vb);
+
+	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
+	ph_assert2(d3dDevice, "Render's D3D Device not found!");
+	if(d3dDevice)
+	{
+		uint32 numVertexBuffers = getNumVertexBuffers();
+		SizeT vbNum = m_vertexBuffers.Size();
+
+		std::vector<D3DVERTEXELEMENT9> vertexElements;
+		for(SizeT i=0; i<vbNum; i++)
+		{
+			const RenderVertexBuffer *vb = m_vertexBuffers[i];
+			if(vb)
+			{
+				const D3D9RenderVertexBuffer &d3dVb = *static_cast<const D3D9RenderVertexBuffer*>(vb);
+				d3dVb.addVertexElements(i, vertexElements);
+			}
+		}
+
+		if(m_d3dVertexDecl)
+		{
+			m_d3dVertexDecl->Release();
+		}
+
+#if RENDERER_INSTANCING
+		if(m_instanceBuffer)
+		{
+			static_cast<const D3D9RenderInstanceBuffer*>(m_instanceBuffer)->addVertexElements(numVertexBuffers, vertexElements);
+		}
+#endif
+		vertexElements.push_back(buildVertexElement(0xFF, 0, D3DDECLTYPE_UNUSED, 0, 0, 0));
+
+		d3dDevice->CreateVertexDeclaration(&vertexElements[0], &m_d3dVertexDecl);
+		ph_assert2(m_d3dVertexDecl, "Failed to create Direct3D9 Vertex Declaration.");
 	}
 }
 

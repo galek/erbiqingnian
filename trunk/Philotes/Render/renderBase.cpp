@@ -1,7 +1,5 @@
 
 #include "renderBase.h"
-#include "renderMeshDesc.h"
-
 #include "renderVertexBuffer.h"
 #include "renderIndexBuffer.h"
 #include "renderInstanceBuffer.h"

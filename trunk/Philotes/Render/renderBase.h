@@ -50,7 +50,7 @@ public:
 
 	SizeT								getNumVertexBuffers(void) const;
 
-	void								appendVertexBuffer(RenderVertexBuffer* vb);
+	virtual void						appendVertexBuffer(RenderVertexBuffer* vb);
 
 	const RenderVertexBuffer*			getVertexBuffer(SizeT index) const;
 
