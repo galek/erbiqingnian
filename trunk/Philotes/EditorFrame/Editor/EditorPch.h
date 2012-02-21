@@ -52,7 +52,13 @@
 #include <algorithm>
 #include <map>
 
+#include <d3d9.h>
+#include <d3dx9.h>
+
 #include "Resource.h"
 #include "EditorUtils.h"
+#include "RefCountBase.h"
+#include "MathUtil.h"
+#include "SmartPtr.h"
 
 #include <XTToolkitPro.h>

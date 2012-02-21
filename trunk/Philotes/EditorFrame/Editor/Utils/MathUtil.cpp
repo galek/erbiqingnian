@@ -13,4 +13,15 @@ namespace MathUtil
 			fVal = IntRound(fVal / fStep) * fStep;
 		return fVal;
 	}
+
+	bool IsFloat3Zero( const Float3& vec )
+	{
+		// TODO:¸ü¾«È·
+		if (vec.x == 0 && vec.y == 0 && vec.z == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -3,6 +3,7 @@
 #include "PropertyItem.h"
 #include "MemDC.h"
 #include "Clipboard.h"
+#include "Settings.h"
 
 #define PROPERTY_LEFT_BORDER 30
 #define OFFSET_CHILD 14
@@ -154,7 +155,6 @@ void CPropertyCtrl::ExpandVariableAndChilds( IVariable *var, bool bRecursive )
 //////////////////////////////////////////////////////////////////////////
 void CPropertyCtrl::ReloadValues()
 {
-	HideBitmapTooltip();
 	bool prev = m_bEnableCallback;
 	m_bEnableCallback = false;
 
@@ -351,7 +351,6 @@ void CPropertyCtrl::OnRButtonUp(UINT nFlags, CPoint point)
 {
 	CClipboard clipboard;
 
-	// Popup Menu with Event selection.
 	CMenu menu;
 	menu.CreatePopupMenu();
 	menu.AppendMenu( MF_STRING,1,_T("Copy") );
@@ -405,7 +404,7 @@ void CPropertyCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 		Items items;
 		GetVisibleItems( m_root,items );
-		for (int i = 0; i < items.size(); i++)
+		for (size_t i = 0; i < items.size(); i++)
 		{
 			if (items[i] == m_selected)
 			{
@@ -425,7 +424,7 @@ void CPropertyCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 		Items items;
 		GetVisibleItems( m_root,items );
-		for (int i = 0; i < items.size(); i++)
+		for (size_t i = 0; i < items.size(); i++)
 		{
 			if (items[i] == m_selected)
 			{
@@ -466,8 +465,6 @@ void CPropertyCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CPropertyCtrl::OnKillFocus(CWnd* pNewWnd)
 {
 	CWnd::OnKillFocus(pNewWnd);
-
-	HideBitmapTooltip();
 }
 
 void CPropertyCtrl::OnSetFocus(CWnd* pOldWnd)
@@ -531,7 +528,7 @@ void CPropertyCtrl::OnPaint()
 	int y = -m_scrollOffset.y;
 	Items items;
 	GetVisibleItems( m_root,items );
-	for (int i = 0; i < items.size(); i++)
+	for (size_t i = 0; i < items.size(); i++)
 	{
 		int itemHeight = GetItemHeight( items[i] );
 		rc.top = y;
@@ -560,13 +557,13 @@ void CPropertyCtrl::DrawItem( CPropertyItem *item,CDC &dc,CRect &itemRect )
 	COLORREF crTextShadow = RGB(130,130,160); //::GetSysColor(nCrText);
 	COLORREF crTextDisabled = ::GetSysColor(COLOR_GRAYTEXT);
 
-	bool bDotNetStyle = m_nFlags & F_VS_DOT_NET_STYLE;
+	bool bDotNetStyle = (m_nFlags & F_VS_DOT_NET_STYLE) == TRUE;
 
 	bool bCategory = IsCategory(item);
 
 	if (!m_pBoldFont)
 	{
-		m_pBoldFont = CFont::FromHandle(gSettings.gui.hSystemFontBold);
+		m_pBoldFont = CFont::FromHandle(EditorSettings::Get().Gui.hSystemFontBold);
 	}
 
 	if (bCategory)
@@ -722,41 +719,13 @@ void CPropertyCtrl::DrawItem( CPropertyItem *item,CDC &dc,CRect &itemRect )
 		int textOffset = CalcOffset( item );
 		rect.left += 2 + textOffset*OFFSET_CHILD;
 		rect.right -= 2;
-		
-		/*
-		CFont* pOldFont = NULL;
-		CFont fontLabel;
-		
-		if(bTabItem)
-		{
-			LOGFONT logFont;
-			CFont* pFont = GetFont();
-			pFont->GetLogFont(&logFont);
-			
-			logFont.lfWeight = FW_BOLD;
-			fontLabel.CreateFontIndirect(&logFont);
-			
-			pOldFont = dc.SelectObject(&fontLabel);
-		}
-		*/
 
 		CFont *pPrevFont = 0;
 		if (bItemBold && !bItemDisabled)
 		{
-			/*
-			CRect rc = rect;
-			// Text shadow part.
-			dc.SetTextColor( crTextShadow );
-			rc.OffsetRect( CPoint(1,1) );
-			dc.DrawText(item->GetName(), &rc, DT_SINGLELINE|DT_VCENTER);
-			dc.SetTextColor(crText);
-			*/
-			
-
 			pPrevFont = dc.SelectObject( m_pBoldFont );
 		}
 
-    // Draw text label.
 		dc.DrawText(item->GetName(), &rect, DT_SINGLELINE|DT_VCENTER);
 
 		if (bItemBold && !bItemDisabled)
@@ -764,13 +733,6 @@ void CPropertyCtrl::DrawItem( CPropertyItem *item,CDC &dc,CRect &itemRect )
 			dc.SelectObject(pPrevFont);
 		}
 		
-		//dc.SetBkMode(TRANSPARENT);
-		
-		/*
-		if(pOldFont != NULL)
-			dc.SelectObject(pOldFont);
-			*/
-
 		if (item->IsExpandable())
 		{
 			if (!item->IsExpanded())
@@ -854,7 +816,7 @@ void CPropertyCtrl::GetItemRect(  CPropertyItem *item,CRect &rect )
 	int y = -m_scrollOffset.y;
 	Items items;
 	GetVisibleItems( m_root,items );
-	for (int i = 0; i < items.size(); i++)
+	for (size_t i = 0; i < items.size(); i++)
 	{
 		int itemHeight = GetItemHeight( items[i] );
 		rc.top = y;
@@ -1111,7 +1073,7 @@ CPropertyItem* CPropertyCtrl::GetItemFromPoint( CPoint point )
 
 	Items items;
 	GetVisibleItems( m_root,items );
-	for (int i = 0; i < items.size(); i++)
+	for (size_t i = 0; i < items.size(); i++)
 	{
 		int itemHeight = GetItemHeight( items[i] );
 		rc.top = y;
@@ -1264,8 +1226,8 @@ void CPropertyCtrl::ProcessTooltip( CPropertyItem *item )
 		{
 			if (item != m_prevTooltipItem)
 			{
-				string sTip = item->GetTip();
-				sTip.resize(MIN(sTip.length(),m_tooltip.GetMaxTipWidth()));
+				std::string sTip = item->GetTip().GetBuffer();
+				sTip.resize((MIN(sTip.length(),(size_t)(m_tooltip.GetMaxTipWidth()))));
 				m_tooltip.UpdateTipText( sTip.c_str(),this,1 );
 				m_tooltip.Activate(TRUE);
 			}
@@ -1281,15 +1243,11 @@ void CPropertyCtrl::ProcessTooltip( CPropertyItem *item )
 //////////////////////////////////////////////////////////////////////////
 bool CPropertyCtrl::IsCategory( CPropertyItem *item )
 {
-	if (item && (item->GetParent() == m_root || item == m_root) && item->IsExpandable() && !item->IsNotCategory())
+	if (item && (item->GetParent() == m_root || item == m_root) &&
+		item->IsExpandable() && !item->IsNotCategory())
+	{
 		return true;
-
-	/*
-	// 2nd rule.
-	if (item && item->GetType() == ePropertyInvalid && item->IsExpandable())
-		return true;
-	*/
-
+	}
 	return false;
 }
 
@@ -1345,7 +1303,7 @@ void CPropertyCtrl::CalcLayout()
 
 	m_bLayoutChange = true;
 	SCROLLINFO si;
-	ZeroStruct(si);
+	memset( &si,0,sizeof(SCROLLINFO) );
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
@@ -1366,7 +1324,7 @@ void CPropertyCtrl::CalcLayout()
 void CPropertyCtrl::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	SCROLLINFO si;
-	ZeroStruct(si);
+	memset( &si,0,sizeof(SCROLLINFO) );
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	FlatSB_GetScrollInfo( GetSafeHwnd(),SB_VERT,&si );
@@ -1494,7 +1452,7 @@ int CPropertyCtrl::GetVisibleHeight()
 	int y = 0;
 	Items items;
 	GetVisibleItems( m_root,items );
-	for (int i = 0; i < items.size(); i++)
+	for (size_t i = 0; i < items.size(); i++)
 	{
 		y += GetItemHeight( items[i] );
 	}
@@ -1510,7 +1468,7 @@ LRESULT CPropertyCtrl::OnGetFont(WPARAM wParam, LPARAM)
 	LRESULT res = Default();
 	if (!res)
 	{
-		res = (LRESULT)gSettings.gui.hSystemFont;
+		res = (LRESULT)EditorSettings::Get().Gui.hSystemFont;
 	}
 	return res;
 }
@@ -1529,17 +1487,11 @@ void CPropertyCtrl::OnTimer(UINT_PTR nIDEvent)
 	{
 		if (m_selected)
 		{
-			// Check if need to kill focus.
 			CWnd *pFocusWnd = GetFocus();
 			if (pFocusWnd && pFocusWnd != this && !IsChild(pFocusWnd))
 			{
-				// And nothing should be captured.
-				//CWnd *pFocusWndOwner = pFocusWnd->GetOwner();
 				if (!GetCapture())
 				{
-					// Loose selection.
-					//@TODO: restore
-					//SelectItem(0);
 				}
 			}
 		}
@@ -1596,8 +1548,7 @@ void CPropertyCtrl::MultiClearAll()
 {
 	if (!m_multiSelectedItems.empty())
 	{
-		// Clear multiple selected items.
-		for (int i = 0; i < m_multiSelectedItems.size(); i++)
+		for (size_t i = 0; i < m_multiSelectedItems.size(); i++)
 		{
 			m_multiSelectedItems[i]->SetSelected(false);
 		}
@@ -1698,7 +1649,7 @@ void CPropertyCtrl::OnPaste()
 {
 	CClipboard clipboard;
 
-	CUndo undo( "Paste Properties" );
+//	CUndo undo( "Paste Properties" );
 
 	XmlNodeRef rootNode = clipboard.Get();
 	if (rootNode != NULL && rootNode->isTag("PropertyCtrl"))
@@ -1775,58 +1726,6 @@ void CPropertyCtrl::RestrictToItemsContaining(const CString &searchName)
 	m_sNameRestriction.MakeLower();
 
 	AddVarBlock(m_pVarBlock);
-}
-
-
-//////////////////////////////////////////////////////////////////////////
-void CPropertyCtrl::ShowBitmapTooltip( const CString &imageFilename,CPoint point,CWnd *pToolWnd,const CRect &toolRc )
-{
-	HWND hPrevFocus = ::GetFocus();
-
-	HideBitmapTooltip();
-
-	if (imageFilename.IsEmpty())
-	{
-		if (hPrevFocus != ::GetFocus())
-		{
-			::SetFocus( hPrevFocus );
-		}
-
-		return;
-	}
-
-	if (!m_bitmapTooltip.m_hWnd)
-	{
-		m_bitmapTooltip.Create( CRect(point.x,point.y,point.x,point.y) );
-	}
-	else
-	{
-		m_bitmapTooltip.MoveWindow( CRect(point.x,point.y,point.x,point.y) );
-	}
-	if (pToolWnd)
-		m_bitmapTooltip.SetTool( pToolWnd,toolRc );
-	CString file = imageFilename;
-	if (stricmp(Path::GetExt(file),"tif") == 0)
-	{
-		file = Path::ReplaceExtension( file,"dds" );
-	}
-	file = Path::MakeGamePath(file);
-	if (!m_bitmapTooltip.LoadImage(file))
-		HideBitmapTooltip();
-
-	if (hPrevFocus != ::GetFocus())
-	{
-		::SetFocus( hPrevFocus );
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////
-void CPropertyCtrl::HideBitmapTooltip()
-{
-	if (m_bitmapTooltip.m_hWnd && m_bitmapTooltip.IsWindowVisible())
-	{
-		m_bitmapTooltip.ShowWindow(SW_HIDE);
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@
 
 #ifndef MemDCh
 #define MemDCh
+#endif
 
 class CMemDC : public CDC 
 {

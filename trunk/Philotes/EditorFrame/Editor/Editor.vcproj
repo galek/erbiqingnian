@@ -55,6 +55,7 @@
 				PrecompiledHeaderThrough="EditorPch.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4018;4800"
 				ForcedIncludeFiles="EditorPch.h"
 			/>
 			<Tool
@@ -139,6 +140,7 @@
 				PrecompiledHeaderThrough="EditorPch.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4018;4800"
 				ForcedIncludeFiles="EditorPch.h"
 			/>
 			<Tool
@@ -294,17 +296,41 @@
 					RelativePath=".\Controls\PropertyCtrl.h"
 					>
 				</File>
+				<File
+					RelativePath=".\Controls\PropertyItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Controls\PropertyItem.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Utils"
 			>
 			<File
+				RelativePath=".\Utils\ColorUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\ColorUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Utils\EditorUtils.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Utils\EditorUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Controls\FillSliderCtrl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Controls\FillSliderCtrl.h"
 				>
 			</File>
 			<File
@@ -337,6 +363,14 @@
 			</File>
 			<File
 				RelativePath=".\Utils\PathUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\RefCountBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\SmartPtr.h"
 				>
 			</File>
 			<File
@@ -547,6 +581,22 @@
 			</File>
 			<File
 				RelativePath=".\Core\Settings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\UIEnumsDatabase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\UIEnumsDatabase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Variable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Variable.h"
 				>
 			</File>
 			<File

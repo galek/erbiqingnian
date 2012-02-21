@@ -1,6 +1,6 @@
 
 #include "Clipboard.h"
-
+#include "Xml.h"
 
 void CClipboard::Put( XmlNodeRef &node,const CString &title /*= "" */ )
 {
