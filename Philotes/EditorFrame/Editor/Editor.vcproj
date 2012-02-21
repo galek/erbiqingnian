@@ -55,7 +55,7 @@
 				PrecompiledHeaderThrough="EditorPch.h"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4018;4800"
+				DisableSpecificWarnings="4018;4800;4996;4244"
 				ForcedIncludeFiles="EditorPch.h"
 			/>
 			<Tool
@@ -140,7 +140,7 @@
 				PrecompiledHeaderThrough="EditorPch.h"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4018;4800"
+				DisableSpecificWarnings="4018;4800;4996;4244"
 				ForcedIncludeFiles="EditorPch.h"
 			/>
 			<Tool
@@ -370,6 +370,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Utils\SimpleStringPool.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Utils\SmartPtr.h"
 				>
 			</File>
@@ -379,6 +383,10 @@
 			</File>
 			<File
 				RelativePath=".\Utils\TemplateMessage.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\XmlParser.h"
 				>
 			</File>
 		</Filter>
@@ -472,11 +480,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\leftright.cur"
+				>
+			</File>
+			<File
 				RelativePath=".\res\minifwnd.bmp"
 				>
 			</File>
 			<File
 				RelativePath=".\res\paneicons.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pick.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pick_cursor.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\properties.bmp"
 				>
 			</File>
 			<File
@@ -568,6 +592,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\EditorRoot.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\EditorRoot.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\EditorTool.cpp"
 				>
 			</File>
@@ -581,6 +613,14 @@
 			</File>
 			<File
 				RelativePath=".\Core\Settings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\UIEnumerations.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\UIEnumerations.h"
 				>
 			</File>
 			<File
@@ -613,6 +653,18 @@
 			</File>
 			<File
 				RelativePath=".\Core\XmlInterface.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Dialogs"
+			>
+			<File
+				RelativePath=".\Dialogs\CustomColorDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialogs\CustomColorDialog.h"
 				>
 			</File>
 		</Filter>

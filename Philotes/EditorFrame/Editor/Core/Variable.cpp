@@ -1,6 +1,7 @@
 
 #include "Variable.h"
 #include "UIEnumsDatabase.h"
+#include "EditorRoot.h"
 
 CVarBlock::~CVarBlock()
 {
@@ -30,7 +31,7 @@ void CVarBlock::CopyValues( CVarBlock *fromVarBlock )
 
 void CVarBlock::CopyValuesByName( CVarBlock *fromVarBlock )
 {
-	XmlNodeRef node = CreateXmlNode( "Temp" );
+	XmlNodeRef node = EditorRoot::Get().CreateXmlNode( "Temp" );
 	fromVarBlock->Serialize( node,false );
 	Serialize( node,true );
 }
@@ -74,7 +75,7 @@ bool CVarBlock::IsContainVariable( IVariable *pVar,bool bRecursive ) const
 {
 	for (Variables::const_iterator it = m_vars.begin(); it != m_vars.end(); ++it)
 	{
-		if (*it == pVar)
+		if ((*it) == pVar)
 		{
 			return true;
 		}
@@ -98,7 +99,9 @@ IVariable* CVarBlock::FindVariable( const char *name,bool bRecursive ) const
 	{
 		IVariable *var = *it;
 		if (strcmp(var->GetName(),name) == 0)
+		{
 			return var;
+		}
 	}
 	if (bRecursive)
 	{
@@ -116,13 +119,17 @@ IVariable* CVarBlock::FindVariable( const char *name,bool bRecursive ) const
 IVariable* CVarBlock::FindChildVar( const char *name,IVariable *pParentVar ) const
 {
 	if (strcmp(pParentVar->GetName(),name) == 0)
+	{
 		return pParentVar;
+	}
 	int numSubVar = pParentVar->NumChildVars();
 	for (int i = 0; i < numSubVar; i++)
 	{
 		IVariable *var = FindChildVar( name,pParentVar->GetChildVar(i) );
 		if (var)
+		{
 			return var;
+		}
 	}
 	return 0;
 }
@@ -134,9 +141,13 @@ bool CVarBlock::ContainChildVar( IVariable *pParentVar,IVariable *pVar ) const
 	{
 		IVariable *pChild = pParentVar->GetChildVar(i);
 		if (pChild == pVar)
+		{
 			return true;
+		}
 		if (ContainChildVar(pChild,pVar))
+		{
 			return true;
+		}
 	}
 	return false;
 }
@@ -380,7 +391,7 @@ void CVarObject::Serialize( XmlNodeRef node,bool load )
 
 CVarGlobalEnumList::CVarGlobalEnumList(const CString& enumName)
 {
-	m_pEnum = GetIEditor()->GetUIEnumsDatabase()->FindEnum(enumName);
+	m_pEnum = EditorRoot::Get().GetUIEnumsDatabase()->FindEnum(enumName);
 }
 
 int CVarGlobalEnumList::GetItemsCount() 

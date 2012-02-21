@@ -73,4 +73,21 @@ namespace ColorUtil
 		return (cb << 16) | (cg << 8) | cr;
 	}
 
+	COLORREF			LinearToGamma( ColorValue col )
+	{
+		bool useSRGB = true;
+		float gamma = useSRGB ? 1.0f/2.2f : 1.0f;
+		return RGB( int( MathUtil::ClampTpl( pow( col.r, gamma ), 0.0f, 1.0f ) * 255.0f ),
+			int( MathUtil::ClampTpl( pow( col.g, gamma ), 0.0f, 1.0f ) * 255.0f ),
+			int( MathUtil::ClampTpl( pow( col.b, gamma ), 0.0f, 1.0f ) * 255.0f ) );
+	}
+
+	ColorValue			GammaToLinear( COLORREF col )
+	{
+		bool useSRGB = true;
+		float gamma = useSRGB ? 2.2f : 1.0f;
+		return ColorValue( pow( GetRValue( col ) / 255.0f, gamma ),
+			pow( GetGValue( col ) / 255.0f, gamma ),
+			pow( GetBValue( col ) / 255.0f, gamma ),1 );
+	}
 }

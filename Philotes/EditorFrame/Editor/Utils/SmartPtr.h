@@ -95,6 +95,11 @@ public:
 		return *this;
 	}
 
+	const Type* GetPointer()const
+	{
+		return p;
+	}
+
 	operator bool() const { return p != NULL; };
 	bool  operator !() const { return p == NULL; };
 
@@ -102,6 +107,11 @@ public:
 	bool  operator != ( const Type* p2 ) const { return p != p2; };
 	bool  operator <  ( const Type* p2 ) const { return p < p2; };
 	bool  operator >  ( const Type* p2 ) const { return p > p2; };
+
+	bool  operator == ( Type* p2 ) const { return p == p2; };
+	bool  operator != ( Type* p2 ) const { return p != p2; };
+	bool  operator <  ( Type* p2 ) const { return p < p2; };
+	bool  operator >  ( Type* p2 ) const { return p > p2; };
 
 	bool operator == ( const TSmartPtr<Type> &p2 ) const { return p == p2.p; };
 	bool operator != ( const TSmartPtr<Type> &p2 ) const { return p != p2.p; };

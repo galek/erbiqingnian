@@ -4,6 +4,7 @@
 #include "MemDC.h"
 #include "Clipboard.h"
 #include "Settings.h"
+#include "EditorRoot.h"
 
 #define PROPERTY_LEFT_BORDER 30
 #define OFFSET_CHILD 14
@@ -1363,12 +1364,12 @@ void CPropertyCtrl::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 	case SB_PAGELEFT:    // Scroll one page left.
 		if (curpos > minpos)
-			curpos = max(minpos, curpos - (int)nPage);
+			curpos = std::max(minpos, curpos - (int)nPage);
 		break;
 
 	case SB_PAGERIGHT:      // Scroll one page right.
 		if (curpos < maxpos)
-			curpos = min(maxpos, curpos + (int)nPage);
+			curpos = std::min(maxpos, curpos + (int)nPage);
 		break;
 
 	case SB_THUMBPOSITION: // Scroll to absolute position. nPos is the position
@@ -1590,8 +1591,8 @@ void CPropertyCtrl::MultiSelectRange( CPropertyItem *pAnchorItem )
 		if (items[i] == pAnchorItem)
 			p2 = i;
 	}
-	int start = min(p1,p2);
-	int end = max(p1,p2);
+	int start = std::min(p1,p2);
+	int end = std::max(p1,p2);
 	for (i = start; i <= end; i++)
 	{
 		MultiSelectItem( items[i] );
@@ -1604,7 +1605,7 @@ void CPropertyCtrl::OnCopy( bool bRecursively )
 	if (!m_multiSelectedItems.empty())
 	{
 		CClipboard clipboard;
-		XmlNodeRef rootNode = CreateXmlNode("PropertyCtrl");
+		XmlNodeRef rootNode = EditorRoot::Get().CreateXmlNode("PropertyCtrl");
 		for (int i = 0; i < m_multiSelectedItems.size(); i++)
 		{
 			CPropertyItem *pItem = m_multiSelectedItems[i];
@@ -1620,7 +1621,7 @@ void CPropertyCtrl::OnCopyAll()
 	if (m_root)
 	{
 		CClipboard clipboard;
-		XmlNodeRef rootNode = CreateXmlNode("PropertyCtrl");
+		XmlNodeRef rootNode = EditorRoot::Get().CreateXmlNode("PropertyCtrl");
 		for (int i = 0; i < m_root->GetChildCount(); i++)
 		{
 			CopyItem( rootNode,m_root->GetChild(i),true );

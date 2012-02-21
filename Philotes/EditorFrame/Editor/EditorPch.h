@@ -37,10 +37,22 @@
 
 #define _AFX_ALL_WARNINGS
 
+
+
 #include <afxwin.h>    
 #include <afxext.h>    
 #include <afxdtctl.h>
 #include <afxcmn.h>    
+
+#include <XTToolkitPro.h>
+
+#ifdef max
+#undef max
+#endif 
+
+#ifdef min
+#undef min
+#endif 
 
 #include <assert.h>
 #include <float.h>
@@ -50,7 +62,10 @@
 #include <list>
 #include <utility>
 #include <algorithm>
+#include <stack>
+#include <deque>
 #include <map>
+#include <xutility>
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -61,4 +76,3 @@
 #include "MathUtil.h"
 #include "SmartPtr.h"
 
-#include <XTToolkitPro.h>

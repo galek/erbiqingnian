@@ -100,8 +100,11 @@ class CPropertyItem : public CRefCountBase
 		virtual void 			SetData( CWnd* pWndInPlaceControl ){};
 
 		virtual void 			OnLButtonDown( UINT nFlags,CPoint point );
+
 		virtual void 			OnRButtonDown( UINT nFlags,CPoint point ) {};
+
 		virtual void 			OnLButtonDblClk( UINT nFlags,CPoint point );
+
 		virtual void 			OnMouseWheel( UINT nFlags,short zDelta,CPoint point );
 
 		virtual void			SetValue( const char* sValue,bool bRecordUndo=true,bool bForceModified=false );
@@ -271,7 +274,7 @@ class CPropertyItem : public CRefCountBase
 		CString					m_tip;
 		int						m_image;
 
-		float					m_lastModified;
+		//float					m_lastModified;
 
 		float					m_valueMultiplier;
 

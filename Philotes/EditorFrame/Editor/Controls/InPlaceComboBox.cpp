@@ -585,14 +585,14 @@ void CInPlaceComboBox::GetDropDownRect( CRect &rect )
 	int nItems = m_wndList.GetCount();
 	int nListBoxHeight = nItems > 0 ? 2+nItems*itemHeight : 40; // 2 extra pixels for the frame
 
-	int spaceAbove = max(0l, rcEdit.top-1 - mi.rcWork.top);
-	int spaceBelow = max(0l, mi.rcWork.bottom - rcEdit.bottom+1);
+	int spaceAbove = std::max(0l, rcEdit.top-1 - mi.rcWork.top);
+	int spaceBelow = std::max(0l, mi.rcWork.bottom - rcEdit.bottom+1);
 
 	if ( spaceAbove > spaceBelow && spaceBelow < 100 && spaceBelow < nListBoxHeight )
 	{
 		// show the list above
 		rect.bottom = rcEdit.top-1;
-		rect.top = max(rect.bottom - nListBoxHeight, mi.rcWork.top);
+		rect.top = std::max(rect.bottom - nListBoxHeight, mi.rcWork.top);
 
 		// preserve integral height
 		rect.top += (rect.Height()-2) % itemHeight;
@@ -601,15 +601,15 @@ void CInPlaceComboBox::GetDropDownRect( CRect &rect )
 	{
 		// show the list below
 		rect.top = rcEdit.bottom+1;
-		rect.bottom = min(rect.top + nListBoxHeight, mi.rcWork.bottom);
+		rect.bottom = std::min(rect.top + nListBoxHeight, mi.rcWork.bottom);
 
 		// preserve integral height
 		rect.bottom -= (rect.Height()-2) % itemHeight;
 	}
 
 	// set the width
-	rect.left = max(rcEdit.left, mi.rcWork.left);
-	rect.right = min(rcEdit.right, mi.rcWork.right);
+	rect.left = std::max(rcEdit.left, mi.rcWork.left);
+	rect.right = std::min(rcEdit.right, mi.rcWork.right);
 
 	int minWidth = m_minListWidth + m_nButtonDx;
 

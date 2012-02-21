@@ -271,3 +271,27 @@ struct IXmlParser
 
 	virtual XmlNodeRef ParseBuffer( const char *buffer,int nBufLen,bool bCleanPools ) = 0;
 };
+
+//////////////////////////////////////////////////////////////////////////
+
+struct IXmlUtils
+{
+	virtual IXmlParser*			CreateXmlParser() = 0;
+
+	virtual XmlNodeRef			LoadXmlFile( const char *sFilename ) = 0;
+
+	virtual XmlNodeRef			LoadXmlFromString( const char *sXmlString ) = 0;	
+
+	virtual const char *		HashXml( XmlNodeRef node ) = 0;
+
+	virtual bool				SaveBinaryXmlFile( const char *sFilename,XmlNodeRef root ) = 0;
+	
+	virtual XmlNodeRef			LoadBinaryXmlFile( const char *sFilename ) = 0;
+
+	virtual bool 				EnableBinaryXmlLoading( bool bEnable ) = 0;
+
+	virtual void 				InitStatsXmlNodePool( UINT nPoolSize ) = 0;
+
+	virtual XmlNodeRef			CreateStatsXmlNode( const char *sNodeName ) = 0;
+
+};

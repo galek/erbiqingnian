@@ -241,3 +241,72 @@ private:
 
 	friend class XmlParserImp;
 };
+
+//////////////////////////////////////////////////////////////////////////
+
+class CXmlNodePool;
+
+class CXmlNodeReuse: public CXmlNode
+{
+public:
+	CXmlNodeReuse(const char *tag, CXmlNodePool* pPool);
+	virtual void Release();
+
+protected:
+	CXmlNodePool* m_pPool;
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+class CXmlNodePool
+{
+public:
+	CXmlNodePool(unsigned int nBlockSize);
+
+	virtual ~CXmlNodePool();
+
+	XmlNodeRef GetXmlNode(const char* sNodeName);
+
+protected:
+	virtual void OnRelease(int iRefCount, void* pThis);
+
+	IXmlStringPool* GetStringPool() { return m_pStringPool; }
+
+private:
+	friend class CXmlNodeReuse;
+
+	IXmlStringPool* m_pStringPool;
+	unsigned int m_nAllocated;
+	std::stack<CXmlNodeReuse*> m_pNodePool;
+};
+
+//////////////////////////////////////////////////////////////////////////
+
+class CXmlUtils : public IXmlUtils
+{
+public:
+	CXmlUtils( );
+	virtual ~CXmlUtils();
+
+	virtual IXmlParser*		CreateXmlParser();
+
+	virtual XmlNodeRef		LoadXmlFile( const char *sFilename );
+
+	virtual XmlNodeRef		LoadXmlFromString( const char *sXmlString );	
+
+	virtual const char*		HashXml( XmlNodeRef node );
+
+	virtual bool			SaveBinaryXmlFile( const char *sFilename,XmlNodeRef root );
+
+	virtual XmlNodeRef		LoadBinaryXmlFile( const char *sFilename );
+
+	virtual bool			EnableBinaryXmlLoading( bool bEnable );
+	
+	virtual void			InitStatsXmlNodePool( UINT nPoolSize = 1024*1024 );
+
+	virtual XmlNodeRef		CreateStatsXmlNode( const char *sNodeName="" );
+
+private:
+	
+	CXmlNodePool* m_pStatsXmlNodePool;
+};
