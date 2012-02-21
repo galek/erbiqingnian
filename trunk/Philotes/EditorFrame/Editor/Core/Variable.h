@@ -43,6 +43,7 @@ struct IVariable : public CRefCountBase
 		DT_PERCENT,
 		DT_COLOR,
 		DT_ANGLE,
+		DT_UIENUM
 	};
 
 	enum EFlags
@@ -551,76 +552,6 @@ namespace var_type
 	template<> struct type_traits<CString>: public type_traits_base<IVariable::STRING,false,false,false> {};
 	//////////////////////////////////////////////////////////////////////////
 
-	/*
-	//////////////////////////////////////////////////////////////////////////
-	// Extended stream operators.
-	//////////////////////////////////////////////////////////////////////////
-	//! Put CString to out stream operator.
-	inline std::ostream&	operator<<( std::ostream &stream, const CString &s )
-	{
-	stream << to_c_str(s);
-	return stream;
-	}
-
-	//! Put Float3 to out stream operator.
-	inline std::ostream&	operator<<( std::ostream &stream, const Float3& v )
-	{
-	stream << v.x << "," << v.y << "," << v.z;
-	return stream;
-	}
-
-	//! Put Float3 to out stream operator.
-	inline std::ostream&	operator<<( std::ostream &stream, const Angle& v )
-	{
-	stream << v.x << "," << v.y << "," << v.z;
-	return stream;
-	}
-
-	//! Put Quaternion to out stream operator.
-	inline std::ostream&	operator<<( std::ostream &stream, const Quaternion& q )
-	{
-	stream << q.w << "," << q.v.x << "," << q.v.y << "," << q.v.z;
-	return stream;
-	}
-
-	//! Get CString from input stream operator.
-	inline std::istream&	operator>>( std::istream &stream, CString& s )
-	{
-	// String is limited..
-	char str[MAX_VAR_STRING_LENGTH];
-	stream >> str;
-	s = str;
-	return stream;
-	}
-
-	static inline std::istream& comma(std::istream& stream)
-	{
-	stream >> std::ws;
-	if (stream.peek() == ',')
-	stream.get();
-	stream >> std::ws;
-	return stream;
-	}
-
-	//! Get Float3 from input stream operator.
-	inline std::istream&	operator>>( std::istream &stream,Float3 &v )
-	{
-	v.x = v.y = v.z = 0;
-	return stream >> v.x >> comma >> v.y >> comma >> v.z;
-	}
-
-	//! Get Quaternion from input stream operator.
-	inline std::istream&	operator>>( std::istream &stream,Quaternion &q )
-	{
-	q.v.x = q.v.y = q.v.z = q.w = 0;
-	return stream >> q.v.x >> comma >> q.v.y >> comma >> q.v.z >> comma >> q.w;
-	}
-	*/
-
-	//////////////////////////////////////////////////////////////////////////
-	// General one type to another type convertor class.
-	//////////////////////////////////////////////////////////////////////////
-	//	template <class From,class To>
 	struct type_convertor
 	{
 		template <class From,class To>

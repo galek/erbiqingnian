@@ -9,7 +9,12 @@
 //#include "SplineCtrl.h"
 //#include "ColorGradientCtrl.h"
 #include "SliderCtrlEx.h"
+#include "Settings.h"
 #include "UIEnumerations.h"
+#include "UIEnumsDatabase.h"
+#include "EditorRoot.h"
+#include "ColorUtil.h"
+#include "CustomColorDialog.h"
 
 #define CMD_ADD_CHILD_ITEM	100
 #define CMD_ADD_ITEM		101
@@ -136,7 +141,7 @@ CPropertyItem::CPropertyItem( CPropertyCtrl* pCtrl )
 
 	m_modified				= false;
 	m_bMoveControls 		= false;
-	m_lastModified			= 0;
+	//m_lastModified			= 0;
 	m_valueMultiplier		= 1;
 	m_pEnumDBItem			= 0;
 
@@ -210,7 +215,7 @@ void CPropertyItem::ParseXmlNode( bool bRecursive/* =true  */)
 
 		int nPrecision;
 		if (!m_node->getAttr( "Precision", nPrecision))
-			nPrecision = max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
+			nPrecision = std::max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
 		m_step = powf(10.f, -nPrecision);
 	}
 
@@ -372,11 +377,11 @@ void CPropertyItem::SetVariable( IVariable *var )
 	}
 	else if (dataType == IVariable::DT_UIENUM)
 	{
-		m_pEnumDBItem = GetIEditor()->GetUIEnumsDatabase()->FindEnum(m_name);
+		m_pEnumDBItem = EditorRoot::Get().GetUIEnumsDatabase()->FindEnum(m_name);
 	}
 
-	int nPrec = max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
-	m_step = max(m_step, powf(10.f, -nPrec));
+	int nPrec = std::max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
+	m_step = std::max(m_step, powf(10.f, -nPrec));
 
 	//////////////////////////////////////////////////////////////////////////
 	VarToValue();
@@ -753,7 +758,7 @@ void CPropertyItem::CreateControls( CWnd* pWndParent,CRect& textRect,CRect& ctrl
 		m_pStaticText = new CColorCtrl<CStatic>;
 		m_pStaticText->SetTextColor( RGB(0,0,0) );
 		m_pStaticText->Create( GetName(),WS_CHILD|WS_VISIBLE|SS_RIGHT|SS_ENDELLIPSIS,textRect,pWndParent );
-		m_pStaticText->SetFont( CFont::FromHandle((HFONT)EditorSettings::Get().Gui.hSystemFont) );
+		m_pStaticText->SetFont( CFont::FromHandle((HFONT)(EditorSettings::Get().Gui.hSystemFont)) );
 	}
 
 	switch (m_type)
@@ -1368,25 +1373,25 @@ void CPropertyItem::SetValue( const char* sValue,bool bRecordUndo,bool bForceMod
 	{
 		if (bModified)
 		{
-			float currTime = GetIEditor()->GetSystem()->GetITimer()->GetCurrTime();
+			//float currTime = GetIEditor()->GetSystem()->GetITimer()->GetCurrTime();
 			//if (currTime > m_lastModified+1) // At least one second between undo stores.
 			{
-				if (bRecordUndo && !CUndo::IsRecording())
-				{
-					if (!CUndo::IsSuspended())
-					{
-						CUndo undo( GetName() + " Modified" );
-						undo.Record( new CUndoVariableChange(m_pVariable,"PropertyChange") );
-					}
-				}
-				else if (bRecordUndo)
-				{
-					GetIEditor()->RecordUndo( new CUndoVariableChange(m_pVariable,"PropertyChange") );
-				}
+// 				if (bRecordUndo && !CUndo::IsRecording())
+// 				{
+// 					if (!CUndo::IsSuspended())
+// 					{
+// 						CUndo undo( GetName() + " Modified" );
+// 						undo.Record( new CUndoVariableChange(m_pVariable,"PropertyChange") );
+// 					}
+// 				}
+// 				else if (bRecordUndo)
+// 				{
+// 					GetIEditor()->RecordUndo( new CUndoVariableChange(m_pVariable,"PropertyChange") );
+// 				}
 			}
 
 			ValueToVar();
-			m_lastModified = currTime;
+			//m_lastModified = currTime;
 		}
 	}
 	else
@@ -1429,14 +1434,14 @@ void CPropertyItem::VarToValue()
 		{
 			Float3 v(0,0,0);
 			m_pVariable->Get(v);
-			COLORREF col = CCustomColorDialog::LinearToGamma( ColorF( v.x, v.y, v.z ) );
+			COLORREF col = ColorUtil::LinearToGamma( ColorValue( v.x, v.y, v.z ,1 ) );
 			m_value.Format( "%d,%d,%d",GetRValue(col),GetGValue(col),GetBValue(col) );
 		}
 		else
 		{
 			int col(0);
 			m_pVariable->Get(col);
-			m_value.Format( "%d,%d,%d",GetRValue((uint32)col),GetGValue((uint32)col),GetBValue((uint32)col) );
+			m_value.Format( "%d,%d,%d",GetRValue((UINT)col),GetGValue((UINT)col),GetBValue((UINT)col) );
 		}
 		return;
 	}
@@ -1498,7 +1503,7 @@ void CPropertyItem::ValueToVar()
 		COLORREF col = StringToColor(m_value);
 		if (m_pVariable->GetType() == IVariable::VECTOR)
 		{
-			ColorF colLin = CCustomColorDialog::GammaToLinear( col );
+			ColorValue colLin = ColorUtil::GammaToLinear( col );
 			m_pVariable->Set( Float3( colLin.r, colLin.g, colLin.b ) );
 		}
 		else

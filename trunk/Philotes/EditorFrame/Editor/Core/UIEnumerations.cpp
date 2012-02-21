@@ -1,5 +1,7 @@
 
 #include "UIEnumerations.h"
+#include "XmlInterface.h"
+#include "EditorRoot.h"
 
 CUIEnumerations& CUIEnumerations::GetUIEnumerationsInstance()
 {
@@ -32,7 +34,7 @@ CUIEnumerations::TDValuesContainer&	CUIEnumerations::GetStandardNameContainer()
 		int nNumberOfEnumerationItems(0);
 		int nCurrentEnumarationItem(0);
 
-		oRootNode = GetISystem()->GetXmlUtils()->LoadXmlFile("Editor\\PropertyEnumerations.xml");
+		oRootNode = EditorRoot::Get().LoadXmlFile("Editor\\PropertyEnumerations.xml");
 		nNumberOfEnumarations = oRootNode ? oRootNode->getChildCount():0;
 
 		for (nCurrentEnumaration=0; nCurrentEnumaration<nNumberOfEnumarations; ++nCurrentEnumaration)

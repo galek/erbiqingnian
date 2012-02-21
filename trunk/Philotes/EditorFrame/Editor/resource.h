@@ -11,6 +11,12 @@
 #define IDI_UP_ARROW                    200
 #define IDI_DOWN_ARROW                  210
 #define IDB_TABPANEL                    211
+#define IDB_PROPERTIES                  212
+#define IDC_LEFTRIGHT                   213
+#define IDD_CHOOSE_COLOR                214
+#define IDC_COLOR_PICKER                215
+#define IDC_PICK_COLOR                  216
+#define IDB_PICK_COLOR                  217
 
 // Next default values for new objects
 // 
