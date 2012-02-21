@@ -14,6 +14,7 @@
 #define RAD2DEG( a ) ( (a) * (180.0f/gf_PI) )
 #define MAX(a,b)    (((a) > (b)) ? (a) : (b))
 #define MIN(a,b)    (((a) < (b)) ? (a) : (b))
+#define VEC_EPSILON ( 0.05f )
 
 typedef D3DXVECTOR2 	Float2;
 typedef D3DXVECTOR3 	Float3;

@@ -1,6 +1,7 @@
 
 #include "EditorRoot.h"
 #include "Xml.h"
+#include "XmlUtils.h"
 #include "UIEnumsDatabase.h"
 
 EditorRoot* EditorRoot::s_RootInstance = 0;

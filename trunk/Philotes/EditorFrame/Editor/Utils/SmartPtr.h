@@ -8,9 +8,6 @@
 
 #pragma once
 
-#ifdef WIN64
-#define TSmartPtr _smart_ptr
-#else
 
 template <class Type>
 class TSmartPtr 
@@ -117,36 +114,7 @@ public:
 	bool operator != ( const TSmartPtr<Type> &p2 ) const { return p != p2.p; };
 	bool operator < ( const TSmartPtr<Type> &p2 ) const { return p < p2.p; };
 	bool operator > ( const TSmartPtr<Type> &p2 ) const { return p > p2.p; };
-
-	friend bool operator == ( const TSmartPtr<Type> &p1,int null );
-	friend bool operator != ( const TSmartPtr<Type> &p1,int null );
-	friend bool operator == ( int null,const TSmartPtr<Type> &p1 );
-	friend bool operator != ( int null,const TSmartPtr<Type> &p1 );
 };
-#endif //WIN64
-
-#ifndef WIN64
-template <class T>
-inline bool operator == ( const TSmartPtr<T> &p1,int null )	{
-	return p1.p == 0;
-}
-
-template <class T>
-inline bool operator != ( const TSmartPtr<T> &p1,int null )	{
-	return p1.p != 0;
-}
-
-template <class T>
-inline bool operator == ( int null,const TSmartPtr<T> &p1 )	{
-	return p1.p == 0;
-}
-
-template <class T>
-inline bool operator != ( int null,const TSmartPtr<T> &p1 )	{
-	return p1.p != 0;
-}
-#endif //WIN64
-
 
 #define SMARTPTR_TYPEDEF(Class) typedef TSmartPtr<Class> Class##Ptr
 

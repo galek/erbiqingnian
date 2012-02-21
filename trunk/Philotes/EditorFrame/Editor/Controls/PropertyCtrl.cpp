@@ -138,7 +138,6 @@ void CPropertyCtrl::ExpandAllChilds( CPropertyItem *item,bool bRecursive )
 	InvalidateItems();
 }
 
-//////////////////////////////////////////////////////////////////////////
 void CPropertyCtrl::ExpandVariableAndChilds( IVariable *var, bool bRecursive )
 {
 	if( NULL == var || NULL == m_root )
@@ -149,21 +148,23 @@ void CPropertyCtrl::ExpandVariableAndChilds( IVariable *var, bool bRecursive )
 	{
 			Expand( pItem,true );
 			if( bRecursive )
+			{
 				ExpandAllChilds( pItem, bRecursive );
+			}
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
 void CPropertyCtrl::ReloadValues()
 {
 	bool prev = m_bEnableCallback;
 	m_bEnableCallback = false;
 
-	// Make sure No selection.
 	SelectItem(0);
 
 	if (m_root)
+	{
 		m_root->ReloadValues();
+	}
 	
 	m_bEnableCallback = prev;
 	InvalidateCtrl();

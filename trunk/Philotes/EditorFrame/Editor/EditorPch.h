@@ -74,5 +74,6 @@
 #include "EditorUtils.h"
 #include "RefCountBase.h"
 #include "MathUtil.h"
+#include "ColorUtil.h"
 #include "SmartPtr.h"
 

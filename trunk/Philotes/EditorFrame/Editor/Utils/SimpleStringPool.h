@@ -237,3 +237,5 @@ private:
 	}
 };
 
+__declspec(selectany) size_t CSimpleStringPool::g_nTotalAllocInXmlStringPools = 0;
+

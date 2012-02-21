@@ -342,7 +342,7 @@ void CVarObject::AddVariable( CVariableArray &table,CVariableBase &var,const CSt
 
 void CVarObject::RemoveVariable( IVariable *var )
 {
-	if(m_vars != NULL)
+	if(m_vars)
 	{
 		m_vars->RemoveVariable(var);
 	}
@@ -350,7 +350,7 @@ void CVarObject::RemoveVariable( IVariable *var )
 
 void CVarObject::EnableUpdateCallbacks(bool boEnable)
 {
-	if(m_vars != NULL)
+	if(m_vars)
 	{
 		m_vars->EnableUpdateCallbacks(boEnable);
 	}
@@ -358,7 +358,7 @@ void CVarObject::EnableUpdateCallbacks(bool boEnable)
 
 void CVarObject::OnSetValues()
 {
-	if(m_vars != NULL)
+	if(m_vars)
 	{
 		m_vars->OnSetValues();
 	}
@@ -366,7 +366,7 @@ void CVarObject::OnSetValues()
 
 void CVarObject::ReserveNumVariables( int numVars )
 {
-	if(m_vars != NULL)
+	if(m_vars)
 	{
 		m_vars->ReserveNumVariables( numVars );
 	}
@@ -375,7 +375,7 @@ void CVarObject::ReserveNumVariables( int numVars )
 void CVarObject::CopyVariableValues( CVarObject *sourceObject )
 {
 	assert( GetRuntimeClass() == sourceObject->GetRuntimeClass() );
-	if (m_vars != NULL && sourceObject->m_vars != NULL)
+	if (m_vars  && sourceObject->m_vars )
 	{
 		m_vars->CopyValues(sourceObject->m_vars);
 	}

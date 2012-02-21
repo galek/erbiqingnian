@@ -295,7 +295,7 @@ void CPropertyItem::SetVariable( IVariable *var )
 	}
 
 	m_pVariable = pInputVar;
-	assert( m_pVariable != NULL );
+	assert( m_pVariable );
 
 	m_pVariable->AddOnSetCallback( functor(*this,&CPropertyItem::OnVariableChange) );
 
@@ -322,7 +322,7 @@ void CPropertyItem::SetVariable( IVariable *var )
 	}
 
 	m_enumList = m_pVariable->GetEnumList();
-	if (m_enumList != NULL)
+	if (m_enumList)
 	{
 		m_type = ePropertySelection;
 	}
@@ -1426,7 +1426,7 @@ void CPropertyItem::SetValue( const char* sValue,bool bRecordUndo,bool bForceMod
 
 void CPropertyItem::VarToValue()
 {
-	assert( m_pVariable != 0 );
+	assert( m_pVariable );
 
 	if (m_type == ePropertyColor)
 	{
@@ -1494,7 +1494,7 @@ CString CPropertyItem::GetDrawValue()
 
 void CPropertyItem::ValueToVar()
 {
-	assert( m_pVariable != NULL );
+	assert( m_pVariable);
 
 	TSmartPtr<CPropertyItem> holder = this;
 
