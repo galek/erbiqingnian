@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -73,6 +73,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../3rdlibs/libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -130,7 +131,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -158,6 +159,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="../3rdlibs/libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -382,13 +384,97 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Utils\StringUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\StringUtils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Utils\TemplateMessage.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Utils\XmlParser.h"
+				RelativePath=".\Utils\XmlUtils.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Utils\XmlUtils.h"
+				>
+			</File>
+			<Filter
+				Name="expat"
+				>
+				<File
+					RelativePath="..\3rdlibs\Expat\ascii.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\asciitab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\config.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\expat.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\iasciitab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\latin1tab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\nametab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\utf8tab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\winconfig.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmlparse.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmlrole.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmlrole.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmltok.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmltok.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmltok_impl.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmltok_impl_inc.h"
+					>
+				</File>
+				<File
+					RelativePath="..\3rdlibs\Expat\xmltok_ns.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource"

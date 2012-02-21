@@ -36,6 +36,7 @@ class XmlParser : public IXmlParser
 {
 public:
 	XmlParser();
+
 	~XmlParser();
 
 	void AddRef()
@@ -50,26 +51,29 @@ public:
 	}
 
 	virtual XmlNodeRef ParseFile( const char *filename,bool bCleanPools );
+
 	virtual XmlNodeRef ParseBuffer( const char *buffer,int nBufLen,bool bCleanPools );
 
-	//! Parse xml file.
-	XmlNodeRef parse( const char *fileName );
+	XmlNodeRef	parse( const char *fileName );
 
-	//! Parse xml from memory buffer.
-	XmlNodeRef parseBuffer( const char *buffer );
+	XmlNodeRef	parseBuffer( const char *buffer );
 
 	const char* getErrorString() const { return m_errorString; }
 
 private:
 	int					m_nRefCount;
+
 	XmlString			m_errorString;
-	class XmlParserImp*	m_pImpl;
+
+	class XmlParserImp* m_pImpl;
 };
 
 
 //////////////////////////////////////////////////////////////////////////
 typedef int (__cdecl *XmlStrCmpFunc)( const char *str1,const char *str2 );
 extern XmlStrCmpFunc g_pXmlStrCmp;
+
+//////////////////////////////////////////////////////////////////////////
 
 struct XmlAttribute
 {
@@ -182,6 +186,7 @@ public:
 	bool 					getAttr( const char *key,Float2 &value ) const;
 	bool 					getAttr( const char *key,Float3 &value ) const;
 	bool 					getAttr( const char *key,Quaternion &value ) const;
+	bool 					getAttr( const char *key,ColorValue &value ) const;
 	bool 					getAttr( const char *key,XmlString &value ) const
 	{
 		const char* v(NULL);
@@ -278,35 +283,4 @@ private:
 	IXmlStringPool* m_pStringPool;
 	unsigned int m_nAllocated;
 	std::stack<CXmlNodeReuse*> m_pNodePool;
-};
-
-//////////////////////////////////////////////////////////////////////////
-
-class CXmlUtils : public IXmlUtils
-{
-public:
-	CXmlUtils( );
-	virtual ~CXmlUtils();
-
-	virtual IXmlParser*		CreateXmlParser();
-
-	virtual XmlNodeRef		LoadXmlFile( const char *sFilename );
-
-	virtual XmlNodeRef		LoadXmlFromString( const char *sXmlString );	
-
-	virtual const char*		HashXml( XmlNodeRef node );
-
-	virtual bool			SaveBinaryXmlFile( const char *sFilename,XmlNodeRef root );
-
-	virtual XmlNodeRef		LoadBinaryXmlFile( const char *sFilename );
-
-	virtual bool			EnableBinaryXmlLoading( bool bEnable );
-	
-	virtual void			InitStatsXmlNodePool( UINT nPoolSize = 1024*1024 );
-
-	virtual XmlNodeRef		CreateStatsXmlNode( const char *sNodeName="" );
-
-private:
-	
-	CXmlNodePool* m_pStatsXmlNodePool;
 };

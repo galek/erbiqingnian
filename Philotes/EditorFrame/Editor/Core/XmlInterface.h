@@ -282,14 +282,6 @@ struct IXmlUtils
 
 	virtual XmlNodeRef			LoadXmlFromString( const char *sXmlString ) = 0;	
 
-	virtual const char *		HashXml( XmlNodeRef node ) = 0;
-
-	virtual bool				SaveBinaryXmlFile( const char *sFilename,XmlNodeRef root ) = 0;
-	
-	virtual XmlNodeRef			LoadBinaryXmlFile( const char *sFilename ) = 0;
-
-	virtual bool 				EnableBinaryXmlLoading( bool bEnable ) = 0;
-
 	virtual void 				InitStatsXmlNodePool( UINT nPoolSize ) = 0;
 
 	virtual XmlNodeRef			CreateStatsXmlNode( const char *sNodeName ) = 0;
