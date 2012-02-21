@@ -31,6 +31,43 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
+
+class XmlParser : public IXmlParser
+{
+public:
+	XmlParser();
+	~XmlParser();
+
+	void AddRef()
+	{
+		++m_nRefCount;
+	}
+
+	void Release()
+	{
+		if (--m_nRefCount <= 0)
+			delete this;
+	}
+
+	virtual XmlNodeRef ParseFile( const char *filename,bool bCleanPools );
+	virtual XmlNodeRef ParseBuffer( const char *buffer,int nBufLen,bool bCleanPools );
+
+	//! Parse xml file.
+	XmlNodeRef parse( const char *fileName );
+
+	//! Parse xml from memory buffer.
+	XmlNodeRef parseBuffer( const char *buffer );
+
+	const char* getErrorString() const { return m_errorString; }
+
+private:
+	int					m_nRefCount;
+	XmlString			m_errorString;
+	class XmlParserImp*	m_pImpl;
+};
+
+
+//////////////////////////////////////////////////////////////////////////
 typedef int (__cdecl *XmlStrCmpFunc)( const char *str1,const char *str2 );
 extern XmlStrCmpFunc g_pXmlStrCmp;
 
@@ -71,7 +108,10 @@ public:
 
 	bool					isTag( const char *tag ) const;
 
-	virtual int				getNumAttributes() const { return (int)m_attributes.size(); };
+	virtual int				getNumAttributes() const
+	{
+		return (int)m_attributes.size(); 
+	}
 
 	virtual bool			getAttributeByIndex( int index,const char **key,const char **value );
 
@@ -126,6 +166,9 @@ public:
 	void 					setAttr( const char* key,INT64 value );
 	void 					setAttr( const char* key,UINT64 value,bool useHexFormat = true  );
 	void 					setAttr( const char* key,float value );
+	void 					setAttr( const char* key,const Float2& value );
+	void 					setAttr( const char* key,const Float3& value );
+	void 					setAttr( const char* key,const Quaternion& value );
 
 	void 					delAttr( const char* key );
 	void 					removeAllAttributes();
@@ -133,10 +176,19 @@ public:
 	bool 					getAttr( const char *key,int &value ) const;
 	bool 					getAttr( const char *key,unsigned int &value ) const;
 	bool 					getAttr( const char *key,INT64 &value ) const;
-	bool 					getAttr( const char *key,UINT64 &value,bool useHexFormat = true  /*ignored*/) const;
+	bool 					getAttr( const char *key,UINT64 &value,bool useHexFormat = true) const;
 	bool 					getAttr( const char *key,float &value ) const;
 	bool 					getAttr( const char *key,bool &value ) const;
-	bool 					getAttr( const char *key,XmlString &value ) const 	{const char*	v(NULL);bool  boHasAttribute(getAttr(key,&v));value=v;return boHasAttribute;}
+	bool 					getAttr( const char *key,Float2 &value ) const;
+	bool 					getAttr( const char *key,Float3 &value ) const;
+	bool 					getAttr( const char *key,Quaternion &value ) const;
+	bool 					getAttr( const char *key,XmlString &value ) const
+	{
+		const char* v(NULL);
+		bool  boHasAttribute(getAttr(key,&v));
+		value = v;
+		return boHasAttribute;
+	}
 
 private:
 	void					AddToXmlString( XmlString &xml,int level,FILE* pFile=0 ) const;

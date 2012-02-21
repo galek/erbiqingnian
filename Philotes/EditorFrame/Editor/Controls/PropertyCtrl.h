@@ -36,7 +36,6 @@ class CPropertyCtrl : public CWnd
 public:
 	typedef std::vector<CPropertyItem*> Items;
 
-	// Flags of property control.
 	enum Flags
 	{
 		F_VARIABLE_HEIGHT   = 0x0010,
@@ -178,8 +177,6 @@ protected:
 	void 						OnCopy( bool bRecursively );
 	void 						OnCopyAll();
 	void 						OnPaste();
-	void 						ShowBitmapTooltip( const CString &imageFilename,CPoint point,CWnd *pToolWnd,const CRect &toolRc );
-	void 						HideBitmapTooltip();
 
 	DECLARE_MESSAGE_MAP()
 

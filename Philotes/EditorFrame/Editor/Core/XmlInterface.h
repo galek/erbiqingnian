@@ -151,6 +151,9 @@ public:
 	virtual void 			setAttr( const char* key,INT64 value ) = 0;
 	virtual void 			setAttr( const char* key,UINT64 value,bool useHexFormat = true ) = 0;
 	virtual void 			setAttr( const char* key,float value ) = 0;
+	virtual void 			setAttr( const char* key,const Float2& value ) = 0;
+	virtual void 			setAttr( const char* key,const Float3& value ) = 0;
+	virtual void 			setAttr( const char* key,const Quaternion& value ) = 0;
 
 	void 					setAttr( const char* key,unsigned long value ) { setAttr( key,(unsigned int)value ); };
 	void 					setAttr( const char* key,long value ) { setAttr( key,(int)value ); };
@@ -166,6 +169,9 @@ public:
 	virtual bool 			getAttr( const char *key,float &value ) const = 0;
 	virtual bool 			getAttr( const char *key,bool &value ) const = 0;
 	virtual bool 			getAttr( const char *key,XmlString &value ) const = 0;
+	virtual bool 			getAttr( const char *key,Float2& value ) const = 0;
+	virtual bool 			getAttr( const char *key,Float3& value ) const = 0;
+	virtual bool 			getAttr( const char *key,Quaternion &value ) const = 0;
 
 	bool 					getAttr( const char *key,long &value ) const { int v; if (getAttr(key,v)) { value = v; return true; } else return false; }
 	bool 					getAttr( const char *key,unsigned long &value ) const { unsigned int v; if (getAttr(key,v)) { value = v; return true; } else return false; }
@@ -256,3 +262,12 @@ inline bool operator != ( int null,const XmlNodeRef &p1 )	{
 
 //////////////////////////////////////////////////////////////////////////
 
+struct IXmlParser
+{
+	virtual void AddRef() = 0;
+	virtual void Release() = 0;
+
+	virtual XmlNodeRef ParseFile( const char *filename,bool bCleanPools ) = 0;
+
+	virtual XmlNodeRef ParseBuffer( const char *buffer,int nBufLen,bool bCleanPools ) = 0;
+};
