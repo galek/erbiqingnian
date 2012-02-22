@@ -25,7 +25,8 @@ int CRollupBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	CMFCUtils::LoadTrueColorImageList( m_tabImageList,IDB_TABPANEL,22,TOOLBAR_TRANSPARENT_COLOR );
+	CMFCUtils::LoadTrueColorImageList( m_tabImageList,IDB_TABPANEL,22,RGB(0x0,0x0,0x0) );
+
 	CRect rc;
 	m_tabCtrl.Create( TCS_HOTTRACK|TCS_TABS|TCS_FOCUSNEVER|TCS_SINGLELINE| WS_CHILD|WS_VISIBLE,rc,this,IDC_ROLLUPTAB );
 	m_tabCtrl.ModifyStyle( WS_BORDER,0,0 );

@@ -16,6 +16,19 @@ class CUIEnumsDatabase;
 class CClassFactory;
 struct IEditorClassFactory;
 class CEditTool;
+class CRollupCtrl;
+
+//////////////////////////////////////////////////////////////////////////
+// 收缩控件类型
+
+enum ERollupControlIds
+{
+	ROLLUP_OBJECTS = 0,
+	ROLLUP_TERRAIN,
+	ROLLUP_DISPLAY,
+	ROLLUP_LAYERS,
+	ROLLUP_MODELLING,
+};
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -29,9 +42,9 @@ public:
 
 public:
 
-	static EditorRoot&	Get();
+	static EditorRoot&		Get();
 
-	static void			Destroy();
+	static void				Destroy();
 
 public:
 
@@ -54,6 +67,19 @@ public:
 	CEditorDoc*				GetDocument();
 
 	void					SetDocument(CEditorDoc* doc);
+
+	virtual int				SelectRollUpBar( int rollupBarId );
+
+	virtual int				AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate = NULL,
+									bool bAutoDestroyTpl = true, int iIndex = -1,bool bAutoExpand=true );
+
+	virtual void			RemoveRollUpPage(int rollbarId,int iIndex);
+
+	virtual void			ExpandRollUpPage(int rollbarId,int iIndex, BOOL bExpand = true);
+
+	virtual void			EnableRollUpPage(int rollbarId,int iIndex, BOOL bEnable = true);
+
+	CRollupCtrl*			GetRollUpControl( int rollupId );;
 
 protected:
 

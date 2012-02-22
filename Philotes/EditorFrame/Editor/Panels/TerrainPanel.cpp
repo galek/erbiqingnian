@@ -1,6 +1,6 @@
 
 #include "TerrainPanel.h"
-
+#include "EnvironmentEditor.h"
 
 CTerrainPanel::CTerrainPanel(CWnd* pParent /*=NULL*/)
 : CDialog(CTerrainPanel::IDD, pParent)
@@ -37,7 +37,7 @@ BOOL CTerrainPanel::OnInitDialog()
 	
 // 	m_modifyBtn.SetToolClass( RUNTIME_CLASS(CTerrainModifyTool) );
 // 	m_vegetationBtn.SetToolClass( RUNTIME_CLASS(CVegetationTool) );
-// 	m_environmentBtn.SetToolClass( RUNTIME_CLASS(CEnvironmentTool) );
+ 	m_environmentBtn.SetToolClass( RUNTIME_CLASS(CEnvironmentTool) );
 // 	m_textureBtn.SetToolClass( RUNTIME_CLASS(CTerrainTexturePainter) );
 // 	m_minimapBtn.SetToolClass( RUNTIME_CLASS(CTerrainMiniMapTool) );
 	
