@@ -58,6 +58,8 @@
 #define IDC_VIEWPORT_TITLE				256
 #define IDI_MAXIMIZE					257
 #define IDI_HIDEHELPERS					258
+#define IDD_PANEL_ENVIRONMENT			259
+#define IDC_APPLY						260
 
 // Next default values for new objects
 // 

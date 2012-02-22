@@ -123,14 +123,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create menu bar.\n");
 		return -1;
 	}
-
-	CXTPToolBar* pToolBar = (CXTPToolBar*)
-		pCommandBars->Add(_T("Standard"), xtpBarTop);
-	if (!pToolBar || !pToolBar->LoadToolBar(IDR_MAINFRAME))
-	{
-		TRACE0("Failed to create toolbar\n");
-		return -1;
-	}
+// 
+// 	CXTPToolBar* pToolBar = (CXTPToolBar*)
+// 		pCommandBars->Add(_T("Standard"), xtpBarTop);
+// 	if (!pToolBar || !pToolBar->LoadToolBar(IDR_MAINFRAME))
+// 	{
+// 		TRACE0("Failed to create toolbar\n");
+// 		return -1;
+// 	}
 
 	CXTPPaintManager::SetTheme(xtpThemeOffice2003);
 
@@ -209,11 +209,11 @@ void CMainFrame::CreateRollUpBar()
 
 	m_wndRollUp.Create( NULL,NULL,WS_CHILD|WS_VISIBLE,CRect(0,0,1,1),this,0 );
 
-// 	m_objectRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
-// 	m_wndRollUp.SetRollUpCtrl( 0,&m_objectRollupCtrl,"Create" );
+ 	m_objectRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
+ 	m_wndRollUp.SetRollUpCtrl( ROLLUP_OBJECTS,&m_objectRollupCtrl,"Create" );
 
 	m_terrainRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
-	m_wndRollUp.SetRollUpCtrl( 0,&m_terrainRollupCtrl,"地形编辑" );
+	m_wndRollUp.SetRollUpCtrl( ROLLUP_TERRAIN,&m_terrainRollupCtrl,"地形编辑" );
 
 	m_terrainPanel = new CTerrainPanel(this);
 	m_terrainRollupCtrl.InsertPage("地形",m_terrainPanel );
@@ -338,4 +338,44 @@ BOOL CMainFrame::OnCreateClient( LPCREATESTRUCT lpcs, CCreateContext* pContext )
 // 	}
 
 	return TRUE;
+}
+
+CRollupCtrl* CMainFrame::GetRollUpControl( int rollupBarId /*= ROLLUP_OBJECTS */ )
+{
+	if (m_hWnd == 0)
+	{
+		return 0;
+	}
+
+	if (rollupBarId == ROLLUP_OBJECTS)
+	{
+		return &m_objectRollupCtrl;
+	} 
+	else if (rollupBarId == ROLLUP_TERRAIN)
+	{
+		return &m_terrainRollupCtrl;
+	} 
+	else if (rollupBarId == ROLLUP_MODELLING)
+	{
+		return NULL;
+	}
+	else if (rollupBarId == ROLLUP_DISPLAY)
+	{
+		return NULL;
+	}
+	else if (rollupBarId == ROLLUP_LAYERS)
+	{
+		return NULL;
+	}
+
+	return &m_objectRollupCtrl;
+}
+
+int CMainFrame::SelectRollUpBar( int rollupBarId )
+{
+	if (m_wndRollUp.m_hWnd)
+	{
+		m_wndRollUp.Select( rollupBarId );
+	}
+	return rollupBarId;
 }

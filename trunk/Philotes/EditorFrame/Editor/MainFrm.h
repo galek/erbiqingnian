@@ -9,6 +9,7 @@
 #pragma once
 
 #include "RollupBar.h"
+#include "EditorRoot.h"
 
 class CMainFrame : public CXTPFrameWnd, public CXTPOffice2007FrameHook
 {
@@ -70,4 +71,10 @@ private:
 	void						LoadElecBoxSkin();
 
 	void						OnSkinChanged();
+
+public:
+
+	CRollupCtrl*				GetRollUpControl( int rollupBarId = ROLLUP_OBJECTS );
+
+	int							SelectRollUpBar( int rollupBarId );
 };

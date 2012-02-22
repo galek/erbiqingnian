@@ -5,9 +5,23 @@
 #include "UIEnumsDatabase.h"
 #include "EditorTool.h"
 #include "ClassPlugin.h"
+#include "RollupCtrl.h"
+#include "../MainFrm.h"
 #include "../EditorDoc.h"
 
 EditorRoot* EditorRoot::s_RootInstance = 0;
+
+static CMainFrame* GetMainFrame()
+{
+	CWnd *pWnd = AfxGetMainWnd();
+	if (!pWnd)
+		return 0;
+	if (!pWnd->IsKindOf(RUNTIME_CLASS(CMainFrame)))
+		return 0;
+	return (CMainFrame*)AfxGetMainWnd();
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 EditorRoot::EditorRoot()
 {
@@ -160,5 +174,89 @@ CEditorDoc* EditorRoot::GetDocument()
 void EditorRoot::SetDocument( CEditorDoc* doc )
 {
 	m_document = doc;
+}
+
+int EditorRoot::SelectRollUpBar( int rollupBarId )
+{
+	if (GetMainFrame())
+		return GetMainFrame()->SelectRollUpBar( rollupBarId );
+	else
+		return 0;
+}
+
+int EditorRoot::AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate /*= NULL*/, 
+							  bool bAutoDestroyTpl /*= true*/, int iIndex /*= -1*/,bool bAutoExpand/*=true */ )
+{
+	if (!GetMainFrame())
+		return 0;
+
+	if (pwndTemplate && !pwndTemplate->m_hWnd)
+	{
+		return 0;
+	}
+
+	if (!GetRollUpControl(rollbarId))
+	{
+		return 0;
+	}
+	HWND hFocusWnd = GetFocus();
+	int id = GetRollUpControl(rollbarId)->InsertPage(pszCaption, pwndTemplate, bAutoDestroyTpl, iIndex,bAutoExpand);
+
+	if (hFocusWnd && GetFocus() != hFocusWnd)
+	{
+		SetFocus(hFocusWnd);
+	}
+	return id;
+}
+
+void EditorRoot::RemoveRollUpPage( int rollbarId,int iIndex )
+{
+	if (!GetRollUpControl(rollbarId))
+	{
+		return;
+	}
+
+	GetRollUpControl(rollbarId)->RemovePage(iIndex);
+}
+
+void EditorRoot::ExpandRollUpPage( int rollbarId,int iIndex, BOOL bExpand /*= true*/ )
+{
+	if (!GetRollUpControl(rollbarId))
+	{
+		return;
+	}
+
+	HWND hFocusWnd = GetFocus();
+
+	GetRollUpControl(rollbarId)->ExpandPage(iIndex, bExpand);
+
+	if (hFocusWnd && GetFocus() != hFocusWnd)
+	{
+		SetFocus(hFocusWnd);
+	}
+}
+
+void EditorRoot::EnableRollUpPage( int rollbarId,int iIndex, BOOL bEnable /*= true*/ )
+{
+	if (!GetRollUpControl(rollbarId))
+		return;
+
+	HWND hFocusWnd = GetFocus();
+
+	GetRollUpControl(rollbarId)->EnablePage(iIndex, bEnable);
+
+	if (hFocusWnd && GetFocus() != hFocusWnd)
+	{
+		SetFocus(hFocusWnd);
+	}
+}
+
+CRollupCtrl* EditorRoot::GetRollUpControl( int rollupId )
+{
+	if (!GetMainFrame())
+	{
+		return NULL;
+	}
+	return GetMainFrame()->GetRollUpControl(rollupId);
 }
 

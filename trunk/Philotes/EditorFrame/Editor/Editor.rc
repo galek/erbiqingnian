@@ -139,26 +139,24 @@ END
 
 IDR_MAINFRAME MENU 
 BEGIN
-    POPUP "&File"
+    POPUP "文件"
     BEGIN
-        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
-        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM "新建\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "打开...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "保存\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "另存为...",                 ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit",                       ID_APP_EXIT
+        MENUITEM "退出",                       ID_APP_EXIT
     END
-    POPUP "&Edit"
+    POPUP "编辑"
     BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "撤销\tCtrl+Z",               ID_EDIT_UNDO
         MENUITEM SEPARATOR
-        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "剪切\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "复制\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "粘贴\tCtrl+V",              ID_EDIT_PASTE
     END
-    POPUP "&View"
+    POPUP "&视图"
     BEGIN
         POPUP "&Toolbars"
         BEGIN
@@ -168,7 +166,7 @@ BEGIN
         END
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
-    POPUP "&Help"
+    POPUP "&帮助"
     BEGIN
         MENUITEM "&About Editor...",            ID_APP_ABOUT
     END
@@ -300,6 +298,13 @@ BEGIN
     LTEXT           "Static",IDC_VIEWPORT_TITLE,6,1,104,8
 END
 
+IDD_PANEL_ENVIRONMENT DIALOGEX 0, 0, 130, 209
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg 2", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "应用",IDC_APPLY,23,191,83,14
+END
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -411,12 +416,12 @@ IDC_POINTER_SO_SELECT_MINUS CURSOR				"res\\pointer_.cur"
 
 STRINGTABLE 
 BEGIN
-    IDR_MAINFRAME           "Editor\n\nEditor\n\n\nEditor.Document\nEditor.Document"
+    IDR_MAINFRAME           "ElecBox\n\nElecBox\n\n\nEditor.Document\nEditor.Document"
 END
 
 STRINGTABLE 
 BEGIN
-    AFX_IDS_APP_TITLE       "Editor"
+    AFX_IDS_APP_TITLE       "ElecBox"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
@@ -519,7 +524,7 @@ BEGIN
     AFX_IDS_OPENFILE        "Open"
     AFX_IDS_SAVEFILE        "Save As"
     AFX_IDS_ALLFILTER       "All Files (*.*)"
-    AFX_IDS_UNTITLED        "Untitled"
+    AFX_IDS_UNTITLED        "无标题"
     AFX_IDS_UNNAMED_FILE    "an unnamed file"
 END
 
