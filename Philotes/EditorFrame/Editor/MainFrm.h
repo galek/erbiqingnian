@@ -17,7 +17,10 @@ protected:
 	DECLARE_DYNCREATE(CMainFrame)
 
 public:
+
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 
 	virtual ~CMainFrame();
 
@@ -43,6 +46,8 @@ protected:
 	CRollupCtrl 				m_terrainRollupCtrl;
 
 	class CTerrainPanel*		m_terrainPanel;
+
+	class CLayoutWnd*			m_layoutWnd;
 
 protected:
 

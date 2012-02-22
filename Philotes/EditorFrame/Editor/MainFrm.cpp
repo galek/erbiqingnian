@@ -80,6 +80,8 @@ CMainFrame::CMainFrame()
 	s_lpszSkinPath		= regMgr.GetProfileString(_T("Settings"), _T("SkinPath"), s_lpszSkinPath);;
 	s_bDockingHelpers	= regMgr.GetProfileInt(_T("Settings"), _T("DockingHelpers"), s_bDockingHelpers );
 
+	m_layoutWnd = NULL;
+
 	EditorSettings::Get().Gui.bSkining = TRUE;
 }
 
@@ -316,4 +318,24 @@ void CMainFrame::OnSkinChanged()
 
 	GetCommandBars()->GetPaintManager()->RefreshMetrics();
 	GetCommandBars()->RedrawCommandBars();	
+}
+
+BOOL CMainFrame::OnCreateClient( LPCREATESTRUCT lpcs, CCreateContext* pContext )
+{
+	m_layoutWnd = new CLayoutWnd;
+	CRect rc(0,0,1,1);
+	m_layoutWnd->CreateEx( 0,NULL,NULL,WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,rc,this,AFX_IDW_PANE_FIRST );
+//	if (IsPreview())
+//	{
+		m_layoutWnd->CreateLayout( ET_Layout0,true,ET_ViewportModel );
+//	}
+// 	else
+// 	{
+// 		if (!m_layoutWnd->LoadConfig())
+// 		{
+// 			m_layoutWnd->CreateLayout( ET_Layout0 );
+// 		}
+// 	}
+
+	return TRUE;
 }

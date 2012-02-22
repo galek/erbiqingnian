@@ -10,6 +10,7 @@
 
 #include "XmlInterface.h"
 
+class CEditorDoc;
 class CXmlUtils;
 class CUIEnumsDatabase;
 class CClassFactory;
@@ -50,6 +51,10 @@ public:
 
 	CUIEnumsDatabase*		GetUIEnumsDatabase();
 
+	CEditorDoc*				GetDocument();
+
+	void					SetDocument(CEditorDoc* doc);
+
 protected:
 
 	static EditorRoot*		s_RootInstance;
@@ -64,4 +69,5 @@ protected:
 
 	CClassFactory*			m_classFactory;
 
+	CEditorDoc*				m_document;
 };

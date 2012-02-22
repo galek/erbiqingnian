@@ -5,6 +5,7 @@
 #include "UIEnumsDatabase.h"
 #include "EditorTool.h"
 #include "ClassPlugin.h"
+#include "../EditorDoc.h"
 
 EditorRoot* EditorRoot::s_RootInstance = 0;
 
@@ -149,5 +150,15 @@ CEditTool* EditorRoot::GetEditTool()
 IEditorClassFactory* EditorRoot::GetClassFactory()
 {
 	return m_classFactory;
+}
+
+CEditorDoc* EditorRoot::GetDocument()
+{
+	return m_document;
+}
+
+void EditorRoot::SetDocument( CEditorDoc* doc )
+{
+	m_document = doc;
 }
 

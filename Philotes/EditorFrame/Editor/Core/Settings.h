@@ -37,7 +37,9 @@ struct EditorSettings
 
 	BOOL Load();
 
-	void SetToDefault();
-
 	GuiSettings	Gui;
+
+	float		cameraMoveSpeed;
+	float		cameraFastMoveSpeed;
+	float		wheelZoomSpeed;
 };
