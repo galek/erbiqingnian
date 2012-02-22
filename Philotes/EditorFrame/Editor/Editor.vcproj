@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\Bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Panels;./Layout;./Objects;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -72,6 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName)_d.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../3rdlibs/libs"
 				GenerateDebugInformation="true"
@@ -102,7 +103,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\Bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
@@ -131,7 +132,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Layout;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -320,6 +321,26 @@
 				</File>
 				<File
 					RelativePath=".\Controls\PropertyItem.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Layout"
+				>
+				<File
+					RelativePath=".\Layout\LayoutWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Layout\LayoutWindow.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Layout\LocalTheme.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Layout\LocalTheme.h"
 					>
 				</File>
 			</Filter>

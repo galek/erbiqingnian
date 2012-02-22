@@ -53,12 +53,10 @@ void CToolButton::SetToolClass( CRuntimeClass *toolClass,void *userData )
 }
 
 BEGIN_MESSAGE_MAP(CToolButton, CButton)
-	//{{AFX_MSG_MAP(CToolButton)
 	ON_WM_TIMER()
 	ON_WM_DESTROY()
 	ON_WM_PAINT()
 	ON_CONTROL_REFLECT(BN_CLICKED, OnClicked)
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 void CToolButton::OnTimer(UINT_PTR nIDEvent) 
@@ -66,14 +64,18 @@ void CToolButton::OnTimer(UINT_PTR nIDEvent)
 	CEditTool *tool = EditorRoot::Get().GetEditTool();
 	CRuntimeClass *toolClass = 0;
 	if (tool)
+	{
 		toolClass = tool->GetRuntimeClass();
-		
+	}
+
 	int c = GetCheck();
 		
 	if (toolClass != m_toolClass)
 	{
-		if (GetCheck() == 1)
-			SetCheck(0);
+		if (GetCheck() == TRUE)
+		{
+			SetCheck(FALSE);
+		}
 		StopTimer();
 	}
 		
@@ -112,13 +114,15 @@ void CToolButton::OnPaint()
 void CToolButton::OnClicked()
 {
 	if (!m_toolClass)
+	{
 		return;
+	}
 
 	CEditTool *tool = EditorRoot::Get().GetEditTool();
 	if (tool && tool->GetRuntimeClass() == m_toolClass)
 	{
-		EditorRoot::Get().SetEditTool(0);
-		SetCheck(0);
+		EditorRoot::Get().SetEditTool(NULL);
+		SetCheck(FALSE);
 
 		StopTimer();
 	}
@@ -126,9 +130,11 @@ void CToolButton::OnClicked()
 	{
 		CEditTool *tool = (CEditTool*)m_toolClass->CreateObject();
 		if (!tool)
+		{
 			return;
+		}
 		
-		SetCheck(1);
+		SetCheck(TRUE);
 		StartTimer();
 		
 		if (m_userData)

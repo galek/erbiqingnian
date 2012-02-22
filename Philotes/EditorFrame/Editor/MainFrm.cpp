@@ -2,6 +2,8 @@
 #include "Editor.h"
 
 #include "MainFrm.h"
+#include "LocalTheme.h"
+#include "LayoutWindow.h"
 #include "TerrainPanel.h"
 
 #ifdef _DEBUG
@@ -50,12 +52,35 @@ static UINT uHideCmds[] =
 	ID_FILE_PRINT_PREVIEW,
 };
 
+//////////////////////////////////////////////////////////////////////////
+
+namespace
+{
+	XTPPaintTheme s_themePaint				= xtpThemeOffice2003;
+	XTPDockingPanePaintTheme s_themePane	= xtpPaneThemeOffice2003;
+	BOOL s_bDockingHelpers					= TRUE;
+	CString s_lpszSkinPath					= "Styles\\ElecDark.cjstyles";
+}
+
+#define STYLES_PATH			"Styles\\"
+#define LAYOUTS_PATH		"Layouts\\"
+#define LAYOUTS_EXTENSION	".layout"
+#define LAYOUTS_WILDCARD	"*.layout"
+#define DUMMY_LAYOUT_NAME	"Dummy_Layout"
+
+//////////////////////////////////////////////////////////////////////////
 
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
 {
-	// TODO: add member initialization code here
+	CXTRegistryManager regMgr;
+	s_themePaint		= (XTPPaintTheme)regMgr.GetProfileInt(_T("Settings"), _T("PaintTheme"), s_themePaint );
+	s_themePane			= (XTPDockingPanePaintTheme)regMgr.GetProfileInt(_T("Settings"), _T("PaneTheme"), s_themePane);
+	s_lpszSkinPath		= regMgr.GetProfileString(_T("Settings"), _T("SkinPath"), s_lpszSkinPath);;
+	s_bDockingHelpers	= regMgr.GetProfileInt(_T("Settings"), _T("DockingHelpers"), s_bDockingHelpers );
+
+	EditorSettings::Get().Gui.bSkining = TRUE;
 }
 
 CMainFrame::~CMainFrame()
@@ -85,6 +110,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create command bars object.\n");
 		return -1;
 	}
+
+	// 主题/皮肤
+	SwitchTheme(s_themePaint,s_themePane);
 
 	CXTPCommandBar* pMenuBar = pCommandBars->SetMenu(
 		_T("Menu Bar"), IDR_MAINFRAME);
@@ -183,10 +211,109 @@ void CMainFrame::CreateRollUpBar()
 // 	m_wndRollUp.SetRollUpCtrl( 0,&m_objectRollupCtrl,"Create" );
 
 	m_terrainRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
-	m_wndRollUp.SetRollUpCtrl( 0,&m_terrainRollupCtrl,"Terrain Editing" );
+	m_wndRollUp.SetRollUpCtrl( 0,&m_terrainRollupCtrl,"地形编辑" );
 
 	m_terrainPanel = new CTerrainPanel(this);
-	m_terrainRollupCtrl.InsertPage("Terrain",m_terrainPanel );
+	m_terrainRollupCtrl.InsertPage("地形",m_terrainPanel );
 
 	m_wndRollUp.Select(0);
+}
+
+void CMainFrame::SwitchTheme( XTPPaintTheme paintTheme,XTPDockingPanePaintTheme paneTheme )
+{
+	if (paintTheme == xtpThemeOffice2007 || paintTheme == xtpThemeRibbon)
+	{
+		paintTheme = xtpThemeOffice2007;
+		if (XTPResourceImages()->SetHandle( Path::Make(STYLES_PATH,"Office2007Blue.dll") ))
+		{
+			CXTPPaintManager::SetTheme(paintTheme);
+			EnableOffice2007Frame(GetCommandBars());
+			GetCommandBars()->GetPaintManager()->m_bEnableAnimation = TRUE;
+		}
+		else
+		{
+			paintTheme = xtpThemeNativeWinXP;
+		}
+	}
+	else
+	{
+		if (s_themePaint == xtpThemeRibbon)
+		{
+			EnableOffice2007Frame(0);
+		}
+
+		CXTPPaintManager::SetTheme(paintTheme);
+	}
+
+
+	if (EditorSettings::Get().Gui.bSkining)
+	{
+		LoadElecBoxSkin();
+	}
+	else
+	{
+		XTPSkinManager()->LoadSkin( "","" );
+		XTPSkinManager()->SetApplyOptions( 0 );
+	}
+	s_themePaint = paintTheme;
+	s_themePane = paneTheme;
+
+	XTP_COMMANDBARS_ICONSINFO* pIconsInfo = XTPPaintManager()->GetIconsInfo();
+
+	if (GetDockingPaneManager())
+	{
+		GetDockingPaneManager()->SetTheme(paneTheme);
+	}
+
+	XTPPaintManager()->RefreshMetrics();
+	GetCommandBars()->GetPaintManager()->RefreshMetrics();
+
+	RecalcLayout(FALSE);
+	if (GetCommandBars())
+		GetCommandBars()->RedrawCommandBars();
+
+	RedrawWindow( NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_ALLCHILDREN );
+	RedrawWindow( NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_ALLCHILDREN );
+
+	GetDockingPaneManager()->RedrawPanes();
+
+	//if (m_layoutWnd)
+	//{
+	//	CWnd* pWnd = CWnd::FromHandle(*m_layoutWnd)->GetWindow(GW_CHILD);
+	//	while(pWnd)
+	//	{
+	//		pWnd->RedrawWindow( NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_ALLCHILDREN );
+	//		pWnd = pWnd->GetWindow(GW_HWNDNEXT);
+	//	}
+	//}
+
+	OnSkinChanged();
+}
+
+void CMainFrame::LoadElecBoxSkin()
+{
+	CXTPPaintManager::SetCustomTheme(new CLocalTheme());
+	BOOL bLoaded = XTPSkinManager()->LoadSkin( s_lpszSkinPath );
+
+	XTPSkinManager()->SetApplyOptions(xtpSkinApplyMetrics|xtpSkinApplyColors|xtpSkinApplyFrame|xtpSkinApplyMenus);
+	XTPSkinManager()->SetAutoApplyNewWindows(TRUE);
+	XTPSkinManager()->SetAutoApplyNewThreads(TRUE);
+	XTPSkinManager()->EnableCurrentThread();
+	XTPSkinManager()->ApplyWindow(this->GetSafeHwnd());
+
+	bool test = XTPSkinManager()->IsColorFilterExists();
+	XTPSkinManager()->RedrawAllControls();
+
+	OnSkinChanged();
+}
+
+void CMainFrame::OnSkinChanged()
+{
+	OnSysColorChange();
+	RedrawWindow(0, 0, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_ALLCHILDREN);		
+
+	XTPPaintManager()->RefreshMetrics();
+
+	GetCommandBars()->GetPaintManager()->RefreshMetrics();
+	GetCommandBars()->RedrawCommandBars();	
 }

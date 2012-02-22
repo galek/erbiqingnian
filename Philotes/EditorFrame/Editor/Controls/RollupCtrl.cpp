@@ -109,7 +109,6 @@ int CRollupCtrl::InsertPage(LPCTSTR caption, CDialog* pwndTemplate, BOOL bAutoDe
 
 	pwndTemplate->SetParent( this );
 
-	//Insert Page
 	return _InsertPage(caption, pwndTemplate, idx, bAutoDestroyTpl,bAutoExpand);
 }
 
@@ -118,10 +117,8 @@ int CRollupCtrl::_InsertPage(LPCTSTR caption, CDialog* pwndTemplate, int idx, BO
 	ASSERT(pwndTemplate!=NULL);
 	ASSERT(pwndTemplate->m_hWnd!=NULL);
 
- 	//Get client rect
 	CRect r; GetClientRect(r);
 
-	//Create GroupBox
 	CColorCtrl<CButton>* groupbox = new CColorCtrl<CButton>;
 	groupbox->Create("", WS_CHILD|BS_GROUPBOX, r, this, 0 );
 	if (m_bkColor != 0)
@@ -129,23 +126,19 @@ int CRollupCtrl::_InsertPage(LPCTSTR caption, CDialog* pwndTemplate, int idx, BO
 		groupbox->SetBkColor(m_bkColor);
 	}
 
-	//Create Button
 	CCustomButton* but = new CCustomButton;
-	//but->Create(caption, WS_CHILD|BS_AUTOCHECKBOX|BS_PUSHLIKE|BS_FLAT, r, this, 0 ); 
 	but->Create(caption, WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON|BS_FLAT, r, this, 0 ); 
 	if (m_bkColor != 0)
 	{
 		but->SetBkColor(m_bkColor);
 	}
 
-	//Change Button's font
 	HFONT hfont= (HFONT)EditorSettings::Get().Gui.hSystemFont;
 	CFont* font = CFont::FromHandle(hfont);
 	but->SetFont(font);
 
-	//Add page at pagelist
-	RC_PAGEINFO*	pi = new RC_PAGEINFO;
-	pi->id = m_lastId++;
+	RC_PAGEINFO*	pi	= new RC_PAGEINFO;
+	pi->id				= m_lastId++;
 	pi->bExpanded		= FALSE;
 	pi->bEnable			= TRUE;
 	pi->pwndTemplate	= pwndTemplate;
@@ -162,29 +155,23 @@ int CRollupCtrl::_InsertPage(LPCTSTR caption, CDialog* pwndTemplate, int idx, BO
 	}
 	else	{ m_PageList.insert(m_PageList.begin()+idx,pi); newidx=idx; }
 
-	//Set Dlg Window datas
 	::SetWindowLongPtr(pwndTemplate->m_hWnd, GWLP_USERDATA,	(LONG_PTR)m_PageList[newidx]);
 	::SetWindowLongPtr(pwndTemplate->m_hWnd, DWLP_USER,		(LONG_PTR)this);
 
-	//Set But Window data
 	::SetWindowLongPtr(but->m_hWnd, GWLP_USERDATA,	(LONG_PTR)m_PageList[newidx]);
 
-	//SubClass Template window proc
 	::SetWindowLongPtr(pwndTemplate->m_hWnd, DWLP_DLGPROC, (LONG_PTR)CRollupCtrl::DlgWindowProc);
 
-	//SubClass Button window proc
 	::SetWindowLongPtr(but->m_hWnd, GWLP_WNDPROC, (LONG_PTR)CRollupCtrl::ButWindowProc);
 
-	//Update
 	m_nPageHeight+=RC_PGBUTTONHEIGHT+(RC_GRPBOXINDENT*2);
 	RecalLayout();
 
-	// Override expended flag based on settings in map.
 	bool bExpanded = stl::find_in_map( m_expandedMap,caption,bAutoExpand==TRUE );
 	if (bExpanded)
+	{
 		ExpandPage( pi->id,bExpanded,FALSE );
-	//pi->bExpanded = bExpanded;
-
+	}
 	return pi->id;
 }
 
@@ -193,20 +180,16 @@ void CRollupCtrl::RemovePage(int idx)
 	if (!FindPage(idx))
 		return;
 
-	//Remove
 	_RemovePage(idx);
 
-	//Update
 	RecalLayout();
 }
 
 void CRollupCtrl::RemoveAllPages()
 {
-	//Remove all
 	for (; m_PageList.size();)
 		_RemovePage( m_PageList[0]->id );
 
-	//Update
 	RecalLayout();
 }
 
