@@ -71,8 +71,10 @@
 #include <d3dx9.h>
 
 #include "Resource.h"
-#include "EditorUtils.h"
 #include "RefCountBase.h"
+#include "EditorUtils.h"
+#include "GuidUtil.h"
+#include "StlUtil.h"
 #include "MathUtil.h"
 #include "ColorUtil.h"
 #include "SmartPtr.h"

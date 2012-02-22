@@ -9,6 +9,7 @@
 #pragma once
 
 #include "TemplateMessage.h"
+#include "Settings.h"
 
 enum
 {

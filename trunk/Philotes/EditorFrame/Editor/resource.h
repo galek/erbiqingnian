@@ -17,6 +17,13 @@
 #define IDC_COLOR_PICKER                215
 #define IDC_PICK_COLOR                  216
 #define IDB_PICK_COLOR                  217
+#define IDD_DB_ENTITY					218
+#define IDD_TERRAIN_PANEL				219
+#define IDC_MODIFY                      220
+#define IDC_VEGETATION					221
+#define IDC_ENVIRONMENT					222
+#define IDC_MINIMAP						223
+#define IDC_TEXTURE						224
 
 // Next default values for new objects
 // 

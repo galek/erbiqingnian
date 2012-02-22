@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -131,7 +131,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./Dialogs;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -256,6 +256,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Controls\ToolButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Controls\ToolButton.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Controls\TreeCtrlEx.cpp"
 				>
 			</File>
@@ -296,6 +304,14 @@
 				</File>
 				<File
 					RelativePath=".\Controls\PropertyCtrl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Controls\PropertyCtrlEx.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Controls\PropertyCtrlEx.h"
 					>
 				</File>
 				<File
@@ -670,6 +686,18 @@
 			Name="Core"
 			>
 			<File
+				RelativePath=".\Core\ClassFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ClassPlugin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ClassPlugin.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Clipboard.cpp"
 				>
 			</File>
@@ -753,6 +781,22 @@
 				RelativePath=".\Dialogs\CustomColorDialog.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Panels"
+			>
+			<File
+				RelativePath=".\Panels\TerrainPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Panels\TerrainPanel.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Objects"
+			>
 		</Filter>
 	</Files>
 	<Globals>

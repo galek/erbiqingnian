@@ -1,9 +1,8 @@
-// MainFrm.cpp : implementation of the CMainFrame class
-//
 
 #include "Editor.h"
 
 #include "MainFrm.h"
+#include "TerrainPanel.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,7 +24,6 @@
 #define  IDW_VIEW_DATABASE_BAR			AFX_IDW_CONTROLBAR_FIRST+25
 
 //////////////////////////////////////////////////////////////////////////
-
 
 // CMainFrame
 
@@ -159,6 +157,16 @@ LRESULT CMainFrame::OnDockingPaneNotify(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == XTP_DPN_SHOWWINDOW)
 	{
+		CXTPDockingPane* pwndDockWindow = (CXTPDockingPane*)lParam;
+		if (!pwndDockWindow->IsValid())
+		{
+			switch (pwndDockWindow->GetID())
+			{
+			case IDW_VIEW_ROLLUP_BAR:
+				pwndDockWindow->Attach(&m_wndRollUp);
+				break;
+			}
+		}
 		return TRUE;
 	}
 	return FALSE;
@@ -171,12 +179,14 @@ void CMainFrame::CreateRollUpBar()
 
 	m_wndRollUp.Create( NULL,NULL,WS_CHILD|WS_VISIBLE,CRect(0,0,1,1),this,0 );
 
-	m_objectRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
-	m_wndRollUp.SetRollUpCtrl( 0,&m_objectRollupCtrl,"Create" );
+// 	m_objectRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
+// 	m_wndRollUp.SetRollUpCtrl( 0,&m_objectRollupCtrl,"Create" );
 
 	m_terrainRollupCtrl.Create(WS_VISIBLE | WS_CHILD, CRect(4, 4, 187, 362), &m_wndRollUp, NULL);
-	m_wndRollUp.SetRollUpCtrl( 1,&m_terrainRollupCtrl,"Terrain Editing" );
+	m_wndRollUp.SetRollUpCtrl( 0,&m_terrainRollupCtrl,"Terrain Editing" );
 
+	m_terrainPanel = new CTerrainPanel(this);
+	m_terrainRollupCtrl.InsertPage("Terrain",m_terrainPanel );
 
 	m_wndRollUp.Select(0);
 }

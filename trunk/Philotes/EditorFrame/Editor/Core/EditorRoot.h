@@ -12,6 +12,11 @@
 
 class CXmlUtils;
 class CUIEnumsDatabase;
+class CClassFactory;
+struct IEditorClassFactory;
+class CEditTool;
+
+//////////////////////////////////////////////////////////////////////////
 
 class EditorRoot
 {
@@ -29,19 +34,34 @@ public:
 
 public:
 
-	virtual XmlNodeRef			CreateXmlNode( const char *sNodeName="" );
+	void					SetEditTool( CEditTool *tool,bool bStopCurrentTool=true );
+	
+	void					SetEditTool( const CString &sEditToolName,bool bStopCurrentTool=true );
+	
+	CEditTool*				GetEditTool();
 
-	virtual XmlNodeRef			LoadXmlFile( const char *sFilename );
+	IEditorClassFactory*	GetClassFactory();
 
-	virtual XmlNodeRef			LoadXmlFromString( const char *sXmlString );
+	XmlNodeRef				CreateXmlNode( const char *sNodeName="" );
 
-	virtual CUIEnumsDatabase*	GetUIEnumsDatabase();
+	XmlNodeRef				LoadXmlFile( const char *sFilename );
+
+	XmlNodeRef				LoadXmlFromString( const char *sXmlString );
+
+	CUIEnumsDatabase*		GetUIEnumsDatabase();
 
 protected:
 
-	static EditorRoot*	s_RootInstance;
+	static EditorRoot*		s_RootInstance;
 
-	CXmlUtils*			m_pXMLUtils;
+	CXmlUtils*				m_pXMLUtils;
 
-	CUIEnumsDatabase*	m_pUIEnumsDatabase;
+	CUIEnumsDatabase*		m_pUIEnumsDatabase;
+
+	TSmartPtr<CEditTool>	m_pEditTool;
+
+	CEditTool*				m_pickTool;
+
+	CClassFactory*			m_classFactory;
+
 };
