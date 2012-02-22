@@ -75,6 +75,7 @@
 #include "EditorUtils.h"
 #include "GuidUtil.h"
 #include "StlUtil.h"
+#include "PathUtil.h"
 #include "MathUtil.h"
 #include "ColorUtil.h"
 #include "SmartPtr.h"

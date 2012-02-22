@@ -10,7 +10,7 @@
 
 #include "RollupBar.h"
 
-class CMainFrame : public CXTPFrameWnd
+class CMainFrame : public CXTPFrameWnd, public CXTPOffice2007FrameHook
 {
 protected:
 	CMainFrame();
@@ -59,4 +59,10 @@ protected:
 private:
 
 	void						CreateRollUpBar();
+
+	void						SwitchTheme( XTPPaintTheme paintTheme,XTPDockingPanePaintTheme paneTheme );
+
+	void						LoadElecBoxSkin();
+
+	void						OnSkinChanged();
 };
