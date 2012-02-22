@@ -42,6 +42,8 @@ protected:
 
 	CRollupCtrl 				m_terrainRollupCtrl;
 
+	class CTerrainPanel*		m_terrainPanel;
+
 protected:
 
 	afx_msg int					OnCreate(LPCREATESTRUCT lpCreateStruct);
