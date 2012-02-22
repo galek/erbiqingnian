@@ -94,6 +94,10 @@ IDR_MAINFRAME           ICON                    "res\\Editor.ico"
 IDR_EditorTYPE          ICON                    "res\\EditorDoc.ico"
 IDI_UP_ARROW            ICON                    "res\\up_arrow.ico"
 IDI_DOWN_ARROW          ICON                    "res\\down_arrow.ico"
+IDI_LOCK                ICON                    "res\\icon_lock.ico"
+IDI_TERRAIN_COLLISION   ICON                    "res\\icon_tcoll.ico"
+IDI_MAXIMIZE            ICON                    "res\\maximize.ico"
+IDI_HIDEHELPERS         ICON                    "res\\ico00001.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -167,6 +171,14 @@ BEGIN
     POPUP "&Help"
     BEGIN
         MENUITEM "&About Editor...",            ID_APP_ABOUT
+    END
+END
+
+IDR_VIEW_OPTIONS MENU 
+BEGIN
+    POPUP "&视图选项"
+    BEGIN
+        MENUITEM "&全屏",						ID_WIREFRAME
     END
 END
 
@@ -255,6 +267,39 @@ BEGIN
     CONTROL         "纹理层",IDC_TEXTURE,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE,4,34,58,12
 END
 
+IDD_INFO_BAR DIALOGEX 0, 0, 716, 16
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Shell Dlg 2", 400, 0, 0x1
+BEGIN
+    LTEXT           "未选中物体",IDC_INFO_WH,10,4,129,8
+    LTEXT           "",IDC_STATIC,2,2,144,12,0,WS_EX_STATICEDGE
+    LTEXT           "X:",IDC_STATIC,208,4,8,8
+    EDITTEXT        IDC_POSX,215,2,45,12,ES_RIGHT | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "Y:",IDC_STATIC,262,4,8,8
+    EDITTEXT        IDC_POSY,269,2,45,12,ES_RIGHT | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "Z:",IDC_STATIC,316,4,8,8
+    EDITTEXT        IDC_POSZ,323,2,45,12,ES_RIGHT | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "缩放锁定",IDC_VECTOR_LOCK,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE,370,2,11,12
+    CONTROL         "选择锁定",ID_LOCK_SELECTION,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE,149,2,55,12
+    EDITTEXT        IDC_MOVE_SPEED,414,2,28,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "速度:",IDC_STATIC,390,4,24,8
+    PUSHBUTTON      "地表碰撞",IDC_TERRAIN_COLLISION,487,2,16,12,NOT WS_TABSTOP
+    PUSHBUTTON      "转到位置",IDC_GOTOPOSITION,628,2,55,12,NOT WS_TABSTOP
+    PUSHBUTTON      ".1",IDC_SPEED_01,443,2,11,12,NOT WS_TABSTOP
+    PUSHBUTTON      "1",IDC_SPEED_1,454,2,12,12,NOT WS_TABSTOP
+    PUSHBUTTON      "10",IDC_SPEED_10,466,2,12,12,NOT WS_TABSTOP
+END
+
+IDD_VIEWPORT_TITLE DIALOGEX 0, 0, 333, 11
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "Verdana", 400, 0, 0xCC
+BEGIN
+    PUSHBUTTON      "[]",IDC_VIEWPORT_MAXIMIZE,320,0,13,10,BS_FLAT | NOT WS_TABSTOP
+    RTEXT           "1024x768",IDC_SIZE_TEXT,257,1,42,8
+    PUSHBUTTON      "Hide Helpers",IDC_VIEWPORT_HIDEHELPERS,306,0,13,10,BS_FLAT | NOT WS_TABSTOP
+    LTEXT           "Static",IDC_VIEWPORT_TITLE,6,1,104,8
+END
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -317,6 +362,12 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 98
     END
+
+	IDD_VIEWPORT_TITLE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 291
+        BOTTOMMARGIN, 10
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -343,6 +394,15 @@ AFX_IDC_MOUSE_ORG_VERT  CURSOR                  "res\\im_orgv.cur"
 AFX_IDC_MOUSE_ORG_HV    CURSOR                  "res\\im_orghv.cur"
 IDC_LEFTRIGHT           CURSOR                  "res\\leftright.cur"
 IDC_COLOR_PICKER        CURSOR                  "res\\pick_cursor.cur"
+IDC_POINTER_OBJHIT      CURSOR                  "res\\pointerHit.cur"
+IDC_POINTER_OBJECT_ROTATE CURSOR				"res\\object_rotate.cur"
+IDC_POINTER_OBJECT_SCALE CURSOR					"res\\object_scale.cur"
+IDC_POINTER_OBJECT_MOVE CURSOR                  "res\\object_move.cur"
+IDC_POINTER_PLUS        CURSOR                  "res\\pointer_plus.cur"
+IDC_POINTER_MINUS       CURSOR                  "res\\pointer_minus.cur"
+IDC_POINTER_SO_SELECT   CURSOR                  "res\\pointer_so_select.cur"
+IDC_POINTER_SO_SELECT_PLUS CURSOR				"res\\pointer_so_sel_plus.cur"
+IDC_POINTER_SO_SELECT_MINUS CURSOR				"res\\pointer_.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -580,6 +640,11 @@ END
 STRINGTABLE 
 BEGIN
     AFX_IDS_OCC_SCALEUNITS_PIXELS "pixels"
+END
+
+STRINGTABLE
+BEGIN
+	ID_WIREFRAME            "以线框模式渲染.\n线框模式"
 END
 
 STRINGTABLE 

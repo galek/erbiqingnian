@@ -24,6 +24,40 @@
 #define IDC_ENVIRONMENT					222
 #define IDC_MINIMAP						223
 #define IDC_TEXTURE						224
+#define IDD_INFO_BAR					225
+#define IDC_INFO_WH						226
+#define IDC_POSX						227
+#define IDC_POSY						228
+#define IDC_POSZ						229
+#define IDC_VECTOR_LOCK					230
+#define ID_LOCK_SELECTION				231
+#define IDC_MOVE_SPEED					232
+#define IDC_TERRAIN_COLLISION			233
+#define IDC_GOTOPOSITION				234
+#define IDC_SPEED_01					235
+#define IDC_SPEED_1						236
+#define IDC_SPEED_10					237
+#define IDI_LOCK						238
+#define IDI_TERRAIN_COLLISION			239
+#define IDR_VIEW_OPTIONS				240
+#define ID_WIREFRAME					241
+#define IDC_POINTER_OBJHIT				242
+#define IDC_POINTER_OBJECT_MOVE			243
+#define IDC_POINTER_OBJECT_ROTATE		244
+#define IDC_POINTER_OBJECT_SCALE		245
+#define IDC_POINTER_PLUS				246
+#define IDC_POINTER_MINUS				247
+#define IDC_POINTER_SO_SELECT			248
+#define IDC_POINTER_SO_SELECT_PLUS		249
+#define IDC_POINTER_SO_SELECT_MINUS		250
+#define IDC_CRYSISCURSOR				251
+#define IDD_VIEWPORT_TITLE				252
+#define IDC_VIEWPORT_MAXIMIZE			253
+#define IDC_SIZE_TEXT					254
+#define IDC_VIEWPORT_HIDEHELPERS		255
+#define IDC_VIEWPORT_TITLE				256
+#define IDI_MAXIMIZE					257
+#define IDI_HIDEHELPERS					258
 
 // Next default values for new objects
 // 

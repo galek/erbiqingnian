@@ -1,6 +1,7 @@
 
 #include "Editor.h"
 #include "EditorDoc.h"
+#include "EditorRoot.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -14,6 +15,7 @@ END_MESSAGE_MAP()
 
 CEditorDoc::CEditorDoc()
 {
+	EditorRoot::Get().SetDocument(this);
 }
 
 CEditorDoc::~CEditorDoc()

@@ -324,26 +324,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Layout"
-				>
-				<File
-					RelativePath=".\Layout\LayoutWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Layout\LayoutWindow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Layout\LocalTheme.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Layout\LocalTheme.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Utils"
@@ -775,6 +755,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\Viewport.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Viewport.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Xml.cpp"
 				>
 			</File>
@@ -802,6 +790,14 @@
 				RelativePath=".\Dialogs\CustomColorDialog.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Dialogs\ViewTitleDialog.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Dialogs\ViewTitleDialog.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Panels"
@@ -818,6 +814,46 @@
 		<Filter
 			Name="Objects"
 			>
+		</Filter>
+		<Filter
+			Name="Layout"
+			>
+			<File
+				RelativePath=".\Layout\InfoBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\InfoBar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\LayoutWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\LayoutWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\LocalTheme.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\LocalTheme.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\ViewPane.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\ViewPane.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\ViewPaneInterface.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

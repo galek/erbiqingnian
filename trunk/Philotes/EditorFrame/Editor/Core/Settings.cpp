@@ -27,7 +27,10 @@ EditorSettings::EditorSettings()
 		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH, "Ms Shell Dlg 2");
 
-	SetToDefault();
+	cameraMoveSpeed = 1;
+	cameraFastMoveSpeed = 2;
+	wheelZoomSpeed = 1;
+
 	Load();
 }
 
@@ -39,11 +42,6 @@ BOOL EditorSettings::Save()
 BOOL EditorSettings::Load()
 {
 	return FALSE;
-}
-
-void EditorSettings::SetToDefault()
-{
-
 }
 
 EditorSettings& EditorSettings::Get()
