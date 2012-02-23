@@ -374,7 +374,45 @@ XmlNodeRef XmlParserImp::ParseBuffer( const char *buffer,size_t bufLen,XmlString
 XmlNodeRef XmlParserImp::ParseFile( const char *filename,XmlString &errorString,bool bCleanPools )
 {
 	XmlNodeRef root = 0;
-	assert(0);
+	
+	int fileSize = 0;
+	{
+		CFile file;
+		if (file.Open(filename,CFile::modeRead))
+		{
+			fileSize = file.GetLength();
+			if (fileSize > 0)
+			{
+				ParseBegin(bCleanPools);
+				m_stringPool.SetBlockSize( (unsigned int)fileSize / 16 );
+				char *buffer = (char*)XML_GetBuffer(m_parser,fileSize);
+				file.Read( buffer,fileSize );
+				file.Close();
+			}
+		}
+	}
+
+	if (fileSize > 0)
+	{
+		if (XML_ParseBuffer( m_parser,fileSize,1 ))
+		{
+			root = m_root;
+		}
+		else
+		{
+			char *str = new char [1024];
+			sprintf( str,"XML Error: %s at line %d in file %s",XML_ErrorString(XML_GetErrorCode(m_parser)),XML_GetCurrentLineNumber(m_parser),filename );
+			errorString = str;
+			//CryWarning( VALIDATOR_MODULE_SYSTEM,VALIDATOR_WARNING,"%s",str );
+			delete [] str;
+		}
+	}
+	m_root = 0;
+	if (m_parser)
+	{
+		ParseEnd();
+	}
+
 	return root;
 }
 

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "XmlInterface.h"
+#include "XmlTemplate.h"
 
 class CEditorDoc;
 class CXmlUtils;
@@ -68,6 +69,12 @@ public:
 
 	void					SetDocument(CEditorDoc* doc);
 
+	void					SetMasterFolder();
+
+	const CString&			GetMasterFolder();
+
+	//////////////////////////////////////////////////////////////////////////
+
 	virtual int				SelectRollUpBar( int rollupBarId );
 
 	virtual int				AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate = NULL,
@@ -79,7 +86,15 @@ public:
 
 	virtual void			EnableRollUpPage(int rollbarId,int iIndex, BOOL bEnable = true);
 
-	CRollupCtrl*			GetRollUpControl( int rollupId );;
+	CRollupCtrl*			GetRollUpControl( int rollupId );
+
+	//////////////////////////////////////////////////////////////////////////
+
+	virtual XmlNodeRef		FindTemplate( const CString &templateName );
+
+	virtual void			AddTemplate( const CString &templateName,XmlNodeRef &tmpl );
+
+	virtual void			ReloadTemplates();
 
 protected:
 
@@ -96,4 +111,8 @@ protected:
 	CClassFactory*			m_classFactory;
 
 	CEditorDoc*				m_document;
+
+	CXmlTemplateRegistry	m_templateRegistry;
+
+	CString					m_masterFolder;
 };
