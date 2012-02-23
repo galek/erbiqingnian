@@ -33,29 +33,30 @@ public:
 	typedef Functor1<CFillSliderCtrl*>	UpdateCallback;
 
 	CFillSliderCtrl();
+
 	~CFillSliderCtrl();
 
-	void SetFilledLook( bool bFilled );
-	void SetFillStyle(UINT style) { m_fillStyle = style; }
-	void SetFillColors(COLORREF start, COLORREF end) { m_fillColorStart = start; m_fillColorEnd = end; }
+	void 			SetFilledLook( bool bFilled );
+	void 			SetFillStyle(UINT style) { m_fillStyle = style; }
+	void 			SetFillColors(COLORREF start, COLORREF end) { m_fillColorStart = start; m_fillColorEnd = end; }
 
 public:
-	virtual void SetValue( float val );
+	virtual void	SetValue( float val );
 
 protected:
 	DECLARE_MESSAGE_MAP()
 
-	afx_msg void OnPaint();
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void 	OnPaint();
+	afx_msg void 	OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void 	OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void 	OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg BOOL 	OnEraseBkgnd(CDC* pDC);
 
-	void NotifyUpdate( bool tracking );
-	void ChangeValue( int sliderPos,bool bTracking );
+	void 			NotifyUpdate( bool tracking );
+	void 			ChangeValue( int sliderPos,bool bTracking );
 
 private:
-	void DrawFill(CDC &dc, CRect &rect);
+	void 			DrawFill(CDC &dc, CRect &rect);
 
 protected:
 	bool			m_bFilled;

@@ -71,7 +71,9 @@ public:
 
 	virtual void			SetType( EViewportType type ) {};
 
-	virtual float			GetAspectRatio() const;
+	virtual void			SetViewManager(CViewManager* vm);
+
+	virtual float			GetAspectRatio() const = 0;
 
 	virtual EViewportType	GetType() const { return ET_ViewportUnknown; }
 
@@ -102,6 +104,10 @@ public:
 	virtual CEditTool*		GetEditTool();
 
 	virtual void			SetEditTool( CEditTool *pEditTool,bool bLocalToViewport=false );
+
+	void 					CaptureMouse();
+
+	void 					ReleaseMouse();
 
 protected:
 	friend class			CViewManager;
@@ -163,4 +169,6 @@ protected:
 	HCURSOR					m_hCursor[STD_CURSOR_LAST];
 
 	HCURSOR					m_hCurrCursor;
+
+	CViewManager*			m_viewManager;
 };

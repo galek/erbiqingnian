@@ -885,7 +885,7 @@ void CPropertyCtrl::ReplaceVarBlock( CPropertyItem* pCategoryItem,CVarBlock *var
 		pCategoryItem->AddChild(childItem);
 		childItem->SetVariable( varBlock->GetVariable(i) );
 
-		bool bExpandedInHistory = stl::find_in_map( m_expandHistory,childItem->GetName(),true );
+		bool bExpandedInHistory = stl::FindInMap( m_expandHistory,childItem->GetName(),true );
 		childItem->SetExpanded(bExpandedInHistory);
 	}
 	InvalidateItem(pCategoryItem);
@@ -919,7 +919,7 @@ CPropertyItem* CPropertyCtrl::AddVarBlock( CVarBlock *varBlock,const char *szCat
 		m_root->AddChild(pCategory);
 		root = pCategory;
 
-		bool bExpandedInHistory = stl::find_in_map( m_expandHistory,pCategory->GetName(),true );
+		bool bExpandedInHistory = stl::FindInMap( m_expandHistory,pCategory->GetName(),true );
 		pCategory->SetExpanded(bExpandedInHistory);
 	}
 	for (int i = 0; i < varBlock->GetVarsCount(); i++)
@@ -931,7 +931,7 @@ CPropertyItem* CPropertyCtrl::AddVarBlock( CVarBlock *varBlock,const char *szCat
 			root->AddChild(childItem);
 			childItem->SetVariable(var);
 
-			bool bExpandedInHistory = stl::find_in_map( m_expandHistory,childItem->GetName(),true );
+			bool bExpandedInHistory = stl::FindInMap( m_expandHistory,childItem->GetName(),true );
 			childItem->SetExpanded(bExpandedInHistory);
 		}
 	}
@@ -954,7 +954,7 @@ CPropertyItem* CPropertyCtrl::AddVarBlockAt( CVarBlock *varBlock, const char *sz
     pCategory->SetName(szCategory);    
     root->AddChild(pCategory); 
 
-		bool bExpandedInHistory = stl::find_in_map( m_expandHistory,pCategory->GetName(),true );
+		bool bExpandedInHistory = stl::FindInMap( m_expandHistory,pCategory->GetName(),true );
 		pCategory->SetExpanded(bExpandedInHistory);
 
     if(bFirstVarIsRoot && varBlock->GetVarsCount())
@@ -978,7 +978,7 @@ CPropertyItem* CPropertyCtrl::AddVarBlockAt( CVarBlock *varBlock, const char *sz
     IVariable *var = varBlock->GetVariable(i);    
     childItem->SetVariable(var);
 
-		bool bExpandedInHistory = stl::find_in_map( m_expandHistory,childItem->GetName(),true );
+		bool bExpandedInHistory = stl::FindInMap( m_expandHistory,childItem->GetName(),true );
 		childItem->SetExpanded(bExpandedInHistory);
   }
 
@@ -1563,7 +1563,7 @@ void CPropertyCtrl::MultiUnselectItem( CPropertyItem *pItem )
 {
 	if (pItem != GetSelectedItem())
 	{
-		stl::find_and_erase( m_multiSelectedItems,pItem );
+		stl::FindAndErase( m_multiSelectedItems,pItem );
 		pItem->SetSelected(false);
 	}
 	InvalidateCtrl();
@@ -1634,9 +1634,9 @@ void CPropertyCtrl::OnCopyAll()
 //////////////////////////////////////////////////////////////////////////
 void CPropertyCtrl::CopyItem( XmlNodeRef rootNode,CPropertyItem *pItem,bool bRecursively )
 {
-	XmlNodeRef node = rootNode->newChild("PropertyItem");
-	node->setAttr( "Name",pItem->GetFullName() );
-	node->setAttr( "Value",pItem->GetValue() );
+	XmlNodeRef node = rootNode->NewChild("PropertyItem");
+	node->SetAttr( "Name",pItem->GetFullName() );
+	node->SetAttr( "Value",pItem->GetValue() );
 	if (bRecursively)
 	{
 		for (int i = 0; i < pItem->GetChildCount(); i++)
@@ -1654,15 +1654,15 @@ void CPropertyCtrl::OnPaste()
 //	CUndo undo( "Paste Properties" );
 
 	XmlNodeRef rootNode = clipboard.Get();
-	if (rootNode != NULL && rootNode->isTag("PropertyCtrl"))
+	if (rootNode != NULL && rootNode->IsTag("PropertyCtrl"))
 	{
-		for (int i = 0; i < rootNode->getChildCount(); i++)
+		for (int i = 0; i < rootNode->GetChildCount(); i++)
 		{
-			XmlNodeRef node = rootNode->getChild(i);
+			XmlNodeRef node = rootNode->GetChild(i);
 			CString value;
 			CString name;
-			node->getAttr( "Name",name );
-			node->getAttr( "Value",value );
+			node->GetAttr( "Name",name );
+			node->GetAttr( "Value",value );
 			CPropertyItem *pItem = m_root->FindItemByFullName(name);
 			if (pItem)
 				pItem->SetValue(value);

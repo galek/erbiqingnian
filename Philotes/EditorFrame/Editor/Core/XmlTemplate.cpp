@@ -15,22 +15,22 @@ void CXmlTemplate::GetValues( XmlNodeRef &node, const XmlNodeRef &fromNode )
 		return;
 	}
 
-	for (int i = 0; i < node->getChildCount(); i++)
+	for (int i = 0; i < node->GetChildCount(); i++)
 	{
-		XmlNodeRef prop = node->getChild(i);
+		XmlNodeRef prop = node->GetChild(i);
 
-		if (prop->getChildCount() == 0)
+		if (prop->GetChildCount() == 0)
 		{
 			CString value;
-			if (fromNode->getAttr( prop->getTag(),value ))
+			if (fromNode->GetAttr( prop->GetTag(),value ))
 			{
-				prop->setAttr( "Value",value );
+				prop->SetAttr( "Value",value );
 			}
 		}
 		else
 		{
 			// Have childs.
-			XmlNodeRef fromNodeChild = fromNode->findChild(prop->getTag());
+			XmlNodeRef fromNodeChild = fromNode->FindChild(prop->GetTag());
 			if (fromNodeChild)
 			{
 				CXmlTemplate::GetValues( prop,fromNodeChild );
@@ -44,8 +44,8 @@ void CXmlTemplate::SetValues( const XmlNodeRef &node,XmlNodeRef &toNode )
 {
 	assert( node != 0 && toNode != 0 );
 
-	toNode->removeAllAttributes();
-	toNode->removeAllChilds();
+	toNode->RemoveAllAttributes();
+	toNode->RemoveAllChilds();
 
 	assert(node);
 	if (!node)
@@ -54,22 +54,22 @@ void CXmlTemplate::SetValues( const XmlNodeRef &node,XmlNodeRef &toNode )
 		return;
 	}
 
-	for (int i = 0; i < node->getChildCount(); i++)
+	for (int i = 0; i < node->GetChildCount(); i++)
 	{
-		XmlNodeRef prop = node->getChild(i);
+		XmlNodeRef prop = node->GetChild(i);
 		if (prop)
 		{
-			if (prop->getChildCount() > 0)
+			if (prop->GetChildCount() > 0)
 			{
-				XmlNodeRef childToNode = toNode->newChild(prop->getTag());
+				XmlNodeRef childToNode = toNode->NewChild(prop->GetTag());
 				if (childToNode)
 					CXmlTemplate::SetValues( prop,childToNode );
 			}
 			else
 			{
 				CString value;
-				prop->getAttr( "Value",value );
-				toNode->setAttr( prop->getTag(),value );
+				prop->GetAttr( "Value",value );
+				toNode->SetAttr( prop->GetTag(),value );
 			}
 		}else
 			TRACE("NULL returned from node->GetChild()");
@@ -81,14 +81,14 @@ bool CXmlTemplate::SetValues( const XmlNodeRef &node,XmlNodeRef &toNode,const Xm
 {
 	assert( node != 0 && toNode != 0 && modifiedNode != 0 );
 
-	for (int i = 0; i < node->getChildCount(); i++)
+	for (int i = 0; i < node->GetChildCount(); i++)
 	{
-		XmlNodeRef prop = node->getChild(i);
+		XmlNodeRef prop = node->GetChild(i);
 		if (prop)
 		{
-			if (prop->getChildCount() > 0)
+			if (prop->GetChildCount() > 0)
 			{
-				XmlNodeRef childToNode = toNode->findChild(prop->getTag());
+				XmlNodeRef childToNode = toNode->FindChild(prop->GetTag());
 				if (childToNode)
 				{
 					if (CXmlTemplate::SetValues( prop,childToNode,modifiedNode ))
@@ -98,8 +98,8 @@ bool CXmlTemplate::SetValues( const XmlNodeRef &node,XmlNodeRef &toNode,const Xm
 			else if (prop == modifiedNode)
 			{
 				CString value;
-				prop->getAttr( "Value",value );
-				toNode->setAttr( prop->getTag(),value );
+				prop->GetAttr( "Value",value );
+				toNode->SetAttr( prop->GetTag(),value );
 				return true;
 			}
 		}else
@@ -111,37 +111,37 @@ bool CXmlTemplate::SetValues( const XmlNodeRef &node,XmlNodeRef &toNode,const Xm
 //////////////////////////////////////////////////////////////////////////
 void CXmlTemplate::AddParam( XmlNodeRef &templ,const char *sName,bool value )
 {
-	XmlNodeRef param = templ->newChild(sName);
-	param->setAttr( "type","Bool" );
-	param->setAttr( "value",value );
+	XmlNodeRef param = templ->NewChild(sName);
+	param->SetAttr( "type","Bool" );
+	param->SetAttr( "value",value );
 }
 
 //////////////////////////////////////////////////////////////////////////
 void CXmlTemplate::AddParam( XmlNodeRef &templ,const char *sName,int value,int min,int max )
 {
-	XmlNodeRef param = templ->newChild(sName);
-	param->setAttr( "type","Int" );
-	param->setAttr( "value",value );
-	param->setAttr( "min",min );
-	param->setAttr( "max",max );
+	XmlNodeRef param = templ->NewChild(sName);
+	param->SetAttr( "type","Int" );
+	param->SetAttr( "value",value );
+	param->SetAttr( "min",min );
+	param->SetAttr( "max",max );
 }
 
 //////////////////////////////////////////////////////////////////////////
 void CXmlTemplate::AddParam( XmlNodeRef &templ,const char *sName,float value,float min,float max )
 {
-	XmlNodeRef param = templ->newChild(sName);
-	param->setAttr( "type","Float" );
-	param->setAttr( "value",value );
-	param->setAttr( "min",min );
-	param->setAttr( "max",max );
+	XmlNodeRef param = templ->NewChild(sName);
+	param->SetAttr( "type","Float" );
+	param->SetAttr( "value",value );
+	param->SetAttr( "min",min );
+	param->SetAttr( "max",max );
 }
 
 //////////////////////////////////////////////////////////////////////////
 void CXmlTemplate::AddParam( XmlNodeRef &templ,const char *sName,const char *sValue )
 {
-	XmlNodeRef param = templ->newChild(sName);
-	param->setAttr( "type","String" );
-	param->setAttr( "value",sValue );
+	XmlNodeRef param = templ->NewChild(sName);
+	param->SetAttr( "type","String" );
+	param->SetAttr( "value",sValue );
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -165,13 +165,13 @@ void CXmlTemplateRegistry::LoadTemplates( const CString &path )
 		XmlNodeRef child;
 
 		XmlNodeRef node = parser.parse( files[k] );
-		if (node != 0 && node->isTag("Templates"))
+		if (node != 0 && node->IsTag("Templates"))
 		{
 			CString name;
-			for (int i = 0; i < node->getChildCount(); i++)
+			for (int i = 0; i < node->GetChildCount(); i++)
 			{
-				child = node->getChild(i);
-				AddTemplate( child->getTag(),child );
+				child = node->GetChild(i);
+				AddTemplate( child->GetTag(),child );
 			}
 		}
 	}

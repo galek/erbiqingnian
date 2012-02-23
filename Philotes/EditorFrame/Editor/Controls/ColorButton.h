@@ -20,29 +20,29 @@ public:
 
 	virtual ~CColorButton();
 
-	virtual void DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct );
+	virtual void		DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct );
 
-	virtual void PreSubclassWindow();
+	virtual void		PreSubclassWindow();
 
-	void SetColor( const COLORREF &col );
+	void				SetColor( const COLORREF &col );
 
-	COLORREF GetColor() const;
+	COLORREF			GetColor() const;
 
-	void SetTextColor( const COLORREF &col );
+	void				SetTextColor( const COLORREF &col );
 
-	COLORREF GetTexColor() const { return m_textColor; };
+	COLORREF			GetTexColor() const { return m_textColor; };
 
-	void SetShowText( bool showText );
+	void				SetShowText( bool showText );
 
-	bool GetShowText() const;
+	bool				GetShowText() const;
 
 protected:
 
 	DECLARE_MESSAGE_MAP()
 
-	COLORREF m_color;
+	COLORREF			m_color;
 
-	COLORREF m_textColor;
+	COLORREF			m_textColor;
 
-	bool m_showText;
+	bool				m_showText;
 };

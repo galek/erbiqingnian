@@ -35,28 +35,28 @@ CUIEnumerations::TDValuesContainer&	CUIEnumerations::GetStandardNameContainer()
 		int nCurrentEnumarationItem(0);
 
 		oRootNode = EditorRoot::Get().LoadXmlFile("Editor\\PropertyEnumerations.xml");
-		nNumberOfEnumarations = oRootNode ? oRootNode->getChildCount():0;
+		nNumberOfEnumarations = oRootNode ? oRootNode->GetChildCount():0;
 
 		for (nCurrentEnumaration=0; nCurrentEnumaration<nNumberOfEnumarations; ++nCurrentEnumaration)
 		{
 			TDValues cValues;
-			oEnumaration=oRootNode->getChild(nCurrentEnumaration);
+			oEnumaration=oRootNode->GetChild(nCurrentEnumaration);
 
-			nNumberOfEnumerationItems=oEnumaration->getChildCount();
+			nNumberOfEnumerationItems=oEnumaration->GetChildCount();
 			for (nCurrentEnumarationItem=0;nCurrentEnumarationItem<nNumberOfEnumerationItems;++nCurrentEnumarationItem)
 			{
-				oEnumerationItem=oEnumaration->getChild(nCurrentEnumarationItem);
+				oEnumerationItem=oEnumaration->GetChild(nCurrentEnumarationItem);
 
 				const char*	szKey(NULL);
 				const char*	szValue(NULL);
-				oEnumerationItem->getAttributeByIndex(0,&szKey,&szValue);
+				oEnumerationItem->GetAttributeByIndex(0,&szKey,&szValue);
 
 				cValues.push_back(szValue);
 			}
 
 			const char*	szKey(NULL);
 			const char*	szValue(NULL);
-			oEnumaration->getAttributeByIndex(0,&szKey,&szValue);
+			oEnumaration->GetAttributeByIndex(0,&szKey,&szValue);
 
 			cValuesContainer.insert(TDValuesContainer::value_type(szValue,cValues));
 		}

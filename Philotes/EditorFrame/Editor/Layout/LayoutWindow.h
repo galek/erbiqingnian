@@ -59,6 +59,8 @@ class CLayoutWnd : public CWnd
 public:
 	CLayoutWnd();
 
+	virtual				~CLayoutWnd();
+
 public:
 	CLayoutViewPane*	GetViewPane( int id );
 
@@ -79,9 +81,6 @@ public:
 	void				BindViewport( CLayoutViewPane *vp,CString viewClassName,CWnd *pViewport=NULL );
 
 	CString				ViewportTypeToClassName( EViewportType viewType );
-
-public:
-	virtual ~CLayoutWnd();
 
 protected:
 	afx_msg int			OnCreate(LPCREATESTRUCT lpCreateStruct);

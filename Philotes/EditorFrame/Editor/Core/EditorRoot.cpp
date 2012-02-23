@@ -6,6 +6,9 @@
 #include "EditorTool.h"
 #include "ClassPlugin.h"
 #include "RollupCtrl.h"
+#include "ViewManager.h"
+#include "Viewport.h"
+#include "ViewPane.h"
 #include "../MainFrm.h"
 #include "../EditorDoc.h"
 
@@ -25,9 +28,12 @@ static CMainFrame* GetMainFrame()
 
 EditorRoot::EditorRoot()
 {
+	s_RootInstance		= this;
+
 	m_pXMLUtils			= new CXmlUtils();
 	m_pUIEnumsDatabase	= new CUIEnumsDatabase;
 	m_classFactory		= CClassFactory::Instance();
+	m_viewMan			= new CViewManager();
 
 	SetMasterFolder();
 }
@@ -37,14 +43,11 @@ EditorRoot::~EditorRoot()
 	SAFE_DELETE(m_pXMLUtils);
 	SAFE_DELETE(m_pUIEnumsDatabase);
 	SAFE_DELETE(m_classFactory);
+	SAFE_DELETE(m_viewMan);
 }
 
 EditorRoot& EditorRoot::Get()
 {
-	if (!s_RootInstance)
-	{
-		s_RootInstance = new EditorRoot();
-	}
 	return *s_RootInstance;
 }
 
@@ -304,4 +307,33 @@ void EditorRoot::SetMasterFolder()
 const CString& EditorRoot::GetMasterFolder()
 {
 	return m_masterFolder;
+}
+
+CViewManager* EditorRoot::GetViewManager()
+{
+	return m_viewMan;
+}
+
+CViewport* EditorRoot::GetActiveView()
+{
+	if (!GetMainFrame())
+	{
+		return NULL;
+	}
+
+	CLayoutViewPane* viewPane = (CLayoutViewPane*) GetMainFrame()->GetActiveView();
+	if (viewPane)
+	{
+		CWnd *pWnd = viewPane->GetViewport();
+		if (pWnd && pWnd->IsKindOf(RUNTIME_CLASS(CViewport)))
+		{
+			return (CViewport*)pWnd;
+		}
+	}
+	return 0;
+}
+
+void EditorRoot::UpdateViews( int flags )
+{
+	m_viewMan->UpdateViews( flags );
 }

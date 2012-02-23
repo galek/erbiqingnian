@@ -19,21 +19,21 @@ struct __declspec( uuid("{7E13EC7C-F621-4aeb-B642-67D78ED468F8}") ) IViewPaneCla
 		DOCK_BOTTOM,
 		DOCK_FLOAT,
 	};
-	virtual CRuntimeClass* GetRuntimeClass() = 0;
+	virtual CRuntimeClass*		GetRuntimeClass() = 0;
 
-	virtual const char* GetPaneTitle() = 0;
+	virtual const char*			GetPaneTitle() = 0;
 
-	virtual EDockingDirection GetDockingDirection() = 0;
+	virtual EDockingDirection	GetDockingDirection() = 0;
 
-	virtual CRect GetPaneRect() = 0;
+	virtual CRect				GetPaneRect() = 0;
 
-	virtual CSize GetMinSize() { return CSize(0,0); }
+	virtual CSize				GetMinSize() { return CSize(0,0); }
 
-	virtual bool SinglePane() = 0;
+	virtual bool				SinglePane() = 0;
 
-	virtual bool WantIdleUpdate() = 0;
+	virtual bool				WantIdleUpdate() = 0;
 
-	HRESULT STDMETHODCALLTYPE QueryInterface( const IID &riid, void **ppvObj )
+	HRESULT STDMETHODCALLTYPE	QueryInterface( const IID &riid, void **ppvObj )
 	{
 		if (riid == __uuidof(IViewPaneClass))
 		{

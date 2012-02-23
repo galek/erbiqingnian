@@ -2,6 +2,7 @@
 #include "LayoutWindow.h"
 #include "EditorRoot.h"
 #include "ViewPane.h"
+#include "ViewManager.h"
 #include "../EditorDoc.h"
 
 IMPLEMENT_DYNCREATE(CLayoutSplitter,CSplitterWnd)
@@ -244,9 +245,13 @@ void CLayoutWnd::MaximizeViewport( int paneId )
 		if (m_maximizedView)
 		{
 			if (m_splitWnd)
+			{
 				m_splitWnd->ShowWindow( SW_HIDE );
+			}
 			if (m_splitWnd2)
+			{
 				m_splitWnd2->ShowWindow(SW_HIDE);
+			}
 
 			if (pViewPane)
 			{
@@ -254,7 +259,10 @@ void CLayoutWnd::MaximizeViewport( int paneId )
 				pViewPane->DetachViewport();
 			}
 			else
+			{
 				BindViewport( m_maximizedView,viewClass );
+			}
+
 			m_maximizedView->SetFocus();
 
 			((CFrameWnd*)AfxGetMainWnd())->SetActiveView( m_maximizedView );
@@ -301,7 +309,15 @@ void CLayoutWnd::CreateSubSplitView( int row,int col,EViewLayout splitType,CCrea
 
 CString CLayoutWnd::ViewportTypeToClassName( EViewportType viewType )
 {
-	return "CViewport";
+	CString viewClassName = "";
+	std::vector<CViewportDesc*> descriptions;
+	EditorRoot::Get().GetViewManager()->GetViewportDescriptions( descriptions );
+	for (int i = 0; i < descriptions.size(); i++)
+	{
+		if (descriptions[i]->type == viewType && descriptions[i]->pViewClass)
+			viewClassName = descriptions[i]->pViewClass->ClassName();
+	}
+	return viewClassName;
 }
 
 void CLayoutWnd::CreateLayoutView( CLayoutSplitter *wndSplitter,int row,int col,int id,EViewportType viewType,CCreateContext* pContext )
@@ -315,15 +331,15 @@ void CLayoutWnd::CreateLayout( EViewLayout layout,bool bBindViewports,EViewportT
 {
 	UnbindViewports();
 
-	m_layout = layout;
-	m_bMaximized = false;
+	m_layout		= layout;
+	m_bMaximized	= false;
 
 	CCreateContext ctx;
 	ZeroMemory(&ctx,sizeof(CCreateContext));
-	ctx.m_pNewViewClass = RUNTIME_CLASS(CLayoutViewPane);
-	ctx.m_pCurrentDoc = EditorRoot::Get().GetDocument();
-	ctx.m_pCurrentFrame = (CFrameWnd*)AfxGetMainWnd();
-	CCreateContext *pCtx = &ctx;
+	ctx.m_pNewViewClass		= RUNTIME_CLASS(CLayoutViewPane);
+	ctx.m_pCurrentDoc		= EditorRoot::Get().GetDocument();
+	ctx.m_pCurrentFrame		= (CFrameWnd*)AfxGetMainWnd();
+	CCreateContext *pCtx	= &ctx;
 
 	if (m_splitWnd)
 	{
@@ -362,7 +378,9 @@ void CLayoutWnd::CreateLayout( EViewLayout layout,bool bBindViewports,EViewportT
 	case ET_Layout0:
 		m_viewType[0] = ViewportTypeToClassName(defaultView);
 		if (bBindViewports)
+		{
 			MaximizeViewport(0);
+		}
 		break;
 	default:
 		AfxMessageBox( _T("Trying to Create Unknown Layout"),MB_OK|MB_ICONERROR );
@@ -376,7 +394,9 @@ void CLayoutWnd::CreateLayout( EViewLayout layout,bool bBindViewports,EViewportT
 	}
 
 	if (bBindViewports && !m_bMaximized)
+	{
 		BindViewports();
+	}
 }
 
 void CLayoutWnd::SaveConfig()

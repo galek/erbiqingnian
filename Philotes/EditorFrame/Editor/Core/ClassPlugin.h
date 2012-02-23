@@ -46,28 +46,28 @@ public:
 
 	static CClassFactory* Instance();
 
-	void RegisterClass( IClassDesc *cls );
+	void			RegisterClass( IClassDesc *cls );
 
-	IClassDesc* FindClass( const char *className ) const;
+	IClassDesc*		FindClass( const char *className ) const;
 	
-	IClassDesc* FindClass( const GUID& clsid ) const;
+	IClassDesc*		FindClass( const GUID& clsid ) const;
 
-	void GetClassesBySystemID( ESystemClassID systemCLSID,std::vector<IClassDesc*> &classes );
+	void			GetClassesBySystemID( ESystemClassID systemCLSID,std::vector<IClassDesc*> &classes );
 
-	void GetClassesByCategory( const char* category,std::vector<IClassDesc*> &classes );
+	void			GetClassesByCategory( const char* category,std::vector<IClassDesc*> &classes );
 
 private:
-	void RegisterAutoTypes();
+	void			RegisterAutoTypes();
 
-	std::vector<IClassDesc*> m_classes;
+	std::vector<IClassDesc*>	m_classes;
 
 	typedef std::map<CString,IClassDesc*> NameMap;
-	NameMap m_nameToClass;
+	NameMap						m_nameToClass;
 
 	typedef std::map<GUID,IClassDesc*,guid_less_predicate> GuidMap;
-	GuidMap m_guidToClass;
+	GuidMap						m_guidToClass;
 
-	static CClassFactory *m_instance;
+	static CClassFactory*		m_instance;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,6 @@ public:
 
 //////////////////////////////////////////////////////////////////////////
 // 使用这个宏可自动注册新的类描述
-// 比如 REGISTER_FLOW_NODE( "Delay",CFlowDelayNode )
 #define REGISTER_CLASS_DESC( ClassDesc ) \
 	ClassDesc g_AutoReg##ClassDesc; \
 	CAutoRegisterClassHelper g_AutoRegHelper##ClassDesc( &(g_AutoReg##ClassDesc) );

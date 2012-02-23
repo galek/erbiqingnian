@@ -10,11 +10,8 @@
 
 namespace stl
 {
-	//////////////////////////////////////////////////////////////////////////
-	//! Searches the given entry in the map by key, and if there is none, returns the default value
-	//////////////////////////////////////////////////////////////////////////
 	template <typename Map>
-	inline typename Map::mapped_type find_in_map(const Map& mapKeyToValue, const typename Map::key_type& key, typename Map::mapped_type valueDefault)
+	inline typename Map::mapped_type FindInMap(const Map& mapKeyToValue, const typename Map::key_type& key, typename Map::mapped_type valueDefault)
 	{
 		typename Map::const_iterator it = mapKeyToValue.find (key);
 		if (it == mapKeyToValue.end())
@@ -23,20 +20,15 @@ namespace stl
 			return it->second;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Inserts and returns a reference to the given value in the map, or returns the current one if it's already there.
-	//////////////////////////////////////////////////////////////////////////
 	template <typename Map>
-	inline typename Map::mapped_type& map_insert_or_get(Map& mapKeyToValue, const typename Map::key_type& key, const typename Map::mapped_type& defValue = typename Map::mapped_type())
+	inline typename Map::mapped_type& MapInsertOrGet(Map& mapKeyToValue, const typename Map::key_type& key, const typename Map::mapped_type& defValue = typename Map::mapped_type())
 	{
 		std::pair<typename Map::iterator, bool> iresult = mapKeyToValue.insert(typename Map::value_type(key, defValue));
 		return iresult.first->second;
 	}
 
-	// searches the given entry in the map by key, and if there is none, returns the default value
-	// The values are taken/returned in REFERENCEs rather than values
 	template <typename Key, typename mapped_type, typename Traits, typename Allocator>
-	inline mapped_type& find_in_map_ref(std::map<Key, mapped_type, Traits, Allocator>& mapKeyToValue, const Key& key, mapped_type& valueDefault)
+	inline mapped_type& FindInMapRef(std::map<Key, mapped_type, Traits, Allocator>& mapKeyToValue, const Key& key, mapped_type& valueDefault)
 	{
 		typedef std::map<Key, mapped_type, Traits, Allocator> Map;
 		typename Map::iterator it = mapKeyToValue.find (key);
@@ -47,7 +39,7 @@ namespace stl
 	}
 
 	template <typename Key, typename mapped_type, typename Traits, typename Allocator>
-	inline const mapped_type& find_in_map_ref(const std::map<Key, mapped_type, Traits, Allocator>& mapKeyToValue, const Key& key, const mapped_type& valueDefault)
+	inline const mapped_type& FindInMapRef(const std::map<Key, mapped_type, Traits, Allocator>& mapKeyToValue, const Key& key, const mapped_type& valueDefault)
 	{
 		typedef std::map<Key, mapped_type, Traits, Allocator> Map;
 		typename Map::const_iterator it = mapKeyToValue.find (key);
@@ -57,11 +49,8 @@ namespace stl
 			return it->second;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Fills vector with contents of map.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Map,class Vector>
-	inline void map_to_vector( const Map& theMap,Vector &array )
+	inline void MapToVector( const Map& theMap,Vector &array )
 	{
 		array.resize(0);
 		array.reserve( theMap.size() );
@@ -71,11 +60,8 @@ namespace stl
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Fills vector with contents of set.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Set,class Vector>
-	inline void set_to_vector( const Set& theSet,Vector &array )
+	inline void SetToVector( const Set& theSet,Vector &array )
 	{
 		array.resize(0);
 		array.reserve( theSet.size() );
@@ -85,12 +71,8 @@ namespace stl
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find and erase element from container.
-	// @return true if item was find and erased, false if item not found.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Container,class Value>
-	inline bool find_and_erase( Container& container,const Value &value )
+	inline bool FindAndErase( Container& container,const Value &value )
 	{
 		typename Container::iterator it = std::find( container.begin(),container.end(),value );
 		if (it != container.end())
@@ -101,28 +83,17 @@ namespace stl
 		return false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find and erase all elements matching value from container.
-	// Assume that this will invalidate any exiting iterators.
-	// Commonly used for removing NULL pointers from collections.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Container>
-	inline void find_and_erase_all(Container& container, const typename Container::value_type&value)
+	inline void FindAndEraseAll(Container& container, const typename Container::value_type&value)
 	{
-		// Shuffles all elements != value to the front and returns the start of the removed elements.
 		typename Container::iterator endIter(container.end());
 		typename Container::iterator newEndIter(std::remove(container.begin(), endIter, value));
 
-		// Delete the removed range at the back of the container (low-cost for vector).
 		container.erase(newEndIter, endIter);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find and erase element from map.
-	// @return true if item was find and erased, false if item not found.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Container,class Key>
-	inline bool member_find_and_erase( Container& container,const Key &key )
+	inline bool MemberFindAndErase( Container& container,const Key &key )
 	{
 		typename Container::iterator it = container.find (key);
 		if (it != container.end())
@@ -133,12 +104,8 @@ namespace stl
 		return false;
 	}
 
-
-	//////////////////////////////////////////////////////////////////////////
-	//! Push back to container unique element.
-	// @return true if item added, false overwise.
 	template <class Container,class Value>
-		inline bool push_back_unique( Container& container,const Value &value )
+		inline bool PushBackUnique( Container& container,const Value &value )
 	{
 		if (std::find(container.begin(),container.end(),value) == container.end())
 		{
@@ -148,11 +115,8 @@ namespace stl
 		return false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Push back to container unique element.
-	// @return true if item added, false overwise.
 	template <class Container,class Iter>
-	inline void push_back_range( Container& container,Iter begin,Iter end )
+	inline void PushBackRange( Container& container,Iter begin,Iter end )
 	{
 		for (Iter it = begin; it != end; ++it)
 		{
@@ -160,30 +124,21 @@ namespace stl
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find element in container.
-	// @return true if item found.
 	template <class Container,class Value>
-		inline bool find( Container& container,const Value &value )
+		inline bool Find( Container& container,const Value &value )
 	{
 		return std::find(container.begin(),container.end(),value) != container.end();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find element in a sorted container using binary search with logarithmic efficiency.
-	//
 	template <class Iterator,class T>
-		inline Iterator binary_find(Iterator first,Iterator last,const T& value)
+		inline Iterator BinaryFind(Iterator first,Iterator last,const T& value)
 	{
 		Iterator it = std::lower_bound(first,last,value);
 		return (it == last || value != *it) ? last : it;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Find element in a sorted container using binary search with logarithmic efficiency.
-	// @return true if item was inserted.
 	template <class Container,class Value>
-		inline bool binary_insert_unique( Container& container,const Value &value )
+		inline bool BinaryInsertUnique( Container& container,const Value &value )
 	{
 		typename Container::iterator it = std::lower_bound(container.begin(),container.end(),value);
 		if (it != container.end())
@@ -196,12 +151,9 @@ namespace stl
 			container.insert( container.end(),value );
 		return true;
 	}
-	//////////////////////////////////////////////////////////////////////////
-	//! Find element in a sorted container using binary search with logarithmic efficiency.
-	// and erases if element found.
-	// @return true if item was erased.
+	
 	template <class Container,class Value>
-		inline bool binary_erase( Container& container,const Value &value )
+		inline bool BinaryErase( Container& container,const Value &value )
 	{
 		typename Container::iterator it = std::lower_bound(container.begin(),container.end(),value);
 		if (it != container.end() && *it == value)
@@ -212,7 +164,7 @@ namespace stl
 		return false;
 	}
 
-	struct container_object_deleter
+	struct ContainerObjectDeleter
 	{
 		template<typename T>
 			void operator()(const T* ptr) const
@@ -221,59 +173,42 @@ namespace stl
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Convert arbitary class to const char*
-	//////////////////////////////////////////////////////////////////////////
 	template <class Type>
-		inline const char* constchar_cast( const Type &type )
+		inline const char* ConstcharCast( const Type &type )
 	{
 		return type;
 	}
 
-	//! Specialization of string to const char cast.
 	template <>
-	inline const char* constchar_cast( const std::string &type )
+	inline const char* ConstcharCast( const std::string &type )
 	{
 		return type.c_str();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Case sensetive less key for any type convertable to const char*.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Type>
-	struct less_strcmp : public std::binary_function<Type,Type,bool> 
+	struct LessStrcmp : public std::binary_function<Type,Type,bool> 
 	{
 		bool operator()( const Type &left,const Type &right ) const
 		{
-			return strcmp(constchar_cast(left),constchar_cast(right)) < 0;
+			return strcmp(ConstcharCast(left),ConstcharCast(right)) < 0;
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Case insensetive less key for any type convertable to const char*.
 	template <class Type>
-	struct less_stricmp : public std::binary_function<Type,Type,bool> 
+	struct LessStricmp : public std::binary_function<Type,Type,bool> 
 	{
 		bool operator()( const Type &left,const Type &right ) const
 		{
-			return stricmp(constchar_cast(left),constchar_cast(right)) < 0;
+			return stricmp(ConstcharCast(left),ConstcharCast(right)) < 0;
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	// Hash map usage:
-	// typedef stl::hash_map<string,int, stl::hash_stricmp<string> > StringToIntHash;
-	//////////////////////////////////////////////////////////////////////////
-
-	//////////////////////////////////////////////////////////////////////////
-	// useful when the key is already the result of an hash function
-	// key needs to be convertible to size_t
-	//////////////////////////////////////////////////////////////////////////
 	template <class Key>
-	class hash_simple
+	class HashSimple
 	{
 	public:
-		enum {	// parameters for hash table
+		enum 
+		{
 			bucket_size = 4,	// 0 < bucket_size
 			min_buckets = 8
 		};// min_buckets = 2 ^^ N, 0 < N
@@ -288,12 +223,11 @@ namespace stl
 		}
 	};
 
-	// simple hash class that has the avalanche property (a change in one bit affects all others)
-	// ... use this if you have uint32 key values!
-	class hash_uint32
+	class HashUint32
 	{
 	public:
-		enum {	// parameters for hash table
+		enum 
+		{
 			bucket_size = 4,	// 0 < bucket_size
 			min_buckets = 8  // min_buckets = 2 ^^ N, 0 < N
 		};
@@ -314,14 +248,12 @@ namespace stl
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Case sensitive string hash map compare structure.
-	//////////////////////////////////////////////////////////////////////////
 	template <class Key>
-	class hash_strcmp
+	class HashStrcmp
 	{
 	public:
-		enum {	// parameters for hash table
+		enum
+		{
 			bucket_size = 4,	// 0 < bucket_size
 			min_buckets = 8
 		};// min_buckets = 2 ^^ N, 0 < N
@@ -329,21 +261,19 @@ namespace stl
 		size_t operator()( const Key& key ) const
 		{
 			unsigned int h = 0; 
-			const char *s = constchar_cast(key);
+			const char *s = ConstcharCast(key);
 			for (; *s; ++s) h = 5*h + *(unsigned char*)s;
 			return size_t(h);
 
 		};
 		bool operator()( const Key& key1,const Key& key2 ) const
 		{
-			return strcmp(constchar_cast(key1),constchar_cast(key2)) < 0;
+			return strcmp(ConstcharCast(key1),ConstcharCast(key2)) < 0;
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	//! Case insensitive string hash map compare structure.
 	template <class Key>
-	class hash_stricmp
+	class HashStricmp
 	{
 	public:
 		enum {	// parameters for hash table
@@ -354,14 +284,14 @@ namespace stl
 		size_t operator()( const Key& key ) const
 		{
 			unsigned int h = 0; 
-			const char *s = constchar_cast(key);
+			const char *s = ConstcharCast(key);
 			for (; *s; ++s) h = 5*h + tolower(*(unsigned char*)s);
 			return size_t(h);
 
 		};
 		bool operator()( const Key& key1,const Key& key2 ) const
 		{
-			return stricmp(constchar_cast(key1),constchar_cast(key2)) < 0;
+			return stricmp(ConstcharCast(key1),ConstcharCast(key2)) < 0;
 		}
 	};
 
@@ -373,7 +303,7 @@ namespace stl
 #ifdef _STLP_HASH_MAP 
 	// STL Port
 	template <class _Key,class _Predicate=std::less<_Key> >
-	struct hash_compare
+	struct HashCompare
 	{
 		enum
 		{	// parameters for hash table
@@ -403,7 +333,7 @@ namespace stl
 	};
 
 	template <class Key,class HashFunc>
-	struct stlport_hash_equal
+	struct StlportHashEqual
 	{
 		// Equal function.
 		bool operator()(const Key& k1, const Key& k2) const
@@ -414,10 +344,10 @@ namespace stl
 		}
 	};
 
-	template <class Key,class Value,class HashFunc = hash_compare<Key>, class Alloc = std::allocator< std::pair<Key,Value> > >
-	struct hash_map : public std__hash_map<Key,Value,HashFunc,stlport_hash_equal<Key,HashFunc>,Alloc>
+	template <class Key,class Value,class HashFunc = HashCompare<Key>, class Alloc = std::allocator< std::pair<Key,Value> > >
+	struct hash_map : public std__hash_map<Key,Value,HashFunc,StlportHashEqual<Key,HashFunc>,Alloc>
 	{
-		hash_map() : std__hash_map<Key,Value,HashFunc,stlport_hash_equal<Key,HashFunc>,Alloc>( HashFunc::min_buckets ) {}
+		hash_map() : std__hash_map<Key,Value,HashFunc,StlportHashEqual<Key,HashFunc>,Alloc>( HashFunc::min_buckets ) {}
 	};
 
 	/*
@@ -441,16 +371,13 @@ namespace stl
 #endif //USE_HASH_MAP
 
 
-
-
-	//////////////////////////////////////////////////////////////////////////
 	template<class T>
-	class intrusive_linked_list_node
+	class IntrusiveLinkedListNode
 	{
 	public:
-		intrusive_linked_list_node()  { link_to_intrusive_list(static_cast<T*>(this)); }
+		IntrusiveLinkedListNode()  { link_to_intrusive_list(static_cast<T*>(this)); }
 		// Not virtual by design
-		~intrusive_linked_list_node() { unlink_from_intrusive_list(static_cast<T*>(this)); }
+		~IntrusiveLinkedListNode() { unlink_from_intrusive_list(static_cast<T*>(this)); }
 
 		static T* get_intrusive_list_root() { return m_root_intrusive; };
 
@@ -505,4 +432,4 @@ namespace stl
 }
 
 #define DEFINE_INTRUSIVE_LINKED_LIST( Class ) \
-	template<> Class* stl::intrusive_linked_list_node<Class>::m_root_intrusive = 0;
+	template<> Class* stl::IntrusiveLinkedListNode<Class>::m_root_intrusive = 0;

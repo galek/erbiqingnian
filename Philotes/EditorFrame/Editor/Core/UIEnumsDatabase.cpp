@@ -38,7 +38,7 @@ CUIEnumsDatabase::~CUIEnumsDatabase()
 
 void CUIEnumsDatabase::SetEnumStrings( const CString &enumName,const char **sStringsArray,int nStringCount )
 {
-	CUIEnumsDatabase_SEnum *pEnum = stl::find_in_map(m_enums,enumName,0);
+	CUIEnumsDatabase_SEnum *pEnum = stl::FindInMap(m_enums,enumName,0);
 	if (!pEnum)
 	{
 		pEnum = new CUIEnumsDatabase_SEnum;
@@ -64,6 +64,6 @@ void CUIEnumsDatabase::SetEnumStrings( const CString &enumName,const char **sStr
 
 CUIEnumsDatabase_SEnum* CUIEnumsDatabase::FindEnum( const CString &enumName )
 {
-	CUIEnumsDatabase_SEnum *pEnum = stl::find_in_map(m_enums,enumName,0);
+	CUIEnumsDatabase_SEnum *pEnum = stl::FindInMap(m_enums,enumName,0);
 	return pEnum;
 }

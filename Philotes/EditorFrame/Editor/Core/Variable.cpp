@@ -68,7 +68,7 @@ void CVarBlock::AddVariable( CVariableBase &var,const char *varName,unsigned cha
 
 void CVarBlock::RemoveVariable( IVariable *var )
 {
-	stl::find_and_erase(m_vars,var);
+	stl::FindAndErase(m_vars,var);
 }
 
 bool CVarBlock::IsContainVariable( IVariable *pVar,bool bRecursive ) const
@@ -162,7 +162,7 @@ void CVarBlock::Serialize( XmlNodeRef &vbNode,bool load )
 			IVariable *var = *it;
 			if (var->NumChildVars())
 			{
-				XmlNodeRef child = vbNode->findChild(var->GetName());
+				XmlNodeRef child = vbNode->FindChild(var->GetName());
 				if (child)
 					var->Serialize( child,load );
 			}
@@ -177,7 +177,7 @@ void CVarBlock::Serialize( XmlNodeRef &vbNode,bool load )
 			IVariable *var = *it;
 			if (var->NumChildVars())
 			{
-				XmlNodeRef child = vbNode->newChild(var->GetName());
+				XmlNodeRef child = vbNode->NewChild(var->GetName());
 				var->Serialize( child,load );
 			}
 			else

@@ -77,4 +77,6 @@ public:
 	CRollupCtrl*				GetRollUpControl( int rollupBarId = ROLLUP_OBJECTS );
 
 	int							SelectRollUpBar( int rollupBarId );
+
+	CLayoutWnd*					GetLayout();
 };

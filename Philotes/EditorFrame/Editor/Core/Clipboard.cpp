@@ -7,11 +7,11 @@ void CClipboard::Put( XmlNodeRef &node,const CString &title /*= "" */ )
 	m_title = title;
 	if (m_title.IsEmpty())
 	{
-		m_title = node->getTag();
+		m_title = node->GetTag();
 	}
 	m_node = node;
 
-	PutString( m_node->getXML().c_str(),title );
+	PutString( m_node->GetXML().c_str(),title );
 }
 
 XmlNodeRef CClipboard::Get() const

@@ -325,17 +325,7 @@ BOOL CMainFrame::OnCreateClient( LPCREATESTRUCT lpcs, CCreateContext* pContext )
 	m_layoutWnd = new CLayoutWnd;
 	CRect rc(0,0,1,1);
 	m_layoutWnd->CreateEx( 0,NULL,NULL,WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,rc,this,AFX_IDW_PANE_FIRST );
-//	if (IsPreview())
-//	{
-		m_layoutWnd->CreateLayout( ET_Layout0,true,ET_ViewportModel );
-//	}
-// 	else
-// 	{
-// 		if (!m_layoutWnd->LoadConfig())
-// 		{
-// 			m_layoutWnd->CreateLayout( ET_Layout0 );
-// 		}
-// 	}
+	m_layoutWnd->CreateLayout( ET_Layout0,true,ET_ViewportCamera );
 
 	return TRUE;
 }
@@ -378,4 +368,9 @@ int CMainFrame::SelectRollUpBar( int rollupBarId )
 		m_wndRollUp.Select( rollupBarId );
 	}
 	return rollupBarId;
+}
+
+CLayoutWnd* CMainFrame::GetLayout()
+{
+	return m_layoutWnd;
 }
