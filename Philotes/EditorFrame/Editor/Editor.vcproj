@@ -345,6 +345,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Utils\FileUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils\FileUtils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Controls\FillSliderCtrl.cpp"
 				>
 			</File>
@@ -776,6 +784,14 @@
 			</File>
 			<File
 				RelativePath=".\Core\XmlInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\XmlTemplate.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\XmlTemplate.h"
 				>
 			</File>
 		</Filter>

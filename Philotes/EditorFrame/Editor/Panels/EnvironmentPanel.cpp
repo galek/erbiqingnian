@@ -1,6 +1,7 @@
 
 #include "EnvironmentPanel.h"
-
+#include "EditorRoot.h"
+#include "../EditorDoc.h"
 
 #define HEIGHT_OFFSET 4
 
@@ -38,27 +39,26 @@ BOOL CEnvironmentPanel::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-//	m_node = GetIEditor()->GetDocument()->GetEnvironmentTemplate();
+	m_node = EditorRoot::Get().GetDocument()->GetEnvironmentTemplate();
 
-// 	if (m_node)
-// 	{	
-// 		CRect rc;
-// 		m_wndProps.Create( WS_VISIBLE|WS_CHILD|WS_BORDER,rc,this );
-// 		m_wndProps.CreateItems( m_node );
-// 		m_wndProps.SetUpdateCallback( functor(*this,&CEnvironmentPanel::OnPropertyChanged) );
-// 		m_wndProps.ExpandAll();
-// 
-// 		// Resize to fit properties.
-// 		GetClientRect( rc );
-// 		int h = m_wndProps.GetVisibleHeight();
-// 		SetWindowPos( NULL,0,0,rc.right,h+HEIGHT_OFFSET*2 + 34,SWP_NOMOVE );
-// 
-// 		GetClientRect( rc );
-// 		CRect rcb;
-// 		m_applyBtn.GetWindowRect( rcb );
-// 		ScreenToClient( rcb );
-// 		m_applyBtn.SetWindowPos( NULL,rcb.left,rc.bottom-28,0,0,SWP_NOSIZE );
-// 	}
+ 	if (m_node)
+ 	{	
+ 		CRect rc;
+ 		m_wndProps.Create( WS_VISIBLE|WS_CHILD|WS_BORDER,rc,this );
+ 		m_wndProps.CreateItems( m_node );
+ 		m_wndProps.SetUpdateCallback( functor(*this,&CEnvironmentPanel::OnPropertyChanged) );
+ 		m_wndProps.ExpandAll();
+ 
+ 		GetClientRect( rc );
+ 		int h = m_wndProps.GetVisibleHeight();
+ 		SetWindowPos( NULL,0,0,rc.right,h+HEIGHT_OFFSET*2 + 34,SWP_NOMOVE );
+ 
+ 		GetClientRect( rc );
+ 		CRect rcb;
+ 		m_applyBtn.GetWindowRect( rcb );
+ 		ScreenToClient( rcb );
+ 		m_applyBtn.SetWindowPos( NULL,rcb.left,rc.bottom-28,0,0,SWP_NOSIZE );
+ 	}
 
 	return TRUE; 
 }

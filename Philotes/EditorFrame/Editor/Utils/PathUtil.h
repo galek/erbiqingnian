@@ -188,59 +188,9 @@ namespace Path
 		return outFullPath;
 	}
 
-// 	//////////////////////////////////////////////////////////////////////////
-// 	inline CString GetRelativePath( const CString &fullPath, bool bRelativeToGameFolder = false )
-// 	{
-// 		if (fullPath.IsEmpty())
-// 			return "";
-// 
-// 		char rootpath[_MAX_PATH];
-// 		GetCurrentDirectory(sizeof(rootpath),rootpath);
-// 		if( bRelativeToGameFolder == true )
-// 		{
-// 			strcat(rootpath, "\\");
-// 			strcat(rootpath, PathUtil::GetGameFolder().c_str());
-// 		}
-// 
-// 		// Create relative path
-// 		char path[_MAX_PATH];
-// 		char srcpath[_MAX_PATH];
-// 		strcpy( srcpath,fullPath );
-// 		if (FALSE == PathRelativePathTo( path,rootpath,FILE_ATTRIBUTE_DIRECTORY,srcpath, NULL))
-// 			return fullPath;
-// 
-// 		CString relPath = path;
-// 		relPath.TrimLeft("\\/.");
-// 		return relPath;
-// 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Description:
-	// given the source relative game path, constructs the full path to the file according to the flags.
-	// Ex. Objects/box will be converted to C:\Test\GXme\Objects\box.cgf
 	CString GamePathToFullPath( const CString &path, bool bForWriting = false );
 	CString FullPathToGamePath( const CString &path );
 
-
-// 	inline CString MakeGamePath( const CString &path, bool bRelativeToGameFolder = false )
-// 	{
-// 		CString fullpath = Path::GamePathToFullPath(path);
-// 		CString rootDataFolder = Path::AddBackslash(PathUtil::GetGameFolder().c_str());
-// 		if (fullpath.GetLength() > rootDataFolder.GetLength() && strnicmp(fullpath,rootDataFolder,rootDataFolder.GetLength()) == 0)
-// 		{
-// 			fullpath = fullpath.Right(fullpath.GetLength()-rootDataFolder.GetLength());
-// 			fullpath.Replace('\\','/'); // Slashes use for game files.
-// 			return fullpath;
-// 		}
-// 		fullpath = GetRelativePath(path,bRelativeToGameFolder);
-// 		if (fullpath.IsEmpty())
-// 		{
-// 			fullpath = path;
-// 		}
-// 		fullpath.Replace('\\','/'); // Slashes use for game files.
-// 		return fullpath;
-// 	}
-	// This had to be created because _splitpath is too dumb about console drives.
 	void SplitPath(const CString& rstrFullPathFilename,CString& rstrDriveLetter,CString& rstrDirectory,CString& rstrFilename,CString& rstrExtension);
 
 	// Requires a path from Splithpath: no drive letter and backslash at the end.

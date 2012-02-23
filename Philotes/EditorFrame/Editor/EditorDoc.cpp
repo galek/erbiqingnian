@@ -16,6 +16,15 @@ END_MESSAGE_MAP()
 CEditorDoc::CEditorDoc()
 {
 	EditorRoot::Get().SetDocument(this);
+
+	m_environmentTemplate = EditorRoot::Get().FindTemplate( "Environment" );
+	if (m_environmentTemplate)
+	{
+	}
+	else
+	{
+		m_environmentTemplate = EditorRoot::Get().CreateXmlNode( "Environment" );
+	}
 }
 
 CEditorDoc::~CEditorDoc()
@@ -26,6 +35,10 @@ BOOL CEditorDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
+
+	EditorRoot::Get().ReloadTemplates();
+	m_environmentTemplate = EditorRoot::Get().FindTemplate( "Environment" );
+
 	return TRUE;
 }
 

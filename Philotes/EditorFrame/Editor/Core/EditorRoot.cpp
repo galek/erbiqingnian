@@ -28,6 +28,8 @@ EditorRoot::EditorRoot()
 	m_pXMLUtils			= new CXmlUtils();
 	m_pUIEnumsDatabase	= new CUIEnumsDatabase;
 	m_classFactory		= CClassFactory::Instance();
+
+	SetMasterFolder();
 }
 
 EditorRoot::~EditorRoot()
@@ -260,3 +262,46 @@ CRollupCtrl* EditorRoot::GetRollUpControl( int rollupId )
 	return GetMainFrame()->GetRollUpControl(rollupId);
 }
 
+XmlNodeRef EditorRoot::FindTemplate( const CString &templateName )
+{
+	return m_templateRegistry.FindTemplate( templateName );
+}
+
+void EditorRoot::AddTemplate( const CString &templateName,XmlNodeRef &tmpl )
+{
+	m_templateRegistry.AddTemplate( templateName,tmpl );
+}
+
+void EditorRoot::ReloadTemplates()
+{
+	m_templateRegistry.LoadTemplates( Path::MakeFullPath("Templates") );
+}
+
+void EditorRoot::SetMasterFolder()
+{
+	CHAR sFolder[_MAX_PATH];
+
+	GetModuleFileNameA( GetModuleHandle(NULL), sFolder, sizeof(sFolder));
+	PathRemoveFileSpecA(sFolder);
+
+	CHAR *lpPath = StrStrIA(sFolder,"\\Bin32");
+	if (lpPath)
+		*lpPath = 0;
+	lpPath = StrStrIA(sFolder,"\\Bin64");
+	if (lpPath)
+		*lpPath = 0;
+
+	m_masterFolder = sFolder;
+	if (!m_masterFolder.IsEmpty())
+	{
+		if (m_masterFolder[m_masterFolder.GetLength()-1] != '\\')
+			m_masterFolder += '\\';
+	}
+
+	SetCurrentDirectoryA( sFolder );
+}
+
+const CString& EditorRoot::GetMasterFolder()
+{
+	return m_masterFolder;
+}
