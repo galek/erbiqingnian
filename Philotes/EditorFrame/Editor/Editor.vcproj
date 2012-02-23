@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Panels;./Layout;./Objects;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Panels;./Layout;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -132,7 +132,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Layout;./Panels;./Objects;../3rdlibs;../3rdlibs/expat"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Layout;./Panels;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
