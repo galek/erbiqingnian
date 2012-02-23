@@ -50,7 +50,7 @@ void CClassFactory::RegisterClass( IClassDesc *cls )
 
 IClassDesc* CClassFactory::FindClass( const char *className ) const
 {
-	IClassDesc *cls = stl::find_in_map( m_nameToClass,className,(IClassDesc*)0 );
+	IClassDesc *cls = stl::FindInMap( m_nameToClass,className,(IClassDesc*)0 );
 	if (cls)
 		return cls;
 
@@ -60,12 +60,12 @@ IClassDesc* CClassFactory::FindClass( const char *className ) const
 
 	CString name;
 	name.Append(className, subClassName - className);
-	return stl::find_in_map( m_nameToClass,name,(IClassDesc*)0 );
+	return stl::FindInMap( m_nameToClass,name,(IClassDesc*)0 );
 }
 
 IClassDesc* CClassFactory::FindClass( const GUID& clsid ) const
 {
-	IClassDesc *cls = stl::find_in_map( m_guidToClass,clsid,(IClassDesc*)0 );
+	IClassDesc *cls = stl::FindInMap( m_guidToClass,clsid,(IClassDesc*)0 );
 	return cls;
 }
 

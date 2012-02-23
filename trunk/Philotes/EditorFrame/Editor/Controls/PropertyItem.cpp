@@ -176,19 +176,19 @@ void CPropertyItem::SetXmlNode( XmlNodeRef &node )
 //////////////////////////////////////////////////////////////////////////
 void CPropertyItem::ParseXmlNode( bool bRecursive/* =true  */)
 {
-	if (!m_node->getAttr( DISPLAY_NAME_ATTR,m_name ))
+	if (!m_node->GetAttr( DISPLAY_NAME_ATTR,m_name ))
 	{
-		m_name = m_node->getTag();
+		m_name = m_node->GetTag();
 	}
 
 	CString value;
-	bool bHasValue=m_node->getAttr( VALUE_ATTR,value );
+	bool bHasValue=m_node->GetAttr( VALUE_ATTR,value );
 
 	CString type;
-	m_node->getAttr( TYPE_ATTR,type);
+	m_node->GetAttr( TYPE_ATTR,type);
 
 	m_tip = "";
-	m_node->getAttr( TIP_ATTR,m_tip );
+	m_node->GetAttr( TIP_ATTR,m_tip );
 
 	m_image = -1;
 	m_type = ePropertyInvalid;
@@ -208,13 +208,13 @@ void CPropertyItem::ParseXmlNode( bool bRecursive/* =true  */)
 	m_bHardMin = m_bHardMax = false;
 	if (m_type == ePropertyFloat || m_type == ePropertyInt)
 	{
-		if (m_node->getAttr( "Min", m_rangeMin ))
+		if (m_node->GetAttr( "Min", m_rangeMin ))
 			m_bHardMin = true;
-		if (m_node->getAttr( "Max", m_rangeMax ))
+		if (m_node->GetAttr( "Max", m_rangeMax ))
 			m_bHardMax = true;
 
 		int nPrecision;
-		if (!m_node->getAttr( "Precision", nPrecision))
+		if (!m_node->GetAttr( "Precision", nPrecision))
 			nPrecision = std::max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
 		m_step = powf(10.f, -nPrecision);
 	}
@@ -230,18 +230,18 @@ void CPropertyItem::ParseXmlNode( bool bRecursive/* =true  */)
 
 		m_childs.clear();
 		Float3 vec;
-		m_node->getAttr( VALUE_ATTR,vec );
+		m_node->GetAttr( VALUE_ATTR,vec );
 		
 		XmlNodeRef x = m_node->createNode( "X" );
 		XmlNodeRef y = m_node->createNode( "Y" );
 		XmlNodeRef z = m_node->createNode( "Z" );
-		x->setAttr( TYPE_ATTR,"Float" );
-		y->setAttr( TYPE_ATTR,"Float" );
-		z->setAttr( TYPE_ATTR,"Float" );
+		x->SetAttr( TYPE_ATTR,"Float" );
+		y->SetAttr( TYPE_ATTR,"Float" );
+		z->SetAttr( TYPE_ATTR,"Float" );
 
-		x->setAttr( VALUE_ATTR,vec.x );
-		y->setAttr( VALUE_ATTR,vec.y );
-		z->setAttr( VALUE_ATTR,vec.z );
+		x->SetAttr( VALUE_ATTR,vec.x );
+		y->SetAttr( VALUE_ATTR,vec.y );
+		z->SetAttr( VALUE_ATTR,vec.z );
 
 		m_bIgnoreChildsUpdate = true;
 
@@ -266,13 +266,13 @@ void CPropertyItem::ParseXmlNode( bool bRecursive/* =true  */)
 	{
 		m_bExpandable = false;
 		
-		for (int i=0; i < m_node->getChildCount(); i++)
+		for (int i=0; i < m_node->GetChildCount(); i++)
 		{
 			m_bIgnoreChildsUpdate = true;
 
-			XmlNodeRef child = m_node->getChild(i);
+			XmlNodeRef child = m_node->GetChild(i);
 			CPropertyItemPtr item = new CPropertyItem( m_propertyCtrl );
-			item->SetXmlNode( m_node->getChild(i) );
+			item->SetXmlNode( m_node->GetChild(i) );
 			AddChild( item );
 			m_bExpandable = true;
 
@@ -1398,7 +1398,7 @@ void CPropertyItem::SetValue( const char* sValue,bool bRecordUndo,bool bForceMod
 	{
 		if (m_node)
 		{
-			m_node->setAttr( VALUE_ATTR,m_value );
+			m_node->SetAttr( VALUE_ATTR,m_value );
 		}
 
 		SendToControl();

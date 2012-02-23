@@ -33,18 +33,19 @@ CViewport::CViewport()
 	m_eViewMode = NothingMode;
 
 	m_hCurrCursor = NULL;
-	m_hCursor[STD_CURSOR_DEFAULT] = AfxGetApp()->LoadStandardCursor(IDC_ARROW);
-	m_hCursor[STD_CURSOR_HIT] = AfxGetApp()->LoadCursor(IDC_POINTER_OBJHIT);
-	m_hCursor[STD_CURSOR_MOVE] = AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_MOVE);
-	m_hCursor[STD_CURSOR_ROTATE] = AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_ROTATE);
-	m_hCursor[STD_CURSOR_SCALE] = AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_SCALE);
-	m_hCursor[STD_CURSOR_SEL_PLUS] = AfxGetApp()->LoadCursor(IDC_POINTER_PLUS);
-	m_hCursor[STD_CURSOR_SEL_MINUS] = AfxGetApp()->LoadCursor(IDC_POINTER_MINUS);
-	m_hCursor[STD_CURSOR_SUBOBJ_SEL] = AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT);
-	m_hCursor[STD_CURSOR_SUBOBJ_SEL_PLUS] = AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT_PLUS);
-	m_hCursor[STD_CURSOR_SUBOBJ_SEL_MINUS] = AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT_MINUS);
-	m_hCursor[STD_CURSOR_CRYSIS] = AfxGetApp()->LoadCursor(IDC_CRYSISCURSOR);
+	m_hCursor[STD_CURSOR_DEFAULT]			= AfxGetApp()->LoadStandardCursor(IDC_ARROW);
+	m_hCursor[STD_CURSOR_HIT]				= AfxGetApp()->LoadCursor(IDC_POINTER_OBJHIT);
+	m_hCursor[STD_CURSOR_MOVE]				= AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_MOVE);
+	m_hCursor[STD_CURSOR_ROTATE]			= AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_ROTATE);
+	m_hCursor[STD_CURSOR_SCALE]				= AfxGetApp()->LoadCursor(IDC_POINTER_OBJECT_SCALE);
+	m_hCursor[STD_CURSOR_SEL_PLUS]			= AfxGetApp()->LoadCursor(IDC_POINTER_PLUS);
+	m_hCursor[STD_CURSOR_SEL_MINUS]			= AfxGetApp()->LoadCursor(IDC_POINTER_MINUS);
+	m_hCursor[STD_CURSOR_SUBOBJ_SEL]		= AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT);
+	m_hCursor[STD_CURSOR_SUBOBJ_SEL_PLUS]	= AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT_PLUS);
+	m_hCursor[STD_CURSOR_SUBOBJ_SEL_MINUS]	= AfxGetApp()->LoadCursor(IDC_POINTER_SO_SELECT_MINUS);
+	m_hCursor[STD_CURSOR_CRYSIS]			= AfxGetApp()->LoadCursor(IDC_CRYSISCURSOR);
 
+	m_viewManager = NULL;
 }
 
 CViewport::~CViewport()
@@ -264,13 +265,28 @@ BOOL CViewport::OnSetCursor( CWnd* pWnd, UINT nHitTest, UINT message )
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
-float CViewport::GetAspectRatio() const
-{
-	// д╛хож╣
-	return 4.0f/3.0f;
-}
-
 void CViewport::UpdateContent( int flags )
 {
 
+}
+
+void CViewport::SetViewManager( CViewManager* vm )
+{
+	m_viewManager = vm;
+}
+
+void CViewport::CaptureMouse()
+{
+	if (GetCapture() != this)
+	{
+		SetCapture();
+	}
+}
+
+void CViewport::ReleaseMouse()
+{
+	if (GetCapture() == this)
+	{
+		ReleaseCapture();
+	}
 }

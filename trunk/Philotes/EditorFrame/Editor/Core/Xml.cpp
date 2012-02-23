@@ -102,7 +102,7 @@ XmlNodeRef CXmlNodePool::GetXmlNode(const char* sNodeName)
 		pNode = m_pNodePool.top();
 		m_pNodePool.pop();
 
-		pNode->setTag(sNodeName);
+		pNode->SetTag(sNodeName);
 
 		m_nAllocated++;
 	}
@@ -124,8 +124,8 @@ void CXmlNodePool::OnRelease(int iRefCount, void* pThis)
 	{
 		CXmlNodeReuse* pNode = static_cast<CXmlNodeReuse*>(pThis);
 
-		pNode->removeAllChilds();
-		pNode->removeAllAttributes();
+		pNode->RemoveAllChilds();
+		pNode->RemoveAllAttributes();
 
 		m_pNodePool.push(pNode);
 
@@ -241,7 +241,7 @@ void	XmlParserImp::onStartElement( const char *tagName,const char **atts )
 		node->AddRef(); // Childs need to be add refed.
 	}
 
-	node->setLine( XML_GetCurrentLineNumber( (XML_Parser)m_parser ) );
+	node->SetLine( XML_GetCurrentLineNumber( (XML_Parser)m_parser ) );
 
 	int i = 0;
 	int numAttrs = 0;
@@ -495,22 +495,22 @@ XmlNodeRef CXmlNode::createNode( const char *tag )
 	return XmlNodeRef( pNewNode );
 }
 
-void CXmlNode::setTag( const char *tag )
+void CXmlNode::SetTag( const char *tag )
 {
 	m_tag = m_pStringPool->AddString(tag);
 }
 
-void CXmlNode::setContent( const char *str )
+void CXmlNode::SetContent( const char *str )
 {
 	m_content = m_pStringPool->AddString(str);
 }
 
-bool CXmlNode::isTag( const char *tag ) const
+bool CXmlNode::IsTag( const char *tag ) const
 {
 	return g_pXmlStrCmp( tag,m_tag ) == 0;
 }
 
-const char* CXmlNode::getAttr( const char *key ) const
+const char* CXmlNode::GetAttr( const char *key ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -518,7 +518,7 @@ const char* CXmlNode::getAttr( const char *key ) const
 	return "";
 }
 
-bool CXmlNode::getAttr(const char *key, const char **value) const
+bool CXmlNode::GetAttr(const char *key, const char **value) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -533,7 +533,7 @@ bool CXmlNode::getAttr(const char *key, const char **value) const
 	}
 }
 
-bool CXmlNode::haveAttr( const char *key ) const
+bool CXmlNode::HaveAttr( const char *key ) const
 {
 	XmlAttrConstIter it = GetAttrConstIterator(key);
 	if (it != m_attributes.end()) {
@@ -542,7 +542,7 @@ bool CXmlNode::haveAttr( const char *key ) const
 	return false;
 }
 
-void CXmlNode::delAttr( const char *key )
+void CXmlNode::DelAttr( const char *key )
 {
 	XmlAttrIter it = GetAttrIterator(key);
 	if (it != m_attributes.end())
@@ -551,12 +551,12 @@ void CXmlNode::delAttr( const char *key )
 	}
 }
 
-void CXmlNode::removeAllAttributes()
+void CXmlNode::RemoveAllAttributes()
 {
 	m_attributes.clear();
 }
 
-void CXmlNode::setAttr( const char *key,const char *value )
+void CXmlNode::SetAttr( const char *key,const char *value )
 {
 	XmlAttrIter it = GetAttrIterator(key);
 	if (it == m_attributes.end())
@@ -572,67 +572,67 @@ void CXmlNode::setAttr( const char *key,const char *value )
 	}
 }
 
-void CXmlNode::setAttr( const char *key,int value )
+void CXmlNode::SetAttr( const char *key,int value )
 {
 	char str[128];
 	itoa( value,str,10 );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
-void CXmlNode::setAttr( const char *key,unsigned int value )
+void CXmlNode::SetAttr( const char *key,unsigned int value )
 {
 	char str[128];
 	itoa( value,str,10 );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
-void CXmlNode::setAttr( const char *key,float value )
+void CXmlNode::SetAttr( const char *key,float value )
 {
 	char str[128];
 	sprintf( str,FLOAT_FMT,value );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
 //////////////////////////////////////////////////////////////////////////
-void CXmlNode::setAttr( const char *key,INT64 value )
+void CXmlNode::SetAttr( const char *key,INT64 value )
 {
 	char str[32];
 	sprintf( str,"%"PRId64, value );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
 //////////////////////////////////////////////////////////////////////////
-void CXmlNode::setAttr( const char *key,UINT64 value,bool useHexFormat)
+void CXmlNode::SetAttr( const char *key,UINT64 value,bool useHexFormat)
 {
 	char str[32];
 	if (useHexFormat)
 		sprintf( str,"%"PRIX64,value );
 	else
 		sprintf(str, "%"PRIu64, value);
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
-void CXmlNode::setAttr( const char *key,const Float3& value )
+void CXmlNode::SetAttr( const char *key,const Float3& value )
 {
 	char str[128];
 	sprintf( str,FLOAT_FMT","FLOAT_FMT","FLOAT_FMT,value.x,value.y,value.z );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
-void CXmlNode::setAttr( const char *key,const Float2& value )
+void CXmlNode::SetAttr( const char *key,const Float2& value )
 {
 	char str[128];
 	sprintf( str,FLOAT_FMT","FLOAT_FMT,value.x,value.y );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
-void CXmlNode::setAttr( const char *key,const Quaternion &value )
+void CXmlNode::SetAttr( const char *key,const Quaternion &value )
 {
 	char str[128];
 	sprintf( str,FLOAT_FMT","FLOAT_FMT","FLOAT_FMT","FLOAT_FMT,value.w,value.x,value.y,value.z );
-	setAttr( key,str );
+	SetAttr( key,str );
 }
 
-bool CXmlNode::getAttr( const char *key,int &value ) const
+bool CXmlNode::GetAttr( const char *key,int &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -643,7 +643,7 @@ bool CXmlNode::getAttr( const char *key,int &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,unsigned int &value ) const
+bool CXmlNode::GetAttr( const char *key,unsigned int &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -654,7 +654,7 @@ bool CXmlNode::getAttr( const char *key,unsigned int &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,INT64 &value ) const
+bool CXmlNode::GetAttr( const char *key,INT64 &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -665,7 +665,7 @@ bool CXmlNode::getAttr( const char *key,INT64 &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,UINT64 &value,bool useHexFormat) const
+bool CXmlNode::GetAttr( const char *key,UINT64 &value,bool useHexFormat) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -679,7 +679,7 @@ bool CXmlNode::getAttr( const char *key,UINT64 &value,bool useHexFormat) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,bool &value ) const
+bool CXmlNode::GetAttr( const char *key,bool &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -690,7 +690,7 @@ bool CXmlNode::getAttr( const char *key,bool &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,float &value ) const
+bool CXmlNode::GetAttr( const char *key,float &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -701,7 +701,7 @@ bool CXmlNode::getAttr( const char *key,float &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,Float3& value ) const
+bool CXmlNode::GetAttr( const char *key,Float3& value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -716,7 +716,7 @@ bool CXmlNode::getAttr( const char *key,Float3& value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,Float2& value ) const
+bool CXmlNode::GetAttr( const char *key,Float2& value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -731,7 +731,7 @@ bool CXmlNode::getAttr( const char *key,Float2& value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,Quaternion &value ) const
+bool CXmlNode::GetAttr( const char *key,Quaternion &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -752,7 +752,7 @@ bool CXmlNode::getAttr( const char *key,Quaternion &value ) const
 	return false;
 }
 
-bool CXmlNode::getAttr( const char *key,ColorValue &value ) const
+bool CXmlNode::GetAttr( const char *key,ColorValue &value ) const
 {
 	const char *svalue = GetValue(key);
 	if (svalue)
@@ -775,17 +775,17 @@ bool CXmlNode::getAttr( const char *key,ColorValue &value ) const
 }
 
 
-XmlNodeRef CXmlNode::findChild( const char *tag ) const
+XmlNodeRef CXmlNode::FindChild( const char *tag ) const
 {
 	for (int i = 0,num = m_childs.size(); i < num; ++i)
 	{
-		if (m_childs[i]->isTag(tag))
+		if (m_childs[i]->IsTag(tag))
 			return m_childs[i];
 	}
 	return 0;
 }
 
-void CXmlNode::removeChild( const XmlNodeRef &node )
+void CXmlNode::RemoveChild( const XmlNodeRef &node )
 {
 	XmlNodes::iterator it = std::find(m_childs.begin(),m_childs.end(),(IXmlNode*)node );
 	if (it != m_childs.end())
@@ -796,7 +796,7 @@ void CXmlNode::removeChild( const XmlNodeRef &node )
 	}
 }
 
-void CXmlNode::removeAllChilds()
+void CXmlNode::RemoveAllChilds()
 {
 	for (int i = 0,num = m_childs.size(); i < num; ++i)
 	{
@@ -810,7 +810,7 @@ void CXmlNode::deleteChild( const char *tag )
 {
 	for (int i = 0,num = m_childs.size(); i < num; ++i)
 	{
-		if (m_childs[i]->isTag(tag))
+		if (m_childs[i]->IsTag(tag))
 		{
 			m_childs[i]->m_parent = 0;
 			m_childs[i]->Release();
@@ -820,7 +820,7 @@ void CXmlNode::deleteChild( const char *tag )
 	}
 }
 
-void CXmlNode::deleteChildAt( int nIndex )
+void CXmlNode::DeleteChildAt( int nIndex )
 {
 	if (nIndex >= 0 && nIndex < (int)m_childs.size())
 	{
@@ -830,7 +830,7 @@ void CXmlNode::deleteChildAt( int nIndex )
 	}
 }
 
-void CXmlNode::addChild( const XmlNodeRef &node )
+void CXmlNode::AddChild( const XmlNodeRef &node )
 {
 	assert( node != 0 );
 	CXmlNode *pNode = (CXmlNode*)((IXmlNode*)node);
@@ -839,20 +839,20 @@ void CXmlNode::addChild( const XmlNodeRef &node )
 	pNode->m_parent = this;
 };
 
-XmlNodeRef CXmlNode::newChild( const char *tagName )
+XmlNodeRef CXmlNode::NewChild( const char *tagName )
 {
 	XmlNodeRef node = createNode(tagName);
-	addChild(node);
+	AddChild(node);
 	return node;
 }
 
-XmlNodeRef CXmlNode::getChild( int i ) const
+XmlNodeRef CXmlNode::GetChild( int i ) const
 {
 	assert( i >= 0 && i < (int)m_childs.size() );
 	return m_childs[i];
 }
 
-void CXmlNode::copyAttributes( XmlNodeRef fromNode )
+void CXmlNode::CopyAttributes( XmlNodeRef fromNode )
 {
 	IXmlNode* inode = fromNode;
 	CXmlNode *n = (CXmlNode*)inode;
@@ -869,7 +869,7 @@ void CXmlNode::copyAttributes( XmlNodeRef fromNode )
 	}
 }
 
-bool CXmlNode::getAttributeByIndex( int index,const char **key,const char **value )
+bool CXmlNode::GetAttributeByIndex( int index,const char **key,const char **value )
 {
 	XmlAttributes::iterator it = m_attributes.begin();
 	if (it != m_attributes.end())
@@ -885,7 +885,7 @@ bool CXmlNode::getAttributeByIndex( int index,const char **key,const char **valu
 	return false;
 }
 
-bool CXmlNode::getAttributeByIndex(int index, XmlString & key,XmlString &value )
+bool CXmlNode::GetAttributeByIndex(int index, XmlString & key,XmlString &value )
 {
 	XmlAttributes::iterator it = m_attributes.begin();
 	if (it != m_attributes.end())
@@ -901,7 +901,7 @@ bool CXmlNode::getAttributeByIndex(int index, XmlString & key,XmlString &value )
 	return false;
 }
 
-XmlNodeRef CXmlNode::clone()
+XmlNodeRef CXmlNode::Clone()
 {
 	CXmlNode *node = new CXmlNode;
 	node->m_pStringPool = m_pStringPool;
@@ -910,12 +910,12 @@ XmlNodeRef CXmlNode::clone()
 	node->m_content = m_content;
 
 	CXmlNode *n = (CXmlNode*)(IXmlNode*)node;
-	n->copyAttributes( this );
+	n->CopyAttributes( this );
 
 	node->m_childs.reserve( m_childs.size() );
 	for (int i = 0,num = m_childs.size(); i < num; ++i)
 	{
-		node->addChild( m_childs[i]->clone() );
+		node->AddChild( m_childs[i]->Clone() );
 	}
 
 	return node;
@@ -969,7 +969,7 @@ bool CXmlNode::IsValidXmlString( const char *str ) const
 	return false;
 }
 
-IXmlStringData* CXmlNode::getXMLData( int nReserveMem ) const
+IXmlStringData* CXmlNode::GetXMLData( int nReserveMem ) const
 {
 	CXmlStringData *pStrData = new CXmlStringData;
 	pStrData->m_string.reserve(nReserveMem);
@@ -977,7 +977,7 @@ IXmlStringData* CXmlNode::getXMLData( int nReserveMem ) const
 	return pStrData;
 }
 
-XmlString CXmlNode::getXML( int level ) const
+XmlString CXmlNode::GetXML( int level ) const
 {
 	XmlString xml;
 	xml = "";
@@ -1075,12 +1075,12 @@ void CXmlNode::AddToXmlString( XmlString &xml, int level, FILE* pFile) const
 	xml += ">\n";
 }
 
-bool CXmlNode::saveToFile( const char *fileName )
+bool CXmlNode::SaveToFile( const char *fileName )
 {
 	return true;
 }
 
-bool CXmlNode::saveToFile( const char *fileName, size_t chunkSizeBytes, FILE *file /*= NULL */ )
+bool CXmlNode::SaveToFile( const char *fileName, size_t chunkSizeBytes, FILE *file /*= NULL */ )
 {
 	return true;
 }

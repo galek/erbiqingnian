@@ -106,91 +106,91 @@ public:
 
 	XmlNodeRef				createNode( const char *tag );
 
-	const char*				getTag() const { return m_tag; };
+	const char*				GetTag() const { return m_tag; };
 
-	void					setTag( const char *tag );
+	void					SetTag( const char *tag );
 
-	bool					isTag( const char *tag ) const;
+	bool					IsTag( const char *tag ) const;
 
-	virtual int				getNumAttributes() const
+	virtual int				GetNumAttributes() const
 	{
 		return (int)m_attributes.size(); 
 	}
 
-	virtual bool			getAttributeByIndex( int index,const char **key,const char **value );
+	virtual bool			GetAttributeByIndex( int index,const char **key,const char **value );
 
-	virtual bool			getAttributeByIndex( int index, XmlString& key,XmlString &value );
+	virtual bool			GetAttributeByIndex( int index, XmlString& key,XmlString &value );
 
-	virtual void			copyAttributes( XmlNodeRef fromNode );
+	virtual void			CopyAttributes( XmlNodeRef fromNode );
 
-	const char*				getAttr( const char *key ) const;
+	const char*				GetAttr( const char *key ) const;
 
-	bool					getAttr(const char *key, const char **value) const;
+	bool					GetAttr(const char *key, const char **value) const;
 
-	bool					haveAttr( const char *key ) const;
+	bool					HaveAttr( const char *key ) const;
 
-	XmlNodeRef				newChild( const char *tagName );
+	XmlNodeRef				NewChild( const char *tagName );
 
-	void					addChild( const XmlNodeRef &node );
+	void					AddChild( const XmlNodeRef &node );
 
-	void					removeChild( const XmlNodeRef &node );
+	void					RemoveChild( const XmlNodeRef &node );
 
-	void					removeAllChilds();
+	void					RemoveAllChilds();
 
-	int						getChildCount() const { return (int)m_childs.size(); };
+	int						GetChildCount() const { return (int)m_childs.size(); };
 
-	XmlNodeRef				getChild( int i ) const;
+	XmlNodeRef				GetChild( int i ) const;
 
-	XmlNodeRef				findChild( const char *tag ) const;
+	XmlNodeRef				FindChild( const char *tag ) const;
 
 	void					deleteChild( const char *tag );
 
-	void					deleteChildAt( int nIndex );
+	void					DeleteChildAt( int nIndex );
 
-	XmlNodeRef				getParent() const { return m_parent; }
+	XmlNodeRef				GetParent() const { return m_parent; }
 
-	const char*				getContent() const { return m_content; };
+	const char*				GetContent() const { return m_content; };
 
-	void					setContent( const char *str );
+	void					SetContent( const char *str );
 
-	XmlNodeRef				clone();
+	XmlNodeRef				Clone();
 
-	int						getLine() const { return m_line; };
+	int						GetLine() const { return m_line; };
 
-	void					setLine( int line ) { m_line = line; };
+	void					SetLine( int line ) { m_line = line; };
 
-	virtual IXmlStringData* getXMLData( int nReserveMem=0 ) const;
-	XmlString				getXML( int level=0 ) const;
-	bool 					saveToFile( const char *fileName );
-	bool 					saveToFile( const char *fileName, size_t chunkSizeBytes, FILE *file = NULL );
+	virtual IXmlStringData* GetXMLData( int nReserveMem=0 ) const;
+	XmlString				GetXML( int level=0 ) const;
+	bool 					SaveToFile( const char *fileName );
+	bool 					SaveToFile( const char *fileName, size_t chunkSizeBytes, FILE *file = NULL );
 
-	void 					setAttr( const char* key,const char* value );
-	void 					setAttr( const char* key,int value );
-	void 					setAttr( const char* key,unsigned int value );
-	void 					setAttr( const char* key,INT64 value );
-	void 					setAttr( const char* key,UINT64 value,bool useHexFormat = true  );
-	void 					setAttr( const char* key,float value );
-	void 					setAttr( const char* key,const Float2& value );
-	void 					setAttr( const char* key,const Float3& value );
-	void 					setAttr( const char* key,const Quaternion& value );
+	void 					SetAttr( const char* key,const char* value );
+	void 					SetAttr( const char* key,int value );
+	void 					SetAttr( const char* key,unsigned int value );
+	void 					SetAttr( const char* key,INT64 value );
+	void 					SetAttr( const char* key,UINT64 value,bool useHexFormat = true  );
+	void 					SetAttr( const char* key,float value );
+	void 					SetAttr( const char* key,const Float2& value );
+	void 					SetAttr( const char* key,const Float3& value );
+	void 					SetAttr( const char* key,const Quaternion& value );
 
-	void 					delAttr( const char* key );
-	void 					removeAllAttributes();
+	void 					DelAttr( const char* key );
+	void 					RemoveAllAttributes();
 
-	bool 					getAttr( const char *key,int &value ) const;
-	bool 					getAttr( const char *key,unsigned int &value ) const;
-	bool 					getAttr( const char *key,INT64 &value ) const;
-	bool 					getAttr( const char *key,UINT64 &value,bool useHexFormat = true) const;
-	bool 					getAttr( const char *key,float &value ) const;
-	bool 					getAttr( const char *key,bool &value ) const;
-	bool 					getAttr( const char *key,Float2 &value ) const;
-	bool 					getAttr( const char *key,Float3 &value ) const;
-	bool 					getAttr( const char *key,Quaternion &value ) const;
-	bool 					getAttr( const char *key,ColorValue &value ) const;
-	bool 					getAttr( const char *key,XmlString &value ) const
+	bool 					GetAttr( const char *key,int &value ) const;
+	bool 					GetAttr( const char *key,unsigned int &value ) const;
+	bool 					GetAttr( const char *key,INT64 &value ) const;
+	bool 					GetAttr( const char *key,UINT64 &value,bool useHexFormat = true) const;
+	bool 					GetAttr( const char *key,float &value ) const;
+	bool 					GetAttr( const char *key,bool &value ) const;
+	bool 					GetAttr( const char *key,Float2 &value ) const;
+	bool 					GetAttr( const char *key,Float3 &value ) const;
+	bool 					GetAttr( const char *key,Quaternion &value ) const;
+	bool 					GetAttr( const char *key,ColorValue &value ) const;
+	bool 					GetAttr( const char *key,XmlString &value ) const
 	{
 		const char* v(NULL);
-		bool  boHasAttribute(getAttr(key,&v));
+		bool  boHasAttribute(GetAttr(key,&v));
 		value = v;
 		return boHasAttribute;
 	}

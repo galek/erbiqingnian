@@ -231,7 +231,7 @@ public:
 		}
 		else
 		{
-			stl::find_and_erase( m_wiredVars,var );
+			stl::FindAndErase( m_wiredVars,var );
 		}
 	}
 
@@ -242,7 +242,7 @@ public:
 
 	void				RemoveOnSetCallback( OnSetCallback func )
 	{
-		stl::find_and_erase( m_onSetFuncs,func );
+		stl::FindAndErase( m_onSetFuncs,func );
 	}
 
 	void				OnSetValue(bool bRecursive)
@@ -268,7 +268,7 @@ public:
 		if (load)
 		{
 			CString data;
-			if (node->getAttr(to_c_str(m_name),data))
+			if (node->GetAttr(to_c_str(m_name),data))
 			{
 				Set( data );
 			}
@@ -277,7 +277,7 @@ public:
 		{
 			CString str;
 			Get( str );
-			node->setAttr( to_c_str(m_name),to_c_str(str) );
+			node->SetAttr( to_c_str(m_name),to_c_str(str) );
 		}
 	}
 
@@ -408,7 +408,7 @@ public:
 
 	bool			DeleteChildVar( IVariable *var, bool recursive /*=false*/ )
 	{
-		bool found = stl::find_and_erase( m_vars, var );    
+		bool found = stl::FindAndErase( m_vars, var );    
 		if (!found && recursive)
 		{
 			for (Vars::iterator it = m_vars.begin(); it != m_vars.end(); ++it)
@@ -436,7 +436,7 @@ public:
 				IVariable *var = *it;
 				if (var->NumChildVars())
 				{
-					XmlNodeRef child = node->findChild(var->GetName());
+					XmlNodeRef child = node->FindChild(var->GetName());
 					if (child)
 						var->Serialize( child,load );
 				}
@@ -452,7 +452,7 @@ public:
 				IVariable *var = *it;
 				if (var->NumChildVars())
 				{
-					XmlNodeRef child = node->newChild(var->GetName());
+					XmlNodeRef child = node->NewChild(var->GetName());
 					var->Serialize( child,load );
 				}
 				else
@@ -751,7 +751,7 @@ public:
 				IVariable *var = *it;
 				if (var->NumChildVars())
 				{
-					XmlNodeRef child = node->findChild(var->GetName());
+					XmlNodeRef child = node->FindChild(var->GetName());
 					if (child)
 						var->Serialize( child,load );
 				}
@@ -766,7 +766,7 @@ public:
 				IVariable *var = *it;
 				if (var->NumChildVars())
 				{
-					XmlNodeRef child = node->newChild(var->GetName());
+					XmlNodeRef child = node->NewChild(var->GetName());
 					var->Serialize( child,load );
 				}
 				else

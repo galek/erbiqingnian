@@ -53,7 +53,7 @@ public:
 	virtual void 			EndEditParams() {};
 
 protected:
-	virtual ~CEditTool() {};
+	virtual					~CEditTool(){}
 
 	virtual void			DeleteThis() = 0;
 

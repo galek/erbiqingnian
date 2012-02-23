@@ -18,6 +18,8 @@ class CClassFactory;
 struct IEditorClassFactory;
 class CEditTool;
 class CRollupCtrl;
+class CViewManager;
+class CViewport;
 
 //////////////////////////////////////////////////////////////////////////
 // 收缩控件类型
@@ -75,16 +77,16 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 
-	virtual int				SelectRollUpBar( int rollupBarId );
+	int						SelectRollUpBar( int rollupBarId );
 
-	virtual int				AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate = NULL,
-									bool bAutoDestroyTpl = true, int iIndex = -1,bool bAutoExpand=true );
+	int						AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate = NULL,
+								bool bAutoDestroyTpl = true, int iIndex = -1,bool bAutoExpand=true );
 
-	virtual void			RemoveRollUpPage(int rollbarId,int iIndex);
+	void					RemoveRollUpPage(int rollbarId,int iIndex);
 
-	virtual void			ExpandRollUpPage(int rollbarId,int iIndex, BOOL bExpand = true);
+	void					ExpandRollUpPage(int rollbarId,int iIndex, BOOL bExpand = true);
 
-	virtual void			EnableRollUpPage(int rollbarId,int iIndex, BOOL bEnable = true);
+	void					EnableRollUpPage(int rollbarId,int iIndex, BOOL bEnable = true);
 
 	CRollupCtrl*			GetRollUpControl( int rollupId );
 
@@ -95,6 +97,14 @@ public:
 	virtual void			AddTemplate( const CString &templateName,XmlNodeRef &tmpl );
 
 	virtual void			ReloadTemplates();
+
+	//////////////////////////////////////////////////////////////////////////
+
+	CViewManager*			GetViewManager();
+
+	CViewport*				GetActiveView();
+
+	void					UpdateViews( int flags );
 
 protected:
 
@@ -115,4 +125,6 @@ protected:
 	CXmlTemplateRegistry	m_templateRegistry;
 
 	CString					m_masterFolder;
+
+	CViewManager*			m_viewMan;
 };

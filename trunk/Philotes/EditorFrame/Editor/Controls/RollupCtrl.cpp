@@ -167,7 +167,7 @@ int CRollupCtrl::_InsertPage(LPCTSTR caption, CDialog* pwndTemplate, int idx, BO
 	m_nPageHeight+=RC_PGBUTTONHEIGHT+(RC_GRPBOXINDENT*2);
 	RecalLayout();
 
-	bool bExpanded = stl::find_in_map( m_expandedMap,caption,bAutoExpand==TRUE );
+	bool bExpanded = stl::FindInMap( m_expandedMap,caption,bAutoExpand==TRUE );
 	if (bExpanded)
 	{
 		ExpandPage( pi->id,bExpanded,FALSE );

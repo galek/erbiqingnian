@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Panels;./Layout;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Panels;./Render;./Layout;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -132,7 +132,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Layout;./Panels;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
+				AdditionalIncludeDirectories="./Controls;./Utils;./Core;./MFCBase;./EditTools;./Dialogs;./Render;./Layout;./Panels;./Objects;../3rdlibs;../3rdlibs/expat;../3rdlibs/xtp1501"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -535,6 +535,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\ico00001.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\icon_lock.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\icon_tcoll.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\res\im_orgh.cur"
 				>
 			</File>
@@ -595,7 +607,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\maximize.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\res\minifwnd.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\object_move.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\object_rotate.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\object_scale.cur"
 				>
 			</File>
 			<File
@@ -608,6 +636,30 @@
 			</File>
 			<File
 				RelativePath=".\res\pick_cursor.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointer_.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointer_minus.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointer_plus.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointer_so_sel_plus.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointer_so_select.cur"
+				>
+			</File>
+			<File
+				RelativePath=".\res\pointerHit.cur"
 				>
 			</File>
 			<File
@@ -628,8 +680,28 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="MFCBase"
+			Name="Core"
 			>
+			<File
+				RelativePath=".\Core\ClassFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ClassPlugin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ClassPlugin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Clipboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Clipboard.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Editor.cpp"
 				>
@@ -671,6 +743,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\EditorRoot.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\EditorRoot.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\EditorTool.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\EditorTool.h"
+				>
+			</File>
+			<File
 				RelativePath=".\EditorView.cpp"
 				>
 			</File>
@@ -688,46 +776,6 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Core"
-			>
-			<File
-				RelativePath=".\Core\ClassFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\ClassPlugin.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\ClassPlugin.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Clipboard.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Clipboard.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\EditorRoot.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\EditorRoot.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\EditorTool.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\EditorTool.h"
 				>
 			</File>
 			<File
@@ -867,6 +915,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Layout\RenderView.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\RenderView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\ViewManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Layout\ViewManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Layout\ViewPane.cpp"
 				>
 			</File>
@@ -888,6 +952,18 @@
 			</File>
 			<File
 				RelativePath=".\EditTools\EnvironmentEditor.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Render"
+			>
+			<File
+				RelativePath=".\Render\d3dUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Render\d3dUtility.h"
 				>
 			</File>
 		</Filter>

@@ -8,8 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
-#include "colordlg.h"
-
+#include "colordlg.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -53,27 +52,6 @@ BEGIN
     "#include ""afxres.rc""         // Standard components\r\n"
     "#endif\r\0"
 END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // 中文(中华人民共和国) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// 中文(中华人民共和国) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-#ifdef _WIN32
-LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
-#pragma code_page(936)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
 
 1 TEXTINCLUDE 
 BEGIN
@@ -141,20 +119,20 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "文件"
     BEGIN
-        MENUITEM "新建\tCtrl+N",                ID_FILE_NEW
-        MENUITEM "打开...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "保存\tCtrl+S",               ID_FILE_SAVE
-        MENUITEM "另存为...",                 ID_FILE_SAVE_AS
+        MENUITEM "新建\tCtrl+N",                  ID_FILE_NEW
+        MENUITEM "打开...\tCtrl+O",               ID_FILE_OPEN
+        MENUITEM "保存\tCtrl+S",                  ID_FILE_SAVE
+        MENUITEM "另存为...",                      ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
-        MENUITEM "退出",                       ID_APP_EXIT
+        MENUITEM "退出",                          ID_APP_EXIT
     END
     POPUP "编辑"
     BEGIN
-        MENUITEM "撤销\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM "撤销\tCtrl+Z",                  ID_EDIT_UNDO
         MENUITEM SEPARATOR
-        MENUITEM "剪切\tCtrl+X",                ID_EDIT_CUT
-        MENUITEM "复制\tCtrl+C",               ID_EDIT_COPY
-        MENUITEM "粘贴\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "剪切\tCtrl+X",                  ID_EDIT_CUT
+        MENUITEM "复制\tCtrl+C",                  ID_EDIT_COPY
+        MENUITEM "粘贴\tCtrl+V",                  ID_EDIT_PASTE
     END
     POPUP "&视图"
     BEGIN
@@ -176,7 +154,7 @@ IDR_VIEW_OPTIONS MENU
 BEGIN
     POPUP "&视图选项"
     BEGIN
-        MENUITEM "&全屏",						ID_WIREFRAME
+        MENUITEM "&全屏",                         ID_WIREFRAME
     END
 END
 
@@ -281,8 +259,8 @@ BEGIN
     CONTROL         "选择锁定",ID_LOCK_SELECTION,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE,149,2,55,12
     EDITTEXT        IDC_MOVE_SPEED,414,2,28,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
     LTEXT           "速度:",IDC_STATIC,390,4,24,8
-    PUSHBUTTON      "地表碰撞",IDC_TERRAIN_COLLISION,487,2,16,12,NOT WS_TABSTOP
-    PUSHBUTTON      "转到位置",IDC_GOTOPOSITION,628,2,55,12,NOT WS_TABSTOP
+    PUSHBUTTON      "地表碰撞",IDC_TERRAIN_COLLISION,485,2,16,12,NOT WS_TABSTOP
+    PUSHBUTTON      "转到位置",IDC_GOTOPOSITION,507,2,47,12,NOT WS_TABSTOP
     PUSHBUTTON      ".1",IDC_SPEED_01,443,2,11,12,NOT WS_TABSTOP
     PUSHBUTTON      "1",IDC_SPEED_1,454,2,12,12,NOT WS_TABSTOP
     PUSHBUTTON      "10",IDC_SPEED_10,466,2,12,12,NOT WS_TABSTOP
@@ -304,6 +282,7 @@ FONT 8, "MS Shell Dlg 2", 400, 0, 0x1
 BEGIN
     PUSHBUTTON      "应用",IDC_APPLY,23,191,83,14
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -360,7 +339,7 @@ BEGIN
         BOTTOMMARGIN, 48
     END
 
-	IDD_DB_ENTITY, DIALOG
+    IDD_DB_ENTITY, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 213
@@ -368,7 +347,7 @@ BEGIN
         BOTTOMMARGIN, 98
     END
 
-	IDD_VIEWPORT_TITLE, DIALOG
+    IDD_VIEWPORT_TITLE, DIALOG
     BEGIN
         RIGHTMARGIN, 291
         BOTTOMMARGIN, 10
@@ -400,14 +379,14 @@ AFX_IDC_MOUSE_ORG_HV    CURSOR                  "res\\im_orghv.cur"
 IDC_LEFTRIGHT           CURSOR                  "res\\leftright.cur"
 IDC_COLOR_PICKER        CURSOR                  "res\\pick_cursor.cur"
 IDC_POINTER_OBJHIT      CURSOR                  "res\\pointerHit.cur"
-IDC_POINTER_OBJECT_ROTATE CURSOR				"res\\object_rotate.cur"
-IDC_POINTER_OBJECT_SCALE CURSOR					"res\\object_scale.cur"
+IDC_POINTER_OBJECT_ROTATE CURSOR                  "res\\object_rotate.cur"
+IDC_POINTER_OBJECT_SCALE CURSOR                  "res\\object_scale.cur"
 IDC_POINTER_OBJECT_MOVE CURSOR                  "res\\object_move.cur"
 IDC_POINTER_PLUS        CURSOR                  "res\\pointer_plus.cur"
 IDC_POINTER_MINUS       CURSOR                  "res\\pointer_minus.cur"
 IDC_POINTER_SO_SELECT   CURSOR                  "res\\pointer_so_select.cur"
-IDC_POINTER_SO_SELECT_PLUS CURSOR				"res\\pointer_so_sel_plus.cur"
-IDC_POINTER_SO_SELECT_MINUS CURSOR				"res\\pointer_.cur"
+IDC_POINTER_SO_SELECT_PLUS CURSOR                  "res\\pointer_so_sel_plus.cur"
+IDC_POINTER_SO_SELECT_MINUS CURSOR                  "res\\pointer_.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -647,9 +626,9 @@ BEGIN
     AFX_IDS_OCC_SCALEUNITS_PIXELS "pixels"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
-	ID_WIREFRAME            "以线框模式渲染.\n线框模式"
+    ID_WIREFRAME            "以线框模式渲染.\n线框模式"
 END
 
 STRINGTABLE 
@@ -665,7 +644,7 @@ BEGIN
     AFX_IDS_CHECKLISTBOX_MIXED "Mixed"
 END
 
-#endif    // 英语(美国) resources
+#endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -680,13 +659,12 @@ END
 #define _AFX_NO_TRACKER_RESOURCES
 #define _AFX_NO_PROPERTY_RESOURCES
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 9, 1
 #pragma code_page(1252)
 #include "res\Editor.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
-#endif
-
+#endif
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

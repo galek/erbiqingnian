@@ -34,9 +34,9 @@ END_MESSAGE_MAP()
 
 CLayoutViewPane::CLayoutViewPane()
 {
-	m_viewport = 0;
-	m_active = 0;
-	m_nBorder = VIEW_BORDER;
+	m_viewport	= NULL;
+	m_active	= false;
+	m_nBorder	= VIEW_BORDER;
 
 	m_titleHeight = 16;
 	m_bFullscreen = false;
@@ -69,7 +69,6 @@ void CLayoutViewPane::SetViewClass( const CString &sClass )
 			AttachViewport( pNewView );
 		}
 	}
-
 }
 
 CString CLayoutViewPane::GetViewClass() const
@@ -103,7 +102,9 @@ void CLayoutViewPane::Dump(CDumpContext& dc) const
 int CLayoutViewPane::OnCreate(LPCREATESTRUCT lpCreateStruct) 
 {
 	if (CView::OnCreate(lpCreateStruct) == -1)
+	{
 		return -1;
+	}
 
 	m_viewportTitleDlg.Create(CViewportTitleDlg::IDD,this);
 	m_viewportTitleDlg.ShowWindow(SW_SHOW);
@@ -120,7 +121,6 @@ void CLayoutViewPane::SwapViewports( CLayoutViewPane *pView )
 	CWnd *pViewport = pView->GetViewport();
 	CWnd *pViewportOld = m_viewport;
 
-
 	std::swap( m_viewPaneClass,pView->m_viewPaneClass );
 
 	AttachViewport( pViewport );
@@ -130,7 +130,9 @@ void CLayoutViewPane::SwapViewports( CLayoutViewPane *pView )
 void CLayoutViewPane::AttachViewport( CWnd *pViewport )
 {
 	if (pViewport == m_viewport)
+	{
 		return;
+	}
 
 	m_viewport = pViewport;
 	if (pViewport)

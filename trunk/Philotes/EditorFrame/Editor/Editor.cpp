@@ -6,6 +6,8 @@
 
 #include "EditorDoc.h"
 #include "EditorView.h"
+#include "Viewport.h"
+#include "ViewManager.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -26,8 +28,8 @@ END_MESSAGE_MAP()
 
 CEditorApp::CEditorApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+	m_bPrevActive = false;
+	m_bForceProcessIdle = false;
 }
 
 
@@ -40,75 +42,52 @@ CEditorApp theApp;
 
 BOOL CEditorApp::InitInstance()
 {
-	// InitCommonControlsEx() is required on Windows XP if an application
-	// manifest specifies use of ComCtl32.dll version 6 or later to enable
-	// visual styles.  Otherwise, any window creation will fail.
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
-	// Set this to include all the common control classes you want to use
-	// in your application.
+
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
 
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	// of your final executable, you should remove from the following
-	// the specific initialization routines you do not need
-	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
+	EditorRoot* er = new EditorRoot;
+
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
-	// Register the application's document templates.  Document templates
-	//  serve as the connection between documents, frame windows and views
+	LoadStdProfileSettings(4); 
+
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CEditorDoc),
-		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
+		RUNTIME_CLASS(CMainFrame), 
 		RUNTIME_CLASS(CEditorView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
 
-
-
-	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-
-	// Dispatch commands specified on the command line.  Will return FALSE if
-	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
-	// The one and only window has been initialized, so show and update it
+
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
-	// call DragAcceptFiles only if there's a suffix
-	//  In an SDI app, this should occur after ProcessShellCommand
+
 	return TRUE;
 }
-
-
-
-// CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialog
 {
 public:
 	CAboutDlg();
 
-// Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual void DoDataExchange(CDataExchange* pDX);
 
-// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -125,13 +104,59 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
-// App command to run the dialog
 void CEditorApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
+BOOL CEditorApp::OnIdle( LONG lCount )
+{
+	if (!m_pMainWnd)
+	{
+		return 0;
+	}
 
-// CEditorApp message handlers
+	CWnd *pWndForeground = CWnd::GetForegroundWindow();
+	CWnd *pForegroundOwner = NULL;
 
+	bool bIsAppWindow = (pWndForeground == m_pMainWnd);
+	if (pWndForeground)
+	{
+		DWORD wndProcId = 0;
+		DWORD wndThreadId = GetWindowThreadProcessId( pWndForeground->GetSafeHwnd(),&wndProcId );
+		if (GetCurrentProcessId() == wndProcId)
+		{
+			bIsAppWindow = true;
+		}
+	}
+	bool bActive = false;
+	int res = 0;
+	if (bIsAppWindow || m_bForceProcessIdle)
+	{
+		res = 1;
+		bActive = true;
+	}
+	m_bForceProcessIdle = false;
+
+	if (m_bPrevActive != bActive)
+	{
+		// 丢失焦点事件处理
+	}
+	m_bPrevActive = bActive;
+
+	if (bActive)
+	{
+		// 主循环
+		CViewport *pRenderViewport = EditorRoot::Get().GetViewManager()->GetGameViewport();
+		if (pRenderViewport)
+		{
+			// 渲染视口更新
+			pRenderViewport->Update();
+		}
+	}
+
+	CWinApp::OnIdle(lCount);
+
+	return res;
+}
