@@ -42,31 +42,34 @@ private:
 class CClassFactory : public IEditorClassFactory
 {
 public:
+
 	CClassFactory();
 
 	~CClassFactory();
 
-	static CClassFactory* Instance();
+	static CClassFactory*		Instance();
 
-	void			RegisterClass( IClassDesc *cls );
+	void						RegisterClass( IClassDesc *cls );
 
-	IClassDesc*		FindClass( const char *className ) const;
+	IClassDesc*					FindClass( const char *className ) const;
 	
-	IClassDesc*		FindClass( const GUID& clsid ) const;
+	IClassDesc*					FindClass( const GUID& clsid ) const;
 
-	void			GetClassesBySystemID( ESystemClassID systemCLSID,std::vector<IClassDesc*> &classes );
+	void						GetClassesBySystemID( ESystemClassID systemCLSID,std::vector<IClassDesc*> &classes );
 
-	void			GetClassesByCategory( const char* category,std::vector<IClassDesc*> &classes );
+	void						GetClassesByCategory( const char* category,std::vector<IClassDesc*> &classes );
 
 private:
-	void			RegisterAutoTypes();
+
+	void						RegisterAutoTypes();
+
+	typedef std::map<CString,IClassDesc*> NameMap;
+	typedef std::map<GUID,IClassDesc*,GuidlessPredicate> GuidMap;
 
 	std::vector<IClassDesc*>	m_classes;
 
-	typedef std::map<CString,IClassDesc*> NameMap;
 	NameMap						m_nameToClass;
 
-	typedef std::map<GUID,IClassDesc*,guid_less_predicate> GuidMap;
 	GuidMap						m_guidToClass;
 
 	static CClassFactory*		m_instance;
@@ -86,14 +89,19 @@ public:
 			m_pFirst = this;
 		}
 		else
+		{
 			m_pLast->m_pNext = this;
+		}
 		m_pLast = this;
 	}
 
-	IClassDesc *m_pClassDesc;
-	CAutoRegisterClassHelper* m_pNext;
-	static CAutoRegisterClassHelper *m_pFirst;
-	static CAutoRegisterClassHelper *m_pLast;
+	IClassDesc*							m_pClassDesc;
+
+	CAutoRegisterClassHelper*			m_pNext;
+
+	static CAutoRegisterClassHelper*	m_pFirst;
+
+	static CAutoRegisterClassHelper*	m_pLast;
 };
 
 //////////////////////////////////////////////////////////////////////////

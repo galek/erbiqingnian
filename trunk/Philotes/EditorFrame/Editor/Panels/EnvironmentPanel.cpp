@@ -81,10 +81,12 @@ void CEnvironmentPanel::OnSize(UINT nType, int cx, int cy)
 //////////////////////////////////////////////////////////////////////////
 void CEnvironmentPanel::OnPropertyChanged( XmlNodeRef node )
 {
+	
 }
 
 void CEnvironmentPanel::OnBnClickedApply()
 {
+
 }
 
 _NAMESPACE_END

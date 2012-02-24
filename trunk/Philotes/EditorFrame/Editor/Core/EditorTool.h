@@ -16,6 +16,8 @@ enum EEditToolType
 	EDIT_TOOL_TYPE_SECONDARY,
 };
 
+/// 编辑器中可编辑物件基类
+
 class CEditTool : public CObject
 {
 public:
@@ -52,14 +54,19 @@ public:
 	virtual void 			EndEditParams() {};
 
 protected:
+
 	virtual					~CEditTool(){}
 
 	virtual void			DeleteThis() = 0;
 
 protected:
+
 	TSmartPtr<CEditTool>	m_pParentTool;
+
 	CString					m_statusText;
+
 	IClassDesc*				m_pClassDesc;
+	
 	int						m_nRefCount;
 };
 

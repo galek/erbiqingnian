@@ -43,9 +43,10 @@ static int OnPaintFilter(unsigned int code, struct _EXCEPTION_POINTERS *ep)
 
 CRenderView::CRenderView()
 {
-	CreateViewportWindow();
-
 	m_bUpdating = false;
+	m_viewSize.SetSize(0,0);
+
+	CreateViewportWindow();
 }
 
 CRenderView::~CRenderView()
@@ -91,8 +92,8 @@ int CRenderView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CViewport::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-
-	d3d::InitD3D(m_hWnd,m_rcClient.Width(),m_rcClient.Height(),true,&gDevice);
+	// 测试
+	d3d::InitD3D(GetSafeHwnd(),m_viewSize.cx,m_viewSize.cy,true,&gDevice);
 
 	return 0;
 }
@@ -106,8 +107,10 @@ void CRenderView::OnSize(UINT nType, int cx, int cy)
 		return;
 	}
 
-	RECT rcWindow;
-	GetWindowRect(&rcWindow);
+	// resize事件处理
+
+	m_viewSize.cx = cx;
+	m_viewSize.cy = cy;
 
 	GetClientRect( m_rcClient );
 }

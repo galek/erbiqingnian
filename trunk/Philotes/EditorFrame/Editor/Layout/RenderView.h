@@ -33,6 +33,8 @@ protected:
 
 	bool					m_bUpdating;
 
+	CSize					m_viewSize;
+
 protected:
 
 	afx_msg int				OnCreate(LPCREATESTRUCT lpCreateStruct);

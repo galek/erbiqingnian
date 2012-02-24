@@ -89,6 +89,11 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
+	if (m_layoutWnd)
+	{
+		delete m_layoutWnd;
+	}
+	m_layoutWnd = NULL;
 }
 
 

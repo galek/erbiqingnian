@@ -162,4 +162,13 @@ BOOL CEditorApp::OnIdle( LONG lCount )
 	return res;
 }
 
+int CEditorApp::ExitInstance()
+{
+	HEAP_CHECK;
+
+	CEditorRoot::Destroy();
+
+	return CWinApp::ExitInstance();
+}
+
 _NAMESPACE_END
