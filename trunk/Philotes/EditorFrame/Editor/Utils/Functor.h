@@ -6,11 +6,11 @@
 	描述:		函数对象封装	
 *********************************************************************/
 
-#ifndef __functor_h__
-#define __functor_h__
+#pragma once
 
 #include <list>
 
+_NAMESPACE_BEGIN
 
 #define RHCB_BC4_RET_BUG(x) x
 
@@ -1285,4 +1285,5 @@ private:
 	Container m_functors;
 };
 
-#endif // __functor_h__
+
+_NAMESPACE_END

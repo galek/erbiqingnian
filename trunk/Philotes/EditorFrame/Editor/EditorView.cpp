@@ -10,6 +10,7 @@
 #define new DEBUG_NEW
 #endif
 
+_NAMESPACE_BEGIN
 
 // CEditorView
 
@@ -72,4 +73,4 @@ CEditorDoc* CEditorView::GetDocument() const // non-debug version is inline
 #endif //_DEBUG
 
 
-// CEditorView message handlers
+_NAMESPACE_END

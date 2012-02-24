@@ -1,6 +1,8 @@
 
 #include "InPlaceEdit.h"
 
+_NAMESPACE_BEGIN
+
 //////////////////////////////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP(CInPlaceEdit, CEdit)
 	ON_WM_CREATE()
@@ -110,3 +112,5 @@ BOOL CInPlaceEdit::OnEraseBkgnd(CDC* /*pDC*/)
 {
 	return TRUE;
 }
+
+_NAMESPACE_END

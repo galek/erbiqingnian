@@ -11,6 +11,8 @@
 #include "TemplateMessage.h"
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
+
 enum
 {
 	CC_BLINK_NOCHANGE = 0,
@@ -801,3 +803,5 @@ void CColorPushButton<BASE_TYPE>::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	if ((state & ODS_FOCUS) && !m_fNoFocus)
 		pDC->DrawFocusRect(rcFocus);
 }
+
+_NAMESPACE_END

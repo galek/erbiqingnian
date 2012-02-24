@@ -5,6 +5,8 @@
 #include "ViewManager.h"
 #include "../EditorDoc.h"
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNCREATE(CLayoutSplitter,CSplitterWnd)
 IMPLEMENT_DYNCREATE(CLayoutWnd,CWnd)
 
@@ -311,7 +313,7 @@ CString CLayoutWnd::ViewportTypeToClassName( EViewportType viewType )
 {
 	CString viewClassName = "";
 	std::vector<CViewportDesc*> descriptions;
-	EditorRoot::Get().GetViewManager()->GetViewportDescriptions( descriptions );
+	CEditorRoot::Get().GetViewManager()->GetViewportDescriptions( descriptions );
 	for (int i = 0; i < descriptions.size(); i++)
 	{
 		if (descriptions[i]->type == viewType && descriptions[i]->pViewClass)
@@ -337,7 +339,7 @@ void CLayoutWnd::CreateLayout( EViewLayout layout,bool bBindViewports,EViewportT
 	CCreateContext ctx;
 	ZeroMemory(&ctx,sizeof(CCreateContext));
 	ctx.m_pNewViewClass		= RUNTIME_CLASS(CLayoutViewPane);
-	ctx.m_pCurrentDoc		= EditorRoot::Get().GetDocument();
+	ctx.m_pCurrentDoc		= CEditorRoot::Get().GetDocument();
 	ctx.m_pCurrentFrame		= (CFrameWnd*)AfxGetMainWnd();
 	CCreateContext *pCtx	= &ctx;
 
@@ -535,3 +537,5 @@ void CLayoutWnd::OnDestroy()
 
 	CWnd::OnDestroy();
 }
+
+_NAMESPACE_END

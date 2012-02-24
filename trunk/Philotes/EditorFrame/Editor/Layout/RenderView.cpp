@@ -2,6 +2,8 @@
 #include "RenderView.h"
 #include "d3dUtility.h"
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNCREATE(CRenderView,CViewport)
 
 BEGIN_MESSAGE_MAP(CRenderView, CViewport)
@@ -149,15 +151,16 @@ void CRenderView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 void CRenderView::OnRButtonDown(UINT nFlags, CPoint point) 
 {
-	SetFocus();
+	//SetFocus();
 
 	CViewport::OnRButtonDown(nFlags, point);
 
-	CaptureMouse();
+	//CaptureMouse();
 }
 
 void CRenderView::OnRButtonUp(UINT nFlags, CPoint point) 
 {
+	CViewport::OnRButtonUp(nFlags,point);
 }
 
 void CRenderView::OnMButtonDown(UINT nFlags, CPoint point) 
@@ -200,7 +203,6 @@ BOOL CRenderView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	return CViewport::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-
 void CRenderView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	CViewport::OnKeyDown(nChar, nRepCnt, nFlags);
@@ -215,3 +217,5 @@ void CRenderView::OnDestroy()
 {
 	CViewport::OnDestroy();
 }
+
+_NAMESPACE_END

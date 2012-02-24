@@ -4,6 +4,7 @@
 #include "EditorTool.h"
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
 
 //////////////////////////////////////////////////////////////////////////
 BEGIN_MESSAGE_MAP(CInfoBar, CDialog)
@@ -273,3 +274,5 @@ void CInfoBar::OnBnClickedSpeed10()
 	OnUpdateMoveSpeed();
 	AfxGetMainWnd()->SetFocus();
 }
+
+_NAMESPACE_END

@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 class CRefCountBase : public CObject
 {
 public:
@@ -63,3 +65,5 @@ protected:
 private:
 	int m_nRefCount;
 };
+
+_NAMESPACE_END

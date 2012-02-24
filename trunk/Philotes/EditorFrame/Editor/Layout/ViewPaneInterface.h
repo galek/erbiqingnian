@@ -9,6 +9,8 @@
 
 #include "ClassFactory.h"
 
+_NAMESPACE_BEGIN
+
 struct __declspec( uuid("{7E13EC7C-F621-4aeb-B642-67D78ED468F8}") ) IViewPaneClass : public IClassDesc
 {
 	enum EDockingDirection
@@ -43,3 +45,5 @@ struct __declspec( uuid("{7E13EC7C-F621-4aeb-B642-67D78ED468F8}") ) IViewPaneCla
 		return E_NOINTERFACE ;
 	}
 };
+
+_NAMESPACE_END

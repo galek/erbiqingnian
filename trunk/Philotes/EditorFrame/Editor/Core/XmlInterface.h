@@ -10,12 +10,16 @@
 
 #include "GuidUtil.h"
 
+_NAMESPACE_BEGIN
+
 class XmlString : public std::string
 {
 public:
 	XmlString() {};
-	XmlString( const char *str )	: std::string(str) {};
-	XmlString( const CString &str ) : std::string( (const char*)str ) {};
+
+	XmlString( const char *str )	: std::string(str) {}
+
+	XmlString( const CString &str ) : std::string( (const char*)str ) {}
 
 	operator const char*() const { return c_str(); }
 };
@@ -31,8 +35,6 @@ struct IXmlStringData
 };
 
 //////////////////////////////////////////////////////////////////////////
-
-class IXmlNode;
 
 class XmlNodeRef 
 {
@@ -89,14 +91,14 @@ protected:
 protected:
 	virtual void			DeleteThis() = 0;
 
-	virtual					~IXmlNode() {};
+	virtual					~IXmlNode() {}
 
 public:
 	virtual XmlNodeRef		createNode( const char *tag ) = 0;
 
-	virtual void			AddRef() { m_nRefCount++; };
+	virtual void			AddRef() { m_nRefCount++; }
 
-	virtual void			Release() { if (--m_nRefCount <= 0) DeleteThis(); };
+	virtual void			Release() { if (--m_nRefCount <= 0) DeleteThis(); }
 
 	virtual const char *	GetTag() const = 0;
 
@@ -162,9 +164,9 @@ public:
 	virtual void 			SetAttr( const char* key,const Float3& value ) = 0;
 	virtual void 			SetAttr( const char* key,const Quaternion& value ) = 0;
 
-	void 					SetAttr( const char* key,unsigned long value ) { SetAttr( key,(unsigned int)value ); };
-	void 					SetAttr( const char* key,long value ) { SetAttr( key,(int)value ); };
-	void 					SetAttr( const char* key,double value ) { SetAttr( key,(float)value ); };
+	void 					SetAttr( const char* key,unsigned long value ) { SetAttr( key,(unsigned int)value ); }
+	void 					SetAttr( const char* key,long value ) { SetAttr( key,(int)value ); }
+	void 					SetAttr( const char* key,double value ) { SetAttr( key,(float)value ); }
 
 	virtual void			DelAttr( const char* key ) = 0;
 	virtual void			RemoveAllAttributes() = 0;
@@ -250,19 +252,23 @@ inline XmlNodeRef&  XmlNodeRef::operator=( const XmlNodeRef &newp )
 	return *this;
 }
 
-inline bool operator == ( const XmlNodeRef &p1,int null )	{
+inline bool operator == ( const XmlNodeRef &p1,int null )	
+{
 	return p1.p == 0;
 }
 
-inline bool operator != ( const XmlNodeRef &p1,int null )	{
+inline bool operator != ( const XmlNodeRef &p1,int null )	
+{
 	return p1.p != 0;
 }
 
-inline bool operator == ( int null,const XmlNodeRef &p1 )	{
+inline bool operator == ( int null,const XmlNodeRef &p1 )	
+{
 	return p1.p == 0;
 }
 
-inline bool operator != ( int null,const XmlNodeRef &p1 )	{
+inline bool operator != ( int null,const XmlNodeRef &p1 )	
+{
 	return p1.p != 0;
 }
 
@@ -292,5 +298,6 @@ struct IXmlUtils
 	virtual void 				InitStatsXmlNodePool( UINT nPoolSize ) = 0;
 
 	virtual XmlNodeRef			CreateStatsXmlNode( const char *sNodeName ) = 0;
-
 };
+
+_NAMESPACE_END

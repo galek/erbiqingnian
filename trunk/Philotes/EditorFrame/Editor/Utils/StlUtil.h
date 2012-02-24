@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 namespace stl
 {
 	template <typename Map>
@@ -433,3 +435,5 @@ namespace stl
 
 #define DEFINE_INTRUSIVE_LINKED_LIST( Class ) \
 	template<> Class* stl::IntrusiveLinkedListNode<Class>::m_root_intrusive = 0;
+
+_NAMESPACE_END

@@ -2,6 +2,7 @@
 #include "ViewTitleDialog.h"
 #include "ViewPane.h"
 
+_NAMESPACE_BEGIN
 
 IMPLEMENT_DYNAMIC(CViewportTitleDlg, CXTResizeDialog)
 
@@ -135,3 +136,5 @@ void CViewportTitleDlg::SetActive( bool bActive )
 {
 
 }
+
+_NAMESPACE_END

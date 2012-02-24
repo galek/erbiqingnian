@@ -9,6 +9,8 @@
 
 #include "ColorCtrl.h"
 
+_NAMESPACE_BEGIN
+
 #define STD_PUSHED_COLOR (RGB(255,255,0))
 
 typedef CColorCtrl<CColorPushButton<CButton> > CColoredPushButton;
@@ -47,3 +49,5 @@ protected:
 	
 	int m_nChecked;
 };
+
+_NAMESPACE_END

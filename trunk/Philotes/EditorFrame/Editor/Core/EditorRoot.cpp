@@ -12,7 +12,9 @@
 #include "../MainFrm.h"
 #include "../EditorDoc.h"
 
-EditorRoot* EditorRoot::s_RootInstance = 0;
+_NAMESPACE_BEGIN
+
+CEditorRoot* CEditorRoot::s_RootInstance = 0;
 
 static CMainFrame* GetMainFrame()
 {
@@ -26,7 +28,7 @@ static CMainFrame* GetMainFrame()
 
 //////////////////////////////////////////////////////////////////////////
 
-EditorRoot::EditorRoot()
+CEditorRoot::CEditorRoot()
 {
 	s_RootInstance		= this;
 
@@ -38,7 +40,7 @@ EditorRoot::EditorRoot()
 	SetMasterFolder();
 }
 
-EditorRoot::~EditorRoot()
+CEditorRoot::~CEditorRoot()
 {
 	SAFE_DELETE(m_pXMLUtils);
 	SAFE_DELETE(m_pUIEnumsDatabase);
@@ -46,12 +48,12 @@ EditorRoot::~EditorRoot()
 	SAFE_DELETE(m_viewMan);
 }
 
-EditorRoot& EditorRoot::Get()
+CEditorRoot& CEditorRoot::Get()
 {
 	return *s_RootInstance;
 }
 
-void EditorRoot::Destroy()
+void CEditorRoot::Destroy()
 {
 	if (s_RootInstance)
 	{
@@ -60,27 +62,27 @@ void EditorRoot::Destroy()
 	}
 }
 
-XmlNodeRef EditorRoot::CreateXmlNode( const char *sNodeName/*="" */ )
+XmlNodeRef CEditorRoot::CreateXmlNode( const char *sNodeName/*="" */ )
 {
 	return new CXmlNode( sNodeName );
 }
 
-XmlNodeRef EditorRoot::LoadXmlFile( const char *sFilename )
+XmlNodeRef CEditorRoot::LoadXmlFile( const char *sFilename )
 {
 	return m_pXMLUtils->LoadXmlFile(sFilename);
 }
 
-XmlNodeRef EditorRoot::LoadXmlFromString( const char *sXmlString )
+XmlNodeRef CEditorRoot::LoadXmlFromString( const char *sXmlString )
 {
 	return m_pXMLUtils->LoadXmlFromString(sXmlString);
 }
 
-CUIEnumsDatabase* EditorRoot::GetUIEnumsDatabase()
+CUIEnumsDatabase* CEditorRoot::GetUIEnumsDatabase()
 {
 	return m_pUIEnumsDatabase;
 }
 
-void EditorRoot::SetEditTool( CEditTool *tool,bool bStopCurrentTool/*=true */ )
+void CEditorRoot::SetEditTool( CEditTool *tool,bool bStopCurrentTool/*=true */ )
 {
 // 	if (tool == NULL)
 // 	{
@@ -127,7 +129,7 @@ void EditorRoot::SetEditTool( CEditTool *tool,bool bStopCurrentTool/*=true */ )
 	//Notify( eNotify_OnEditToolChange );
 }
 
-void EditorRoot::SetEditTool( const CString &sEditToolName,bool bStopCurrentTool/*=true */ )
+void CEditorRoot::SetEditTool( const CString &sEditToolName,bool bStopCurrentTool/*=true */ )
 {
 	CEditTool *pTool = GetEditTool();
 	if (pTool && pTool->GetClassDesc())
@@ -161,27 +163,27 @@ void EditorRoot::SetEditTool( const CString &sEditToolName,bool bStopCurrentTool
 	}
 }
 
-CEditTool* EditorRoot::GetEditTool()
+CEditTool* CEditorRoot::GetEditTool()
 {
 	return m_pEditTool;
 }
 
-IEditorClassFactory* EditorRoot::GetClassFactory()
+IEditorClassFactory* CEditorRoot::GetClassFactory()
 {
 	return m_classFactory;
 }
 
-CEditorDoc* EditorRoot::GetDocument()
+CEditorDoc* CEditorRoot::GetDocument()
 {
 	return m_document;
 }
 
-void EditorRoot::SetDocument( CEditorDoc* doc )
+void CEditorRoot::SetDocument( CEditorDoc* doc )
 {
 	m_document = doc;
 }
 
-int EditorRoot::SelectRollUpBar( int rollupBarId )
+int CEditorRoot::SelectRollUpBar( int rollupBarId )
 {
 	if (GetMainFrame())
 		return GetMainFrame()->SelectRollUpBar( rollupBarId );
@@ -189,7 +191,7 @@ int EditorRoot::SelectRollUpBar( int rollupBarId )
 		return 0;
 }
 
-int EditorRoot::AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate /*= NULL*/, 
+int CEditorRoot::AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTemplate /*= NULL*/, 
 							  bool bAutoDestroyTpl /*= true*/, int iIndex /*= -1*/,bool bAutoExpand/*=true */ )
 {
 	if (!GetMainFrame())
@@ -214,7 +216,7 @@ int EditorRoot::AddRollUpPage( int rollbarId,LPCTSTR pszCaption, CDialog *pwndTe
 	return id;
 }
 
-void EditorRoot::RemoveRollUpPage( int rollbarId,int iIndex )
+void CEditorRoot::RemoveRollUpPage( int rollbarId,int iIndex )
 {
 	if (!GetRollUpControl(rollbarId))
 	{
@@ -224,7 +226,7 @@ void EditorRoot::RemoveRollUpPage( int rollbarId,int iIndex )
 	GetRollUpControl(rollbarId)->RemovePage(iIndex);
 }
 
-void EditorRoot::ExpandRollUpPage( int rollbarId,int iIndex, BOOL bExpand /*= true*/ )
+void CEditorRoot::ExpandRollUpPage( int rollbarId,int iIndex, BOOL bExpand /*= true*/ )
 {
 	if (!GetRollUpControl(rollbarId))
 	{
@@ -241,7 +243,7 @@ void EditorRoot::ExpandRollUpPage( int rollbarId,int iIndex, BOOL bExpand /*= tr
 	}
 }
 
-void EditorRoot::EnableRollUpPage( int rollbarId,int iIndex, BOOL bEnable /*= true*/ )
+void CEditorRoot::EnableRollUpPage( int rollbarId,int iIndex, BOOL bEnable /*= true*/ )
 {
 	if (!GetRollUpControl(rollbarId))
 		return;
@@ -256,7 +258,7 @@ void EditorRoot::EnableRollUpPage( int rollbarId,int iIndex, BOOL bEnable /*= tr
 	}
 }
 
-CRollupCtrl* EditorRoot::GetRollUpControl( int rollupId )
+CRollupCtrl* CEditorRoot::GetRollUpControl( int rollupId )
 {
 	if (!GetMainFrame())
 	{
@@ -265,22 +267,22 @@ CRollupCtrl* EditorRoot::GetRollUpControl( int rollupId )
 	return GetMainFrame()->GetRollUpControl(rollupId);
 }
 
-XmlNodeRef EditorRoot::FindTemplate( const CString &templateName )
+XmlNodeRef CEditorRoot::FindTemplate( const CString &templateName )
 {
 	return m_templateRegistry.FindTemplate( templateName );
 }
 
-void EditorRoot::AddTemplate( const CString &templateName,XmlNodeRef &tmpl )
+void CEditorRoot::AddTemplate( const CString &templateName,XmlNodeRef &tmpl )
 {
 	m_templateRegistry.AddTemplate( templateName,tmpl );
 }
 
-void EditorRoot::ReloadTemplates()
+void CEditorRoot::ReloadTemplates()
 {
 	m_templateRegistry.LoadTemplates( Path::MakeFullPath("Templates") );
 }
 
-void EditorRoot::SetMasterFolder()
+void CEditorRoot::SetMasterFolder()
 {
 	CHAR sFolder[_MAX_PATH];
 
@@ -304,17 +306,17 @@ void EditorRoot::SetMasterFolder()
 	SetCurrentDirectoryA( sFolder );
 }
 
-const CString& EditorRoot::GetMasterFolder()
+const CString& CEditorRoot::GetMasterFolder()
 {
 	return m_masterFolder;
 }
 
-CViewManager* EditorRoot::GetViewManager()
+CViewManager* CEditorRoot::GetViewManager()
 {
 	return m_viewMan;
 }
 
-CViewport* EditorRoot::GetActiveView()
+CViewport* CEditorRoot::GetActiveView()
 {
 	if (!GetMainFrame())
 	{
@@ -333,7 +335,9 @@ CViewport* EditorRoot::GetActiveView()
 	return 0;
 }
 
-void EditorRoot::UpdateViews( int flags )
+void CEditorRoot::UpdateViews( int flags )
 {
 	m_viewMan->UpdateViews( flags );
 }
+
+_NAMESPACE_END

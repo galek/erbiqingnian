@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 class CLocalTheme : public CXTPNativeXPTheme
 {
 public:
@@ -19,3 +21,5 @@ public:
 		BOOL bSelected, BOOL bPressed, BOOL bEnabled = TRUE,
 		BOOL bChecked = FALSE, BOOL bPopuped = FALSE, BOOL bToolBarImage = TRUE);
 };
+
+_NAMESPACE_END

@@ -7,6 +7,8 @@
 #define new DEBUG_NEW
 #endif
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNCREATE(CEditorDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CEditorDoc, CDocument)
@@ -15,15 +17,15 @@ END_MESSAGE_MAP()
 
 CEditorDoc::CEditorDoc()
 {
-	EditorRoot::Get().SetDocument(this);
+	CEditorRoot::Get().SetDocument(this);
 
-	m_environmentTemplate = EditorRoot::Get().FindTemplate( "Environment" );
+	m_environmentTemplate = CEditorRoot::Get().FindTemplate( "Environment" );
 	if (m_environmentTemplate)
 	{
 	}
 	else
 	{
-		m_environmentTemplate = EditorRoot::Get().CreateXmlNode( "Environment" );
+		m_environmentTemplate = CEditorRoot::Get().CreateXmlNode( "Environment" );
 	}
 }
 
@@ -36,8 +38,8 @@ BOOL CEditorDoc::OnNewDocument()
 	if (!CDocument::OnNewDocument())
 		return FALSE;
 
-	EditorRoot::Get().ReloadTemplates();
-	m_environmentTemplate = EditorRoot::Get().FindTemplate( "Environment" );
+	CEditorRoot::Get().ReloadTemplates();
+	m_environmentTemplate = CEditorRoot::Get().FindTemplate( "Environment" );
 
 	return TRUE;
 }
@@ -70,3 +72,4 @@ void CEditorDoc::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
+_NAMESPACE_END

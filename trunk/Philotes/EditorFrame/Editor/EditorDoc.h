@@ -9,6 +9,8 @@
 
 #include "XmlInterface.h"
 
+_NAMESPACE_BEGIN
+
 class CEditorDoc : public CDocument
 {
 protected:
@@ -41,3 +43,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
+
+_NAMESPACE_END

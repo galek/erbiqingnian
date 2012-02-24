@@ -10,6 +10,8 @@
 
 #include "ClassFactory.h"
 
+_NAMESPACE_BEGIN
+
 class CRefCountClassDesc : public IClassDesc
 {
 public:
@@ -99,3 +101,5 @@ public:
 #define REGISTER_CLASS_DESC( ClassDesc ) \
 	ClassDesc g_AutoReg##ClassDesc; \
 	CAutoRegisterClassHelper g_AutoRegHelper##ClassDesc( &(g_AutoReg##ClassDesc) );
+
+_NAMESPACE_END

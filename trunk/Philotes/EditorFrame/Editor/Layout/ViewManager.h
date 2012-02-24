@@ -11,8 +11,7 @@
 #include "ViewPaneInterface.h"
 #include "Viewport.h"
 
-class CLayoutWnd;
-class CViewport;
+_NAMESPACE_BEGIN
 
 class CViewportDesc : public CRefCountBase
 {
@@ -70,7 +69,7 @@ public:
 
 private:
 	friend class 		CViewport;
-	friend class		EditorRoot;
+	friend class		CEditorRoot;
 
 	void 				IdleUpdate();
 
@@ -88,3 +87,5 @@ private:
 	
 	std::vector<CViewport*> m_viewports;
 };
+
+_NAMESPACE_END

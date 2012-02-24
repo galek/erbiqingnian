@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 class CTreeCtrlEx : public CTreeCtrl
 {
 	DECLARE_DYNAMIC(CTreeCtrlEx)
@@ -62,3 +64,4 @@ protected:
 
 };
 
+_NAMESPACE_END

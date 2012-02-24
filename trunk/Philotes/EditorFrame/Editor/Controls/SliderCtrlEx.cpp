@@ -4,6 +4,8 @@
 
 #define FLOAT_SCALE 100
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNAMIC(CSliderCtrlEx, CSliderCtrl)
 IMPLEMENT_DYNAMIC(CSliderCtrlCustomDraw, CSliderCtrlEx)
 
@@ -379,3 +381,5 @@ void CSliderCtrlCustomDraw::SetSelection( int nMin,int nMax )
 		rc.right -= 1;
 	}
 }
+
+_NAMESPACE_END

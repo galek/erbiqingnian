@@ -4,6 +4,8 @@
 #include "Viewport.h"
 #include "ViewPaneInterface.h"
 
+_NAMESPACE_BEGIN
+
 const int MAX_CLASSVIEWS = 100;
 
 enum TitleMenuCommonCommands
@@ -57,7 +59,7 @@ void CLayoutViewPane::SetViewClass( const CString &sClass )
 
 	ReleaseViewport();
 
-	IClassDesc *pClass = EditorRoot::Get().GetClassFactory()->FindClass( sClass );
+	IClassDesc *pClass = CEditorRoot::Get().GetClassFactory()->FindClass( sClass );
 	if (pClass)
 	{
 		IViewPaneClass *pViewClass = NULL;
@@ -287,3 +289,5 @@ LRESULT CLayoutViewPane::OnViewportTitleChange( WPARAM wParam, LPARAM lParam )
 	}
 	return FALSE;
 }
+
+_NAMESPACE_END

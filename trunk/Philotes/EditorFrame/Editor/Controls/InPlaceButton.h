@@ -11,6 +11,8 @@
 #include "ColorButton.h"
 #include "Functor.h"
 
+_NAMESPACE_BEGIN
+
 //////////////////////////////////////////////////////////////////////////
 class CInPlaceButton : public CXTButton
 {
@@ -91,3 +93,5 @@ public:
 
 	OnClick m_onClick;
 };
+
+_NAMESPACE_END

@@ -1,6 +1,7 @@
 
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
 
 EditorSettings::EditorSettings()
 {
@@ -49,3 +50,5 @@ EditorSettings& EditorSettings::Get()
 	static EditorSettings set;
 	return set;
 }
+
+_NAMESPACE_END

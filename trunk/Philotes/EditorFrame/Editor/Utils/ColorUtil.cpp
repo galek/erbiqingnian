@@ -1,6 +1,8 @@
 
 #include "ColorUtil.h"
 
+_NAMESPACE_BEGIN
+
 namespace ColorUtil
 {
 	ColorValue ColorFromHSV( float h, float s, float v )
@@ -91,3 +93,5 @@ namespace ColorUtil
 			pow( GetBValue( col ) / 255.0f, gamma ),1 );
 	}
 }
+
+_NAMESPACE_END

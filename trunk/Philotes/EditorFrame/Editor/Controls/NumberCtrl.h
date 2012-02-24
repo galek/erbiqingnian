@@ -3,6 +3,8 @@
 
 #include "NumberCtrlEdit.h"
 
+_NAMESPACE_BEGIN
+
 #define EN_BEGIN_DRAG EN_CHANGE+0x1000
 #define EN_END_DRAG EN_CHANGE+0x1001
 
@@ -129,3 +131,5 @@ protected:
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
+
+_NAMESPACE_END

@@ -1,6 +1,8 @@
 
 #include "GuidUtil.h"
 
+_NAMESPACE_BEGIN
+
 //////////////////////////////////////////////////////////////////////////
 const GUID GuidUtil::NullGuid = { 0, 0, 0, { 0,0,0,0,0,0,0,0 } };
 
@@ -40,3 +42,5 @@ bool GuidUtil::IsEmpty( REFGUID guid )
 	static GUID sNullGuid = { 0, 0, 0, { 0,0,0,0,0,0,0,0 } };
 	return memcmp(&guid,&sNullGuid,sizeof(GUID)) == 0;
 }
+
+_NAMESPACE_END

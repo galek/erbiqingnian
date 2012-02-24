@@ -11,6 +11,8 @@
 #include "InfoBar.h"
 #include "Viewport.h"
 
+_NAMESPACE_BEGIN
+
 enum EViewLayout
 {
 	ET_Layout0 = 0,
@@ -27,7 +29,6 @@ enum EViewLayout
 };
 
 //////////////////////////////////////////////////////////////////////////
-class CLayoutViewPane;
 
 class CLayoutSplitter : public CSplitterWnd
 {
@@ -120,3 +121,5 @@ private:
 
 	CSize				m_infoBarSize;
 };
+
+_NAMESPACE_END

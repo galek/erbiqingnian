@@ -3,6 +3,7 @@
 
 #include <ColorDlg.h>
 
+_NAMESPACE_BEGIN
 
 IMPLEMENT_DYNAMIC(CCustomColorDialog, CColorDialog)
 
@@ -171,3 +172,5 @@ void CCustomColorDialog::OnColorChange( COLORREF col )
 		m_callback(col);
 	}
 }
+
+_NAMESPACE_END

@@ -1,6 +1,8 @@
 
 #include "ClassPlugin.h"
 
+_NAMESPACE_BEGIN
+
 CClassFactory* CClassFactory::m_instance = 0;
 
 CAutoRegisterClassHelper* CAutoRegisterClassHelper::m_pFirst = 0;
@@ -99,3 +101,5 @@ void CClassFactory::GetClassesByCategory( const char* category,std::vector<IClas
 	}
 	std::sort( classes.begin(), classes.end(), ClassDescNameComparer );
 }
+
+_NAMESPACE_END

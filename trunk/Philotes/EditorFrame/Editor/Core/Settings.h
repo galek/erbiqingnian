@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 struct GuiSettings
 {
 	// Vista/Win7ÏµÍ³Ñ¡Ôñ
@@ -43,3 +45,5 @@ struct EditorSettings
 	float		cameraFastMoveSpeed;
 	float		wheelZoomSpeed;
 };
+
+_NAMESPACE_END

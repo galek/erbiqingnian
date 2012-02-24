@@ -10,6 +10,8 @@
 
 #include "EditorTool.h"
 
+_NAMESPACE_BEGIN
+
 class CEnvironmentTool : public CEditTool
 {
 	DECLARE_DYNCREATE(CEnvironmentTool)
@@ -32,3 +34,5 @@ private:
 
 	class CEnvironmentPanel*	m_panel;
 };
+
+_NAMESPACE_END

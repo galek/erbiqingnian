@@ -7,6 +7,8 @@
 
 #define TOOLBUTTON_TIMERID 1001
 
+_NAMESPACE_BEGIN
+
 // CToolButton
 IMPLEMENT_DYNAMIC(CToolButton,CColorCheckBox)
 
@@ -24,7 +26,7 @@ CToolButton::~CToolButton()
 
 void CToolButton::SetToolName( const CString &sEditToolName,void *userData )
 {
-	IClassDesc *pClass = EditorRoot::Get().GetClassFactory()->FindClass( sEditToolName );
+	IClassDesc *pClass = CEditorRoot::Get().GetClassFactory()->FindClass( sEditToolName );
 	if (!pClass)
 	{
 		//Warning( "Editor Tool %s not registered.",(const char*)sEditToolName );
@@ -61,7 +63,7 @@ END_MESSAGE_MAP()
 
 void CToolButton::OnTimer(UINT_PTR nIDEvent) 
 {
-	CEditTool *tool = EditorRoot::Get().GetEditTool();
+	CEditTool *tool = CEditorRoot::Get().GetEditTool();
 	CRuntimeClass *toolClass = 0;
 	if (tool)
 	{
@@ -92,7 +94,7 @@ void CToolButton::OnPaint()
 {
 	CColorCheckBox::OnPaint();
 
-	CEditTool *tool = EditorRoot::Get().GetEditTool();
+	CEditTool *tool = CEditorRoot::Get().GetEditTool();
 	if (tool && tool->GetRuntimeClass() == m_toolClass)
 	{
 		if (GetCheck() == 0)
@@ -118,10 +120,10 @@ void CToolButton::OnClicked()
 		return;
 	}
 
-	CEditTool *tool = EditorRoot::Get().GetEditTool();
+	CEditTool *tool = CEditorRoot::Get().GetEditTool();
 	if (tool && tool->GetRuntimeClass() == m_toolClass)
 	{
-		EditorRoot::Get().SetEditTool(NULL);
+		CEditorRoot::Get().SetEditTool(NULL);
 		SetCheck(FALSE);
 
 		StopTimer();
@@ -142,7 +144,7 @@ void CToolButton::OnClicked()
 			tool->SetUserData( m_userData );
 		}
 
-		EditorRoot::Get().SetEditTool( tool );
+		CEditorRoot::Get().SetEditTool( tool );
 	}
 }
 
@@ -160,3 +162,5 @@ void CToolButton::StopTimer()
 	}
 	m_nTimer = 0;
 }
+
+_NAMESPACE_END

@@ -14,6 +14,8 @@
 #include "XmlInterface.h"
 #include "Variable.h"
 
+_NAMESPACE_BEGIN
+
 enum PropertyType
 {
 	ePropertyInvalid	= 0,
@@ -27,20 +29,6 @@ enum PropertyType
 	ePropertyAngle,
 	ePropertySelection
 };
-
-class 	CNumberCtrl;
-class 	CPropertyCtrl;
-class 	CInPlaceEdit;
-class 	CInPlaceComboBox;
-class 	CFillSliderCtrl;
-class 	CSplineCtrl;
-class 	CColorGradientCtrl;
-class 	CSliderCtrlEx;
-class 	CInPlaceColorButton;
-struct	IVariable;
-
-class CInPlaceButton;
-class CInPlaceCheckBox;
 
 // CPropertyCtrl中的属性元素，每一个属性元素都对应一个XmlNode的值
 
@@ -159,7 +147,6 @@ class CPropertyItem : public CRefCountBase
 		void 					OnFillSliderCtrlUpdate( CSliderCtrlEx *ctrl );
 		void 					OnNumberCtrlBeginUpdate( CNumberCtrl *ctrl ) {};
 		void 					OnNumberCtrlEndUpdate( CNumberCtrl *ctrl ) {};
-		void 					OnSplineCtrlUpdate( CSplineCtrl* ctrl );
 
 		void 					OnComboSelection();
 
@@ -293,3 +280,4 @@ class CPropertyItem : public CRefCountBase
 
 typedef TSmartPtr<CPropertyItem> CPropertyItemPtr;
 
+_NAMESPACE_END

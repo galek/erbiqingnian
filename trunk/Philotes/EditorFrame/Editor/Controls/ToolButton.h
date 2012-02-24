@@ -10,6 +10,8 @@
 
 #include "ColorCheckBox.h"
 
+_NAMESPACE_BEGIN
+
 class CToolButton : public CColorCheckBox
 {
 DECLARE_DYNAMIC(CToolButton)
@@ -37,3 +39,5 @@ protected:
 	void*			m_userData;
 	int				m_nTimer;
 };
+
+_NAMESPACE_END

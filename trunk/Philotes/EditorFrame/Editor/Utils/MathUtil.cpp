@@ -1,5 +1,7 @@
 #include "MathUtil.h"
 
+_NAMESPACE_BEGIN
+
 namespace MathUtil
 {
 	INT IntRound( double f )
@@ -23,5 +25,6 @@ namespace MathUtil
 		}
 		return false;
 	}
-
 }
+
+_NAMESPACE_END

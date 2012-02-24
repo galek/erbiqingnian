@@ -4,6 +4,8 @@
 
 #define FLOAT_FMT "%.7g"
 
+_NAMESPACE_BEGIN
+
 CNumberCtrl::CNumberCtrl()
 {
 	m_btnStatus = 0;
@@ -667,3 +669,5 @@ BOOL CNumberCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	}
 	return TRUE;
 }
+
+_NAMESPACE_END

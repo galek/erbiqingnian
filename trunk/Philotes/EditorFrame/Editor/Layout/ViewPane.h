@@ -3,6 +3,8 @@
 
 #include "ViewTitleDialog.h"
 
+_NAMESPACE_BEGIN
+
 class CLayoutViewPane : public CView
 {
 public:
@@ -105,3 +107,5 @@ private:
 
 	bool				m_active;
 };
+
+_NAMESPACE_END

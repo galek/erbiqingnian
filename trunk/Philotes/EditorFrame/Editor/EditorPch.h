@@ -71,6 +71,8 @@
 #include <d3dx9.h>
 
 #include "Resource.h"
+#include "EditorDefines.h"
+#include "EditorPrerequisites.h"
 #include "RefCountBase.h"
 #include "EditorUtils.h"
 #include "GuidUtil.h"

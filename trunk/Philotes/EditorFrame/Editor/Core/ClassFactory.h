@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 enum ESystemClassID
 {
 	ESYSTEM_CLASS_OBJECT						= 0x0001,
@@ -63,3 +65,5 @@ public:
 
 	virtual void GetClassesByCategory( const char* category,std::vector<IClassDesc*> &classes ) = 0;
 };
+
+_NAMESPACE_END

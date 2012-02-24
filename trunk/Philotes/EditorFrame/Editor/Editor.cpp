@@ -13,6 +13,7 @@
 #define new DEBUG_NEW
 #endif
 
+_NAMESPACE_BEGIN
 
 // CEditorApp
 
@@ -50,7 +51,7 @@ BOOL CEditorApp::InitInstance()
 
 	CWinApp::InitInstance();
 
-	EditorRoot* er = new EditorRoot;
+	CEditorRoot* er = new CEditorRoot;
 
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	LoadStdProfileSettings(4); 
@@ -148,7 +149,7 @@ BOOL CEditorApp::OnIdle( LONG lCount )
 	if (bActive)
 	{
 		// 主循环
-		CViewport *pRenderViewport = EditorRoot::Get().GetViewManager()->GetGameViewport();
+		CViewport *pRenderViewport = CEditorRoot::Get().GetViewManager()->GetGameViewport();
 		if (pRenderViewport)
 		{
 			// 渲染视口更新
@@ -160,3 +161,5 @@ BOOL CEditorApp::OnIdle( LONG lCount )
 
 	return res;
 }
+
+_NAMESPACE_END

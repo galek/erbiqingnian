@@ -4,6 +4,8 @@
 #include "Settings.h"
 #include "StlUtil.h"
 
+_NAMESPACE_BEGIN
+
 BEGIN_MESSAGE_MAP(CRollupCtrl, CWnd)
 	//{{AFX_MSG_MAP(CRollupCtrl)
 	ON_WM_DESTROY()
@@ -786,3 +788,5 @@ void CRollupCtrl::SetBkColor( COLORREF bkColor )
 		m_bkgBrush.DeleteObject();
 	m_bkgBrush.CreateSolidBrush(bkColor);
 }
+
+_NAMESPACE_END

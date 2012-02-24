@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 #define gf_PI  float(3.14159265358979323846264338327950288419716939937510)		// pi
 #define gf_PI2 float(3.14159265358979323846264338327950288419716939937510*2.0)	// 2*pi
 #define DEG2RAD( a ) ( (a) * (gf_PI/180.0f) )
@@ -34,6 +36,6 @@ namespace MathUtil
 	{	
 		return X<Min ? Min : X<Max ? X : Max;
 	}
-
-
 }
+
+_NAMESPACE_END

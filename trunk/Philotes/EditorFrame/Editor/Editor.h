@@ -9,6 +9,8 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+_NAMESPACE_BEGIN
+
 class CEditorApp : public CWinApp
 {
 public:
@@ -33,3 +35,5 @@ protected:
 };
 
 extern CEditorApp theApp;
+
+_NAMESPACE_END

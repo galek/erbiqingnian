@@ -11,15 +11,7 @@
 #include "XmlInterface.h"
 #include "XmlTemplate.h"
 
-class CEditorDoc;
-class CXmlUtils;
-class CUIEnumsDatabase;
-class CClassFactory;
-struct IEditorClassFactory;
-class CEditTool;
-class CRollupCtrl;
-class CViewManager;
-class CViewport;
+_NAMESPACE_BEGIN
 
 //////////////////////////////////////////////////////////////////////////
 // 收缩控件类型
@@ -35,17 +27,17 @@ enum ERollupControlIds
 
 //////////////////////////////////////////////////////////////////////////
 
-class EditorRoot
+class CEditorRoot
 {
 public:
 
-	EditorRoot();
+	CEditorRoot();
 
-	virtual ~EditorRoot();
+	virtual ~CEditorRoot();
 
 public:
 
-	static EditorRoot&		Get();
+	static CEditorRoot&		Get();
 
 	static void				Destroy();
 
@@ -108,7 +100,7 @@ public:
 
 protected:
 
-	static EditorRoot*		s_RootInstance;
+	static CEditorRoot*		s_RootInstance;
 
 	CXmlUtils*				m_pXMLUtils;
 
@@ -128,3 +120,5 @@ protected:
 
 	CViewManager*			m_viewMan;
 };
+
+_NAMESPACE_END

@@ -11,6 +11,8 @@
 #include "PropertyCtrl.h"
 #include "ColorCheckBox.h"
 
+_NAMESPACE_BEGIN
+
 class CEnvironmentPanel : public CDialog
 {
 public:
@@ -41,3 +43,5 @@ public:
 private:
 	CCustomButton	m_applyBtn;
 };
+
+_NAMESPACE_END

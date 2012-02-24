@@ -12,6 +12,8 @@
 
 #include "expat.h"
 
+_NAMESPACE_BEGIN
+
 //////////////////////////////////////////////////////////////////////////
 
 static int __cdecl ascii_stricmp( const char * dst, const char * src )
@@ -1084,3 +1086,5 @@ bool CXmlNode::SaveToFile( const char *fileName, size_t chunkSizeBytes, FILE *fi
 {
 	return true;
 }
+
+_NAMESPACE_END
