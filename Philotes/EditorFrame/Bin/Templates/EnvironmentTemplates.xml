@@ -1,7 +1,7 @@
 <Templates>
 	<Environment>
 		<AmbientColor type="Color" value="128,128,128"/>
-		<ShadowsEnahle type="BOOL" value="true"/>
+		<ShadowsEnable type="BOOL" value="true"/>
 		<SkyEnable type="BOOL" value="false"/>
 	</Environment>
 </Templates>

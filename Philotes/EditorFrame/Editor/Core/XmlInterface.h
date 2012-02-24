@@ -49,28 +49,28 @@ public:
 
 	~XmlNodeRef();
 
-	operator IXmlNode*() const { return p; }
-	operator const IXmlNode*() const { return p; }
-	IXmlNode& operator*() const { return *p; }
-	IXmlNode* operator->(void) const { return p; }
+	operator		IXmlNode*() const { return p; }
+	operator const	IXmlNode*() const { return p; }
+	IXmlNode&		operator*() const { return *p; }
+	IXmlNode*		operator->(void) const { return p; }
 
-	XmlNodeRef&  operator=( IXmlNode* newp );
-	XmlNodeRef&  operator=( const XmlNodeRef &newp );
+	XmlNodeRef&		operator=( IXmlNode* newp );
+	XmlNodeRef&		operator=( const XmlNodeRef &newp );
 
-	operator bool() const { return p != NULL; };
-	bool operator !() const { return p == NULL; };
+	operator bool	() const { return p != NULL; };
+	bool operator	!() const { return p == NULL; };
 
-	bool  operator == ( const IXmlNode* p2 ) const { return p == p2; };
-	bool  operator == ( IXmlNode* p2 ) const { return p == p2; };
-	bool  operator != ( const IXmlNode* p2 ) const { return p != p2; };
-	bool  operator != ( IXmlNode* p2 ) const { return p != p2; };
-	bool  operator <  ( const IXmlNode* p2 ) const { return p < p2; };
-	bool  operator >  ( const IXmlNode* p2 ) const { return p > p2; };
+	bool  operator	== ( const IXmlNode* p2 ) const { return p == p2; };
+	bool  operator	== ( IXmlNode* p2 ) const { return p == p2; };
+	bool  operator	!= ( const IXmlNode* p2 ) const { return p != p2; };
+	bool  operator	!= ( IXmlNode* p2 ) const { return p != p2; };
+	bool  operator	<  ( const IXmlNode* p2 ) const { return p < p2; };
+	bool  operator	>  ( const IXmlNode* p2 ) const { return p > p2; };
 
-	bool  operator == ( const XmlNodeRef &n ) const { return p == n.p; };
-	bool  operator != ( const XmlNodeRef &n ) const { return p != n.p; };
-	bool  operator <  ( const XmlNodeRef &n ) const { return p < n.p; };
-	bool  operator >  ( const XmlNodeRef &n ) const { return p > n.p; };
+	bool  operator	== ( const XmlNodeRef &n ) const { return p == n.p; };
+	bool  operator	!= ( const XmlNodeRef &n ) const { return p != n.p; };
+	bool  operator	<  ( const XmlNodeRef &n ) const { return p < n.p; };
+	bool  operator	>  ( const XmlNodeRef &n ) const { return p > n.p; };
 
 	friend bool operator == ( const XmlNodeRef &p1,int null );
 	friend bool operator != ( const XmlNodeRef &p1,int null );
@@ -193,7 +193,9 @@ public:
 	bool					GetAttr( const char *key,CString &value ) const
 	{
 		if (!HaveAttr(key))
+		{
 			return false;
+		}
 		value = GetAttr(key);
 		return true;
 	}
@@ -207,7 +209,9 @@ public:
 	bool					GetAttr( const char *key,GUID &value ) const
 	{
 		if (!HaveAttr(key))
+		{
 			return false;
+		}
 		const char *guidStr = GetAttr(key);
 		value = GuidUtil::FromString( guidStr );
 		if (value.Data1 == 0)
@@ -223,31 +227,52 @@ public:
 
 inline XmlNodeRef::XmlNodeRef( IXmlNode* p_ ) : p(p_)
 {
-	if (p) p->AddRef();
+	if (p)
+	{
+		p->AddRef();
+	}
 }
 
 inline XmlNodeRef::XmlNodeRef( const XmlNodeRef &p_ ) : p(p_.p)
 {
-	if (p) p->AddRef();
+	if (p) 
+	{
+		p->AddRef();
+	}
 }
 
 inline XmlNodeRef::~XmlNodeRef()
 {
-	if (p) p->Release();
+	if (p) 
+	{
+		p->Release();
+	}
 }
 
 inline XmlNodeRef&  XmlNodeRef::operator=( IXmlNode* newp )
 {
-	if (newp) newp->AddRef();
-	if (p) p->Release();
+	if (newp) 
+	{
+		newp->AddRef();
+	}
+	if (p) 
+	{
+		p->Release();
+	}
 	p = newp;
 	return *this;
 }
 
 inline XmlNodeRef&  XmlNodeRef::operator=( const XmlNodeRef &newp )
 {
-	if (newp.p) newp.p->AddRef();
-	if (p) p->Release();
+	if (newp.p) 
+	{
+		newp.p->AddRef();
+	}
+	if (p) 
+	{
+		p->Release();
+	}
 	p = newp.p;
 	return *this;
 }

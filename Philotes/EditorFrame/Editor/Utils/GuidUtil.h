@@ -22,7 +22,7 @@ struct GuidUtil
 };
 
 // GUID±È½Ï
-struct guid_less_predicate
+struct GuidlessPredicate
 {
 	bool operator()( REFGUID guid1,REFGUID guid2 ) const
 	{

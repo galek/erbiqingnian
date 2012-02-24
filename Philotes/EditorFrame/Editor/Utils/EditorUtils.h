@@ -20,4 +20,18 @@ struct CMFCUtils
 		COLORREF colorTransparent );
 };
 
+//////////////////////////////////////////////////////////////////////////
+
+struct HeapCheck
+{
+	static void Check( const char *file,int line );
+};
+
+#ifdef _DEBUG
+#define HEAP_CHECK HeapCheck::Check( __FILE__,__LINE__ );
+#else
+#define HEAP_CHECK
+#endif
+
+
 _NAMESPACE_END
