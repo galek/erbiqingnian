@@ -30,6 +30,8 @@ class RenderTexture2D;
 class RenderTexture2DDesc;
 class RenderTarget;
 class RenderTargetDesc;
+class RenderTerrain;
+class RenderTerrainNode;
 class RenderMaterial;
 class RenderMaterialDesc;
 class RenderMaterialInstance;

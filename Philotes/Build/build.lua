@@ -82,7 +82,7 @@ project "PhiloRender"
   language "C++"
   libdirs { "../lib/"}
   pchheader "renderPch.h"
-  includedirs {"../3rdLibs/" ,"../common/","../render", "../gears"}
+  includedirs {"../3rdLibs/" ,"../common/","../render","../render/terrain", "../gears"}
   pchsource "../Render/renderPch.cpp"
   files { "../Render/**.c*","../Render/**.h" }
   kind 'StaticLib'
