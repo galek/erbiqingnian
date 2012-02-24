@@ -11,6 +11,8 @@
 #include "RollupBar.h"
 #include "EditorRoot.h"
 
+_NAMESPACE_BEGIN
+
 class CMainFrame : public CXTPFrameWnd, public CXTPOffice2007FrameHook
 {
 protected:
@@ -80,3 +82,5 @@ public:
 
 	CLayoutWnd*					GetLayout();
 };
+
+_NAMESPACE_END

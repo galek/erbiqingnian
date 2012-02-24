@@ -8,6 +8,7 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
 
 class CSimpleStringPool
 {
@@ -239,3 +240,5 @@ private:
 
 __declspec(selectany) size_t CSimpleStringPool::g_nTotalAllocInXmlStringPools = 0;
 
+
+_NAMESPACE_END

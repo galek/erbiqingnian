@@ -23,6 +23,7 @@
 #define BUTTON_WIDTH		(16)
 #define NUMBER_CTRL_WIDTH	60
 
+_NAMESPACE_BEGIN
 
 class CUndoVariableChange /*: public IUndoObject*/
 {
@@ -377,7 +378,7 @@ void CPropertyItem::SetVariable( IVariable *var )
 	}
 	else if (dataType == IVariable::DT_UIENUM)
 	{
-		m_pEnumDBItem = EditorRoot::Get().GetUIEnumsDatabase()->FindEnum(m_name);
+		m_pEnumDBItem = CEditorRoot::Get().GetUIEnumsDatabase()->FindEnum(m_name);
 	}
 
 	int nPrec = std::max(3 - int(log(m_rangeMax - m_rangeMin) / log(10.f)), 0);
@@ -1841,3 +1842,5 @@ int	CPropertyItem::GetHeight()
 	}
 	return m_nHeight;
 }
+
+_NAMESPACE_END

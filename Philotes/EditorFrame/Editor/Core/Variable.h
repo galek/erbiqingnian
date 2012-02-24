@@ -18,9 +18,7 @@ inline const char* to_c_str( const CString &str ) { return str; }
 
 #define MAX_VAR_STRING_LENGTH 4096
 
-struct	IVarEnumList;
-struct	ISplineInterpolator;
-class	CUsedResources;
+_NAMESPACE_BEGIN
 
 struct IVariable : public CRefCountBase
 {
@@ -1159,3 +1157,5 @@ private:
 
 	CVarBlockPtr m_vars;
 };
+
+_NAMESPACE_END

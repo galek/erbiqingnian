@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 struct GuidUtil
 {
 	static const char*	ToString( REFGUID guid );
@@ -19,7 +21,7 @@ struct GuidUtil
 	static const GUID	NullGuid;
 };
 
-// GUID比较用
+// GUID比较
 struct guid_less_predicate
 {
 	bool operator()( REFGUID guid1,REFGUID guid2 ) const
@@ -27,3 +29,5 @@ struct guid_less_predicate
 		return memcmp(&guid1,&guid2,sizeof(GUID)) < 0;
 	}
 };
+
+_NAMESPACE_END

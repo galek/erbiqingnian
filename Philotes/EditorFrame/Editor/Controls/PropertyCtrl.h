@@ -11,11 +11,11 @@
 #include "Functor.h"
 #include "XmlInterface.h"
 
-class	CPropertyItem;
-class	CVarBlock;
-struct	IVariable;
+
 
 #define  PROPERTYCTRL_ONSELECT (0x0001)
+
+_NAMESPACE_BEGIN
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -253,3 +253,5 @@ protected:
 	CString						m_sNameRestriction;
 	TSmartPtr<CVarBlock>		m_pVarBlock;
 };
+
+_NAMESPACE_END

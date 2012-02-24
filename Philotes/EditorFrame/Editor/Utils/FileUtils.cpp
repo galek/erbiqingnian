@@ -3,6 +3,8 @@
 #include "EditorRoot.h"
 #include <io.h>
 
+_NAMESPACE_BEGIN
+
 bool CFileUtil::s_singleFileDlgPref[EFILE_TYPE_LAST] = { true, true, true, true, true };
 
 //////////////////////////////////////////////////////////////////////////
@@ -395,5 +397,7 @@ bool CFileUtil::ScanDirectory( const CString &path,const CString &fileSpec,
 
 CAutoRestoreMasterCDRoot::~CAutoRestoreMasterCDRoot()
 {
-	SetCurrentDirectory(EditorRoot::Get().GetMasterFolder());
+	SetCurrentDirectory(CEditorRoot::Get().GetMasterFolder());
 }
+
+_NAMESPACE_END

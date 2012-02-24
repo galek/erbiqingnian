@@ -13,6 +13,8 @@
 #define WMU_LBUTTONDOWN (WM_USER+100)
 #define WMU_LBUTTONUP (WM_USER+101)
 
+_NAMESPACE_BEGIN
+
 class CNumberCtrlEdit : public CEdit
 {
 	CNumberCtrlEdit(const CNumberCtrlEdit& d);
@@ -52,3 +54,5 @@ protected:
 
 	UpdateCallback	m_onUpdate;
 };
+
+_NAMESPACE_END

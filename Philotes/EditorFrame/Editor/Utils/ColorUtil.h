@@ -1,6 +1,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 typedef D3DXCOLOR ColorValue;
 
 namespace ColorUtil
@@ -13,3 +15,5 @@ namespace ColorUtil
 
 	ColorValue			GammaToLinear( COLORREF col );
 }
+
+_NAMESPACE_END

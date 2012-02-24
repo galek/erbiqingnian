@@ -1,6 +1,8 @@
 
 #include "PathUtil.h"
 
+_NAMESPACE_BEGIN
+
 using std::string;
 
 namespace Path
@@ -271,5 +273,6 @@ namespace Path
 		
 		return strOutputFilename;
 	}
-	//////////////////////////////////////////////////////////////////////////
 }
+
+_NAMESPACE_END

@@ -3,6 +3,8 @@
 #include "ClassPlugin.h"
 #include "EditorRoot.h"
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNAMIC(CEditTool,CObject);
 
 class CEditTool_ClassDesc : public CRefCountClassDesc
@@ -44,10 +46,12 @@ void CEditTool::Abort()
 {
 	if (m_pParentTool)
 	{
-		EditorRoot::Get().SetEditTool(m_pParentTool);
+		CEditorRoot::Get().SetEditTool(m_pParentTool);
 	}
 	else
 	{
-		EditorRoot::Get().SetEditTool(0);
+		CEditorRoot::Get().SetEditTool(0);
 	}
 }
+
+_NAMESPACE_END

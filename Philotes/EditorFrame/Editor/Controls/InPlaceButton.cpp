@@ -3,6 +3,8 @@
 
 // CInPlaceButton
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNAMIC(CInPlaceButton, CXTButton)
 
 BEGIN_MESSAGE_MAP(CInPlaceButton, CXTButton)
@@ -18,3 +20,5 @@ IMPLEMENT_DYNAMIC(CInPlaceColorButton, CColorButton)
 BEGIN_MESSAGE_MAP(CInPlaceColorButton, CColorButton)
 	ON_CONTROL_REFLECT(BN_CLICKED, OnBnClicked)
 END_MESSAGE_MAP()
+
+_NAMESPACE_END

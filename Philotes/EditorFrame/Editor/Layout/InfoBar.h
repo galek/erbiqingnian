@@ -11,7 +11,8 @@
 #include "ColorCheckBox.h"
 #include "NumberCtrl.h"
 
-class CEditTool;
+_NAMESPACE_BEGIN
+
 class CInfoBar : public CDialog
 {
 	// Construction
@@ -93,3 +94,5 @@ protected:
 	Float3			m_lastValue;
 	Float3			m_currValue;
 };
+
+_NAMESPACE_END

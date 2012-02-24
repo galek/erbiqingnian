@@ -10,6 +10,8 @@
 
 #include "RollupCtrl.h"
 
+_NAMESPACE_BEGIN
+
 class CRollupBar : public CWnd
 {
 public:
@@ -43,3 +45,5 @@ protected:
 
 	int							m_selectedCtrl;
 };
+
+_NAMESPACE_END

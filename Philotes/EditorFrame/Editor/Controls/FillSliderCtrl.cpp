@@ -2,6 +2,8 @@
 #include "FillSliderCtrl.h"
 #include "ColorUtil.h"
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNCREATE(CFillSliderCtrl,CSliderCtrlEx)
 
 CFillSliderCtrl::CFillSliderCtrl()
@@ -286,3 +288,5 @@ void CFillSliderCtrl::SetFilledLook( bool bFilled )
 {
 	m_bFilled = bFilled;
 }
+
+_NAMESPACE_END

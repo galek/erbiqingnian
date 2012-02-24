@@ -1,6 +1,7 @@
 
 #include "TreeCtrlEx.h"
 
+_NAMESPACE_BEGIN
 
 IMPLEMENT_DYNAMIC(CTreeCtrlEx, CTreeCtrl)
 CTreeCtrlEx::CTreeCtrlEx()
@@ -115,14 +116,11 @@ void CTreeCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 
 	m_pDragImage = CreateDragImage(m_hitemDrag);  // get the image list for dragging
-	// CreateDragImage() returns NULL if no image list
-	// associated with the tree view control
 	if( !m_pDragImage )
 		return;
 
 	m_bLDragging = true;
 
-	// Calculate the offset to the hotspot
 	CPoint offsetPt(8,8);   // Initialize a default offset
 
 	CPoint dragPt = pNMTreeView->ptDrag;    // Get the Drag point
@@ -130,64 +128,17 @@ void CTreeCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 	HTREEITEM htiHit = HitTest(dragPt, &nHitFlags);
 	if (NULL != htiHit)
 	{
-		// The drag point has Hit an item in the tree
 		CRect itemRect;
 		
-		// Get the text bounding rectangle 
 		if (GetItemRect(htiHit, &itemRect, TRUE)) 
 		{ 
-			// Calculate the new offset 
 			offsetPt.y = dragPt.y - itemRect.top; 
 			offsetPt.x = dragPt.x - (itemRect.left - GetIndent()); 
 		}
-		/*
-		if (GetItemRect(htiHit, &itemRect, FALSE))
-		{
-			// Count indent levels
-			HTREEITEM htiParent = htiHit;
-			int nIndentCnt = 0;
-			while (htiParent != NULL)
-			{
-				htiParent = GetParentItem(htiParent);
-				nIndentCnt++;
-			}
-
-			if (!(GetStyle() & TVS_LINESATROOT))
-				nIndentCnt--; 
-
-			// Calculate the new offset
-			offsetPt.y = dragPt.y - itemRect.top;
-			offsetPt.x = dragPt.x - (nIndentCnt * GetIndent()) + GetScrollPos(SB_HORZ);
-
-			CImageList* pImageListState = GetImageList(TVSIL_STATE);
-			UINT nState = GetItemState( htiHit, LVIS_STATEIMAGEMASK );
-			if (pImageListState && nState)
-			{
-				(nState>>=12)--;
-				IMAGEINFO ImageInfo;
-				//State Image list
-				pImageListState->GetImageInfo(nState,&ImageInfo);
-				offsetPt.x -= (ImageInfo.rcImage.right-ImageInfo.rcImage.left);
-			}
-		}
-		*/
 	}
 
-	/*
-	CImageList* pList = GetImageList(TVSIL_STATE);
-	if (pList)
-	{
-		IMAGEINFO info;
-		pList->GetImageInfo(1, &info);
-		offsetPt.x -= info.rcImage.right-info.rcImage.left;
-	}
-	*/
-
-
-	// Begin the Drag operation using the Drag image and the calculated hotspot offset
 	m_pDragImage->BeginDrag(0, offsetPt);
 
-	//m_pDragImage->BeginDrag(0, CPoint(-15,-15));
 	POINT pt = pNMTreeView->ptDrag;
 	ClientToScreen( &pt );
 	m_pDragImage->DragEnter(NULL, pt);
@@ -480,3 +431,5 @@ BOOL CTreeCtrlEx::CompareItems(TV_ITEM* pItem, TV_ITEM& tvTempItem)
    //tvTempItem.hItem is the desired item
    return (pItem->mask == tvTempItem.mask);
 }
+
+_NAMESPACE_END

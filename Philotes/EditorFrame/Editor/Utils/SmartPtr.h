@@ -8,6 +8,7 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
 
 template <class Type>
 class TSmartPtr 
@@ -118,3 +119,4 @@ public:
 
 #define SMARTPTR_TYPEDEF(Class) typedef TSmartPtr<Class> Class##Ptr
 
+_NAMESPACE_END

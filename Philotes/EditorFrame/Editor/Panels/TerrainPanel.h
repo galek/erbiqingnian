@@ -10,6 +10,8 @@
 
 #include "ToolButton.h"
 
+_NAMESPACE_BEGIN
+
 class CTerrainPanel : public CDialog
 {
 public:
@@ -36,3 +38,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
+
+_NAMESPACE_END

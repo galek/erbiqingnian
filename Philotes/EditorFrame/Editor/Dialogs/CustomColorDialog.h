@@ -10,6 +10,8 @@
 
 #include "Functor.h"
 
+_NAMESPACE_BEGIN
+
 class CCustomColorDialog : public CColorDialog
 {
 	DECLARE_DYNAMIC(CCustomColorDialog)
@@ -49,3 +51,5 @@ protected:
 
 	ColorChangeCallback m_callback;
 };
+
+_NAMESPACE_END

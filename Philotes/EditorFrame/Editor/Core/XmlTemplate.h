@@ -10,6 +10,8 @@
 
 #include "XmlInterface.h"
 
+_NAMESPACE_BEGIN
+
 class CXmlTemplate
 {
 public:
@@ -39,3 +41,5 @@ public:
 private:
 	std::map<CString,XmlNodeRef> m_templates;
 };
+
+_NAMESPACE_END

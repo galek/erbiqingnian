@@ -1,6 +1,7 @@
 
 #include "LocalTheme.h"
 
+_NAMESPACE_BEGIN
 
 CLocalTheme::CLocalTheme()
 {
@@ -28,3 +29,5 @@ void CLocalTheme::DrawImage(CDC* pDC, CPoint pt, CSize sz, CXTPImageManagerIcon*
 		pImage->Draw(pDC, pt, pImage->GetIcon(bSelected || bPressed ? xtpImageHot : xtpImageNormal),sz);
 	}
 }
+
+_NAMESPACE_END

@@ -2,6 +2,7 @@
 #include "ColorCheckBox.h"
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
 /////////////////////////////////////////////////////////////////////////////
 // CColorCheckBox
 IMPLEMENT_DYNCREATE( CColorCheckBox,CColoredPushButton )
@@ -89,3 +90,5 @@ BOOL CColorCheckBox::PreTranslateMessage(MSG* pMsg)
 	}
 	return __super::PreTranslateMessage(pMsg);
 }
+
+_NAMESPACE_END

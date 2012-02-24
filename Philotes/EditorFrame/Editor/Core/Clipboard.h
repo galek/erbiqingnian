@@ -8,6 +8,8 @@
 
 #include "XmlInterface.h"
 
+_NAMESPACE_BEGIN
+
 class CClipboard
 {
 public:
@@ -29,3 +31,5 @@ private:
 	
 	static CString		m_title;
 };
+
+_NAMESPACE_END

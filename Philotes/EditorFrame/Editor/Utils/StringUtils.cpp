@@ -1,6 +1,8 @@
 
 #include "StringUtils.h"
 
+_NAMESPACE_BEGIN
+
 void StringUtil::Trim( std::string& str, bool left /*= true*/, bool right /*= true */ )
 {
 	static const std::string delims = " \t\r";
@@ -272,3 +274,5 @@ const std::string StringUtil::ReplaceAll( const std::string& source, const std::
 	}
 	return result;
 }
+
+_NAMESPACE_END

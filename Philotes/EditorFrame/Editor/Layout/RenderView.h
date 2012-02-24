@@ -3,6 +3,8 @@
 
 #include "Viewport.h"
 
+_NAMESPACE_BEGIN
+
 class CRenderView : public CViewport
 {
 	DECLARE_DYNCREATE(CRenderView)
@@ -52,3 +54,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 };
+
+_NAMESPACE_END

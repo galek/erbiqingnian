@@ -8,8 +8,7 @@
 
 #pragma once
 
-struct IClassDesc;
-struct ITransformManipulator;
+_NAMESPACE_BEGIN
 
 enum EEditToolType
 {
@@ -63,3 +62,5 @@ protected:
 	IClassDesc*				m_pClassDesc;
 	int						m_nRefCount;
 };
+
+_NAMESPACE_END

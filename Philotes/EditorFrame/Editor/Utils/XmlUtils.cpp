@@ -2,6 +2,8 @@
 #include "XmlUtils.h"
 #include "Xml.h"
 
+_NAMESPACE_BEGIN
+
 CXmlUtils::CXmlUtils()
 {
 	m_pStatsXmlNodePool = 0;
@@ -61,3 +63,5 @@ void CXmlUtils::InitStatsXmlNodePool( UINT nPoolSize )
 		//CryLog("[CXmlNodePool]: Xml stats nodes pool already initialized");
 	}
 }
+
+_NAMESPACE_END

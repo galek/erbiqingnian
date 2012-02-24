@@ -1,11 +1,19 @@
 
+/********************************************************************
+	日期:		2012年2月24日
+	文件名: 	PathUtil.h
+	创建者:		王延兴
+	描述:		常用的文件路径有关操作	
+*********************************************************************/
+
 #pragma once
 
 #include <shlwapi.h>
 
+_NAMESPACE_BEGIN
+
 namespace Path
 {
-	//! Convert a path to the uniform form.
 	inline CString ToUnixPath( const CString& strPath )
 	{
 		CString str = strPath;
@@ -230,3 +238,4 @@ inline CString operator /( const CString &first, const CString &second )
 	return Path::Make(first, second);
 }
 
+_NAMESPACE_END

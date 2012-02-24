@@ -10,6 +10,8 @@
 
 #include "Functor.h"
 
+_NAMESPACE_BEGIN
+
 class CInPlaceCBEdit : public CEdit
 {
 	CInPlaceCBEdit(const CInPlaceCBEdit& d);
@@ -197,3 +199,4 @@ inline int CInPlaceComboBox::GetCurrentSelection() const
 	return m_nCurrentSelection;
 }
 
+_NAMESPACE_END

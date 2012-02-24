@@ -8,9 +8,7 @@
 
 #pragma once
 
-class CEditorDoc;
-class CViewManager;
-class CEditTool;
+_NAMESPACE_BEGIN
 
 enum EViewportType
 {
@@ -172,3 +170,5 @@ protected:
 
 	CViewManager*			m_viewManager;
 };
+
+_NAMESPACE_END

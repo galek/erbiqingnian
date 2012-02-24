@@ -10,6 +10,8 @@
 
 #include "Functor.h"
 
+_NAMESPACE_BEGIN
+
 class CInPlaceEdit : public CEdit
 {
 public:
@@ -40,3 +42,4 @@ protected:
 	OnChange		m_onChange;
 };
 
+_NAMESPACE_END

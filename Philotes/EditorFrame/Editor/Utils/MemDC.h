@@ -12,6 +12,8 @@
 #define MemDCh
 #endif
 
+_NAMESPACE_BEGIN
+
 class CMemDC : public CDC 
 {
 public:
@@ -91,3 +93,5 @@ private:
 	CRect    Rect;      
 	bool     isMemDC;   
 };
+
+_NAMESPACE_END

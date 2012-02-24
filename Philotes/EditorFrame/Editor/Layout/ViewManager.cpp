@@ -5,6 +5,8 @@
 #include "RenderView.h"
 #include "../MainFrm.h"
 
+_NAMESPACE_BEGIN
+
 class CViewportClassDesc : public TRefCountBase<IViewPaneClass>
 {
 public:
@@ -156,7 +158,7 @@ void CViewManager::RegisterViewportDesc( CViewportDesc *desc )
 	desc->pViewClass = new CViewportClassDesc(desc->name,desc->rtClass);
 	m_viewportDesc.push_back(desc);
 
-	EditorRoot::Get().GetClassFactory()->RegisterClass( desc->pViewClass );
+	CEditorRoot::Get().GetClassFactory()->RegisterClass( desc->pViewClass );
 }
 
 void CViewManager::GetViewportDescriptions( std::vector<CViewportDesc*> &descriptions )
@@ -213,3 +215,5 @@ CViewManager::~CViewManager()
 	m_viewports.clear();
 	m_viewportDesc.clear();
 }
+
+_NAMESPACE_END

@@ -7,6 +7,7 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
 
 class CEditorView : public CView
 {
@@ -41,3 +42,5 @@ protected:
 inline CEditorDoc* CEditorView::GetDocument() const
    { return reinterpret_cast<CEditorDoc*>(m_pDocument); }
 #endif
+
+_NAMESPACE_END

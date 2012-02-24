@@ -2,6 +2,8 @@
 #include "Clipboard.h"
 #include "Xml.h"
 
+_NAMESPACE_BEGIN
+
 void CClipboard::Put( XmlNodeRef &node,const CString &title /*= "" */ )
 {
 	m_title = title;
@@ -72,3 +74,5 @@ bool CClipboard::IsEmpty() const
 
 CString		CClipboard::m_title;
 XmlNodeRef	CClipboard::m_node;
+
+_NAMESPACE_END

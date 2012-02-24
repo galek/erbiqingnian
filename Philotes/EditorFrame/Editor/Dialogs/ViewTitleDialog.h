@@ -10,7 +10,7 @@
 
 #include "ColorCheckBox.h"
 
-class CLayoutViewPane;
+_NAMESPACE_BEGIN
 
 //////////////////////////////////////////////////////////////////////////
 class CViewportTitleDlg : public CXTResizeDialog
@@ -62,3 +62,5 @@ protected:
 	CLayoutViewPane*	m_pViewPane;
 	CStatic				m_titleBtn;
 };
+
+_NAMESPACE_END

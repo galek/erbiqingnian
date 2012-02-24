@@ -711,6 +711,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\EditorDefines.h"
+				>
+			</File>
+			<File
 				RelativePath=".\EditorDoc.cpp"
 				>
 			</File>
@@ -740,6 +744,10 @@
 			</File>
 			<File
 				RelativePath=".\EditorPch.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\EditorPrerequisites.h"
 				>
 			</File>
 			<File

@@ -8,6 +8,7 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
 
 enum ECustomFileType
 {
@@ -131,3 +132,5 @@ public:
 		DWORD dwSize = 0
 		) : CFileDialog(bOpenFileDialog, lpszDefExt, lpszFileName, dwFlags, lpszFilter, pParentWnd, dwSize) {}
 };
+
+_NAMESPACE_END

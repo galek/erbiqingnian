@@ -4,6 +4,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CNumberCtrlEdit
 
+_NAMESPACE_BEGIN
+
 void CNumberCtrlEdit::SetText(const CString& strText)
 {
 	m_strInitText = strText;
@@ -127,3 +129,5 @@ void CNumberCtrlEdit::OnChar( UINT nChar,UINT nRepCnt,UINT nFlags )
 	if (IsValidChar(nChar))
 		CEdit::OnChar(nChar,nRepCnt,nFlags);
 }
+
+_NAMESPACE_END

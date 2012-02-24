@@ -3,6 +3,8 @@
 #include "XmlInterface.h"
 #include "EditorRoot.h"
 
+_NAMESPACE_BEGIN
+
 CUIEnumerations& CUIEnumerations::GetUIEnumerationsInstance()
 {
 	static CUIEnumerations	oGeneralProxy;
@@ -34,7 +36,7 @@ CUIEnumerations::TDValuesContainer&	CUIEnumerations::GetStandardNameContainer()
 		int nNumberOfEnumerationItems(0);
 		int nCurrentEnumarationItem(0);
 
-		oRootNode = EditorRoot::Get().LoadXmlFile("Editor\\PropertyEnumerations.xml");
+		oRootNode = CEditorRoot::Get().LoadXmlFile("Editor\\PropertyEnumerations.xml");
 		nNumberOfEnumarations = oRootNode ? oRootNode->GetChildCount():0;
 
 		for (nCurrentEnumaration=0; nCurrentEnumaration<nNumberOfEnumarations; ++nCurrentEnumaration)
@@ -64,3 +66,5 @@ CUIEnumerations::TDValuesContainer&	CUIEnumerations::GetStandardNameContainer()
 
 	return cValuesContainer;
 }
+
+_NAMESPACE_END

@@ -1,6 +1,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 class CUIEnumerations
 {
 	public:
@@ -15,3 +17,5 @@ class CUIEnumerations
 
 		TDValuesContainer&		GetStandardNameContainer();
 };
+
+_NAMESPACE_END

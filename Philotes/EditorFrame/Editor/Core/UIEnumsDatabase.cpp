@@ -2,6 +2,8 @@
 #include "UIEnumsDatabase.h"
 #include "StlUtil.h"
 
+_NAMESPACE_BEGIN
+
 CString CUIEnumsDatabase_SEnum::NameToValue( const CString &name )
 {
 	int n = (int)strings.size();
@@ -67,3 +69,5 @@ CUIEnumsDatabase_SEnum* CUIEnumsDatabase::FindEnum( const CString &enumName )
 	CUIEnumsDatabase_SEnum *pEnum = stl::FindInMap(m_enums,enumName,0);
 	return pEnum;
 }
+
+_NAMESPACE_END

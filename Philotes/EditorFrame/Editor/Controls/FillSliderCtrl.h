@@ -10,6 +10,8 @@
 
 #include "SliderCtrlEx.h"
 
+_NAMESPACE_BEGIN
+
 #define WMU_FS_CHANGED          (WM_USER+100)
 #define WMU_FS_LBUTTONDOWN      (WM_USER+101)
 #define WMU_FS_LBUTTONUP        (WM_USER+102)
@@ -65,3 +67,5 @@ protected:
 	COLORREF		m_fillColorEnd;
 	CPoint			m_mousePos;
 };
+
+_NAMESPACE_END

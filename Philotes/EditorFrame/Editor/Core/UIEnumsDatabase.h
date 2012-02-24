@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 struct CUIEnumsDatabase_SEnum 
 {
 	CString name;
@@ -35,3 +37,5 @@ private:
 	typedef std::map<CString,CUIEnumsDatabase_SEnum*> Enums;
 	Enums m_enums;
 };
+
+_NAMESPACE_END

@@ -3,6 +3,8 @@
 #include "UIEnumsDatabase.h"
 #include "EditorRoot.h"
 
+_NAMESPACE_BEGIN
+
 CVarBlock::~CVarBlock()
 {
 
@@ -31,7 +33,7 @@ void CVarBlock::CopyValues( CVarBlock *fromVarBlock )
 
 void CVarBlock::CopyValuesByName( CVarBlock *fromVarBlock )
 {
-	XmlNodeRef node = EditorRoot::Get().CreateXmlNode( "Temp" );
+	XmlNodeRef node = CEditorRoot::Get().CreateXmlNode( "Temp" );
 	fromVarBlock->Serialize( node,false );
 	Serialize( node,true );
 }
@@ -391,7 +393,7 @@ void CVarObject::Serialize( XmlNodeRef node,bool load )
 
 CVarGlobalEnumList::CVarGlobalEnumList(const CString& enumName)
 {
-	m_pEnum = EditorRoot::Get().GetUIEnumsDatabase()->FindEnum(enumName);
+	m_pEnum = CEditorRoot::Get().GetUIEnumsDatabase()->FindEnum(enumName);
 }
 
 int CVarGlobalEnumList::GetItemsCount() 
@@ -441,3 +443,4 @@ CString CVarGlobalEnumList::ValueToName(const CString& value)
 	}
 }
 
+_NAMESPACE_END

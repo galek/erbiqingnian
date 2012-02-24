@@ -10,6 +10,8 @@
 
 #include "Functor.h"
 
+_NAMESPACE_BEGIN
+
 //////////////////////////////////////////////////////////////////////////
 class CSliderCtrlEx : public CSliderCtrl
 {
@@ -84,3 +86,5 @@ private:
 	int m_tickFreq;
 	CRect m_channelRc;
 };
+
+_NAMESPACE_END

@@ -1,6 +1,7 @@
 
 #include "ColorButton.h"
 
+_NAMESPACE_BEGIN
 
 CColorButton::CColorButton()
 : m_color( ::GetSysColor( COLOR_BTNFACE ) )
@@ -129,3 +130,5 @@ bool CColorButton::GetShowText() const
 {
 	return( m_showText );
 }
+
+_NAMESPACE_END

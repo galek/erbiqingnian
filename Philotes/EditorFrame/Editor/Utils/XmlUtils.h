@@ -10,7 +10,8 @@
 
 #include "XmlInterface.h"
 
-class CXmlNodePool;
+_NAMESPACE_BEGIN
+
 class CXmlUtils : public IXmlUtils
 {
 public:
@@ -32,3 +33,5 @@ private:
 
 	CXmlNodePool* m_pStatsXmlNodePool;
 };
+
+_NAMESPACE_END

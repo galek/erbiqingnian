@@ -3,6 +3,8 @@
 
 #include "XmlInterface.h"
 
+_NAMESPACE_BEGIN
+
 struct IXmlStringPool
 {
 public:
@@ -249,8 +251,6 @@ private:
 
 //////////////////////////////////////////////////////////////////////////
 
-class CXmlNodePool;
-
 class CXmlNodeReuse: public CXmlNode
 {
 public:
@@ -284,3 +284,5 @@ private:
 	unsigned int m_nAllocated;
 	std::stack<CXmlNodeReuse*> m_pNodePool;
 };
+
+_NAMESPACE_END

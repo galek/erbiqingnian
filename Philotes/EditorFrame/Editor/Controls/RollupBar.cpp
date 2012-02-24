@@ -2,6 +2,8 @@
 #include "RollupBar.h"
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
+
 CRollupBar::CRollupBar()
 {
 }
@@ -113,3 +115,5 @@ CRollupCtrl* CRollupBar::GetCurrentCtrl()
 	ASSERT( m_selectedCtrl < (int)m_controls.size() );
 	return m_controls[m_selectedCtrl];
 }
+
+_NAMESPACE_END

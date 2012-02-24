@@ -5,17 +5,12 @@
 	创建者:		王延兴	
 *********************************************************************/
 
-#ifndef __propertyctrlex_h__
-#define __propertyctrlex_h__
-
-#if _MSC_VER > 1000
 #pragma once
-#endif
 
 #include "PropertyCtrl.h"
 #include "RollupCtrl.h"
 
-class CPropertyCtrlEx;
+_NAMESPACE_BEGIN
 
 class CPropertyCategoryDialog : public CDialog
 {
@@ -134,5 +129,4 @@ protected:
 	int				m_itemMaxRight;
 };
 
-
-#endif // __propertyctrlex_h__
+_NAMESPACE_END

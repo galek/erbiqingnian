@@ -4,6 +4,8 @@
 #include "Clipboard.h"
 #include "Settings.h"
 
+_NAMESPACE_BEGIN
+
 BEGIN_MESSAGE_MAP(CPropertyCategoryDialog, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONUP()
@@ -926,3 +928,5 @@ void CPropertyCtrlEx::SetCanExtended(bool bIsCanExtended)
 {
 	m_bIsCanExtended = bIsCanExtended;
 }
+
+_NAMESPACE_END

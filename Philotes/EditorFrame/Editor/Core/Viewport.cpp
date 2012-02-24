@@ -3,6 +3,8 @@
 #include "EditorRoot.h"
 #include "EditorTool.h"
 
+_NAMESPACE_BEGIN
+
 IMPLEMENT_DYNAMIC(CViewport,CWnd)
 
 BEGIN_MESSAGE_MAP (CViewport, CWnd)
@@ -124,19 +126,19 @@ void CViewport::SetCursor( HCURSOR hCursor )
 
 CEditorDoc* CViewport::GetDocument()
 {
-	return EditorRoot::Get().GetDocument();
+	return CEditorRoot::Get().GetDocument();
 }
 
 CEditTool* CViewport::GetEditTool()
 {
 	// todo : 本地处理
-	return EditorRoot::Get().GetEditTool();
+	return CEditorRoot::Get().GetEditTool();
 }
 
 void CViewport::SetEditTool( CEditTool *pEditTool,bool bLocalToViewport/*=false */ )
 {
 	// todo : 本地记录
-	EditorRoot::Get().SetEditTool(pEditTool);
+	CEditorRoot::Get().SetEditTool(pEditTool);
 }
 
 void CViewport::CreateViewportWindow()
@@ -290,3 +292,5 @@ void CViewport::ReleaseMouse()
 		ReleaseCapture();
 	}
 }
+
+_NAMESPACE_END

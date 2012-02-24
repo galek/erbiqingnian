@@ -19,6 +19,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CInPlaceCBEdit
 
+_NAMESPACE_BEGIN
+
 BOOL CInPlaceCBEdit::PreTranslateMessage(MSG* pMsg) 
 {
 	if(pMsg->message == WM_KEYDOWN)
@@ -970,3 +972,5 @@ void CInPlaceComboBox::OnMove(int x, int y)
 		m_scrollBar.MoveWindow(rect);
 	}
 }
+
+_NAMESPACE_END

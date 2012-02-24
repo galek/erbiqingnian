@@ -5,6 +5,8 @@
 
 #define HEIGHT_OFFSET 4
 
+_NAMESPACE_BEGIN
+
 CEnvironmentPanel::CEnvironmentPanel(CWnd* pParent /*=NULL*/)
 : CDialog(CEnvironmentPanel::IDD, pParent)
 {
@@ -39,7 +41,7 @@ BOOL CEnvironmentPanel::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	m_node = EditorRoot::Get().GetDocument()->GetEnvironmentTemplate();
+	m_node = CEditorRoot::Get().GetDocument()->GetEnvironmentTemplate();
 
  	if (m_node)
  	{	
@@ -84,3 +86,5 @@ void CEnvironmentPanel::OnPropertyChanged( XmlNodeRef node )
 void CEnvironmentPanel::OnBnClickedApply()
 {
 }
+
+_NAMESPACE_END

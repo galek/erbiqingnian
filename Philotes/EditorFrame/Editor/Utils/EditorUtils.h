@@ -8,6 +8,8 @@
 
 #pragma once
 
+_NAMESPACE_BEGIN
+
 #define TOOLBAR_TRANSPARENT_COLOR RGB(0xC0,0xC0,0xC0)
 
 struct CMFCUtils
@@ -17,3 +19,5 @@ struct CMFCUtils
 	static void TransparentBlt( HDC hdcDest, int nXDest, int nYDest, int nWidth,int nHeight, HBITMAP hBitmap, int nXSrc, int nYSrc,
 		COLORREF colorTransparent );
 };
+
+_NAMESPACE_END

@@ -5,6 +5,8 @@
 
 #include <io.h>
 
+_NAMESPACE_BEGIN
+
 void CXmlTemplate::GetValues( XmlNodeRef &node, const XmlNodeRef &fromNode )
 {
 	assert( node != 0 && fromNode != 0 );
@@ -195,3 +197,5 @@ XmlNodeRef CXmlTemplateRegistry::FindTemplate( const CString &name )
 		return it->second;
 	}
 }
+
+_NAMESPACE_END

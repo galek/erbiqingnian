@@ -15,6 +15,7 @@
 #define KILLFOCUS_TIMER 1002
 
 // CPropertyCtrl
+_NAMESPACE_BEGIN
 
 IMPLEMENT_DYNAMIC(CPropertyCtrl, CWnd)
 
@@ -1606,7 +1607,7 @@ void CPropertyCtrl::OnCopy( bool bRecursively )
 	if (!m_multiSelectedItems.empty())
 	{
 		CClipboard clipboard;
-		XmlNodeRef rootNode = EditorRoot::Get().CreateXmlNode("PropertyCtrl");
+		XmlNodeRef rootNode = CEditorRoot::Get().CreateXmlNode("PropertyCtrl");
 		for (int i = 0; i < m_multiSelectedItems.size(); i++)
 		{
 			CPropertyItem *pItem = m_multiSelectedItems[i];
@@ -1622,7 +1623,7 @@ void CPropertyCtrl::OnCopyAll()
 	if (m_root)
 	{
 		CClipboard clipboard;
-		XmlNodeRef rootNode = EditorRoot::Get().CreateXmlNode("PropertyCtrl");
+		XmlNodeRef rootNode = CEditorRoot::Get().CreateXmlNode("PropertyCtrl");
 		for (int i = 0; i < m_root->GetChildCount(); i++)
 		{
 			CopyItem( rootNode,m_root->GetChild(i),true );
@@ -1742,3 +1743,5 @@ void CPropertyCtrl::SendNotify( int code,CPropertyCtrlNotify &notify )
 		GetOwner()->SendMessage( WM_NOTIFY,(WPARAM)GetDlgCtrlID(),(LPARAM)&notify );
 	}
 };
+
+_NAMESPACE_END

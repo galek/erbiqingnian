@@ -1,5 +1,7 @@
 #include "EditorUtils.h"
 
+_NAMESPACE_BEGIN
+
 BOOL CMFCUtils::LoadTrueColorImageList( CImageList &imageList,UINT nIDResource,
 									   int nIconWidth,COLORREF colMaskColor )
 {
@@ -82,3 +84,4 @@ void CMFCUtils::TransparentBlt( HDC hdcDest, int nXDest, int nYDest, int nWidth,
 	dc.Detach();
 }
 
+_NAMESPACE_END

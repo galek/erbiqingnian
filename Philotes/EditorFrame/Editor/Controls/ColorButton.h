@@ -9,6 +9,8 @@
 
 #include <afxwin.h>
 
+_NAMESPACE_BEGIN
+
 class CColorButton : public CButton
 {
 public:
@@ -46,3 +48,5 @@ protected:
 
 	bool				m_showText;
 };
+
+_NAMESPACE_END

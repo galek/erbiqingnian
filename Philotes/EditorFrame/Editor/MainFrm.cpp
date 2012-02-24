@@ -10,6 +10,7 @@
 #define new DEBUG_NEW
 #endif
 
+
 //////////////////////////////////////////////////////////////////////////
 
 #define  IDW_VIEW_EDITMODE_BAR			AFX_IDW_CONTROLBAR_FIRST+10
@@ -27,7 +28,8 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-// CMainFrame
+_NAMESPACE_BEGIN
+
 
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
@@ -374,3 +376,5 @@ CLayoutWnd* CMainFrame::GetLayout()
 {
 	return m_layoutWnd;
 }
+
+_NAMESPACE_END

@@ -13,6 +13,8 @@
 
 #define  ROLLUPCTRLN_EXPAND (0x0001)
 
+_NAMESPACE_BEGIN
+
 struct CRollupCtrlNotify
 {
 	NMHDR hdr;
@@ -146,3 +148,5 @@ protected:
 	afx_msg HBRUSH					OnCtlColor(CDC*, CWnd* pWnd, UINT);
 	DECLARE_MESSAGE_MAP()
 };
+
+_NAMESPACE_END

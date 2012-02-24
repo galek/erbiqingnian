@@ -2,6 +2,8 @@
 #include "TerrainPanel.h"
 #include "EnvironmentEditor.h"
 
+_NAMESPACE_BEGIN
+
 CTerrainPanel::CTerrainPanel(CWnd* pParent /*=NULL*/)
 : CDialog(CTerrainPanel::IDD, pParent)
 {
@@ -43,3 +45,5 @@ BOOL CTerrainPanel::OnInitDialog()
 	
 	return TRUE;
 }
+
+_NAMESPACE_END
