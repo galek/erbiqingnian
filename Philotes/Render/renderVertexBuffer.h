@@ -2,7 +2,7 @@
 #ifndef RENDERER_VERTEXBUFFER_H
 #define RENDERER_VERTEXBUFFER_H
 
-#include <renderConfig.h>
+#include "renderConfig.h"
 
 _NAMESPACE_BEGIN
 
@@ -41,8 +41,9 @@ class RenderVertexBuffer
 			
 			FORMAT_UBYTE4,
 			FORMAT_USHORT4,
+			FORMAT_USHORT2,
 			
-			FORMAT_COLOR, // RenderColor
+			FORMAT_COLOR,
 			
 			NUM_FORMATS,
 		};
@@ -54,39 +55,56 @@ class RenderVertexBuffer
 		};
 	
 	public:
-		static uint32 getFormatByteSize(Format format);
+		static uint32	getFormatByteSize(Format format);
 	
 	protected:
+
 		RenderVertexBuffer(const RenderVertexBufferDesc &desc);
+
 		virtual ~RenderVertexBuffer(void);
 	
 	public:
-		void release(void) { delete this; }
+		void			release(void) { delete this; }
 		
-		uint32  getMaxVertices(void) const;
+		uint32			getMaxVertices(void) const;
 		
-		Hint   getHint(void) const;
-		Format getFormatForSemantic(Semantic semantic) const;
+		Hint			getHint(void) const;
 
-		void *lockSemantic(Semantic semantic, uint32 &stride);
-		void  unlockSemantic(Semantic semantic);
+		Format			getFormatForSemantic(Semantic semantic) const;
 
-		//Checks buffer written state for vertex buffers in D3D
-		virtual bool checkBufferWritten() { return true; }
+		void*			lockSemantic(Semantic semantic, uint32 &stride);
+
+		void			unlockSemantic(Semantic semantic);
+
+		virtual bool	checkBufferWritten() { return true; }
+
+		uint32			getVertexSize() const {return m_stride;}
+
+		void			copyData(RenderVertexBuffer* src);
+
+		void			copyData(RenderVertexBuffer* src, uint32 size);
+
+		uint32			getByteSize() const;
+
+		void*			lock();
+
+		void			unlock();
 
 	private:
-		virtual void  swizzleColor(void *colors, uint32 stride, uint32 numColors) {}
+		virtual void	swizzleColor(void *colors, uint32 stride, uint32 numColors) {}
 		
-		virtual void *lock(void) = 0;
-		virtual void  unlock(void) = 0;
+		virtual void*	lockImpl(void) = 0;
+
+		virtual void	unlockImpl(void) = 0;
 		
-		virtual void  bind(uint32 streamID, uint32 firstVertex) = 0;
-		virtual void  unbind(uint32 streamID) = 0;
+		virtual void	bind(uint32 streamID, uint32 firstVertex) = 0;
+
+		virtual void	unbind(uint32 streamID) = 0;
 		
 		RenderVertexBuffer &operator=(const RenderVertexBuffer &) { return *this; }
 		
 	protected:
-		void prepareForRender(void);
+		void			prepareForRender(void);
 	
 	protected:
 		class SemanticDesc

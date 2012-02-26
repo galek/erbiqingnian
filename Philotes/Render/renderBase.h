@@ -60,6 +60,8 @@ public:
 
 	RenderIndexBuffer*					getIndexBuffer(void);
 
+	void								setIndexBuffer(RenderIndexBuffer* id);
+
 	const RenderInstanceBuffer*			getInstanceBuffer(void) const;
 
 	RenderInstanceBuffer*				getInstanceBuffer(void);

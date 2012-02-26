@@ -7,7 +7,8 @@ _NAMESPACE_BEGIN
 
 RenderSubModel::RenderSubModel( RenderModel* parent)
 	:RenderElement(),
-	m_parentModel(parent)
+	m_parentModel(parent),
+	m_subMesh(NULL)
 {
 
 }
@@ -17,9 +18,9 @@ RenderSubModel::~RenderSubModel()
 
 }
 
-RenderSubMesh* RenderSubModel::getSubMesh() const
+RenderSubMesh* RenderSubModel::getSubMesh()
 {
-	return static_cast<RenderSubMesh*>(m_mesh);
+	return m_subMesh;
 }
 
 void RenderSubModel::getWorldTransforms( Matrix4* xform ) const

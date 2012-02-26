@@ -9,12 +9,13 @@ uint32 RenderVertexBuffer::getFormatByteSize(Format format)
 	uint32 size = 0;
 	switch(format)
 	{
-		case FORMAT_FLOAT1:   size = sizeof(float) * 1; break;
-		case FORMAT_FLOAT2:   size = sizeof(float) * 2; break;
-		case FORMAT_FLOAT3:   size = sizeof(float) * 3; break;
-		case FORMAT_FLOAT4:   size = sizeof(float) * 4; break;
+		case FORMAT_FLOAT1:   size = sizeof(float) 	* 1; break;
+		case FORMAT_FLOAT2:   size = sizeof(float) 	* 2; break;
+		case FORMAT_FLOAT3:   size = sizeof(float) 	* 3; break;
+		case FORMAT_FLOAT4:   size = sizeof(float) 	* 4; break;
 		case FORMAT_UBYTE4:   size = sizeof(uint8)  * 4; break;
 		case FORMAT_USHORT4:  size = sizeof(uint16) * 4; break;
+		case FORMAT_USHORT2:  size = sizeof(uint16) * 2; break;
 		case FORMAT_COLOR:    size = sizeof(uint8)  * 4; break;
 	}
 	ph_assert2(size, "Unable to determine size of Format.");
@@ -77,7 +78,7 @@ void *RenderVertexBuffer::lockSemantic(Semantic semantic, uint32 &stride)
 		{
 			if(!m_lockedBuffer && !m_numSemanticLocks)
 			{
-				m_lockedBuffer = lock();
+				m_lockedBuffer = lockImpl();
 			}
 			ph_assert2(m_lockedBuffer, "Unable to lock VertexBuffer!");
 			if(m_lockedBuffer)
@@ -114,7 +115,7 @@ void RenderVertexBuffer::unlockSemantic(Semantic semantic)
 		}
 		if(m_lockedBuffer && m_numSemanticLocks == 0 && m_deferredUnlock == false)
 		{
-			unlock();
+			unlockImpl();
 			m_lockedBuffer = 0;
 		}
 	}
@@ -124,10 +125,40 @@ void RenderVertexBuffer::prepareForRender(void)
 {
 	if(m_lockedBuffer && m_numSemanticLocks == 0)
 	{
-		unlock();
+		unlockImpl();
 		m_lockedBuffer = 0;
 	}
 	ph_assert2(m_lockedBuffer==0, "Vertex Buffer locked during usage!");
+}
+
+void* RenderVertexBuffer::lock()
+{
+	return lockImpl();	
+}
+
+void RenderVertexBuffer::unlock()
+{
+	unlockImpl();
+}
+
+void RenderVertexBuffer::copyData( RenderVertexBuffer* src )
+{
+	uint32 size = Math::Min(getByteSize(),src->getByteSize());
+	copyData(src,size);
+}
+
+void RenderVertexBuffer::copyData( RenderVertexBuffer* src, uint32 size )
+{
+	void* srcdata = src->lock();
+	void* data = lock();
+	memcpy(data, srcdata, size);
+	unlock();
+	src->unlock();
+}
+
+uint32 RenderVertexBuffer::getByteSize() const
+{
+	return m_maxVertices * m_stride;
 }
 
 _NAMESPACE_END

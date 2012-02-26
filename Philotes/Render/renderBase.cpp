@@ -187,4 +187,9 @@ void RenderBase::appendVertexBuffer( RenderVertexBuffer* vb )
 	m_vertexBuffers.Append(vb);
 }
 
+void RenderBase::setIndexBuffer( RenderIndexBuffer* id )
+{
+	m_indexBuffer = id;
+}
+
 _NAMESPACE_END

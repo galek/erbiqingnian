@@ -5,17 +5,25 @@
 
 _NAMESPACE_BEGIN
 
-class RenderSubMesh : public RenderBase
+class RenderSubMesh
 {
 public:
 
 	RenderSubMesh();
 
-	~RenderSubMesh();
+	virtual ~RenderSubMesh();
 
 public:
 
-	
+	void setParent(RenderMesh* parent);
+
+protected:
+
+	RenderMesh*				m_parentMesh;
+
+	RenderVertexBuffer*		m_vertexBuffer;
+
+	RenderIndexBuffer*		m_indexBuffer;
 };
 
 _NAMESPACE_END

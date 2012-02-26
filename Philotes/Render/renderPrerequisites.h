@@ -35,6 +35,7 @@ class RenderTerrainNode;
 class RenderMaterial;
 class RenderMaterialDesc;
 class RenderMaterialInstance;
+class RenderMesh;
 class RenderBase;
 class RenderMeshDesc;
 class RenderModel;

@@ -9,10 +9,10 @@ _NAMESPACE_BEGIN
 class RenderIndexBufferDesc
 {
 	public:
-		RenderIndexBuffer::Hint   hint;
-		RenderIndexBuffer::Format format;
+		RenderIndexBuffer::Hint		hint;
+		RenderIndexBuffer::Format	format;
 		
-		uint32                       maxIndices;
+		uint32						maxIndices;
 
 	public:
 		RenderIndexBufferDesc(void);

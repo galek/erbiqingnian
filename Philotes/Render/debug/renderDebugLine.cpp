@@ -128,7 +128,7 @@ void RenderLineElement::checkResizeLine( uint32 maxVerts )
 		if(vertexbuffer)
 		{
 			m_vertexbuffer = vertexbuffer;
-			m_mesh = GearApplication::getApp()->getRender()->createMesh();
+			m_mesh = GearApplication::getApp()->getRender()->createRenderBase();
 			ph_assert(m_mesh);
 			m_mesh->setPrimitives(RenderBase::PRIMITIVE_LINES);
 			m_mesh->setVertexBufferRange(0,m_numVerts);
