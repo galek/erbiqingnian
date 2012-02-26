@@ -356,7 +356,10 @@ RenderVertexBuffer *D3D9Render::createVertexBuffer(const RenderVertexBufferDesc 
 			vb = new D3D9RenderVertexBuffer(*m_d3dDevice, desc, m_deferredVBUnlock);
 		}
 	}
-	if(vb) addResource(*vb);
+	if(vb) 
+	{
+		addResource(*vb);
+	}
 	return vb;
 }
 
@@ -372,7 +375,10 @@ RenderIndexBuffer *D3D9Render::createIndexBuffer(const RenderIndexBufferDesc &de
 			ib = new D3D9RenderIndexBuffer(*m_d3dDevice, desc);
 		}
 	}
-	if(ib) addResource(*ib);
+	if(ib)
+	{
+		addResource(*ib);
+	}
 	return ib;
 }
 
@@ -388,7 +394,10 @@ RenderInstanceBuffer *D3D9Render::createInstanceBuffer(const RenderInstanceBuffe
 			ib = new D3D9RenderInstanceBuffer(*m_d3dDevice, desc);
 		}
 	}
-	if(ib) addResource(*ib);
+	if(ib) 
+	{
+		addResource(*ib);
+	}
 	return ib;
 }
 
@@ -437,7 +446,7 @@ RenderMaterial *D3D9Render::createMaterial(const RenderMaterialDesc &desc)
 	return mat;
 }
 
-RenderBase *D3D9Render::createMesh()
+RenderBase *D3D9Render::createRenderBase()
 {
 	RENDERER_PERFZONE(D3D9Render_createMesh);
 	D3D9RenderBase *mesh = new D3D9RenderBase(*this);

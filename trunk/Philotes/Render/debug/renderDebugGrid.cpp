@@ -32,7 +32,7 @@ RenderGridElement::RenderGridElement( uint32 size, float cellSize ):
 
 	if(m_vertexBuffer)
 	{
-		m_mesh = GearApplication::getApp()->getRender()->createMesh();
+		m_mesh = GearApplication::getApp()->getRender()->createRenderBase();
 		m_mesh->appendVertexBuffer(m_vertexBuffer);
 		m_mesh->setPrimitives(RenderBase::PRIMITIVE_LINES);
 		m_mesh->setVertexBufferRange(0,numVerts);

@@ -34,9 +34,18 @@ public:
 
 	static const uint16 TERRAIN_MAX_BATCH_SIZE;
 
+	enum Alignment
+	{
+		ALIGN_X_Z = 0, 
+		ALIGN_X_Y = 1, 
+		ALIGN_Y_Z = 2
+	};
+
 	uint16				getMaxBatchSize() const;
 
 	uint16				getMinBatchSize() const;
+
+	uint16				getSize() const;
 
 	void				prepareData(const TerrainDesc& desc);
 
@@ -53,15 +62,38 @@ public:
 	// 是否使用顶点压缩
 	bool				_getUseVertexCompression();
 
+	float*				getHeightData() const;
+
+	float*				getHeightData(long x, long y) const;
+
+	float				getHeightAtPoint(long x, long y) const;
+
+	void				getPointAlign(long x, long y, float height, Alignment align, Vector3* outpos);
+
+	void				getPointAlign(long x, long y, Alignment align, Vector3* outpos);
+
+	void				getPoint(long x, long y, Vector3* outpos);
+
+	void				getPoint(long x, long y, float height, Vector3* outpos);
+
+
 protected:
 
 	void				distributeVertexData();
 
+	void				updateBaseScale();
+
 protected:
+
+	Alignment			m_align;
 
 	uint16				m_size;
 
 	scalar				m_worldSize;
+
+	scalar				m_base;
+
+	scalar				m_scale;
 
 	uint16				m_maxBatchSize;
 

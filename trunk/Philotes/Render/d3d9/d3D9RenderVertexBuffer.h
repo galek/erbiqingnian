@@ -15,22 +15,23 @@ class D3D9RenderVertexBuffer : public RenderVertexBuffer, public D3D9RenderResou
 {
 	public:
 		D3D9RenderVertexBuffer(IDirect3DDevice9 &d3dDevice, const RenderVertexBufferDesc &desc, bool deferredUnlock);
+
 		virtual ~D3D9RenderVertexBuffer(void);
 		
-		void addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const;
+		void			addVertexElements(uint32 streamIndex, std::vector<D3DVERTEXELEMENT9> &vertexElements) const;
 
-		virtual bool checkBufferWritten(void);
+		virtual bool	checkBufferWritten(void);
 		
 	protected:
-		virtual void *lock(void);
-		virtual void  unlock(void);
+		virtual void *	lockImpl(void);
+		virtual void	unlockImpl(void);
 		
-		virtual void  bind(uint32 streamID, uint32 firstVertex);
-		virtual void  unbind(uint32 streamID);
+		virtual void	bind(uint32 streamID, uint32 firstVertex);
+		virtual void	unbind(uint32 streamID);
 	
 	private:
-		virtual void onDeviceLost(void);
-		virtual void onDeviceReset(void);
+		virtual void	onDeviceLost(void);
+		virtual void	onDeviceReset(void);
 
 	private:
 		IDirect3DDevice9             &m_d3dDevice;

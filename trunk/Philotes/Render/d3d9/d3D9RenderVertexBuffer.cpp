@@ -12,11 +12,7 @@ static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYP
 	D3DVERTEXELEMENT9 element;
 	element.Stream     = stream;
 	element.Offset     = offset;
-#if defined(RENDERER_WINDOWS)
-	element.Type       = (BYTE)type;
-#else
-	element.Type       = type;
-#endif
+	element.Type	   = (BYTE)type;
 	element.Method     = method;
 	element.Usage      = usage;
 	element.UsageIndex = usageIndex;
@@ -34,6 +30,7 @@ static D3DDECLTYPE getD3DType(RenderVertexBuffer::Format format)
 		case RenderVertexBuffer::FORMAT_FLOAT4:  d3dType = D3DDECLTYPE_FLOAT4;   break;
 		case RenderVertexBuffer::FORMAT_UBYTE4:  d3dType = D3DDECLTYPE_UBYTE4;   break;
 		case RenderVertexBuffer::FORMAT_USHORT4: d3dType = D3DDECLTYPE_SHORT4;   break;
+		case RenderVertexBuffer::FORMAT_USHORT2: d3dType = D3DDECLTYPE_SHORT2;   break;
 		case RenderVertexBuffer::FORMAT_COLOR:   d3dType = D3DDECLTYPE_D3DCOLOR; break;
 	}
 	ph_assert2(d3dType != D3DDECLTYPE_UNUSED, "Invalid Direct3D9 vertex type.");
@@ -123,7 +120,7 @@ void D3D9RenderVertexBuffer::addVertexElements(uint32 streamIndex, std::vector<D
 	}
 }
 
-void *D3D9RenderVertexBuffer::lock(void)
+void *D3D9RenderVertexBuffer::lockImpl(void)
 {
 	RENDERER_PERFZONE(D3D9RenderVBlock);
 	void *lockedBuffer = 0;
@@ -137,7 +134,7 @@ void *D3D9RenderVertexBuffer::lock(void)
 	return lockedBuffer;
 }
 
-void D3D9RenderVertexBuffer::unlock(void)
+void D3D9RenderVertexBuffer::unlockImpl(void)
 {
 	RENDERER_PERFZONE(D3D9RenderVBunlock);
 	if(m_d3dVertexBuffer)

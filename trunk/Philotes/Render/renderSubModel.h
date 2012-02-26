@@ -15,13 +15,15 @@ public:
 
 public:
 
-	RenderSubMesh* getSubMesh() const;
+	RenderSubMesh* getSubMesh();
 
 	void getWorldTransforms(Matrix4* xform) const;
 
 protected:
 
 	RenderModel*	m_parentModel;
+
+	RenderSubMesh*	m_subMesh;
 };
 
 _NAMESPACE_END

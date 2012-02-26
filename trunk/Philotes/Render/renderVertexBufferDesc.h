@@ -9,10 +9,11 @@ _NAMESPACE_BEGIN
 class RenderVertexBufferDesc
 {
 	public:
-		RenderVertexBuffer::Hint   hint;
-		RenderVertexBuffer::Format semanticFormats[RenderVertexBuffer::NUM_SEMANTICS];
+		RenderVertexBuffer::Hint	hint;
+
+		RenderVertexBuffer::Format	semanticFormats[RenderVertexBuffer::NUM_SEMANTICS];
 		
-		uint32                 maxVertices;
+		uint32						maxVertices;
 		
 	public:
 		RenderVertexBufferDesc(void);
