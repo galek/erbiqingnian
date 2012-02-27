@@ -50,10 +50,10 @@ void RenderCellNode::_updateBounds( void )
 	m_worldAABB.setNull();
 
 	ChildNodeIterator it, itend;
-	itend = mChildren.End();
-	for (it = mChildren.Begin(); it != itend; ++it)
+	itend = mChildren.end();
+	for (it = mChildren.begin(); it != itend; ++it)
 	{
-		RenderTransform* child = static_cast<RenderTransform*>(it->Value());
+		RenderTransform* child = static_cast<RenderTransform*>(it->second);
 		m_worldAABB.merge(child->_updateBounds());
 	}
 }
@@ -84,12 +84,12 @@ RenderTransform* RenderCellNode::createChildTransformNode( const String& name, c
 void RenderCellNode::tickVisible( const RenderCamera* camera )
 {
 	ChildNodeIterator it;
-	ChildNodeIterator itend = mChildren.End();
-	for (it = mChildren.Begin(); it!=itend; ++it)
+	ChildNodeIterator itend = mChildren.end();
+	for (it = mChildren.begin(); it!=itend; ++it)
 	{
-		if(it->Value()->getNodeType() == NT_TRANSFORM)
+		if(it->second->getNodeType() == NT_TRANSFORM)
 		{
-			RenderTransform* tn = static_cast<RenderTransform*>(it->Value());
+			RenderTransform* tn = static_cast<RenderTransform*>(it->second);
 			// TODO : Ð§ÂÊÌáÉý
 			size_t at = tn->numAttachedObjects();
 			for (size_t i=0; i<at; i++)
@@ -98,9 +98,9 @@ void RenderCellNode::tickVisible( const RenderCamera* camera )
 				tn->getAttachedObject(i)->visitRenderElement(&sv);
 			}
 		}
-		else if (it->Value()->getNodeType() == NT_CULL_CELL)
+		else if (it->second->getNodeType() == NT_CULL_CELL)
 		{
-			RenderCellNode* cn = static_cast<RenderCellNode*>(it->Value());
+			RenderCellNode* cn = static_cast<RenderCellNode*>(it->second);
 			cn->tickVisible(camera);
 		}
 	}

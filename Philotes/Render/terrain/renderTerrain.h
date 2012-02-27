@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "renderTransformElement.h"
+
 _NAMESPACE_BEGIN
 
 struct TerrainDesc
@@ -8,27 +10,25 @@ struct TerrainDesc
 	TerrainDesc()
 	{
 		terrainSize		= 1025;
-		maxBatchSize	= 65;
-		minBatchSize	= 17;
+		batchSize		= 65;
 		pos				= Vector3::ZERO;
 		worldSize		= 1000.0f;
 	}
 	uint16	terrainSize;
-	uint16	maxBatchSize;
-	uint16	minBatchSize;
+	uint16	batchSize;
 	Vector3 pos;
 	scalar	worldSize;
 };
 
 //////////////////////////////////////////////////////////////////////////
 
-class RenderTerrain
+class RenderTerrain : public RenderTransformElement
 {
 public:
 
-	RenderTerrain();
+	RenderTerrain(RenderSceneManager* smg);
 
-	virtual				~RenderTerrain();
+	virtual					~RenderTerrain();
 
 public:
 
@@ -41,71 +41,98 @@ public:
 		ALIGN_Y_Z = 2
 	};
 
-	uint16				getMaxBatchSize() const;
+	uint16					getBatchSize() const;
 
-	uint16				getMinBatchSize() const;
+	uint16					getSize() const;
 
-	uint16				getSize() const;
+	void					prepareData(const TerrainDesc& desc);
 
-	void				prepareData(const TerrainDesc& desc);
+	void					setPosition(const Vector3& pos);
 
-	void				setPosition(const Vector3& pos);
+	void					freeCpuResource();
 
-	void				freeCpuResource();
+	void					freeGpuResource();
 
-	void				freeGpuResource();
+	void					loadData();
 
-	void				loadData();
-
-	void				unloadData();
+	void					unloadData();
 
 	// 是否使用顶点压缩
-	bool				_getUseVertexCompression();
+	bool					_getUseVertexCompression();
 
-	float*				getHeightData() const;
+	float*					getHeightData() const;
 
-	float*				getHeightData(long x, long y) const;
+	float*					getHeightData(long x, long y) const;
 
-	float				getHeightAtPoint(long x, long y) const;
+	float					getHeightAtPoint(long x, long y) const;
 
-	void				getPointAlign(long x, long y, float height, Alignment align, Vector3* outpos);
+	void					getPointAlign(long x, long y, float height, Alignment align, Vector3* outpos);
 
-	void				getPointAlign(long x, long y, Alignment align, Vector3* outpos);
+	void					getPointAlign(long x, long y, Alignment align, Vector3* outpos);
 
-	void				getPoint(long x, long y, Vector3* outpos);
+	void					getPoint(long x, long y, Vector3* outpos);
 
-	void				getPoint(long x, long y, float height, Vector3* outpos);
+	void					getPoint(long x, long y, float height, Vector3* outpos);
+
+	static size_t			_getNumIndexesForBatchSize(uint16 batchSize);
+
+	const AxisAlignedBox&	getBoundingBox(void) const;
+
+	scalar					getBoundingRadius(void) const;
+
+	void					visitRenderElement(RenderVisitor* visitor);
+
+	RenderMaterialInstance* getMaterialInstance() const { return m_materialInstance; }
+
+	RenderIndexBuffer*		getIndexBuffer();
+
+	// 裁剪
+	void					cull(RenderCamera* camera);
 
 
 protected:
 
-	void				distributeVertexData();
+	void					distributeVertexData();
 
-	void				updateBaseScale();
+	void					updateBaseScale();
+
+	void					createIndexBuffer();
+
+	void					destroyIndexBuffer();
 
 protected:
 
-	Alignment			m_align;
+	Alignment				m_align;
 
-	uint16				m_size;
+	uint16					m_size;
 
-	scalar				m_worldSize;
+	scalar					m_worldSize;
 
-	scalar				m_base;
+	scalar					m_base;
 
-	scalar				m_scale;
+	scalar					m_scale;
 
-	uint16				m_maxBatchSize;
+	uint16					m_batchSize;
 
-	uint16				m_minBatchSize;
+	RenderTerrainNode*		m_quadTree;
 
-	Vector3				m_position;
+	float*					m_heightData;
 
-	RenderTerrainNode*	m_quadTree;
+	uint16					m_treeDepth;
 
-	float*				m_heightData;
+	RenderSceneManager* 	m_sceneMgr;
 
-	uint16				m_treeDepth;
+	RenderCellNode*			m_cellNode;
+
+	Array<RenderElement*>	m_nodesToRender;
+
+	GearMaterialAsset*		m_materialAsset;
+
+	RenderMaterialInstance*	m_materialInstance;
+
+	RenderIndexBuffer*		m_indexBuffer;
+
+	Vector3					m_position;
 };
 
 _NAMESPACE_END

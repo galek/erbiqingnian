@@ -3,6 +3,7 @@
 
 #include "renderUtil.h"
 #include <set>
+#include <map>
 
 _NAMESPACE_BEGIN
 
@@ -29,8 +30,8 @@ class RenderNode
             TS_WORLD
         };
 
-		typedef HashTable<String, RenderNode*>	ChildNodeMap;
-		typedef ChildNodeMap::Iterator		ChildNodeIterator;
+		typedef std::map<String, RenderNode*>	ChildNodeMap;
+		typedef ChildNodeMap::iterator		ChildNodeIterator;
 
 		/** Listener which gets called back on Node events.
 		*/
@@ -465,7 +466,7 @@ class RenderNode
 
 		virtual SizeT getChildrenNum() const
 		{
-			return mChildren.Size();
+			return mChildren.size();
 		}
 
         /** Adds a (precreated) child scene node to this node. If it is attached to another node,

@@ -178,10 +178,10 @@ const AxisAlignedBox& RenderTransform::_updateBounds()
 		mWorldAABB.merge(ret->getWorldBoundingBox(true));
 	}
 
-	ChildNodeMap::Iterator child;
-	for (child = mChildren.Begin(); child != mChildren.End(); ++child)
+	ChildNodeMap::iterator child;
+	for (child = mChildren.begin(); child != mChildren.end(); ++child)
 	{
-		RenderTransform* sceneChild = static_cast<RenderTransform*>(child->Value());
+		RenderTransform* sceneChild = static_cast<RenderTransform*>(child->second);
 		mWorldAABB.merge(sceneChild->mWorldAABB);
 	}
 

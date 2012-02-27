@@ -6,6 +6,8 @@
 #include "renderCellNode.h"
 #include "renderTransform.h"
 
+#include "terrain/renderTerrain.h"
+
 #include "debug/renderDebugLine.h"
 #include "debug/renderDebugGrid.h"
 
@@ -49,14 +51,26 @@ void TestApplication::onInit( void )
 	RenderCellNode* cell = m_sceneManager->createCellNode("_dbgCell");
 	m_sceneManager->getRootCellNode()->addChild(cell);
 	RenderTransform* tn = cell->createChildTransformNode("line");
-	tn->attachObject(m_debugLine);
+	//tn->attachObject(m_debugLine);
 	tn->setPosition(0,30,0);
 
 	m_debugGrid = new RenderGridElement(100,40);
+
+	m_terrain = new RenderTerrain(m_sceneManager);
+	TerrainDesc td;
+	td.terrainSize = 129;
+	td.batchSize = 33;
+	td.worldSize = 500;
+	m_terrain->prepareData(td);
+	m_terrain->loadData();
 }
 
 void TestApplication::onShutdown( void )
 {
+	m_terrain->unloadData();
+	delete m_terrain;
+	m_terrain = NULL;
+
 	delete m_cameraMgr;
 	m_cameraMgr = NULL;
 
@@ -74,6 +88,8 @@ void TestApplication::onTickPreRender( float dtime )
 
 void TestApplication::onRender( void )
 {
+	m_terrain->cull(m_sceneManager->getCamera());
+
 	Render* renderer = getRender();
 
 	if (renderer)
@@ -84,7 +100,8 @@ void TestApplication::onRender( void )
 		if (windowWidth > 0 && windowHeight > 0)
 		{
 			renderer->clearBuffers();
-			renderer->queueMeshForRender(*m_debugGrid);
+			//renderer->queueMeshForRender(*m_debugGrid);
+
 			// äÖÈ¾³¡¾°
 			renderer->render(m_sceneManager->getCamera());
 
