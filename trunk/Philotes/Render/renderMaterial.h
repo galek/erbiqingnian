@@ -22,7 +22,7 @@ class RenderMaterial
 		typedef enum Type
 		{
 			TYPE_UNLIT = 0,
-			TYPE_LIT,		
+			TYPE_LIT,
 			NUM_TYPES,
 		};
 		

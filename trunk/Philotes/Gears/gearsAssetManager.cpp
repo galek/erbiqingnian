@@ -96,7 +96,7 @@ GearAsset *GearAssetManager::findAsset(const String& path)
 	uint32 numAssets = (uint32)m_assets.Size();
 	for(uint32 i=0; i<numAssets; i++)
 	{
-		if(m_assets[i]->getPath() != path)
+		if(m_assets[i]->getPath() == path)
 		{
 			asset = m_assets[i];
 			break;

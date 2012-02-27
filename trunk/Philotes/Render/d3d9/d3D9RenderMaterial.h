@@ -39,6 +39,7 @@ class D3D9RenderMaterial : public RenderMaterial
 				D3DXHANDLE          projMatrix;
 				D3DXHANDLE          modelViewMatrix;
 				D3DXHANDLE          modelViewProjMatrix;
+				D3DXHANDLE          viewProjMatrix;
 				
 				D3DXHANDLE          boneMatrices;
 				

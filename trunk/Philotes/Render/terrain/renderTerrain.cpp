@@ -94,7 +94,7 @@ void RenderTerrain::freeGpuResource()
 
 void RenderTerrain::loadData()
 {
-	m_materialAsset = GearMaterialAsset::getPrefabAsset(PM_UNLIGHT);
+	m_materialAsset = GearMaterialAsset::getPrefabAsset(PM_TERRAIN);
 	m_materialAsset->getMaterial(0)->setCullMode(RenderMaterial::NONE);
 	m_materialInstance = ph_new(RenderMaterialInstance)(*m_materialAsset->getMaterial(0));
 

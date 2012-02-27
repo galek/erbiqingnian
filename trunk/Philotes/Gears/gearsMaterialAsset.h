@@ -13,7 +13,8 @@ enum PrefabMaterial
 {
 	PM_LIGHT,
 	PM_LIGHT_COLOR,
-	PM_UNLIGHT
+	PM_UNLIGHT,
+	PM_TERRAIN,
 };
 
 //////////////////////////////////////////////////////////////////////////

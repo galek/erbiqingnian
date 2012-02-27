@@ -17,7 +17,7 @@
 
 #define SEMANTIC_BONEINDEX    TEXCOORD6
 
-// Parameters passed from the vertex shader to the fragment shader.
+// Õý³£²ÄÖÊ
 struct FragmentParameters
 {
 	float3 worldSpacePosition : TEXCOORD4;
@@ -66,8 +66,6 @@ struct DeferredFragment
 	half4 emissiveColor                     : COLOR1; // rgb=emissiveColor
 	half4 worldSpaceNormalAndSpecularPower  : COLOR2; // rgb=worldSpaceNormal, a=specularPower
 };
-
-
 
 // user implemented functions...
 SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params);

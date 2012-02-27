@@ -98,6 +98,11 @@ m_assetManager(assetManager)
 			{
 				matdesc.alphaTestRef = Math::Clamp((float)atof(nodeValue), 0.0f, 1.0f);
 			}
+			else if(!strcmp(nodeName, "terrain"))
+			{
+				const char *layernum = getXMLAttribute(*child, "layernum");
+				matdesc.extraDefines.Append(ShaderDefines("TERRAIN_LAYERNUM",layernum));
+			}
 			else if(!strcmp(nodeName, "blending") && strstr(nodeValue, "true"))
 			{
 				matdesc.blending = true;
@@ -117,7 +122,9 @@ m_assetManager(assetManager)
 		materialStruct.m_materialInstance = NULL;
 		materialStruct.m_maxBones = 0;
 		if (strstr(vertexShaderPaths[materialIndex], "skeletalmesh") != NULL)
+		{
 			materialStruct.m_maxBones = RENDERER_MAX_BONES;
+		}
 
 		materialStruct.m_material = renderer.createMaterial(matdesc);
 		ph_assert(materialStruct.m_material);
@@ -250,6 +257,12 @@ GearMaterialAsset* GearMaterialAsset::getPrefabAsset( PrefabMaterial type )
 		{
 			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
 				)->getAsset("materials/simple_unlit.xml", GearAsset::ASSET_MATERIAL));
+			break;
+		}
+	case PM_TERRAIN:
+		{
+			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
+				)->getAsset("materials/terrain.xml", GearAsset::ASSET_MATERIAL));
 			break;
 		}
 	default:
