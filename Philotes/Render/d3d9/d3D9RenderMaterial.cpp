@@ -82,6 +82,7 @@ void D3D9RenderMaterial::ShaderConstants::loadConstants(void)
 		projMatrix            = table->GetConstantByName(0, "g_" "projMatrix");
 		modelViewMatrix       = table->GetConstantByName(0, "g_" "modelViewMatrix");
 		modelViewProjMatrix   = table->GetConstantByName(0, "g_" "modelViewProjMatrix");
+		viewProjMatrix		  = table->GetConstantByName(0, "g_" "viewProjMatrix");
 		
 		boneMatrices          = getShaderConstantByName(*table, "g_" "boneMatrices");
 
@@ -142,7 +143,8 @@ void D3D9RenderMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dD
 		SET_MATRIX(projMatrix)
 		SET_MATRIX(modelViewMatrix)
 		SET_MATRIX(modelViewProjMatrix)
-		
+		SET_MATRIX(viewProjMatrix)
+
 		if(boneMatrices && shaderEnv.numBones > 0)
 		{
 			table->SetMatrixArray(&d3dDevice, boneMatrices, shaderEnv.boneMatrices, shaderEnv.numBones);
@@ -319,7 +321,7 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 	m_d3dDstBlendFunc = getD3DBlendFunc(getDstBlendFunc());
 	
 	D3D9Render::D3DXInterface &d3dx      = m_renderer.getD3DX();
-	IDirect3DDevice9            *d3dDevice = m_renderer.getD3DDevice();
+	IDirect3DDevice9 *d3dDevice = m_renderer.getD3DDevice();
 	if(d3dDevice)
 	{
 		D3D9ShaderIncluder shaderIncluder;
@@ -328,14 +330,26 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 		const char *vertexProfile    = d3dx.GetVertexShaderProfile(d3dDevice);
 		const char *vertexShaderPath = desc.vertexShaderPath;
 		const DWORD vertexFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR;
-		const D3DXMACRO vertexDefines[] =
+
+		Array<ShaderDefines> defines;
+		ShaderDefines def;
+		def.define	= "RENDERER_VERTEX";
+		def.value	= "1";
+		defines.Append(def);
+		defines.AppendArray(desc.extraDefines);
+		D3DXMACRO* vertexDefines = new D3DXMACRO[defines.Size()+1];
+		for (SizeT d = 0; d<defines.Size(); d++)
 		{
-			{"RENDERER_VERTEX", "1"},
-			{0, 0}
-		};
+			vertexDefines[d].Name = &defines[d].define[0];
+			vertexDefines[d].Definition = &defines[d].value[0];
+		}
+		vertexDefines[defines.Size()].Name = 0;
+		vertexDefines[defines.Size()].Definition = 0;
+
 		LPD3DXBUFFER        vshader = 0;
 		LPD3DXBUFFER        verrors = 0;
-		HRESULT result = d3dx.CompileShaderFromFileA(vertexShaderPath, vertexDefines, &shaderIncluder, vertexEntry, vertexProfile, vertexFlags, &vshader, &verrors, &m_vertexConstants.table);
+		HRESULT result = d3dx.CompileShaderFromFileA(vertexShaderPath, vertexDefines, &shaderIncluder, 
+			vertexEntry, vertexProfile, vertexFlags, &vshader, &verrors, &m_vertexConstants.table);
 		processCompileErrors(verrors);
 		ph_assert2(result == D3D_OK && vshader, "Failed to compile Vertex Shader.");
 		if(result == D3D_OK && vshader)
@@ -351,36 +365,38 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 				}
 			}
 		}
-		if(vshader) vshader->Release();
-		if(verrors) verrors->Release();
+		if(vshader) 
+		{
+			vshader->Release();
+		}
+		if(verrors) 
+		{
+			verrors->Release();
+		}
+
+		Array<ShaderDefines> dins;
+		dins.Append(ShaderDefines("RENDERER_VERTEX","1"));
+		dins.Append(ShaderDefines("PX_WINDOWS","1"));
 #if RENDERER_INSTANCING
-		const D3DXMACRO vertexDefinesInstanced[] =
-		{
-			{"RENDERER_VERTEX",    "1"},
-			{"RENDERER_INSTANCED", "1"},
-		#if defined(WIN32)
-			{"PX_WINDOWS",         "1"},
-		#elif defined(PX_X360)
-			{"PX_X360",            "1"},
-		#endif
-			{0, 0}
-		};
+		dins.Append(ShaderDefines("RENDERER_INSTANCED","1"));
 #else
-		const D3DXMACRO vertexDefinesInstanced[] =
-		{
-			{"RENDERER_VERTEX",    "1"},
-			{"RENDERER_INSTANCED", "0"},
-		#if defined(WIN32)
-			{"PX_WINDOWS",         "1"},
-		#elif defined(PX_X360)
-			{"PX_X360",            "1"},
-		#endif
-			{0, 0}
-		};
+		dins.Append(ShaderDefines("RENDERER_INSTANCED","0"));
 #endif
+		dins.AppendArray(desc.extraDefines);
+
+		D3DXMACRO* vertexDefinesInstanced = new D3DXMACRO[dins.Size()+1];
+		for (SizeT d = 0; d<dins.Size(); d++)
+		{
+			vertexDefinesInstanced[d].Name = &dins[d].define[0];
+			vertexDefinesInstanced[d].Definition = &dins[d].value[0];
+		}
+		vertexDefinesInstanced[dins.Size()].Name = 0;
+		vertexDefinesInstanced[dins.Size()].Definition = 0;
+
 		vshader = 0;
 		verrors = 0;
-		result = d3dx.CompileShaderFromFileA(vertexShaderPath, vertexDefinesInstanced, &shaderIncluder, vertexEntry, vertexProfile, vertexFlags, &vshader, &verrors, &m_instancedVertexConstants.table);
+		result = d3dx.CompileShaderFromFileA(vertexShaderPath, vertexDefinesInstanced,
+			&shaderIncluder, vertexEntry, vertexProfile, vertexFlags, &vshader, &verrors, &m_instancedVertexConstants.table);
 		processCompileErrors(verrors);
 		ph_assert2(result == D3D_OK && vshader, "Failed to compile Vertex Shader.");
 		if(result == D3D_OK && vshader)
@@ -396,8 +412,17 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 				}
 			}
 		}
-		if(vshader) vshader->Release();
-		if(verrors) verrors->Release();
+		if(vshader)
+		{
+			vshader->Release();
+		}
+		if(verrors)
+		{
+			verrors->Release();
+		}
+
+		delete []vertexDefines;
+		delete []vertexDefinesInstanced;
 		
 		const char *fragmentEntry      = "fmain";
 		const char *fragmentProfile    = d3dx.GetPixelShaderProfile(d3dDevice);
@@ -421,7 +446,8 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 			};
 			LPD3DXBUFFER        fshader = 0;
 			LPD3DXBUFFER        ferrors = 0;
-			result = d3dx.CompileShaderFromFileA(fragmentShaderPath, fragmentDefines, &shaderIncluder, fragmentEntry, fragmentProfile, fragmentFlags, &fshader, &ferrors, &m_fragmentConstants[i].table);
+			result = d3dx.CompileShaderFromFileA(fragmentShaderPath, fragmentDefines,
+				&shaderIncluder, fragmentEntry, fragmentProfile, fragmentFlags, &fshader, &ferrors, &m_fragmentConstants[i].table);
 			processCompileErrors(ferrors);
 			ph_assert2(result == D3D_OK && fshader, "Failed to compile Fragment Shader.");
 			if(result == D3D_OK && vshader)
@@ -437,8 +463,14 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 					}
 				}
 			}
-			if(fshader) fshader->Release();
-			if(ferrors) ferrors->Release();
+			if(fshader) 
+			{
+				fshader->Release();
+			}
+			if(ferrors) 
+			{
+				ferrors->Release();
+			}
 		}
 	}
 }

@@ -1,0 +1,35 @@
+
+#ifdef TERRAIN_LAYERNUM
+#include <globals.cg>
+
+void vmain(
+	float4 pos : POSITION,
+	float2 uv  : TEXCOORD0,
+	uniform float4		uvMul_0,
+	
+	  out float4 oPos		: POSITION
+	, out float4 oPosObj	: TEXCOORD0 
+	, out float4 oUVMisc	: TEXCOORD1
+	, out float4 oUV0		: TEXCOORD2
+#if TERRAIN_LAYERNUM > 2
+	, out float4 oUV1		: TEXCOORD3
+#endif
+)
+{
+	float4 worldPos = mul(g_modelMatrix, pos);
+	oPosObj = pos;
+
+#if TERRAIN_LAYERNUM <= 2
+	oUV0.xy =  uv.xy * uvMul_0.r;	//layer1
+	oUV0.zw =  uv.xy * uvMul_0.g;	//layer2
+#elif TERRAIN_LAYERNUM >2
+	oUV1.xy =  uv.xy * uvMul_0.b;	//layer3
+	oUV1.zw =  uv.xy * uvMul_0.a;	//layer4
+#endif
+	
+	oPos = mul(g_viewProjMatrix, worldPos);
+	oUVMisc.xy = uv.xy;
+	oUVMisc.wz = 1;
+}
+
+#endif

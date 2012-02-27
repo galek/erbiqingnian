@@ -14,6 +14,7 @@ uniform const float4x4      g_viewMatrix;
 uniform const float4x4      g_projMatrix;
 uniform const float4x4      g_modelViewMatrix;
 uniform const float4x4      g_modelViewProjMatrix;
+uniform const float4x4      g_viewProjMatrix;
 
 uniform const float4x4      g_boneMatrices[MAX_BONES]; // TODO: change this to a float4x3 (a transposed 3x4) so we can pack more bones in...
 

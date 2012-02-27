@@ -72,6 +72,7 @@ class D3D9Render : public Render
 				D3DMATRIX          projMatrix;
 				D3DMATRIX          modelViewMatrix;
 				D3DMATRIX          modelViewProjMatrix;
+				D3DMATRIX          viewProjMatrix;
 				
 				D3DXMATRIX         boneMatrices[RENDERER_MAX_BONES];
 				uint32              numBones;
@@ -172,7 +173,6 @@ class D3D9Render : public Render
 		
 		Matrix4							m_viewMatrix;
 		
-		// non-managed resources...
 		std::vector<D3D9RenderResource*> m_resources;
 
 		IDirect3DVertexDeclaration9*	m_textVDecl;

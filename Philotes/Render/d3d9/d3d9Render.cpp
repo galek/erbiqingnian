@@ -501,7 +501,11 @@ void D3D9Render::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 	m_viewMatrix = eye;
 	convertToD3D9(m_environment.viewMatrix, m_viewMatrix);
 	convertToD3D9(m_environment.projMatrix, proj);
-	
+
+	Matrix4 viewProj;
+	viewProj = proj * m_viewMatrix;
+	convertToD3D9(m_environment.viewProjMatrix,  viewProj);
+
 	const Vector3 eyeDirection = -eye.getColumn(2);
 	const Vector3 eyeT = eye.getTrans();
 	memcpy(m_environment.eyePosition,  &eyeT.x,			sizeof(scalar)*3);
@@ -523,9 +527,8 @@ void D3D9Render::bindMeshContext(const RenderElement &context)
 	Matrix4 model;
 	context.getWorldTransforms(&model);
 	Matrix4 modelView;
-
 	modelView = m_viewMatrix * model;
-	
+
 	convertToD3D9(m_environment.modelMatrix,     model);
 	convertToD3D9(m_environment.modelViewMatrix, modelView);
 

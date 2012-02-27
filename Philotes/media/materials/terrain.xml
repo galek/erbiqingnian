@@ -1,0 +1,5 @@
+<material type="unlit">
+    <shader name="vertex">vertex/terrain_vert.cg</shader>
+    <shader name="fragment">fragment/terrain_frag.cg</shader>
+	<terrain layernum="1"></shadefdefine>
+</material>
