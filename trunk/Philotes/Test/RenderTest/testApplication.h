@@ -41,6 +41,8 @@ protected:
 	RenderLineElement*	m_debugLine;
 	RenderGridElement*	m_debugGrid;
 	
+	RenderTerrain*		m_terrain;
+
 	TestCameraManager*	m_cameraMgr;
 };
 

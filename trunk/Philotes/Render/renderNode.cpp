@@ -154,10 +154,10 @@ void RenderNode::_update(bool updateChildren, bool parentHasChanged)
 	{
 
 		ChildNodeIterator it, itend;
-		itend = mChildren.End();
-		for (it = mChildren.Begin(); it != itend; ++it)
+		itend = mChildren.end();
+		for (it = mChildren.begin(); it != itend; ++it)
 		{
-			RenderNode* child = it->Value();
+			RenderNode* child = it->second;
 			child->_update(true, true);
 		}
 		mChildrenToUpdate.clear();
@@ -271,23 +271,23 @@ void RenderNode::addChild(RenderNode* child)
 			child->mParent->getName() + "'.");
 	}
 
-	mChildren.Add(child->getName(), child);
+	mChildren.insert(std::make_pair(child->getName(), child));
 	child->setParent(this);
 
 }
 //-----------------------------------------------------------------------
 unsigned short RenderNode::numChildren(void) const
 {
-	return static_cast< unsigned short >( mChildren.Size() );
+	return static_cast< unsigned short >( mChildren.size() );
 }
 //-----------------------------------------------------------------------
 RenderNode* RenderNode::getChild(unsigned short index)
 {
-	if( index < mChildren.Size() )
+	if( index < mChildren.size() )
 	{
-		ChildNodeMap::Iterator i = mChildren.Begin();
+		ChildNodeMap::iterator i = mChildren.begin();
 		while (index--) ++i;
-		return i->Value();
+		return i->second;
 	}
 	else
 		return NULL;
@@ -296,15 +296,15 @@ RenderNode* RenderNode::getChild(unsigned short index)
 RenderNode* RenderNode::removeChild(unsigned short index)
 {
 	RenderNode* ret;
-	if (index < mChildren.Size())
+	if (index < mChildren.size())
 	{
-		ChildNodeMap::Iterator i = mChildren.Begin();
+		ChildNodeMap::iterator i = mChildren.begin();
 		while (index--) ++i;
-		ret = i->Value();
-		// cancel any pending update
+		ret = i->second;
+		
 		cancelUpdate(ret);
 
-		mChildren.Erase(i);
+		mChildren.erase(i);
 		ret->setParent(NULL);
 		return ret;
 	}
@@ -319,14 +319,13 @@ RenderNode* RenderNode::removeChild(RenderNode* child)
 {
 	if (child)
 	{
-		ChildNodeMap::Iterator i = mChildren.Find(child->getName());
-		// ensure it's our child
-		if (i != mChildren.End() && i->Value() == child)
+		ChildNodeMap::iterator i = mChildren.find(child->getName());
+
+		if (i != mChildren.end() && i->second == child)
 		{
-			// cancel any pending update
 			cancelUpdate(child);
 
-			mChildren.Erase(i);
+			mChildren.erase(i);
 			child->setParent(NULL);
 		}
 	}
@@ -572,13 +571,13 @@ Quaternion RenderNode::convertLocalToWorldOrientation( const Quaternion &localOr
 //-----------------------------------------------------------------------
 void RenderNode::removeAllChildren(void)
 {
-	ChildNodeMap::Iterator i, iend;
-	iend = mChildren.End();
-	for (i = mChildren.Begin(); i != iend; ++i)
+	ChildNodeMap::iterator i, iend;
+	iend = mChildren.end();
+	for (i = mChildren.begin(); i != iend; ++i)
 	{
-		i->Value()->setParent(0);
+		i->second->setParent(0);
 	}
-	mChildren.Clear();
+	mChildren.clear();
 	mChildrenToUpdate.clear();
 }
 //-----------------------------------------------------------------------
@@ -676,30 +675,30 @@ const Vector3& RenderNode::getInitialScale(void) const
 //-----------------------------------------------------------------------
 RenderNode* RenderNode::getChild(const String& name)
 {
-	ChildNodeMap::Iterator i = mChildren.Find(name);
+	ChildNodeMap::iterator i = mChildren.find(name);
 
-	if (i == mChildren.End())
+	if (i == mChildren.end())
 	{
 		PH_EXCEPT(ERR_RENDER, "Child node named " + name + " does not exist.");
 	}
-	return i->Value();
+	return i->second;
 
 }
 //-----------------------------------------------------------------------
 RenderNode* RenderNode::removeChild(const String& name)
 {
-	ChildNodeMap::Iterator i = mChildren.Find(name);
+	ChildNodeMap::iterator i = mChildren.find(name);
 
-	if (i == mChildren.End())
+	if (i == mChildren.end())
 	{
 		PH_EXCEPT(ERR_RENDER, "Child node named " + name + " does not exist.");
 	}
 
-	RenderNode* ret = i->Value();
+	RenderNode* ret = i->second;
 	// Cancel any pending update
 	cancelUpdate(ret);
 
-	mChildren.Erase(i);
+	mChildren.erase(i);
 	ret->setParent(NULL);
 
 	return ret;

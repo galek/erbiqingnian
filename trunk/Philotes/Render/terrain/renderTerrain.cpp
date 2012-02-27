@@ -1,18 +1,32 @@
 
 #include "renderTerrain.h"
 #include "renderTerrainNode.h"
+#include "renderSceneManager.h"
+#include "renderCellNode.h"
+#include "renderTransform.h"
+#include "renderCamera.h"
+#include "renderMaterialInstance.h"
+#include "renderIndexBuffer.h"
+#include "renderIndexBufferDesc.h"
+#include "render.h"
+#include "gearsMaterialAsset.h"
+#include "gearsAssetManager.h"
+#include "gearsApplication.h"
 
 _NAMESPACE_BEGIN
 
-RenderTerrain::RenderTerrain()
+RenderTerrain::RenderTerrain(RenderSceneManager* smg)
 	:m_quadTree(NULL),
-	m_position(Vector3::ZERO),
-	m_maxBatchSize(0),
-	m_minBatchSize(0),
+	m_batchSize(0),
 	m_heightData(NULL),
 	m_size(0),
 	m_treeDepth(0),
-	m_align(ALIGN_X_Z)
+	m_align(ALIGN_X_Z),
+	m_cellNode(NULL),
+	m_sceneMgr(smg),
+	m_materialAsset(NULL),
+	m_materialInstance(NULL),
+	m_indexBuffer(NULL)
 {
 
 }
@@ -23,33 +37,28 @@ RenderTerrain::~RenderTerrain()
 	freeGpuResource();
 }
 
-uint16 RenderTerrain::getMaxBatchSize() const
+uint16 RenderTerrain::getBatchSize() const
 {
-	return m_maxBatchSize;
-}
-
-uint16 RenderTerrain::getMinBatchSize() const
-{
-	return m_minBatchSize;
+	return m_batchSize;
 }
 
 void RenderTerrain::prepareData( const TerrainDesc& desc )
 {
 	m_size			= desc.terrainSize;
-	m_minBatchSize	= desc.minBatchSize;
-	m_maxBatchSize	= desc.maxBatchSize;
+	m_batchSize		= desc.batchSize;
 	m_worldSize		= desc.worldSize;
 
 	setPosition(desc.pos);
+	updateBaseScale();
 
 	size_t numVertices = m_size * m_size;
-
 	m_heightData = new float[numVertices];
 
 	// 初始化地形高度数据
 	memset(m_heightData, 0, sizeof(float) * m_size * m_size);
 
-	m_treeDepth = (uint16)(Math::Log2(scalar(m_maxBatchSize - 1)) - Math::Log2(scalar(m_minBatchSize - 1)) + 2);
+	m_treeDepth = (uint16)(Math::Log2(scalar(m_size - 1)) - Math::Log2(scalar(m_batchSize - 1)) );
+
 
 	m_quadTree	= ph_new(RenderTerrainNode)(this, 0, 0, 0, m_size, 0, 0);
 	m_quadTree->prepareData();
@@ -85,10 +94,22 @@ void RenderTerrain::freeGpuResource()
 
 void RenderTerrain::loadData()
 {
+	m_materialAsset = GearMaterialAsset::getPrefabAsset(PM_UNLIGHT);
+	m_materialAsset->getMaterial(0)->setCullMode(RenderMaterial::NONE);
+	m_materialInstance = ph_new(RenderMaterialInstance)(*m_materialAsset->getMaterial(0));
+
+	createIndexBuffer();
+
 	if (m_quadTree)
 	{
 		m_quadTree->loadData();
 	}
+
+	m_cellNode = m_sceneMgr->createCellNode("_terrain");
+	m_sceneMgr->getRootCellNode()->addChild(m_cellNode);
+	RenderTransform* tn = m_cellNode->createChildTransformNode();
+	tn->attachObject(this);
+	tn->setPosition(m_position);
 }
 
 void RenderTerrain::unloadData()
@@ -97,43 +118,33 @@ void RenderTerrain::unloadData()
 	{
 		m_quadTree->unloadData();
 	}
+
+	destroyIndexBuffer();
+
+	RenderNode* ch = m_cellNode->getChild(0);
+	RenderTransform* tn = static_cast<RenderTransform*>(m_cellNode->removeChild(ch));
+	tn->detachAllObjects();
+	ph_delete(tn);
+	m_sceneMgr->destroyCellNode(m_cellNode);
+	m_cellNode = NULL;
+
+	if (m_materialInstance)
+	{
+		ph_delete(m_materialInstance);
+	}
+	if(m_materialAsset)
+	{
+		GearAssetManager::getSingleton()->returnAsset(*m_materialAsset);
+	}
 }
 
 void RenderTerrain::distributeVertexData()
 {
-	uint16 depth = m_treeDepth;
-	uint16 prevdepth = depth;
-	uint16 currresolution = m_size;
-	uint16 bakedresolution = m_size;
-	uint16 targetSplits = (bakedresolution - 1) / (TERRAIN_MAX_BATCH_SIZE - 1);
-	while(depth-- && targetSplits)
-	{
-		uint splits = 1 << depth;
-		if (splits == targetSplits)
-		{
-			size_t sz = ((bakedresolution-1) / splits) + 1;
-			m_quadTree->assignVertexData(depth, prevdepth, bakedresolution, sz);
-
-			bakedresolution =  ((currresolution - 1) >> 1) + 1;
-			targetSplits = (bakedresolution - 1) / (TERRAIN_MAX_BATCH_SIZE - 1);
-			prevdepth = depth;
-
-		}
-
-		currresolution = ((currresolution - 1) >> 1) + 1;
-	}
-
-	if (prevdepth > 0)
-	{
-		m_quadTree->assignVertexData(0, 1, bakedresolution, bakedresolution);
-
-	}
-
 }
 
 bool RenderTerrain::_getUseVertexCompression()
 {
-	return true;
+	return false;
 }
 
 float* RenderTerrain::getHeightData() const
@@ -191,7 +202,7 @@ void RenderTerrain::getPointAlign( long x, long y, float height, Alignment align
 		outpos->x = x * m_scale + m_base;
 		outpos->y = y * m_scale + m_base;
 		break;
-	};
+	}
 }
 
 void RenderTerrain::getPointAlign( long x, long y, Alignment align, Vector3* outpos )
@@ -202,7 +213,103 @@ void RenderTerrain::getPointAlign( long x, long y, Alignment align, Vector3* out
 void RenderTerrain::updateBaseScale()
 {
 	m_base = -m_worldSize * 0.5f; 
-	m_scale =  m_worldSize / (scalar)(m_size-1);
+	m_scale =  m_worldSize / (scalar)(m_size - 1);
+}
+
+size_t RenderTerrain::_getNumIndexesForBatchSize( uint16 batchSize )
+{
+	size_t mainIndexesPerRow = batchSize * 2 + 1;
+	size_t numRows = batchSize - 1;
+	return mainIndexesPerRow * numRows;
+}
+
+Philo::scalar RenderTerrain::getBoundingRadius( void ) const
+{
+	return Math::POS_INFINITY;
+}
+
+const AxisAlignedBox& RenderTerrain::getBoundingBox( void ) const
+{
+	static AxisAlignedBox aabb;
+	aabb.setInfinite();
+	return aabb;
+}
+
+void RenderTerrain::visitRenderElement( RenderVisitor* visitor )
+{
+	Array<RenderElement*>::Iterator it;
+	Array<RenderElement*>::Iterator itend = m_nodesToRender.End();
+	for (it = m_nodesToRender.Begin(); it!=itend; ++it)
+	{
+		visitor->visit(*it);
+	}
+}
+
+void RenderTerrain::cull( RenderCamera* camera )
+{
+	m_nodesToRender.Reset();
+
+	if (m_quadTree)
+	{
+		m_quadTree->walkQuadTree(m_nodesToRender);
+	}
+}
+
+void RenderTerrain::createIndexBuffer()
+{
+	/* 地形的三角带示意图如下:
+	6---7---8
+	| \ | \ |
+	3---4---5
+	| / | / |
+	0---1---2
+	索引：(2,5,1,4,0,3,3,6,4,7,5,8)
+	*/
+	uint16 batchSize = getBatchSize();
+
+	RenderIndexBufferDesc ibdesc;
+	ibdesc.maxIndices = RenderTerrain::_getNumIndexesForBatchSize(batchSize);
+
+	m_indexBuffer = GearApplication::getApp()->getRender()->createIndexBuffer(ibdesc);
+
+	uint16* pI = static_cast<uint16*>(m_indexBuffer->lock());
+	size_t rowSize = batchSize;
+	size_t numRows = batchSize - 1;
+
+	uint16 currentVertex = batchSize - 1;
+
+	bool rightToLeft = true; //左右交替
+	for (uint16 r = 0; r < numRows; ++r)
+	{
+		for (uint16 c = 0; c < batchSize; ++c)
+		{
+			*pI++ = currentVertex;
+			*pI++ = currentVertex + rowSize;
+
+			if (c+1 < batchSize)
+			{
+				currentVertex = rightToLeft ? currentVertex - 1 : currentVertex + 1;
+			}				
+		}
+		rightToLeft = !rightToLeft;
+		currentVertex += rowSize;
+		*pI++ = currentVertex;
+	}
+	m_indexBuffer->unlock();
+}
+
+void RenderTerrain::destroyIndexBuffer()
+{
+	if (m_indexBuffer)
+	{
+		m_indexBuffer->release();
+		m_indexBuffer = NULL;
+	}
+}
+
+RenderIndexBuffer* RenderTerrain::getIndexBuffer()
+{
+	return m_indexBuffer;
 }
 
 const uint16 RenderTerrain::TERRAIN_MAX_BATCH_SIZE = 129;
