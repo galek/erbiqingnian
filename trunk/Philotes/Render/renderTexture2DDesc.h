@@ -14,15 +14,14 @@ class RenderTexture2DDesc
 		RenderTexture2D::Addressing addressingU;
 		RenderTexture2D::Addressing addressingV;
 		
-		uint32                     width;
-		uint32                     height;
-		uint32                     numLevels;
+		uint32	width;
+		uint32	height;
+		uint32	numLevels;
 		
-		bool                      renderTarget;
+		bool	renderTarget;
 		
 	public:
 		RenderTexture2DDesc(void);
-		
 		bool isValid(void) const;
 };
 

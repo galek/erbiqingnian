@@ -1,15 +1,123 @@
 
+#ifdef TERRAIN_LAYERNUM
+
 #include <phong_lighting.cg>
 #include <fragment_entry.cg>
 
+#if TERRAIN_LAYERNUM >= 1
+uniform const sampler2D layer_0_diffuse;
+uniform const sampler2D layer_0_normal;
+#endif
+
+#if TERRAIN_LAYERNUM >= 2
+uniform const sampler2D layer_1_diffuse;
+uniform const sampler2D layer_1_normal;
+#endif
+
+#if TERRAIN_LAYERNUM >= 3
+uniform const sampler2D layer_2_diffuse;
+uniform const sampler2D layer_2_normal;
+#endif
+
+#if TERRAIN_LAYERNUM >= 4
+uniform const sampler2D layer_3_diffuse;
+uniform const sampler2D layer_3_normal;
+#endif
+
+uniform float4 scaleBiasSpecular;
+uniform const sampler2D global_normal;
+uniform const sampler2D light_map;
+
+#if TERRAIN_LAYERNUM >= 2
+uniform const sampler2D blend_map;
+#endif
+
+float4 expand(float4 v)
+{ 
+	return v * 2 - 1;
+}
+
 SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
 {
+	float4 outputCol = float4(0,0,0,1);
+	float2 uv = params.texcoord1.xy;
+	
+	float3 normal = expand(tex2D(global_normal, uv)).rgb;
+	float3 lightDir = g_lightPositionObjSpace.xyz -  (params.texcoord0.xyz * g_lightPositionObjSpace.w);
+	float3 eyeDir = g_eyePositionObjSpace.xyz - params.texcoord0.xyz;
+	
+	float3 diffuse = float3(0,0,0);
+	float  specular = 0;
+	float3 tangent = float3(1,0,0);
+	float3 binormal = normalize(cross(tangent, normal));
+	tangent = normalize(cross(normal, binormal));
+	float3x3 TBN = float3x3(tangent, binormal, normal);
+	float4 litRes, litResLayer;
+	float3 TSlightDir, TSeyeDir, TShalfAngle, TSnormal;
+	float displacement;
+	TSlightDir = normalize(mul(TBN, lightDir));
+	TSeyeDir = normalize(mul(TBN, eyeDir));
+	
+#if TERRAIN_LAYERNUM >= 1
+	// layer0
+	float2 uv0 = params.texcoord2.xy;
+	displacement = tex2D(layer_0_normal, uv0).a * scaleBiasSpecular.x + scaleBiasSpecular.y;
+	uv0 += TSeyeDir.xy * displacement;
+	TSnormal = expand(tex2D(layer_0_normal, uv0)).rgb;
+	TShalfAngle = normalize(TSlightDir + TSeyeDir);
+	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
+	litRes = litResLayer;
+	float4 diffuseSpecTex0 = tex2D(layer_0_diffuse, uv0);
+	diffuse = diffuseSpecTex0.rgb;
+	specular = diffuseSpecTex0.a;
+#endif
+
+#if TERRAIN_LAYERNUM >= 2
+	// layer1
+	float4 blendTexVal = tex2D(blend_map, uv); // 只有在2层以上时才需要blendMap
+	float2 uv1 = params.texcoord2.zw;
+	displacement = tex2D(layer_1_normal, uv1).a * scaleBiasSpecular.x + scaleBiasSpecular.y;
+	uv1 += TSeyeDir.xy * displacement;
+	TSnormal = expand(tex2D(layer_1_normal, uv1)).rgb;
+	TShalfAngle = normalize(TSlightDir + TSeyeDir);
+	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
+	litRes = lerp(litRes, litResLayer, blendTexVal.r);
+	float4 diffuseSpecTex1 = tex2D(layer_1_diffuse, uv1);
+	diffuse = lerp(diffuse, diffuseSpecTex1.rgb, blendTexVal.r);
+	specular = lerp(specular, diffuseSpecTex1.a, blendTexVal.r);
+#endif
+
+#if TERRAIN_LAYERNUM >= 3
+	// layer2
+	float2 uv2 = params.texcoord3.xy;
+	displacement = tex2D(layer_2_normal, uv2).a
+		* scaleBiasSpecular.x + scaleBiasSpecular.y;
+	uv2 += TSeyeDir.xy * displacement;
+	TSnormal = expand(tex2D(layer_2_normal, uv2)).rgb;
+	TShalfAngle = normalize(TSlightDir + TSeyeDir);
+	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
+	litRes = lerp(litRes, litResLayer, blendTexVal.g);
+	float4 diffuseSpecTex2 = tex2D(layer_2_diffuse, uv2);
+	diffuse = lerp(diffuse, diffuseSpecTex2.rgb, blendTexVal.g);
+	specular = lerp(specular, diffuseSpecTex2.a, blendTexVal.g);
+#endif
+
+#if TERRAIN_LAYERNUM >= 4
+	// layer3
+#endif
+
+	float shadow = tex2D(light_map, uv).r;
+	outputCol.rgb += g_ambientColor * diffuse + litRes.y * g_lightColor * diffuse * shadow;
+	outputCol.rgb += litRes.z * g_lightIntensity * specular * shadow;
+	
 	SurfaceMaterial mout;
-	mout.diffuseColor       = half3(1,1,1);
+	mout.diffuseColor       = outputCol.rgb;
 	mout.alpha              = 1;
 	mout.emissiveColor      = 0;
-	mout.specularColor      = half3(1,1,1);
+	mout.specularColor      = float3(1,1,1);
 	mout.specularPower      = 16;
-	mout.tangentSpaceNormal = half3(0,0,1);
+	mout.tangentSpaceNormal = float3(0,0,1);
 	return mout;
 }
+
+#endif

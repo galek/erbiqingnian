@@ -70,7 +70,10 @@ bool TestCameraManager::update( float elapsed )
 	{
 		// build our acceleration vector based on keyboard input composite
 		Vector3 accel = Vector3::ZERO;
-		if (mGoingForward) accel += mCamera->getDirection();
+		if (mGoingForward) 
+		{
+			accel += mCamera->getDirection();
+		}
 		if (mGoingBack) accel -= mCamera->getDirection();
 		if (mGoingRight) accel += mCamera->getRight();
 		if (mGoingLeft) accel -= mCamera->getRight();

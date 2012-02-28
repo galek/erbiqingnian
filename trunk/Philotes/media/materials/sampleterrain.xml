@@ -1,0 +1,18 @@
+<material type="unlit">
+    <shader name="vertex">vertex/terrain_vert.cg</shader>
+    <shader name="fragment">fragment/terrain_frag.cg</shader>
+	<terrain layernum="3"></shadefdefine>
+	<variables>
+		<sampler2D name="global_normal">textures/globalNormal.dds</sampler2D>
+		<sampler2D name="blend_map">textures/blendmap.dds</sampler2D>
+		<sampler2D name="light_map">textures/lightMap.dds</sampler2D>
+		<sampler2D name="layer_0_diffuse">textures/dirt_grayrocky_diffusespecular.dds</sampler2D>
+		<sampler2D name="layer_0_normal">textures/dirt_grayrocky_normalheight.dds</sampler2D>
+		<sampler2D name="layer_1_diffuse">textures/grass_green-01_diffusespecular.dds</sampler2D>
+		<sampler2D name="layer_1_normal">textures/grass_green-01_normalheight.dds</sampler2D>
+		<sampler2D name="layer_2_diffuse">textures/growth_weirdfungus-03_diffusespecular.dds</sampler2D>
+		<sampler2D name="layer_2_normal">textures/growth_weirdfungus-03_normalheight.dds</sampler2D>
+		
+		<float4 name="scaleBiasSpecular">0.03 -0.04 32 1</float4>
+    </variables>
+</material>

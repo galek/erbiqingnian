@@ -31,6 +31,8 @@
 #include <renderTargetDesc.h>
 #include "D3D9RenderTarget.h"
 
+#include "renderCamera.h"
+
 #include "gearsPlatformUtil.h"
 
 _NAMESPACE_BEGIN
@@ -54,6 +56,14 @@ void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat)
 void convertToD3D9( D3DCOLOR &dxcolor, const Colour &color )
 {
 	dxcolor = D3DXCOLOR(color.r, color.g, color.b, color.a);
+}
+
+void convertToD3D9( float *dxvec, const Vector4 &vec )
+{
+	dxvec[0] = vec.x;
+	dxvec[1] = vec.y;
+	dxvec[2] = vec.z;
+	dxvec[4] = vec.z;
 }
 
 /******************************
@@ -496,9 +506,10 @@ void D3D9Render::endRender(void)
 	}
 }
 
-void D3D9Render::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
+void D3D9Render::bindViewProj(const RenderCamera* camera)
 {
-	m_viewMatrix = eye;
+	const Matrix4& proj = camera->getProjectionMatrixRS();
+	m_viewMatrix = camera->getViewMatrix();
 	convertToD3D9(m_environment.viewMatrix, m_viewMatrix);
 	convertToD3D9(m_environment.projMatrix, proj);
 
@@ -506,15 +517,17 @@ void D3D9Render::bindViewProj(const Matrix4 &eye, const Matrix4 &proj)
 	viewProj = proj * m_viewMatrix;
 	convertToD3D9(m_environment.viewProjMatrix,  viewProj);
 
-	const Vector3 eyeDirection = -eye.getColumn(2);
-	const Vector3 eyeT = eye.getTrans();
+	const Vector3 eyeDirection = camera->getRealDirection();
+	const Vector3 eyeT = camera->getRealPosition();
 	memcpy(m_environment.eyePosition,  &eyeT.x,			sizeof(scalar)*3);
 	memcpy(m_environment.eyeDirection, &eyeDirection.x, sizeof(scalar)*3);
 }
 
 void D3D9Render::bindAmbientState(const Colour &ambientColor)
 {
-	convertToD3D9(m_environment.ambientColor, ambientColor);
+	m_environment.ambientColor[0] = ambientColor.r;
+	m_environment.ambientColor[1] = ambientColor.g;
+	m_environment.ambientColor[2] = ambientColor.b;
 }
 
 void D3D9Render::bindDeferredState(void)
@@ -526,13 +539,15 @@ void D3D9Render::bindMeshContext(const RenderElement &context)
 {
 	Matrix4 model;
 	context.getWorldTransforms(&model);
+
 	Matrix4 modelView;
 	modelView = m_viewMatrix * model;
 
 	convertToD3D9(m_environment.modelMatrix,     model);
 	convertToD3D9(m_environment.modelViewMatrix, modelView);
 
-	// it appears that D3D winding is backwards, so reverse them...
+	calcEyePosObjSpace(model);
+	calcLightPosObjSpace(model);
 
 	// ¹Ç÷À¾ØÕó ×öÓ²¼þÃÉÆ¤
 //     ph_assert2(context.numBones <= RENDERER_MAX_BONES, "Too many bones.");
@@ -544,6 +559,34 @@ void D3D9Render::bindMeshContext(const RenderElement &context)
 // 		}
 // 		m_environment.numBones = context.numBones;
 // 	}
+}
+
+void D3D9Render::calcEyePosObjSpace( const Matrix4& worldMatrix )
+{
+	Matrix4 worldInv = worldMatrix.inverseAffine();
+	Vector4 ep;
+	ep.x = m_environment.eyePosition[0];
+	ep.y = m_environment.eyePosition[1];
+	ep.z = m_environment.eyePosition[2];
+	ep.w = 1;
+	Vector4 epos = worldInv.transformAffine(ep);
+	convertToD3D9(m_environment.eyePositionObjSpace, epos);
+}
+
+void D3D9Render::calcLightPosObjSpace( const Matrix4& worldMatrix )
+{
+	Matrix4 worldInv = worldMatrix.inverseAffine();
+	Matrix4 mat = worldInv.transpose().inverse();
+	Matrix3 m3;
+	mat.extract3x3Matrix(m3);
+	Vector3 ep;
+	ep.x = -m_environment.lightDirection[0];
+	ep.y = -m_environment.lightDirection[1];
+	ep.z = -m_environment.lightDirection[2];
+	ep = (m3 * ep).normalisedCopy();
+	Vector4 final(ep);
+	final.w = 0;
+	convertToD3D9(m_environment.lightPositionObjSpace, final);
 }
 
 void D3D9Render::beginMultiPass(void)

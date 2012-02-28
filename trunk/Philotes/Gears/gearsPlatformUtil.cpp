@@ -469,6 +469,7 @@ uint64 GearPlatformUtil::getD3D9TextureFormat( RenderTexture2D::Format format )
 	{
 	case RenderTexture2D::FORMAT_B8G8R8A8: d3dFormat = D3DFMT_A8R8G8B8; break;
 	case RenderTexture2D::FORMAT_A8:       d3dFormat = D3DFMT_A8;       break;
+	case RenderTexture2D::FORMAT_L8:	   d3dFormat = D3DFMT_L8;		break;
 	case RenderTexture2D::FORMAT_R32F:     d3dFormat = D3DFMT_R32F;     break;
 	case RenderTexture2D::FORMAT_DXT1:     d3dFormat = D3DFMT_DXT1;     break;
 	case RenderTexture2D::FORMAT_DXT3:     d3dFormat = D3DFMT_DXT3;     break;

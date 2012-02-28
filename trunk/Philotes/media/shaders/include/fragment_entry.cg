@@ -13,7 +13,7 @@
 	{
 		Fragment fout;
 		SurfaceMaterial material = computeSurfaceMaterial(params);
-		fout.color = half4(material.diffuseColor, material.alpha);
+		fout.color = float4(material.diffuseColor, material.alpha);
 		return fout;
 	}
 #elif defined(PASS_AMBIENT_LIGHT) || defined(PASS_POINT_LIGHT) || defined(PASS_DIRECTIONAL_LIGHT) || defined(PASS_SPOT_LIGHT)

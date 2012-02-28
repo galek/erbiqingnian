@@ -13,7 +13,42 @@
 #include "gearsAssetManager.h"
 #include "gearsApplication.h"
 
+#include "util/bitwise.h"
+
 _NAMESPACE_BEGIN
+
+TerrainDesc::TerrainDesc()
+{
+	terrainSize		= 1025;
+	batchSize		= 65;
+	pos				= Vector3::ZERO;
+	worldSize		= 1000.0f;
+}
+
+bool TerrainDesc::validate() const
+{
+	// 数值必须为2次幂+1
+	if (!Bitwise::isPO2(terrainSize - 1)||
+		!Bitwise::isPO2(batchSize - 1))
+	{
+		return false;
+	}
+
+	// 至少有一层
+	if(layers.IsEmpty())
+	{
+		return false;
+	}
+
+	if (layers.Size() > (SizeT)TerrainLayer::MAX_LAYER)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 RenderTerrain::RenderTerrain(RenderSceneManager* smg)
 	:m_quadTree(NULL),
@@ -44,9 +79,20 @@ uint16 RenderTerrain::getBatchSize() const
 
 void RenderTerrain::prepareData( const TerrainDesc& desc )
 {
+	if (!desc.validate())
+	{
+		PH_EXCEPT(ERR_RENDER,"Invalid terrain description.");
+	}
+
 	m_size			= desc.terrainSize;
 	m_batchSize		= desc.batchSize;
 	m_worldSize		= desc.worldSize;
+
+	for (SizeT i=0; i<desc.layers.Size();i++)
+	{
+		addLayer(desc.layers[i].worldSize,
+			desc.layers[i].diffuseTexture,desc.layers[i].normalTexture);
+	}
 
 	setPosition(desc.pos);
 	updateBaseScale();
@@ -55,10 +101,13 @@ void RenderTerrain::prepareData( const TerrainDesc& desc )
 	m_heightData = new float[numVertices];
 
 	// 初始化地形高度数据
-	memset(m_heightData, 0, sizeof(float) * m_size * m_size);
+	//memset(m_heightData, 0, sizeof(float) * m_size * m_size);
+	// 测试数据
+	FILE* fp = fopen("../media/terrainData/heightData.bin","rb");
+	fread(m_heightData,sizeof(float),numVertices,fp);
+	fclose(fp);
 
 	m_treeDepth = (uint16)(Math::Log2(scalar(m_size - 1)) - Math::Log2(scalar(m_batchSize - 1)) );
-
 
 	m_quadTree	= ph_new(RenderTerrainNode)(this, 0, 0, 0, m_size, 0, 0);
 	m_quadTree->prepareData();
@@ -94,9 +143,17 @@ void RenderTerrain::freeGpuResource()
 
 void RenderTerrain::loadData()
 {
-	m_materialAsset = GearMaterialAsset::getPrefabAsset(PM_TERRAIN);
-	m_materialAsset->getMaterial(0)->setCullMode(RenderMaterial::NONE);
-	m_materialInstance = ph_new(RenderMaterialInstance)(*m_materialAsset->getMaterial(0));
+	m_materialAsset = static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
+		)->getAsset("materials/sampleterrain.xml", GearAsset::ASSET_MATERIAL));
+	m_materialInstance = m_materialAsset->getMaterialInstance(0);
+	m_materialInstance->getMaterial().setCullMode(RenderMaterial::COUNTER_CLOCKWISE);
+
+	const RenderMaterial::Variable* var = m_materialInstance->findVariable("g_uvMul",RenderMaterial::VARIABLE_FLOAT4);
+	if (var)
+	{
+		Vector4 uvm = getLayersUvMuler();
+		m_materialInstance->writeData(*var,(void*)(&uvm));
+	}
 
 	createIndexBuffer();
 
@@ -128,10 +185,10 @@ void RenderTerrain::unloadData()
 	m_sceneMgr->destroyCellNode(m_cellNode);
 	m_cellNode = NULL;
 
-	if (m_materialInstance)
-	{
-		ph_delete(m_materialInstance);
-	}
+// 	if (m_materialInstance)
+// 	{
+// 		ph_delete(m_materialInstance);
+// 	}
 	if(m_materialAsset)
 	{
 		GearAssetManager::getSingleton()->returnAsset(*m_materialAsset);
@@ -142,7 +199,7 @@ void RenderTerrain::distributeVertexData()
 {
 }
 
-bool RenderTerrain::_getUseVertexCompression()
+bool RenderTerrain::getUseVertexCompression()
 {
 	return false;
 }
@@ -312,6 +369,75 @@ RenderIndexBuffer* RenderTerrain::getIndexBuffer()
 	return m_indexBuffer;
 }
 
-const uint16 RenderTerrain::TERRAIN_MAX_BATCH_SIZE = 129;
+void RenderTerrain::setLayerWorldSize( uint8 index, scalar size )
+{
+	if (index < m_layers.Size())
+	{
+		m_layers[index].worldSize = size;
+	}
+}
+
+const TerrainLayer& RenderTerrain::getLayer( uint8 index ) const
+{
+	ph_assert(index<m_layers.Size());
+	return m_layers[index];
+}
+
+void RenderTerrain::setLayerDiffuseTexture( uint8 index, const String& diffuses )
+{
+	if (index < m_layers.Size())
+	{
+		m_layers[index].diffuseTexture = diffuses;
+	}
+}
+
+void RenderTerrain::setLayerNormalTexture( uint8 index, const String& normal )
+{
+	if (index < m_layers.Size())
+	{
+		m_layers[index].normalTexture = normal;
+	}
+}
+
+bool RenderTerrain::addLayer( scalar worldSize, const String& diffuse, const String& normal )
+{
+	if (m_layers.Size() == TerrainLayer::MAX_LAYER)
+	{
+		return false;
+	}
+	TerrainLayer layer;
+	layer.worldSize			= worldSize;
+	layer.diffuseTexture	= diffuse;
+	layer.normalTexture		= normal;
+	m_layers.Append(layer);
+
+	return true;
+}
+
+Vector4 RenderTerrain::getLayersUvMuler()
+{
+	Vector4 uvm(1,1,1,1);
+	if (m_layers.Size() >= 1)
+	{
+		uvm.x = m_worldSize / m_layers[0].worldSize;
+	}
+	if (m_layers.Size() >= 2)
+	{
+		uvm.y = m_worldSize / m_layers[1].worldSize;
+	}
+	if (m_layers.Size() >= 3)
+	{
+		uvm.z = m_worldSize / m_layers[2].worldSize;
+	}
+	if (m_layers.Size() >= 4)
+	{
+		uvm.w = m_worldSize / m_layers[3].worldSize;
+	}
+	return uvm;
+}
+
+const uint16	RenderTerrain::TERRAIN_MAX_BATCH_SIZE = 129;
+const uint8		TerrainLayer::MAX_LAYER = 4;
 
 _NAMESPACE_END
+

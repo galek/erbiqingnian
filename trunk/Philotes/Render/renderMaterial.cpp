@@ -20,21 +20,18 @@ static uint32 getVariableTypeSize(RenderMaterial::VariableType type)
 	return size;
 }
 
-RenderMaterial::Variable::Variable(const char *name, VariableType type, uint32 offset)
+RenderMaterial::Variable::Variable(const String& name, VariableType type, uint32 offset)
 {
-	size_t len = strlen(name)+1;
-	m_name = new char[len];
-	strcpy_s(m_name, len, name);
-	m_type   = type;
-	m_offset = offset;
+	m_name		= name;
+	m_type		= type;
+	m_offset	= offset;
 }
 
 RenderMaterial::Variable::~Variable(void)
 {
-	if(m_name) delete [] m_name;
 }
 
-const char *RenderMaterial::Variable::getName(void) const
+const String& RenderMaterial::Variable::getName(void) const
 {
 	return m_name;
 }

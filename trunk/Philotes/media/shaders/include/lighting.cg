@@ -95,10 +95,10 @@ Lighting computeLighting(const FragmentParameters params, const SurfaceMaterial 
 #endif
 	
 	const float shadowTerm = computeShadowTerm(params);
-	lout.diffuseColor  *= (half)shadowTerm;
-	lout.specularColor *= (half)shadowTerm;
+	lout.diffuseColor  *= shadowTerm;
+	lout.specularColor *= shadowTerm;
 
-	lout.diffuseColor += (half3)g_ambientColor * material.diffuseColor;
+	lout.diffuseColor += (float3)g_ambientColor * material.diffuseColor;
 
 	return lout; 
 }

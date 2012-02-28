@@ -116,7 +116,7 @@ public:
 	private:
 		virtual bool beginRender(void) { return true;}
 		virtual void endRender(void) {}
-		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj)		= 0;
+		virtual void bindViewProj(const RenderCamera* camera)					= 0;
 		virtual void bindAmbientState(const Colour &ambientColor)				= 0;
 		virtual void bindDeferredState(void)									= 0;
 		virtual void bindMeshContext(const RenderElement &context)				= 0;

@@ -18,20 +18,34 @@ RenderMaterialInstance::RenderMaterialInstance(RenderMaterial &material) :
 
 RenderMaterialInstance::~RenderMaterialInstance(void)
 {
-	if(m_data) delete [] m_data;
+	if(m_data)
+	{
+		delete[] m_data;
+	}
 }
 
-const RenderMaterial::Variable *RenderMaterialInstance::findVariable(const char *name, RenderMaterial::VariableType varType)
+const RenderMaterial::Variable *RenderMaterialInstance::findVariable(const String& name, RenderMaterial::VariableType varType)
 {
 	RenderMaterial::Variable *var = 0;
 	uint32 numVariables = (uint32)m_material.m_variables.Size();
+
 	for(uint32 i=0; i<numVariables; i++)
 	{
 		RenderMaterial::Variable &v = *m_material.m_variables[i];
-		if(!strcmp(v.getName(), name))
+		if (v.getName() == name)
 		{
 			var = &v;
 			break;
+		}
+		else if(!v.getName().IsEmpty() && v.getName()[0] == '$')
+		{
+			// ¿¼ÂÇ$Ç°×º
+			String sub = v.getName().SubString(1);
+			if (sub == name)
+			{
+				var = &v;
+				break;
+			}
 		}
 	}
 	if(var && var->getType() != varType)

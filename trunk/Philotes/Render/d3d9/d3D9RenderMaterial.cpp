@@ -87,6 +87,7 @@ void D3D9RenderMaterial::ShaderConstants::loadConstants(void)
 		boneMatrices          = getShaderConstantByName(*table, "g_" "boneMatrices");
 
 		eyePosition           = table->GetConstantByName(0, "g_" "eyePosition");
+		eyePositionObjSpace   = table->GetConstantByName(0, "g_" "eyePositionObjSpace");
 		eyeDirection          = table->GetConstantByName(0, "g_" "eyeDirection");
 		
 		ambientColor          = table->GetConstantByName(0, "g_" "ambientColor");
@@ -95,6 +96,7 @@ void D3D9RenderMaterial::ShaderConstants::loadConstants(void)
 		lightIntensity        = table->GetConstantByName(0, "g_" "lightIntensity");
 		lightDirection        = table->GetConstantByName(0, "g_" "lightDirection");
 		lightPosition         = table->GetConstantByName(0, "g_" "lightPosition");
+		lightPositionObjSpace = table->GetConstantByName(0, "g_" "lightPositionObjSpace");
 		lightInnerRadius      = table->GetConstantByName(0, "g_" "lightInnerRadius");
 		lightOuterRadius      = table->GetConstantByName(0, "g_" "lightOuterRadius");
 		lightInnerCone        = table->GetConstantByName(0, "g_" "lightInnerCone");
@@ -126,7 +128,16 @@ void D3D9RenderMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dD
 		                             shaderEnv._name[2], 1); \
 		        table->SetVector(&d3dDevice, _name, &xv);    \
 		    }
-		
+
+		#define SET_FLOAT4(_name)                            	\
+			if(_name)                                        	\
+			{                                                	\
+				const D3DXVECTOR4 xv(shaderEnv._name[0],     	\
+				shaderEnv._name[1],								\
+				shaderEnv._name[2], shaderEnv._name[3]);		\
+				table->SetVector(&d3dDevice, _name, &xv);		\
+			}
+
 		#define SET_COLOR(_name)                                \
 		    if(_name)                                           \
 		    {                                                   \
@@ -151,14 +162,16 @@ void D3D9RenderMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dD
 		}
 		
 		SET_FLOAT3(eyePosition)
+		SET_FLOAT4(eyePositionObjSpace)
 		SET_FLOAT3(eyeDirection)
 		
-		SET_COLOR(ambientColor)
+		SET_FLOAT3(ambientColor)
 		
 		SET_COLOR(lightColor)
 		SET_FLOAT(lightIntensity)
 		SET_FLOAT3(lightDirection)
 		SET_FLOAT3(lightPosition)
+		SET_FLOAT4(lightPositionObjSpace)
 		SET_FLOAT(lightInnerRadius)
 		SET_FLOAT(lightOuterRadius)
 		SET_FLOAT(lightInnerCone)
@@ -194,10 +207,6 @@ void D3D9RenderMaterial::ShaderConstants::bindEnvironment(IDirect3DDevice9 &d3dD
 	}
 }
 
-/**************************************
-*  D3D9RenderMaterial::D3D9Variable *
-**************************************/
-
 D3D9RenderMaterial::D3D9Variable::D3D9Variable(const char *name, VariableType type, uint32 offset) :
 	Variable(name, type, offset)
 {
@@ -227,10 +236,6 @@ void D3D9RenderMaterial::D3D9Variable::addFragmentHandle(ID3DXConstantTable &tab
 	table.GetConstantDesc(handle, &cdesc, &count);
 	m_fragmentRegisters[pass] = cdesc.RegisterIndex;
 }
-
-/*********************************
-*  D3D Shader Compiler Callbacks *
-*********************************/
 
 static void processCompileErrors(LPD3DXBUFFER errors)
 {
@@ -430,22 +435,28 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 		const DWORD fragmentFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR;
 		for(uint32 i=0; i<NUM_PASSES; i++)
 		{
-			const D3DXMACRO fragmentDefines[] =
+			Array<ShaderDefines> defines;
+			ShaderDefines def;
+			def.define	= "RENDERER_VERTEX";
+			def.value	= "1";
+			defines.Append(ShaderDefines("RENDERER_FRAGMENT","1"));
+			defines.Append(ShaderDefines(getPassName((Pass)i),"1"));
+			defines.Append(ShaderDefines("ENABLE_VFACE","1"));
+			defines.Append(ShaderDefines("ENABLE_VFACE_SCALE","1"));
+			defines.Append(ShaderDefines("WIN32","1"));
+			defines.Append(ShaderDefines("ENABLE_SHADOWS","1"));
+			defines.AppendArray(desc.extraDefines);
+			D3DXMACRO* fragmentDefines = new D3DXMACRO[defines.Size()+1];
+			for (SizeT d = 0; d<defines.Size(); d++)
 			{
-				{"RENDERER_FRAGMENT",  "1"},
-				{getPassName((Pass)i), "1"},
-				{"ENABLE_VFACE",       "1"},
-				{"ENABLE_VFACE_SCALE", "1"},
-			#if defined(WIN32)
-				{"WIN32",			   "1"},
-				{"ENABLE_SHADOWS",     "1"},
-			#elif defined(PX_X360)
-				{"PX_X360",            "1"},
-			#endif
-				{0, 0}
-			};
-			LPD3DXBUFFER        fshader = 0;
-			LPD3DXBUFFER        ferrors = 0;
+				fragmentDefines[d].Name = &defines[d].define[0];
+				fragmentDefines[d].Definition = &defines[d].value[0];
+			}
+			fragmentDefines[defines.Size()].Name = 0;
+			fragmentDefines[defines.Size()].Definition = 0;
+
+			LPD3DXBUFFER fshader = 0;
+			LPD3DXBUFFER ferrors = 0;
 			result = d3dx.CompileShaderFromFileA(fragmentShaderPath, fragmentDefines,
 				&shaderIncluder, fragmentEntry, fragmentProfile, fragmentFlags, &fshader, &ferrors, &m_fragmentConstants[i].table);
 			processCompileErrors(ferrors);
@@ -675,10 +686,10 @@ void D3D9RenderMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pas
 		if(constant)
 		{
 			D3DXCONSTANT_DESC cdesc;
-			UINT              count=1;
+			UINT              count = 1;
 			table.GetConstantDesc(constant, &cdesc, &count);
-			ph_assert(count==1);
-			if(count==1 && strncmp(cdesc.Name, "g_", 2))
+			ph_assert(count == 1);
+			if(count == 1 && strncmp(cdesc.Name, "g_", 2))
 			{
 				VariableType type = getVariableType(cdesc);
 				if(type < NUM_VARIABLE_TYPES)
@@ -688,7 +699,7 @@ void D3D9RenderMaterial::loadCustomConstants(ID3DXConstantTable &table, Pass pas
 					uint32 numVariables = (uint32)m_variables.Size();
 					for(uint32 i=0; i<numVariables; i++)
 					{
-						if(!strcmp(m_variables[i]->getName(), cdesc.Name))
+						if (m_variables[i]->getName() == cdesc.Name)
 						{
 							var = static_cast<D3D9Variable*>(m_variables[i]);
 							break;

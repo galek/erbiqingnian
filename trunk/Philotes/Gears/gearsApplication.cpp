@@ -137,8 +137,7 @@ void GearApplication::setupInput()
 
 	m_inputManager = GearInputManager::createInputSystem(pl);
 
-	GearInputObject* obj = m_inputManager->createInputObject(PI_Keyboard, true);
-	m_keyboard = static_cast<GearKeyboard*>(obj);
+	m_keyboard = static_cast<GearKeyboard*>(m_inputManager->createInputObject(PI_Keyboard, true));
 	m_mouse = static_cast<GearMouse*>(m_inputManager->createInputObject(PI_Mouse, true));
 
 	m_keyboard->setEventCallback(this);
@@ -159,8 +158,8 @@ void GearApplication::shutdownInput()
 
 void GearApplication::captureInput()
 {
-	m_mouse->capture();
 	m_keyboard->capture();
+	m_mouse->capture();
 }
 
 GearApplication* GearApplication::getApp()

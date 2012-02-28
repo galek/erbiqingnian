@@ -18,7 +18,7 @@ class RenderMaterialInstance
 		
 		RenderMaterial &getMaterial(void) { return m_material; }
 		
-		const RenderMaterial::Variable *findVariable(const char *name, RenderMaterial::VariableType varType);
+		const RenderMaterial::Variable* findVariable(const String& name, RenderMaterial::VariableType varType);
 		
 		void writeData(const RenderMaterial::Variable &var, const void *data);
 	
