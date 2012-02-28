@@ -32,19 +32,21 @@ uniform const sampler2D light_map;
 uniform const sampler2D blend_map;
 #endif
 
+// 展开法线
 float4 expand(float4 v)
-{ 
+{
 	return v * 2 - 1;
 }
 
 SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
 {
 	float4 outputCol = float4(0,0,0,1);
+	// 原始UV
 	float2 uv = params.texcoord1.xy;
 	
 	float3 normal = expand(tex2D(global_normal, uv)).rgb;
 	float3 lightDir = g_lightPositionObjSpace.xyz -  (params.texcoord0.xyz * g_lightPositionObjSpace.w);
-	float3 eyeDir = g_eyePositionObjSpace.xyz - params.texcoord0.xyz;
+	float3 eyeDir = g_eyePositionObjSpace.xyz - params.texcoord0.xyz;//都在模型空间计算
 	
 	float3 diffuse = float3(0,0,0);
 	float  specular = 0;

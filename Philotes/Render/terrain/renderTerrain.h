@@ -67,6 +67,8 @@ public:
 
 	uint16					getSize() const;
 
+	scalar					getWorldSize() const;
+
 	void					prepareData(const TerrainDesc& desc);
 
 	void					setPosition(const Vector3& pos);

@@ -334,7 +334,7 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 		const char *vertexEntry      = "vmain";
 		const char *vertexProfile    = d3dx.GetVertexShaderProfile(d3dDevice);
 		const char *vertexShaderPath = desc.vertexShaderPath;
-		const DWORD vertexFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR;
+		const DWORD vertexFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR|D3DXSHADER_DEBUG;
 
 		Array<ShaderDefines> defines;
 		ShaderDefines def;
@@ -432,7 +432,7 @@ D3D9RenderMaterial::D3D9RenderMaterial(D3D9Render &renderer, const RenderMateria
 		const char *fragmentEntry      = "fmain";
 		const char *fragmentProfile    = d3dx.GetPixelShaderProfile(d3dDevice);
 		const char *fragmentShaderPath = desc.fragmentShaderPath;
-		const DWORD fragmentFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR;
+		const DWORD fragmentFlags      = D3DXSHADER_PACKMATRIX_COLUMNMAJOR|D3DXSHADER_DEBUG;
 		for(uint32 i=0; i<NUM_PASSES; i++)
 		{
 			Array<ShaderDefines> defines;

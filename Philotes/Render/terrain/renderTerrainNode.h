@@ -29,17 +29,13 @@ public:
 
 	void				unloadData();
 
-	void				resetBounds(const Rect& rect);
-
-	void				mergeIntoBounds(long x, long y, const Vector3& pos);
-
 	bool				rectContainsNode(const Rect& rect);
 
 	bool				rectIntersectsNode(const Rect& rect);
 
 	bool				pointIntersectsNode(long x, long y);
 
-	void				walkQuadTree(Array<RenderElement*>& visible);
+	void				walkQuadTree(RenderCamera* camera, Array<RenderElement*>& visible);
 
 protected:
 
@@ -50,6 +46,8 @@ protected:
 	void				updateVertexBuffer(RenderVertexBuffer* posbuf, const Rect& rect);
 
 	void				writePosVertex(bool compress, uint16 x, uint16 y, float height, const Vector3& pos, float uvScale, float** ppPos);
+
+	bool				checkVisible(const RenderCamera* camera);
 
 protected:
 
@@ -75,11 +73,9 @@ protected:
 
 	Vector3				m_localCentre;
 
-	AxisAlignedBox		m_AABB;
-
-	scalar				m_boundingRadius;
-
 	RenderBase*			m_renderData;
+
+	scalar				m_worldSize;
 };
 
 _NAMESPACE_END
