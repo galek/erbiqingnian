@@ -27,7 +27,6 @@ RenderNode::RenderNode()
 	mListener(0),
 	mNodeType(NT_UNKNOW)
 {
-	// Generate a name
 	mName = msNameGenerator.generate();
 
 	needUpdate();

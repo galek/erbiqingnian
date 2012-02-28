@@ -41,15 +41,16 @@ void GearTextureAsset::loadDDS(FILE &file)
 		nv_dds::TextureFormat ddsformat = ddsimage.get_format();
 		switch(ddsformat)
 		{
-		case nv_dds::TextureBGRA:      tdesc.format = RenderTexture2D::FORMAT_B8G8R8A8; break;
-		case nv_dds::TextureDXT1:      tdesc.format = RenderTexture2D::FORMAT_DXT1;     break;
-		case nv_dds::TextureDXT3:      tdesc.format = RenderTexture2D::FORMAT_DXT3;     break;
-		case nv_dds::TextureDXT5:      tdesc.format = RenderTexture2D::FORMAT_DXT5;     break;
+		case nv_dds::TextureBGRA: tdesc.format = RenderTexture2D::FORMAT_B8G8R8A8;	break;
+		case nv_dds::TextureDXT1: tdesc.format = RenderTexture2D::FORMAT_DXT1;		break;
+		case nv_dds::TextureDXT3: tdesc.format = RenderTexture2D::FORMAT_DXT3;		break;
+		case nv_dds::TextureDXT5: tdesc.format = RenderTexture2D::FORMAT_DXT5;		break;
+		case nv_dds::TextureLuminance: tdesc.format = RenderTexture2D::FORMAT_L8;	break;
 		}
 		tdesc.width     = ddsimage.get_width();
 		tdesc.height    = ddsimage.get_height();
-		// if there is 1 mipmap, nv_dds reports 0
 		tdesc.numLevels = ddsimage.get_num_mipmaps()+1;
+
 		ph_assert(tdesc.isValid());
 		m_texture = GearApplication::getApp()->getRender()->createTexture2D(tdesc);
 		ph_assert(m_texture);
@@ -60,14 +61,12 @@ void GearTextureAsset::loadDDS(FILE &file)
 			ph_assert(buffer);
 			if(buffer)
 			{
-				//uint32 size = ddsimage.get_size();
-
 				uint8       *levelDst    = (uint8*)buffer;
 				const uint8 *levelSrc    = (uint8*)(unsigned char*)ddsimage;
 				const uint32 levelWidth  = m_texture->getWidthInBlocks();
 				const uint32 levelHeight = m_texture->getHeightInBlocks();
 				const uint32 rowSrcSize  = levelWidth * m_texture->getBlockSize();
-				ph_assert(rowSrcSize <= pitch); // the pitch can't be less than the source row size.
+				ph_assert(rowSrcSize <= pitch);
 				for(uint32 row=0; row<levelHeight; row++)
 				{
 					memcpy(levelDst, levelSrc, rowSrcSize);
@@ -84,14 +83,12 @@ void GearTextureAsset::loadDDS(FILE &file)
 				if(buffer && pitch )
 				{
 					const nv_dds::CSurface &surface = ddsimage.get_mipmap(i-1);
-					//uint32 size = surface.get_size();
-
 					uint8       *levelDst    = (uint8*)buffer;
 					const uint8 *levelSrc    = (uint8*)(unsigned char*)surface;
 					const uint32 levelWidth  = RenderTexture2D::getFormatNumBlocks(surface.get_width(),  m_texture->getFormat());
 					const uint32 levelHeight = RenderTexture2D::getFormatNumBlocks(surface.get_height(), m_texture->getFormat());
 					const uint32 rowSrcSize  = levelWidth * m_texture->getBlockSize();
-					ph_assert(rowSrcSize <= pitch); // the pitch can't be less than the source row size.
+					ph_assert(rowSrcSize <= pitch);
 					for(uint32 row=0; row<levelHeight; row++)
 					{
 						memcpy(levelDst, levelSrc, rowSrcSize);

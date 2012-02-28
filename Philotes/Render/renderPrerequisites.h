@@ -16,6 +16,7 @@ class RenderTransformElement;
 class RenderGridElement;
 class RenderLineElement;
 class RenderWindow;
+class RenderDirectionalLight;
 class RenderVertexBuffer;
 class RenderVertexBufferDesc;
 class RenderIndexBuffer;

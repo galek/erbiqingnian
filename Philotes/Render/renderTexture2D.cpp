@@ -28,6 +28,7 @@ uint32 RenderTexture2D::computeImageByteSize(uint32 width, uint32 height, Render
 			size = numPixels * sizeof(uint8) * 4;
 			break;
 		case RenderTexture2D::FORMAT_A8:
+		case RenderTexture2D::FORMAT_L8:
 			size = numPixels * sizeof(uint8) * 1;
 			break;
 		case RenderTexture2D::FORMAT_R32F:
@@ -115,6 +116,27 @@ uint32 RenderTexture2D::getHeightInBlocks(void) const
 uint32 RenderTexture2D::getBlockSize(void) const
 {
 	return getFormatBlockSize(getFormat());
+}
+
+void RenderTexture2D::setFilter( Filter ft )
+{
+	m_filter = ft;
+}
+
+void RenderTexture2D::setAddressingU( Addressing ad )
+{
+	m_addressingU = ad;
+}
+
+void RenderTexture2D::setAddressingV( Addressing ad )
+{
+	m_addressingV = ad;
+}
+
+void RenderTexture2D::setAddressing( Addressing ad )
+{
+	m_addressingU = ad;
+	m_addressingV = ad;
 }
 
 _NAMESPACE_END

@@ -22,28 +22,29 @@ public:
 
 public:
 
-	virtual	void		onInit(void);
-	virtual	void		onShutdown(void);
-	virtual	void		onTickPreRender(float dtime);
-	virtual	void		onRender(void);
-	virtual	void		onTickPostRender(float dtime);
+	virtual	void			onInit(void);
+	virtual	void			onShutdown(void);
+	virtual	void			onTickPreRender(float dtime);
+	virtual	void			onRender(void);
+	virtual	void			onTickPostRender(float dtime);
 
-	virtual bool		keyPressed( const KeyEvent &arg );
-	virtual bool		keyReleased( const KeyEvent &arg );
-	virtual bool 		mouseMoved( const MouseEvent &arg );
-	virtual bool 		mousePressed( const MouseEvent &arg, MouseButtonID id );
-	virtual bool 		mouseReleased( const MouseEvent &arg, MouseButtonID id );
+	virtual bool			keyPressed( const KeyEvent &arg );
+	virtual bool			keyReleased( const KeyEvent &arg );
+	virtual bool 			mouseMoved( const MouseEvent &arg );
+	virtual bool 			mousePressed( const MouseEvent &arg, MouseButtonID id );
+	virtual bool 			mouseReleased( const MouseEvent &arg, MouseButtonID id );
 
 protected:
 
-	bool				m_rewriteBuffers;    // flag for rewriting static buffers on device reset
+	bool					m_rewriteBuffers;    // flag for rewriting static buffers on device reset
 
-	RenderLineElement*	m_debugLine;
-	RenderGridElement*	m_debugGrid;
+	RenderLineElement*		m_debugLine;
+	RenderGridElement*		m_debugGrid;
 	
-	RenderTerrain*		m_terrain;
+	RenderTerrain*			m_terrain;
 
-	TestCameraManager*	m_cameraMgr;
+	TestCameraManager*		m_cameraMgr;
+	RenderLight*			m_dirlight;
 };
 
 _NAMESPACE_END

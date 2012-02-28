@@ -1,12 +1,11 @@
 
-#ifndef D3D9_RENDERER_TEXTURE_2D_H
-#define D3D9_RENDERER_TEXTURE_2D_H
+#pragma once
 
-#include <renderConfig.h>
+#include "renderConfig.h"
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <renderTexture2D.h>
+#include "renderTexture2D.h"
 #include "D3D9Render.h"
 
 _NAMESPACE_BEGIN
@@ -47,11 +46,11 @@ class D3D9RenderTexture2D : public RenderTexture2D, public D3D9RenderResource
 		D3DTEXTUREFILTERTYPE       m_d3dMinFilter;
 		D3DTEXTUREFILTERTYPE       m_d3dMagFilter;
 		D3DTEXTUREFILTERTYPE       m_d3dMipFilter;
+
 		D3DTEXTUREADDRESS          m_d3dAddressingU;
 		D3DTEXTUREADDRESS          m_d3dAddressingV;
 };
 
 _NAMESPACE_END
 
-#endif // #if defined(RENDERER_ENABLE_DIRECT3D9)
 #endif

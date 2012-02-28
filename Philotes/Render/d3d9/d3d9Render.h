@@ -28,6 +28,7 @@ _NAMESPACE_BEGIN
 
 void convertToD3D9(D3DCOLOR &dxcolor, const Colour &color);
 void convertToD3D9(float *dxvec, const Vector3 &vec);
+void convertToD3D9(float *dxvec, const Vector4 &vec);
 void convertToD3D9(D3DMATRIX &dxmat, const Matrix4 &mat);
 
 class D3D9RenderResource;
@@ -67,31 +68,33 @@ class D3D9Render : public Render
 		class ShaderEnvironment
 		{
 			public:
-				D3DMATRIX          modelMatrix;
-				D3DMATRIX          viewMatrix;
-				D3DMATRIX          projMatrix;
-				D3DMATRIX          modelViewMatrix;
-				D3DMATRIX          modelViewProjMatrix;
-				D3DMATRIX          viewProjMatrix;
+				D3DMATRIX          	modelMatrix;
+				D3DMATRIX          	viewMatrix;
+				D3DMATRIX          	projMatrix;
+				D3DMATRIX          	modelViewMatrix;
+				D3DMATRIX          	modelViewProjMatrix;
+				D3DMATRIX          	viewProjMatrix;
 				
-				D3DXMATRIX         boneMatrices[RENDERER_MAX_BONES];
-				uint32              numBones;
+				D3DXMATRIX         	boneMatrices[RENDERER_MAX_BONES];
+				uint32				numBones;
 				
-				float              eyePosition[3];
-				float              eyeDirection[3];
+				float              	eyePosition[3];
+				float              	eyePositionObjSpace[4];
+				float              	eyeDirection[3];
 				
-				D3DCOLOR           ambientColor;
+				float           	ambientColor[3];
 				
-				D3DCOLOR           lightColor;
-				float              lightIntensity;
-				float              lightDirection[3];
-				float              lightPosition[3];
-				float              lightInnerRadius;
-				float              lightOuterRadius;
-				float              lightInnerCone;
-				float              lightOuterCone;
-				IDirect3DTexture9 *lightShadowMap;
-				D3DXMATRIX         lightShadowMatrix;
+				D3DCOLOR           	lightColor;
+				float              	lightIntensity;
+				float              	lightDirection[3];
+				float              	lightPosition[3];
+				float              	lightPositionObjSpace[4];
+				float              	lightInnerRadius;
+				float              	lightOuterRadius;
+				float              	lightInnerCone;
+				float              	lightOuterCone;
+				IDirect3DTexture9*	lightShadowMap;
+				D3DXMATRIX         	lightShadowMatrix;
 				
 			public:
 				ShaderEnvironment(void);
@@ -140,7 +143,7 @@ class D3D9Render : public Render
 	private:
 		virtual bool beginRender(void);
 		virtual void endRender(void);
-		virtual void bindViewProj(const Matrix4 &eye, const Matrix4 &proj);
+		virtual void bindViewProj(const RenderCamera* camera);
 		virtual void bindAmbientState(const Colour &ambientColor);
 		virtual void bindDeferredState(void);
 		virtual void bindMeshContext(const RenderElement &context);
@@ -155,6 +158,8 @@ class D3D9Render : public Render
 		void removeResource(D3D9RenderResource &resource);
 		void notifyResourcesLostDevice(void);
 		void notifyResourcesResetDevice(void);
+		void calcEyePosObjSpace(const Matrix4& worldMatrix);
+		void calcLightPosObjSpace(const Matrix4& worldMatrix);
 	
 	private:
 		uint32                          m_displayWidth;

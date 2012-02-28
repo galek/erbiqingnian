@@ -4,7 +4,7 @@
 
 #if defined(RENDERER_ENABLE_DIRECT3D9)
 
-#include <renderTexture2DDesc.h>
+#include "renderTexture2DDesc.h"
 
 _NAMESPACE_BEGIN
 
@@ -104,9 +104,9 @@ void D3D9RenderTexture2D::unlockLevel(uint32 level)
 
 void D3D9RenderTexture2D::bind(uint32 samplerIndex)
 {
-	m_d3dDevice.SetTexture(     (DWORD)samplerIndex, m_d3dTexture);
-	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_MINFILTER, m_d3dMinFilter);
-	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_MAGFILTER, m_d3dMagFilter);
+	m_d3dDevice.SetTexture((DWORD)samplerIndex, m_d3dTexture);
+	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);
+	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
 	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_MIPFILTER, m_d3dMipFilter);
 	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_ADDRESSU,  m_d3dAddressingU);
 	m_d3dDevice.SetSamplerState((DWORD)samplerIndex, D3DSAMP_ADDRESSV,  m_d3dAddressingV);
@@ -128,7 +128,8 @@ void D3D9RenderTexture2D::onDeviceReset(void)
 {
 	if(!m_d3dTexture)
 	{
-		HRESULT result   = m_d3dDevice.CreateTexture((UINT)getWidth(), (UINT)getHeight(), (UINT)getNumLevels(), m_usage, m_format, m_pool, &m_d3dTexture, 0);
+		HRESULT result   = m_d3dDevice.CreateTexture((UINT)getWidth(),
+			(UINT)getHeight(), (UINT)getNumLevels(), m_usage, m_format, m_pool, &m_d3dTexture, 0);
 		ph_assert2(result == D3D_OK, "Unable to create D3D9 Texture.");
 		if(result == D3D_OK)
 		{

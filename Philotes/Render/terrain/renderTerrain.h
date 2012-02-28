@@ -5,19 +5,40 @@
 
 _NAMESPACE_BEGIN
 
+// 地形纹理层
+struct TerrainLayer
+{
+	TerrainLayer(){}
+
+	TerrainLayer(scalar sz, const String& diff, const String& normal)
+	:worldSize(sz),diffuseTexture(diff),normalTexture(normal)
+	{}
+
+	scalar	worldSize;
+	String	diffuseTexture;
+	String	normalTexture;
+
+	// 最大纹理层数，4
+	static const uint8 MAX_LAYER;
+};
+typedef Array<TerrainLayer> LayerList;
+
+// 纹理描述，用于创建纹理
 struct TerrainDesc
 {
-	TerrainDesc()
-	{
-		terrainSize		= 1025;
-		batchSize		= 65;
-		pos				= Vector3::ZERO;
-		worldSize		= 1000.0f;
-	}
-	uint16	terrainSize;
-	uint16	batchSize;
-	Vector3 pos;
-	scalar	worldSize;
+	TerrainDesc();
+
+	bool		validate() const;
+
+	// 下面两个值必须为2次幂+1
+	uint16		terrainSize;
+	uint16		batchSize;
+
+	Vector3		pos;
+	scalar		worldSize;
+
+	// 至少有一层纹理层
+	LayerList	layers;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -34,6 +55,7 @@ public:
 
 	static const uint16 TERRAIN_MAX_BATCH_SIZE;
 
+	// 对齐平面
 	enum Alignment
 	{
 		ALIGN_X_Z = 0, 
@@ -58,7 +80,7 @@ public:
 	void					unloadData();
 
 	// 是否使用顶点压缩
-	bool					_getUseVertexCompression();
+	bool					getUseVertexCompression();
 
 	float*					getHeightData() const;
 
@@ -86,6 +108,16 @@ public:
 
 	RenderIndexBuffer*		getIndexBuffer();
 
+	void					setLayerWorldSize(uint8 index, scalar size);
+
+	void					setLayerDiffuseTexture(uint8 index, const String& diffuses);
+
+	void					setLayerNormalTexture(uint8 index, const String& normal);
+
+	const TerrainLayer&		getLayer(uint8 index) const;
+
+	bool					addLayer(scalar worldSize, const String& diffuse, const String& normal);
+
 	// 裁剪
 	void					cull(RenderCamera* camera);
 
@@ -99,6 +131,8 @@ protected:
 	void					createIndexBuffer();
 
 	void					destroyIndexBuffer();
+
+	Vector4					getLayersUvMuler();
 
 protected:
 
@@ -133,6 +167,8 @@ protected:
 	RenderIndexBuffer*		m_indexBuffer;
 
 	Vector3					m_position;
+
+	LayerList				m_layers;
 };
 
 _NAMESPACE_END

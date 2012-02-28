@@ -20,6 +20,7 @@ uniform const float4x4      g_boneMatrices[MAX_BONES]; // TODO: change this to a
 
 uniform const float3        g_eyePosition;
 uniform const float3        g_eyeDirection;
+uniform const float4        g_eyePositionObjSpace;
 
 uniform const float3        g_ambientColor;
 
@@ -27,6 +28,7 @@ uniform const float3        g_lightColor;
 uniform const float         g_lightIntensity;
 uniform const float3        g_lightDirection;
 uniform const float3        g_lightPosition;
+uniform const float4        g_lightPositionObjSpace;
 uniform const float         g_lightInnerRadius;
 uniform const float         g_lightOuterRadius;
 uniform const float         g_lightInnerCone;

@@ -117,7 +117,6 @@ void Render::queueLightForRender(RenderLight &light)
 	}
 }
 
-// renders the current scene to the offscreen buffers. empties the render queue when done.
 void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 {
 	RENDERER_PERFZONE(Render_render);
@@ -130,13 +129,11 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 	// TODO: ²ÄÖÊ·Ö×é
 	if(beginRender())
 	{
-		Matrix4 proj	= camera->getProjectionMatrixRS();
-		Matrix4 eye		= camera->getViewMatrix();
 		if(depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_depthOnly);
 			bindAmbientState(Colour(0,0,0,1));
-			bindViewProj(eye, proj);
+			bindViewProj(camera);
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_DEPTH);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_DEPTH);
 		}
@@ -144,7 +141,7 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_deferred);
 			bindDeferredState();
-			bindViewProj(eye, proj);
+			bindViewProj(camera);
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_UNLIT);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
 			renderDeferredLights();
@@ -153,13 +150,13 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_lit);
 			bindAmbientState(m_ambientColor);
-			bindViewProj(eye, proj);
+			bindViewProj(camera);
 			RenderLight &light0 = *m_visibleLights[0];
 			light0.bind();
 			renderMeshes(m_visibleLitMeshes, light0.getPass());
 			light0.m_renderer = 0;
 			
-			bindAmbientState(Colour(0,0,0,1));
+			//bindAmbientState(Colour(0,0,0,1));
 			beginMultiPass();
 			for(uint32 i=1; i<numLights; i++)
 			{
@@ -175,7 +172,7 @@ void Render::render(RenderCamera* camera, RenderTarget *target, bool depthOnly)
 		{
 			RENDERER_PERFZONE(Render_render_unlit);
 			bindAmbientState(Colour(0,0,0,1));
-			bindViewProj(eye, proj);
+			bindViewProj(camera);
 			renderMeshes(m_visibleLitMeshes,   RenderMaterial::PASS_UNLIT);
 			renderMeshes(m_visibleUnlitMeshes, RenderMaterial::PASS_UNLIT);
 		}

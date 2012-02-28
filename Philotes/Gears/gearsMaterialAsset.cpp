@@ -182,7 +182,7 @@ m_assetManager(assetManager)
 							ph_assert(var);
 							if(var)
 							{
-								RenderTexture2D *texture = textureAsset->getTexture();
+ 								RenderTexture2D *texture = textureAsset->getTexture();
 								materialStruct.m_materialInstance->writeData(*var, &texture);
 							}
 						}
@@ -257,12 +257,6 @@ GearMaterialAsset* GearMaterialAsset::getPrefabAsset( PrefabMaterial type )
 		{
 			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
 				)->getAsset("materials/simple_unlit.xml", GearAsset::ASSET_MATERIAL));
-			break;
-		}
-	case PM_TERRAIN:
-		{
-			return static_cast<GearMaterialAsset*>(GearAssetManager::getSingleton(
-				)->getAsset("materials/terrain.xml", GearAsset::ASSET_MATERIAL));
 			break;
 		}
 	default:

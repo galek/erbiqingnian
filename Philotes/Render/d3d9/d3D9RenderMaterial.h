@@ -44,6 +44,7 @@ class D3D9RenderMaterial : public RenderMaterial
 				D3DXHANDLE          boneMatrices;
 				
 				D3DXHANDLE          eyePosition;
+				D3DXHANDLE          eyePositionObjSpace;
 				D3DXHANDLE          eyeDirection;
 				
 				D3DXHANDLE          ambientColor;
@@ -52,6 +53,7 @@ class D3D9RenderMaterial : public RenderMaterial
 				D3DXHANDLE          lightIntensity;
 				D3DXHANDLE          lightDirection;
 				D3DXHANDLE          lightPosition;
+				D3DXHANDLE          lightPositionObjSpace;
 				D3DXHANDLE          lightInnerRadius;
 				D3DXHANDLE          lightOuterRadius;
 				D3DXHANDLE          lightInnerCone;

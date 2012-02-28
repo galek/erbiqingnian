@@ -37,25 +37,25 @@ struct FragmentParameters
 // Material information for a given fragment.
 struct SurfaceMaterial
 {
-	half3 diffuseColor;
-	half  alpha;
-	half3 emissiveColor;
-	half3 specularColor;
-	half  specularPower;
-	half3 tangentSpaceNormal;
+	float3 diffuseColor;
+	float  alpha;
+	float3 emissiveColor;
+	float3 specularColor;
+	float  specularPower;
+	float3 tangentSpaceNormal;
 };
 
 // Lighting information for a given fragment.
 struct Lighting
 {
-	half3 diffuseColor;
-	half3 specularColor;
+	float3 diffuseColor;
+	float3 specularColor;
 };
 
 // Final output for a Forward Rendered Fragment.
 struct Fragment
 {
-	half4 color : COLOR0;
+	float4 color : COLOR0;
 };
 
 // Final output for a Deferred Rendered Fragment.

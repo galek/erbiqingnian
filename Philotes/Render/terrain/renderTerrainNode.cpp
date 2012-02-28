@@ -130,7 +130,7 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 	}
 
 	Vector3 pos;
-	bool vcompress = m_terrain->_getUseVertexCompression();
+	bool vcompress = m_terrain->getUseVertexCompression();
 
 	for (long y = rect.top; y < rect.bottom; y ++)
 	{
@@ -253,7 +253,7 @@ void RenderTerrainNode::createRenderData()
 
 		RenderVertexBufferDesc vbdesc;
 
-		if (m_terrain->_getUseVertexCompression())
+		if (m_terrain->getUseVertexCompression())
 		{
 			vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_POSITION]	= RenderVertexBuffer::FORMAT_USHORT4;
 			vbdesc.semanticFormats[RenderVertexBuffer::SEMANTIC_TEXCOORD0]	= RenderVertexBuffer::FORMAT_FLOAT1;
