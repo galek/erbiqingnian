@@ -8,6 +8,10 @@
 #include "renderIndexBuffer.h"
 #include "renderIndexBufferDesc.h"
 #include "renderMaterialInstance.h"
+#include "renderCamera.h"
+
+#include "math/plane.h"
+
 #include "gearsApplication.h"
 
 _NAMESPACE_BEGIN
@@ -22,7 +26,6 @@ RenderTerrainNode::RenderTerrainNode( RenderTerrain* terrain, RenderTerrainNode*
 											m_boundaryX(xoff + size),
 											m_boundaryY(yoff + size),
 											m_quadRant(quadrant),
-											m_boundingRadius(0),
 											m_localCentre(Vector3::ZERO),
 											m_renderData(NULL)
 {
@@ -42,6 +45,13 @@ RenderTerrainNode::RenderTerrainNode( RenderTerrain* terrain, RenderTerrainNode*
 		// 叶子节点
 		memset(m_children, 0, sizeof(RenderTerrainNode*) * 4);
 	}
+
+	uint16 midoffset = (size - 1) / 2;
+	uint16 midpointx = m_offsetX + midoffset;
+	uint16 midpointy = m_offsetY + midoffset;
+	m_terrain->getPoint(midpointx, midpointy, 0, &m_localCentre);
+
+	m_worldSize = m_terrain->getWorldSize() / ((m_terrain->getSize() - 1) / (size - 1));
 }
 
 RenderTerrainNode::~RenderTerrainNode()
@@ -109,8 +119,6 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 	ph_assert (rect.left >= m_offsetX && rect.right <= m_boundaryX && 
 		rect.top >= m_offsetY && rect.bottom <= m_boundaryY);
 
-	resetBounds(rect);
-
 	long destOffsetX = rect.left <= m_offsetX ? 0 : (rect.left - m_offsetX);
 	long destOffsetY = rect.top	 <= m_offsetY ? 0 : (rect.top  - m_offsetY);
 
@@ -142,9 +150,7 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 			{
 				m_terrain->getPoint(x, y, *pHeight, &pos);
 
-				mergeIntoBounds(x, y, pos);
-				
-				pos -= m_localCentre;
+				//pos -= m_localCentre;
 
 				writePosVertex(vcompress, (uint16)x, (uint16)y, *pHeight, pos, uvScale, &pPosBuf);
 				pHeight ++;
@@ -164,22 +170,6 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 	}
 }
 
-void RenderTerrainNode::resetBounds( const Rect& rect )
-{
-	if (rectContainsNode(rect))
-	{
-		m_AABB.setNull();
-		m_boundingRadius = 0;
-
-		if (!isLeaf())
-		{
-			for (int i = 0; i < 4; ++i)
-			{
-				m_children[i]->resetBounds(rect);
-			}
-		}
-	}
-}
 
 bool RenderTerrainNode::rectContainsNode( const Rect& rect )
 {
@@ -191,24 +181,6 @@ bool RenderTerrainNode::rectIntersectsNode( const Rect& rect )
 {
 	return (rect.right >= m_offsetX && rect.left <= m_boundaryX &&
 		rect.bottom >= m_offsetY && rect.top <= m_boundaryY);
-}
-
-void RenderTerrainNode::mergeIntoBounds( long x, long y, const Vector3& pos )
-{
-	if (pointIntersectsNode(x, y))
-	{
-		Vector3 localPos = pos - m_localCentre;
-		m_AABB.merge(localPos);
-		m_boundingRadius = Math::Max(m_boundingRadius, localPos.length());
-
-		if (!isLeaf())
-		{
-			for (int i = 0; i < 4; ++i)
-			{
-				m_children[i]->mergeIntoBounds(x, y, pos);
-			}
-		}
-	}
 }
 
 bool RenderTerrainNode::pointIntersectsNode( long x, long y )
@@ -298,19 +270,57 @@ void RenderTerrainNode::destroyRenderData()
 	}
 }
 
-void RenderTerrainNode::walkQuadTree( Array<RenderElement*>& visible )
+void RenderTerrainNode::walkQuadTree( RenderCamera* camera, Array<RenderElement*>& visible )
 {
-	if (!isLeaf())
+	bool vis = checkVisible(camera);
+
+	if (vis)
 	{
-		for (int i = 0; i < 4; ++i)
+		if (!isLeaf())
 		{
-			m_children[i]->walkQuadTree(visible);
+			for (int i = 0; i < 4; ++i)
+			{
+				m_children[i]->walkQuadTree(camera,visible);
+			}
+		}
+		else
+		{
+			visible.Append(this);
 		}
 	}
-	else
+}
+
+bool RenderTerrainNode::checkVisible( const RenderCamera* camera )
+{
+	// 根据localCentre和worldsize计算可见性（针对2.5D地形四叉树裁剪使用，不考虑高度）
+	Vector3 maxv(m_localCentre.x + m_worldSize/2,
+		m_localCentre.y + 100,
+		m_localCentre.z + m_worldSize/2);
+	Vector3 minv(m_localCentre.x - m_worldSize/2,
+		m_localCentre.y - 100,
+		m_localCentre.z - m_worldSize/2);
+	Vector3 half = (maxv - minv)/2;
+
+	bool all_inside = true;
+
+	for ( int plane = 0; plane < 6; ++plane )
 	{
-		visible.Append(this);
+		if (plane == FRUSTUM_PLANE_FAR && 
+			camera->getFarClipDistance() == 0)
+		{
+			continue;
+		}
+
+		Plane::Side side = camera->getFrustumPlane(plane
+			).getSide(m_localCentre, half);
+
+		if(side == Plane::NEGATIVE_SIDE)
+		{
+			return false;
+		}
 	}
+
+	return true;
 }
 
 _NAMESPACE_END

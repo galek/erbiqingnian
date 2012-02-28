@@ -304,11 +304,14 @@ void RenderTerrain::visitRenderElement( RenderVisitor* visitor )
 
 void RenderTerrain::cull( RenderCamera* camera )
 {
-	m_nodesToRender.Reset();
-
-	if (m_quadTree)
+	if (::GetKeyState(VK_DOWN) & 0x8000)
 	{
-		m_quadTree->walkQuadTree(m_nodesToRender);
+		m_nodesToRender.Reset();
+
+		if (m_quadTree)
+		{
+			m_quadTree->walkQuadTree(camera,m_nodesToRender);
+		}
 	}
 }
 
@@ -434,6 +437,11 @@ Vector4 RenderTerrain::getLayersUvMuler()
 		uvm.w = m_worldSize / m_layers[3].worldSize;
 	}
 	return uvm;
+}
+
+Philo::scalar RenderTerrain::getWorldSize() const
+{
+	return m_worldSize;
 }
 
 const uint16	RenderTerrain::TERRAIN_MAX_BATCH_SIZE = 129;
