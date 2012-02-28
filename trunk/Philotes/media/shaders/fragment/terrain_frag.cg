@@ -63,9 +63,10 @@ SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
 #if TERRAIN_LAYERNUM >= 1
 	// layer0
 	float2 uv0 = params.texcoord2.xy;
-	displacement = tex2D(layer_0_normal, uv0).a * scaleBiasSpecular.x + scaleBiasSpecular.y;
+	float4 nm0 = tex2D(layer_0_normal, uv0);
+	displacement = nm0.a * scaleBiasSpecular.x + scaleBiasSpecular.y;
 	uv0 += TSeyeDir.xy * displacement;
-	TSnormal = expand(tex2D(layer_0_normal, uv0)).rgb;
+	TSnormal = expand(nm0).rgb;
 	TShalfAngle = normalize(TSlightDir + TSeyeDir);
 	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
 	litRes = litResLayer;
@@ -78,9 +79,10 @@ SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
 	// layer1
 	float4 blendTexVal = tex2D(blend_map, uv); // 只有在2层以上时才需要blendMap
 	float2 uv1 = params.texcoord2.zw;
-	displacement = tex2D(layer_1_normal, uv1).a * scaleBiasSpecular.x + scaleBiasSpecular.y;
+	float4 nm1 = tex2D(layer_1_normal, uv1);
+	displacement = nm1.a * scaleBiasSpecular.x + scaleBiasSpecular.y;
 	uv1 += TSeyeDir.xy * displacement;
-	TSnormal = expand(tex2D(layer_1_normal, uv1)).rgb;
+	TSnormal = expand(nm1).rgb;
 	TShalfAngle = normalize(TSlightDir + TSeyeDir);
 	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
 	litRes = lerp(litRes, litResLayer, blendTexVal.r);
@@ -92,10 +94,11 @@ SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
 #if TERRAIN_LAYERNUM >= 3
 	// layer2
 	float2 uv2 = params.texcoord3.xy;
-	displacement = tex2D(layer_2_normal, uv2).a
+	float4 nm2 = tex2D(layer_2_normal, uv2);
+	displacement = nm2.a
 		* scaleBiasSpecular.x + scaleBiasSpecular.y;
 	uv2 += TSeyeDir.xy * displacement;
-	TSnormal = expand(tex2D(layer_2_normal, uv2)).rgb;
+	TSnormal = expand(nm2).rgb;
 	TShalfAngle = normalize(TSlightDir + TSeyeDir);
 	litResLayer = lit(dot(TSlightDir, TSnormal), dot(TShalfAngle, TSnormal), scaleBiasSpecular.z);
 	litRes = lerp(litRes, litResLayer, blendTexVal.g);
