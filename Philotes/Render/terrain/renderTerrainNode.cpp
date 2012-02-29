@@ -119,6 +119,8 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 	ph_assert (rect.left >= m_offsetX && rect.right <= m_boundaryX && 
 		rect.top >= m_offsetY && rect.bottom <= m_boundaryY);
 
+	resetBounds(rect);
+
 	long destOffsetX = rect.left <= m_offsetX ? 0 : (rect.left - m_offsetX);
 	long destOffsetY = rect.top	 <= m_offsetY ? 0 : (rect.top  - m_offsetY);
 
@@ -150,12 +152,12 @@ void RenderTerrainNode::updateVertexBuffer( RenderVertexBuffer* posbuf,const Rec
 			{
 				m_terrain->getPoint(x, y, *pHeight, &pos);
 
+				mergeIntoBounds(x, y, pos);
 				//pos -= m_localCentre;
 
 				writePosVertex(vcompress, (uint16)x, (uint16)y, *pHeight, pos, uvScale, &pPosBuf);
 				pHeight ++;
 			}
-
 		}
 		pBaseHeight += rowskip;
 		if (pRowPosBuf)
@@ -292,16 +294,13 @@ void RenderTerrainNode::walkQuadTree( RenderCamera* camera, Array<RenderElement*
 
 bool RenderTerrainNode::checkVisible( const RenderCamera* camera )
 {
-	// 根据localCentre和worldsize计算可见性（针对2.5D地形四叉树裁剪使用，不考虑高度）
-	Vector3 maxv(m_localCentre.x + m_worldSize/2,
-		m_localCentre.y + 100,
-		m_localCentre.z + m_worldSize/2);
-	Vector3 minv(m_localCentre.x - m_worldSize/2,
-		m_localCentre.y - 100,
-		m_localCentre.z - m_worldSize/2);
-	Vector3 half = (maxv - minv)/2;
+	if (m_aabb.isNull())
+	{
+		return true;
+	}
 
-	bool all_inside = true;
+	Vector3 center = m_aabb.getCenter();
+	Vector3 half = m_aabb.getHalfSize();
 
 	for ( int plane = 0; plane < 6; ++plane )
 	{
@@ -312,7 +311,7 @@ bool RenderTerrainNode::checkVisible( const RenderCamera* camera )
 		}
 
 		Plane::Side side = camera->getFrustumPlane(plane
-			).getSide(m_localCentre, half);
+			).getSide(center, half);
 
 		if(side == Plane::NEGATIVE_SIDE)
 		{
@@ -321,6 +320,38 @@ bool RenderTerrainNode::checkVisible( const RenderCamera* camera )
 	}
 
 	return true;
+}
+
+void RenderTerrainNode::resetBounds( const Rect& rect )
+{
+	if (rectContainsNode(rect))
+	{
+		m_aabb.setNull();
+
+		if (!isLeaf())
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				m_children[i]->resetBounds(rect);
+			}
+		}
+	}
+}
+
+void RenderTerrainNode::mergeIntoBounds( long x, long y, const Vector3& pos )
+{
+	if (pointIntersectsNode(x, y))
+	{
+		m_aabb.merge(pos);
+
+		if (!isLeaf())
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				m_children[i]->mergeIntoBounds(x, y, pos);
+			}
+		}
+	}
 }
 
 _NAMESPACE_END

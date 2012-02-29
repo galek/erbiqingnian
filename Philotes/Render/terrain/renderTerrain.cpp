@@ -23,6 +23,8 @@ TerrainDesc::TerrainDesc()
 	batchSize		= 65;
 	pos				= Vector3::ZERO;
 	worldSize		= 1000.0f;
+	heightScale		= 1;
+	heightBias		= 0;
 }
 
 bool TerrainDesc::validate() const
@@ -106,6 +108,16 @@ void RenderTerrain::prepareData( const TerrainDesc& desc )
 	FILE* fp = fopen("../media/terrainData/heightData.bin","rb");
 	fread(m_heightData,sizeof(float),numVertices,fp);
 	fclose(fp);
+
+	if (!Math::RealEqual(desc.heightBias, 0.0) || !Math::RealEqual(desc.heightScale, 1.0))
+	{
+		float* src = m_heightData;
+		float* dst = m_heightData;
+		for (size_t i = 0; i < numVertices; ++i)
+		{
+			*dst++ = (*src++ * desc.heightScale) + desc.heightBias;
+		}
+	}
 
 	m_treeDepth = (uint16)(Math::Log2(scalar(m_size - 1)) - Math::Log2(scalar(m_batchSize - 1)) );
 
@@ -304,14 +316,11 @@ void RenderTerrain::visitRenderElement( RenderVisitor* visitor )
 
 void RenderTerrain::cull( RenderCamera* camera )
 {
-	if (::GetKeyState(VK_DOWN) & 0x8000)
-	{
-		m_nodesToRender.Reset();
+	m_nodesToRender.Reset();
 
-		if (m_quadTree)
-		{
-			m_quadTree->walkQuadTree(camera,m_nodesToRender);
-		}
+	if (m_quadTree)
+	{
+		m_quadTree->walkQuadTree(camera,m_nodesToRender);
 	}
 }
 

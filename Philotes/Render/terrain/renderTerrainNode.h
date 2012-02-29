@@ -49,6 +49,10 @@ protected:
 
 	bool				checkVisible(const RenderCamera* camera);
 
+	void				resetBounds(const Rect& rect);
+
+	void				mergeIntoBounds(long x, long y, const Vector3& pos);
+
 protected:
 
 	RenderTerrain*		m_terrain;
@@ -76,6 +80,8 @@ protected:
 	RenderBase*			m_renderData;
 
 	scalar				m_worldSize;
+
+	AxisAlignedBox		m_aabb;
 };
 
 _NAMESPACE_END
