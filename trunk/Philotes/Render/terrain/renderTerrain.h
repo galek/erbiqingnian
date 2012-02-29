@@ -37,6 +37,9 @@ struct TerrainDesc
 	Vector3		pos;
 	scalar		worldSize;
 
+	scalar		heightScale;
+	scalar		heightBias;
+
 	// 至少有一层纹理层
 	LayerList	layers;
 };

@@ -61,8 +61,8 @@ void TestApplication::onInit( void )
 	m_debugGrid = new RenderGridElement(100,40);
 
 	RenderDirectionalLightDesc lightdesc;
-	lightdesc.intensity = 0.45f;
-	lightdesc.color     = Colour(0.5f,0.5f,0.5f,1);
+	lightdesc.intensity = 0.8f;
+	lightdesc.color     = Colour(0.8f,0.8f,0.8f,1);
 	lightdesc.direction = Vector3(0.55f, -0.3f, 0.75f).normalisedCopy();
 	m_dirlight = m_renderer->createLight(lightdesc);
 	m_renderer->setAmbientColor(Colour(0.5f,0.5f,0.5f,1));
@@ -70,11 +70,12 @@ void TestApplication::onInit( void )
 	m_terrain = new RenderTerrain(m_sceneManager);
 	TerrainDesc td;
 	td.terrainSize = 513;
-	td.batchSize = 33;
-	td.worldSize = 12000.0f;
-	td.layers.Append(TerrainLayer(500,"textures/dirt_grayrocky_diffusespecular.dds","textures/dirt_grayrocky_normalheight.dds"));
-	td.layers.Append(TerrainLayer(500,"textures/grass_green-01_diffusespecular.dds","textures/grass_green-01_normalheight.dds"));
-	td.layers.Append(TerrainLayer(500,"textures/growth_weirdfungus-03_diffusespecular.dds","textures/growth_weirdfungus-03_normalheight.dds"));
+	td.batchSize = 65;
+	td.worldSize = 20000.0f;
+	td.heightScale = 2.5f;
+	td.layers.Append(TerrainLayer(100,"textures/dirt_grayrocky_diffusespecular.dds","textures/dirt_grayrocky_normalheight.dds"));
+	td.layers.Append(TerrainLayer(30,"textures/grass_green-01_diffusespecular.dds","textures/grass_green-01_normalheight.dds"));
+	td.layers.Append(TerrainLayer(200,"textures/growth_weirdfungus-03_diffusespecular.dds","textures/growth_weirdfungus-03_normalheight.dds"));
 	m_terrain->prepareData(td);
 	m_terrain->loadData();
 
@@ -110,26 +111,21 @@ void TestApplication::onTickPreRender( float dtime )
 
 void TestApplication::onRender( void )
 {
-	m_terrain->cull(m_sceneManager->getCamera());
 
 	Render* renderer = getRender();
 
 	if (renderer)
 	{
-		uint32 windowWidth  = 0;
-		uint32 windowHeight = 0;
-		getSize(windowWidth, windowHeight);
-		if (windowWidth > 0 && windowHeight > 0)
-		{
-			renderer->clearBuffers();
-			//renderer->queueMeshForRender(*m_debugGrid);
-			renderer->queueLightForRender(*m_dirlight);
+		m_terrain->cull(m_sceneManager->getCamera());
 
-			// äÖÈ¾³¡¾°
-			renderer->render(m_sceneManager->getCamera());
+		renderer->clearBuffers();
+		//renderer->queueMeshForRender(*m_debugGrid);
+		renderer->queueLightForRender(*m_dirlight);
 
-			m_rewriteBuffers = renderer->swapBuffers();
-		}
+		// äÖÈ¾³¡¾°
+		renderer->render(m_sceneManager->getCamera());
+
+		m_rewriteBuffers = renderer->swapBuffers();
 	}
 }
 
