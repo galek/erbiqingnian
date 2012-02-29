@@ -58,14 +58,6 @@ public:
 
 	static const uint16 TERRAIN_MAX_BATCH_SIZE;
 
-	// ∂‘∆Î∆Ω√Ê
-	enum Alignment
-	{
-		ALIGN_X_Z = 0, 
-		ALIGN_X_Y = 1, 
-		ALIGN_Y_Z = 2
-	};
-
 	uint16					getBatchSize() const;
 
 	uint16					getSize() const;
@@ -92,10 +84,6 @@ public:
 	float*					getHeightData(long x, long y) const;
 
 	float					getHeightAtPoint(long x, long y) const;
-
-	void					getPointAlign(long x, long y, float height, Alignment align, Vector3* outpos);
-
-	void					getPointAlign(long x, long y, Alignment align, Vector3* outpos);
 
 	void					getPoint(long x, long y, Vector3* outpos);
 
@@ -140,8 +128,6 @@ protected:
 	Vector4					getLayersUvMuler();
 
 protected:
-
-	Alignment				m_align;
 
 	uint16					m_size;
 

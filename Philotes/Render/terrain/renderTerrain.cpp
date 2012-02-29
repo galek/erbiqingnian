@@ -58,7 +58,6 @@ RenderTerrain::RenderTerrain(RenderSceneManager* smg)
 	m_heightData(NULL),
 	m_size(0),
 	m_treeDepth(0),
-	m_align(ALIGN_X_Z),
 	m_cellNode(NULL),
 	m_sceneMgr(smg),
 	m_materialAsset(NULL),
@@ -244,39 +243,14 @@ uint16 RenderTerrain::getSize() const
 
 void RenderTerrain::getPoint( long x, long y, Vector3* outpos )
 {
-	getPointAlign(x, y, m_align, outpos);
+	getPoint(x, y, *getHeightData(x, y), outpos);
 }
 
 void RenderTerrain::getPoint( long x, long y, float height, Vector3* outpos )
 {
-	getPointAlign(x, y, height, m_align, outpos);
-}
-
-void RenderTerrain::getPointAlign( long x, long y, float height, Alignment align, Vector3* outpos )
-{
-	switch(align)
-	{
-	case ALIGN_X_Z:
-		outpos->y = height;
-		outpos->x = x * m_scale + m_base;
-		outpos->z = y * -m_scale - m_base;
-		break;
-	case ALIGN_Y_Z:
-		outpos->x = height;
-		outpos->z = x * -m_scale - m_base;
-		outpos->y = y * m_scale + m_base;
-		break;
-	case ALIGN_X_Y:
-		outpos->z = height;
-		outpos->x = x * m_scale + m_base;
-		outpos->y = y * m_scale + m_base;
-		break;
-	}
-}
-
-void RenderTerrain::getPointAlign( long x, long y, Alignment align, Vector3* outpos )
-{
-	getPointAlign(x, y, *getHeightData(x, y), align, outpos);
+	outpos->y = height;
+	outpos->x = x * m_scale + m_base;
+	outpos->z = y * -m_scale - m_base;
 }
 
 void RenderTerrain::updateBaseScale()
