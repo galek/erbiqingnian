@@ -1,0 +1,22 @@
+.Xros {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-decoration: none;
+	background-image: url(../image/bga.png);
+	background-repeat: repeat-x;
+	height: 35px;
+	width: 55px;
+	color: #FFFFFF;
+}
+.TimeCss {
+	font-size: 14px;
+	color: #33CCFF;
+}
+.ZiA {
+	font-size: 18px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
