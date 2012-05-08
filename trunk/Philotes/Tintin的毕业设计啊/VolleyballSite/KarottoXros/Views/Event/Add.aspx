@@ -17,9 +17,7 @@
     <div><input type="submit" value="提交" /></div>
     <%} %>
     </div>
-      <script language="javascript" type="text/javascript">
-          $(document).read(function () { });
-    </script>
+
 
     <script language="javascript" type="text/javascript">
 

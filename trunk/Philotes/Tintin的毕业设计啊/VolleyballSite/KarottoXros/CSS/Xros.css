@@ -4,11 +4,23 @@
 	font-weight: bold;
 	font-variant: normal;
 	text-decoration: none;
-	background-image: url(../image/bga.png);
-	background-repeat: repeat-x;
-	height: 35px;
-	width: 55px;
-	color: #FFFFFF;
+	background-image: url(../image/bga2.png);
+	background-repeat: repeat;
+	height: 55px;
+	width: 98px;
+	color: #000000;
+}
+.Xros2 {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-decoration: none;
+	background-image: url(../image/bga2.png);
+	background-repeat: repeat;
+	height: 55px;
+	width: 188px;
+	color: #000000;
 }
 .TimeCss {
 	font-size: 14px;
@@ -17,6 +29,6 @@
 .ZiA {
 	font-size: 18px;
 	font-weight: bold;
-	color: #FFFFFF;
+	color: #000000;
 	text-decoration: none;
 }
