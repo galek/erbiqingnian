@@ -25,9 +25,7 @@
     <input type="submit" value="修改" />
     <%} %>
     </div>
-    <script language="javascript" type="text/javascript">
-        $(document).read(function () { });
-    </script>
+
 
     <script language="javascript" type="text/javascript">
 
