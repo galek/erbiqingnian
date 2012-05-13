@@ -9,7 +9,7 @@ namespace KarottoXros.Code
     public class Xros
     {
 
-        static public string FilePath = @"F:\KBasketBallXros\KarottoXros\KarottoXros\News\";
+        static public string FilePath = @"F:\News\";
 
         static public string GetFile(string filename)
         {

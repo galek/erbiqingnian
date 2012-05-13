@@ -16,7 +16,8 @@ namespace KarottoXros.Code
         {
             try
             {
-                scon = new SqlConnection(@"Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\KDBXros.mdf;Integrated Security=True;User Instance=True");
+                //scon = new SqlConnection(@"Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\KDBXros.mdf;Integrated Security=True;User Instance=True");
+                scon = new SqlConnection(@"Data Source=.;AttachDbFilename=|DataDirectory|\KDBXros.mdf;Integrated Security=True;User Instance=True");
                 scon.Open();
                 scmd = scon.CreateCommand();
             }
